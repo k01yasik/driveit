@@ -24,6 +24,10 @@
         <meta name='wmail-verification' content='0bb02aeb0edea4483300fbf570934ffd' />
         <meta name="msvalidate.01" content="5C7980ED46474154F14D366202946FE3" />
         <meta name="790ac42607dbab4325ac5d1f68751ae2" content="">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+        <link href="{{asset('css/app.css')}}" rel="stylesheet">
         <script type="application/ld+json">
             {
                 "@context" : "http://schema.org",
@@ -43,24 +47,24 @@
     </head>
     <body>
         <header>
-            {{> sitetop}}
-            {{> carousel}}
-            {{> navigation}}
+            @include('components.sitetop')
+            @include('components.carousel')
+            @include('components.navigation')
         </header>
         <div class="main-row">
             <div class="main-wrapper">
                 <main>
-                    {{> yield}}
+                   @yield('content')
                 </main>
                 <aside>
-                    {{> ads}}
-                    {{> asideComments}}
+                    @include('components.ads')
+                    @include('components.comments')
                 </aside>
             </div>
         </div>
         <footer>
-            {{> footer}}
+            @include('components.footer')
         </footer>
-        {{> backButtonsComponent }}
+        @include('components.backbutton')
     </body>
 </html>
