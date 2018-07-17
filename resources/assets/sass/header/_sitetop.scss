@@ -1,0 +1,218 @@
+.sitetop-row {
+  @include  row();
+  background: $secondary-2-1;
+  position: relative;
+
+  .sitetop-wrapper {
+    @include outer-container();
+
+    .sitetop-middle {
+      @include span-columns(6);
+      height: 3em;
+    }
+
+    .sitetop-right {
+      @include span-columns(3);
+      height: 3em;
+    }
+
+    .logo {
+      @include span-columns(3);
+      font-weight: bold;
+      margin-bottom: 0;
+      margin-top: 0;
+      font-size: 1.5em;
+      line-height: 2;
+
+      a {
+        color: $white;
+
+        &:hover {
+          color: $white;
+        }
+      }
+    }
+
+    span {
+      color: $primary-1;
+    }
+    .social-button {
+      padding: 0 2em;
+      float: right;
+      line-height: 2em;
+      height: 2em;
+      margin-top: .5em;
+      margin-right: 2em;
+
+      a {
+        color: $white;
+      }
+
+      li {
+        float: right;
+        text-align: center;
+        margin-left: 1em;
+        cursor: pointer;
+
+        &:hover {
+          a {
+            color: $primary-1;
+          }
+        }
+
+        &:last-child {
+          margin-left: 0;
+        }
+      }
+    }
+    form {
+      display: flex;
+      border-radius: $base-border-radius;
+      box-shadow: $sixth-box-shadow;
+      height: 2em;
+      margin-top: .5em;
+      position: relative;
+      z-index: 2000;
+
+      input[type="text"] {
+        border: 1px solid #fff;
+        margin-bottom: 0;
+        border-radius: 3px 0 0 3px;
+
+        &:focus {
+          outline: none;
+
+          + button {
+            background: $primary-1;
+            color: $white;
+            border: $third-border-bottom;
+          }
+        }
+        &:hover {
+          border-color: #fff;
+        }
+      }
+
+      button {
+        background-color: #fff;
+        border: 1px solid $white;
+        border-radius: 0 3px 3px 0;
+        color: $grey-2;
+        padding: 0 1em;
+        @include transition($third-transitions);
+
+        &:hover {
+          background: $primary-1;
+          color: $white;
+          border: $third-border-bottom;
+        }
+      }
+    }
+  }
+}
+
+#at-nav-button {
+  float: right;
+  text-align: center;
+  border-radius: 3px;
+  background: $white;
+  color: $primary-1;
+  padding: 0 2em;
+  cursor: pointer;
+}
+
+.button-block {
+  animation: fadeIn 1s ease-in;
+  float: right;
+  height: 2em;
+  border-radius: $base-border-radius;
+  line-height: 2em;
+  margin-top: .5em;  
+
+  .my-page-block {
+    background: $primary-1;
+    border-radius: 3px 0 0 3px;
+    float: left;
+
+    a {
+      padding: 0 2em;
+      color: $white;
+      display: block;
+    }
+  }
+}
+
+.active-sign-in {
+  height: 2em;
+  line-height: 2em;
+  background: $primary-1;
+  border-radius: $base-border-radius;
+  margin-top: .5em;
+  float: right;
+
+  a {
+    color: $white;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-block {
+  float: right;
+  width: 70%;
+
+  .result-search {
+    background: white;
+    box-shadow: $sixth-box-shadow;
+    border-radius: $base-border-radius;
+    padding: 1em;
+    position: relative;
+    z-index: 1000;
+
+    h3 {
+      margin: 0;
+    }
+
+    hr {
+      border-bottom: $third-border-bottom;
+      margin: 0 0 1em 0;
+    }
+
+    li {
+      @include transition($second-transitions);
+      cursor: pointer;
+      box-shadow: $sixth-box-shadow;
+      border-radius: $base-border-radius;
+      margin-bottom: 1em;
+
+      a {
+        display: block;
+        padding: .5em 1em;
+      }
+
+      p {
+        margin: 0;
+        padding: .5em 1em;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        color: $white;
+        background: $primary-1;
+
+        a {
+          color: $white;
+        }
+      }
+    }
+  }
+}
+
+.my-page-block ~ #at-nav-button {
+  border-radius: 0 3px 3px 0;
+}

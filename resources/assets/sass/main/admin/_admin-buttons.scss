@@ -1,0 +1,77 @@
+.btn-right {
+  background: $primary-1;
+  color: $white;
+  border-radius: $base-border-radius;
+  cursor: pointer;
+  height: 2em;
+  line-height: 2em;
+  width: 2em;
+  text-align: center;
+  float: right;
+  margin-top: .5em;
+  margin-left: .5em;
+}
+
+a.btn-right {
+  color: $white;
+}
+
+.btn-right-date {
+  background: $primary-1;
+  color: $white;
+  border-radius: $base-border-radius;
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+  text-align: center;
+  float: right;
+  padding: 0 2em;
+}
+
+.list-btn {
+  background: $primary-1;
+  color: white;
+  cursor: pointer;
+  display: inline;
+  float: right;
+  text-align: center;
+  width: 3em;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.btn-settings-right {
+  background: $primary-1;
+  border-radius: 3px;
+  cursor: pointer;
+  color: $white;
+  height: 2em;
+  line-height: 2em;
+  width: 2em;
+  text-align: center;
+  float: right;
+  margin-top: .5em;
+}
+
+.delete-coupon, .confirm-delete-coupon {
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+  border-radius: $base-border-radius;
+  float: right;
+  text-align: center;
+  cursor: pointer;
+}
+
+.delete-coupon {
+  background: $primary-1;
+  color: $white;
+}
+
+.confirm-delete-coupon {
+  box-shadow: $sixth-box-shadow;
+  margin-right: .5em;
+}

@@ -1,0 +1,104 @@
+.main-card-body {
+  @include span-columns(8);
+}
+
+.main-card-body-denied {
+  @include span-columns(8);
+  @include shift(2);
+
+  background: $white;
+  border-radius: $base-border-radius;
+  box-shadow: $base-box-shadow;
+  padding: 2em;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  text-align: center;
+
+  .caption-denied {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    margin: 0;
+
+  }
+
+  hr {
+    border-bottom: $third-border-bottom;
+    margin: 0 0 1em 0;
+  }
+
+  .btn {
+    margin-top: 1em;
+  }
+
+}
+
+.main-card {
+  @include animation(fadeIn .5s ease-in);
+  padding: 2em;
+  background: white;
+  border-radius: $base-border-radius;
+
+  form {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .main-card-header {
+    .header-text {
+      color: $secondary-2-1;
+      margin: 0 0 1rem;
+      height: 3rem;
+      line-height: 3rem;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-weight: normal;
+    }
+  }
+
+  hr {
+    border-bottom: $third-border-bottom;
+    margin: 0 0 1em 0;
+  }
+
+  .main-content-text {
+    p {
+      margin: 0 0 1em 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    h3 {
+      font-weight: normal;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 3em;
+
+      li {
+        margin-bottom: 1em;
+      }
+    }
+
+    a {
+      color: $secondary-2-1;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.btn-height {
+  height: 3em;
+  margin-top: 2em;
+  float: right;
+}

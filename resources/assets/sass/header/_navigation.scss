@@ -1,0 +1,143 @@
+.navigation-row {
+  @include  row();
+  background: $secondary-2-1;
+  position: relative;
+
+  .navigation-wrapper {
+    @include outer-container();
+  }
+}
+
+.navigation-row-post {
+  @include  row();
+  padding-top: 2em;
+  background: $grey-4;
+
+  .navigation-wrapper-post {
+    @include outer-container();
+    box-shadow: $base-box-shadow;
+    position: relative;
+    border-radius: 3px;
+    background: $white;
+  }
+}
+
+nav {
+  @include span-columns(12);
+  .first-level {
+    height: 3em;
+
+    > .menuItem {
+      @include transition($second-transitions);
+      float: left;
+      height: 2em;
+      width: 18%;
+      text-align: center;
+      line-height: 2em;
+      margin-top: .5em;
+      margin-right: 2.5%;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      a {
+        color: $white;
+        display: block;
+        text-transform: uppercase;
+
+        i {
+          padding-left: em(4);
+        }
+      }
+
+      &:hover {
+
+        background: $primary-1;
+        border-radius: $base-border-radius;
+
+        > a {
+          color: $white;
+        }
+
+        ul {
+          @include transition($second-transitions);
+          position: absolute;
+          border-radius: $base-border-radius;
+          box-shadow: $seventh-box-shadow;
+          z-index: 20;
+
+          li {
+            @include transition($second-transitions);
+            display: block;
+            float: none;
+            background: $white;
+            box-shadow: $sixth-box-shadow;
+
+            a {
+              color: $grey-0;
+            }
+
+            &.active {
+              background: $primary-1;
+
+              a {
+                color: $white;
+              }
+            }
+
+
+            &:hover {
+              background: $primary-1;
+              position: relative;
+
+              a {
+                color: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+    .active {
+      color: $white;
+      background: $primary-1;
+      border-radius: $base-border-radius;
+
+      .hidden {
+        a {
+          color: $grey-0;
+        }
+      }
+
+      a {
+        color: $white;
+      }
+    }
+  }
+}
+
+.small-nav {
+  display: none;
+}
+
+.small-first-level {
+  display: none;
+}
+
+.hidden  {
+  padding: 0 1em;
+  background: $white;
+
+  li {
+    display: none;
+    line-height: 2em;
+    border-radius: $base-border-radius;
+    width: 100%;
+    margin: 1em 0;
+    text-align: left;
+    padding: 0 1em;
+  }
+}
+

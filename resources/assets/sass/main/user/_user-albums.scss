@@ -1,0 +1,298 @@
+.album-block {
+  box-shadow: $sixth-box-shadow;
+  border-radius: $base-border-radius;
+  overflow: hidden;
+  margin-bottom: 2em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &-single {
+    @include animation(fadeIn 1s ease-in);
+    box-shadow: $sixth-box-shadow;
+    border-radius: $base-border-radius;
+    overflow: hidden;
+    margin-bottom: 2em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .photo-description {
+      height: 3em;
+      line-height: 3em;
+      padding: 0 1em;
+
+      p {
+        margin: 0;
+        float: left;
+      }
+
+      .change-cover {
+        margin-right: 1em;
+      }
+
+      form {
+        height: 2em;
+        line-height: 2em;
+        margin-top: .5em;
+        float: left;
+        width: 70%;
+      }
+
+      input[type="text"] {
+        padding: 0 .5em;
+        height: 2em;
+        line-height: 2em;
+        border: none;
+        box-shadow: $sixth-box-shadow;
+      }
+    }
+
+    img {
+      @include filter(grayscale(40%));
+      vertical-align: middle;
+      transition: $second-transitions;
+      width: 100%;
+
+      &:hover {
+        @include filter(grayscale(0));
+      }
+    }
+  }
+
+  .album-name {
+    height: 3em;
+    line-height: 3em;
+    text-transform: uppercase;
+    padding: 0 1em;
+
+    .album-name-link {
+      float: left;
+    }
+  }
+
+  .album-name-empty {
+    height: 3em;
+    line-height: 3em;
+    text-transform: uppercase;
+    padding: 0 1em;
+    float: left;
+  }
+
+  .cancel-rename {
+    float: right;
+    margin-left: 0;
+    margin-right: 1em;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  .img-wrapper {
+    padding: 0 2em;
+    margin-bottom: 2em;
+
+    img {
+      border-radius: $base-border-radius;
+    }
+  }
+
+  img {
+    @include filter(grayscale(20%));
+    vertical-align: middle;
+    transition: $second-transitions;
+    width: 100%;
+
+    &:hover {
+      @include filter(grayscale(0));
+    }
+  }
+}
+
+.album-link {
+  display: block;
+}
+
+.edit-album, .change-cover {
+  float: right;
+  border-radius: $base-border-radius;
+  text-align: center;
+  width: 2em;
+  cursor: pointer;
+}
+
+.delete-album, .confirm-delete-album, .cancel-delete-album {
+  border-radius: $base-border-radius;
+  float: right;
+  text-align: center;
+  width: 2em;
+  cursor: pointer;
+}
+
+.delete-album, .edit-album, .change-cover {
+  color: $grey-2;
+  box-shadow: $sixth-box-shadow;
+  transition: $second-transitions;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.confirm-delete-album {
+  box-shadow: $sixth-box-shadow;
+  color: $grey-2;
+  transition: $second-transitions;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.cancel-delete-album {
+  color: $white;
+  background: $primary-1;
+}
+
+.edit-album, .change-cover {
+  margin-right: 1em;
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+}
+
+.change-cover-cancel, .delete-photo {
+  float: right;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  text-align: center;
+  border-radius: $base-border-radius;
+  margin-top: .5em;
+  box-shadow: $sixth-box-shadow;
+  color: $grey-2;
+  cursor: pointer;
+  transition: $second-transitions;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.change-cover-cancel {
+  margin-right: 1em;
+}
+
+.control-button-block {
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+  float: right;
+}
+
+.album-block-empty {
+  height: 3em;
+  line-height: 3em;
+  border-radius: $base-border-radius;
+  box-shadow: $base-box-shadow;
+  padding: 0 1em;
+
+  p {
+    margin: 0;
+    float: left;
+  }
+
+  .add-album {
+    border-radius: $base-border-radius;
+    float: right;
+    padding: 0 2em;
+    height: 2em;
+    line-height: 2em;
+    margin-top: .5em;
+    background: $primary-1;
+    color: $white;
+    cursor: pointer;
+  }
+}
+
+.empty-photo {
+  height: 3em;
+  line-height: 3em;
+  padding: 0 1em;
+  border-radius: $base-border-radius;
+  box-shadow: $base-box-shadow;
+
+  .empty-photo-inner {
+    background: $primary-1;
+    color: $white;
+    cursor: pointer;
+    border-radius: $base-border-radius;
+    height: 2em;
+    line-height: 2em;
+    margin-top: .5em;
+    padding: 0 2em;
+    float: right;
+  }
+}
+
+.confirm-delete-photo {
+  box-shadow: $sixth-box-shadow;
+  float: right;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+  margin-right: 1em;
+  text-align: center;
+  border-radius: $base-border-radius;
+  cursor: pointer;
+  color: $grey-2;
+  transition: $second-transitions;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.check-rename, .cancel-rename, .delete-rename {
+  float: left;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+  text-align: center;
+  box-shadow: $sixth-box-shadow;
+  color: $grey-2;
+  border-radius: $base-border-radius;
+  margin-left: 1em;
+  cursor: pointer;
+  transition: $second-transitions;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+#add-photo-form {
+  display: none;
+}
+
+.show-all-photos {
+  @include animation(fadeIn 1s ease-in);
+  box-shadow: $sixth-box-shadow;
+  border-radius: $base-border-radius;
+  padding: 2em;
+
+  a {
+    background: $primary-1;
+    color: $white;
+    height: 3em;
+    line-height: 3em;
+    display: block;
+    border-radius: $base-border-radius;
+    text-align: center;
+  }
+}

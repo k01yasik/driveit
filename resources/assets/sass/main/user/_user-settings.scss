@@ -1,0 +1,23 @@
+.checkbox-block {
+  height: 3em;
+  line-height: 3em;
+
+  .checkbox-icon {
+    box-shadow: $sixth-box-shadow;
+    color: $grey-2;
+    border-radius: $base-border-radius;
+    height: 2em;
+    line-height: 2em;
+    margin-top: .5em;
+    margin-right: 1em;
+    cursor: pointer;
+    width: 2em;
+    float: left;
+    text-align: center;
+    transition: $second-transitions;
+
+    &:hover {
+      color: $primary-1;
+    }
+  }
+}

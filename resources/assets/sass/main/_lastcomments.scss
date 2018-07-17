@@ -1,0 +1,140 @@
+.last-comments {
+
+  > h3 {
+    font-weight: normal;
+    margin: 0 0 2rem;
+  }
+
+  hr {
+    border-bottom: $third-border-bottom;
+    margin: 0 0 2em 0;
+  }
+
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .one-last-comments {
+    margin-bottom: 1em;
+    box-shadow: $sixth-box-shadow;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .one-last-comments-header {
+      display: block;
+      padding: 0 1em;
+      height: 3em;
+      line-height: 3em;
+      border-radius: $base-border-radius $base-border-radius 0 0;
+      border-bottom: 1px solid $grey-6;
+
+      img {
+        vertical-align: middle;
+        margin-bottom: 0;
+        width: 2em;
+      }
+
+      .user-username {
+        float: left;
+        color: $grey-2;
+
+        &:hover {
+          color: $grey-0;
+        }
+      }
+
+      .user-logo {
+        display: block;
+        float: left;
+        width: 2em;
+        height: 2em;
+        overflow: hidden;
+        border-radius: 50%;
+        margin-top: .5em;
+        margin-right: .5em;
+      }
+    }
+
+    .one-last-comments-body {
+      padding: 1em;
+
+      p {
+        margin-bottom: 1em;
+      }
+
+      img {
+        vertical-align: middle;
+      }
+
+      ol {
+        list-style-type: decimal;
+        margin: 1em 0;
+        padding-left: 3em;
+
+        li {
+          margin-bottom: 1em;
+        }
+      }
+
+      ul {
+        margin: 1em 0 0 2em;
+
+        li {
+          list-style-type: disc;
+        }
+      }
+
+      a {
+        color: $primary-1;
+        font-weight: normal;
+        display: inline-block;
+      }
+
+      blockquote {
+        margin: 1em 0 0;
+        padding-left: 1em;
+        border-left: 3px solid $grey-3;
+      }
+
+      pre {
+        border: $third-border;
+        border-radius: 3px;
+        padding: 1em;
+        margin: 1em 0 0;
+        overflow: auto;
+        word-break: break-all;
+        word-wrap: break-word;
+
+        code {
+          white-space: pre-wrap;
+        }
+      }
+
+      .text-description {
+        color: $grey-2;
+        margin-bottom: 0;
+        margin-top: 2em;
+      }
+
+      .post-name {
+        display: block;
+        color: $grey-2;
+
+        &:hover {
+          color: $grey-0;
+        }
+      }
+    }
+
+    .one-last-comments-footer {
+      color: $grey-2;
+      height: 3em;
+      line-height: 3em;
+      padding: 0 1em;
+    }
+  }
+}

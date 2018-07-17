@@ -1,0 +1,144 @@
+.footer-row {
+  @include row();
+  background: $white;
+  color: $grey-0;
+
+  .footer-wrapper {
+    @include outer-container();
+
+    h3 {
+      font-weight: normal;
+      color: $grey-0;
+      margin: 0 0 1rem;
+    }
+
+    a {
+      color: $grey-2;
+
+      &:hover {
+        color: $grey-0;
+      }
+    }
+    .first-column {
+      @include span-columns(3);
+      padding: 2em 0;
+    }
+
+    .second-column {
+      float: left;
+      display: block;
+      width: 23.23176%;
+      margin-right: 2.35765%;
+      padding: 2em 0;
+    }
+
+    .third-column {
+      @include span-columns(3);
+      padding: 2em 0;
+    }
+
+    .fourth-column {
+      @include span-columns(3);
+      @include omega();
+      padding: 2em 0;
+    }
+
+    ul {
+
+      li {
+        margin-bottom: 0.5em;
+      }
+
+      .second-level {
+        margin-left: 1em;
+      }
+    }
+
+    .copyright {
+      @include span-columns(12);
+      color: $grey-2;
+      width: 100%;
+      border-radius: 3px 3px 0 0;
+      text-align: center;
+
+      p {
+        margin-top: 0.75em;
+      }
+    }
+  }
+}
+
+.outer-container {
+  @include transition($second-transitions);
+  background: $white;
+  border-radius: $base-border-radius;
+  box-shadow: $sixth-box-shadow;
+  height: 3em;
+  line-height: 3em;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 1em;
+  width: 70%;
+
+
+  &:hover {
+    background: $primary-1;
+
+    .first-inner-container {
+      background: $white;
+
+      i {
+        color: $primary-1;
+      }
+    }
+
+    .second-inner-container {
+      color: $white;
+    }
+  }
+}
+
+.first-inner-container {
+  @include transition($second-transitions);
+  float: left;
+  width: 2em;
+  height: 2em;
+  margin: .5em;
+  background: $primary-1;
+  border-radius: 3px;
+
+
+  i {
+    @include transition($second-transitions);
+    height: 2em;
+    color: $white;
+    line-height: 2em;
+    width: 2em;
+    float: left;
+    text-align: center;
+  }
+}
+
+.second-inner-container {
+  @include transition($second-transitions);
+  color: $grey-0;
+  float: left;
+  margin-left: 1.5em;
+}
+
+.back-to-top {
+  height: 3em;
+  line-height: 3em;
+  width: 3em;
+  border-radius: 50%;
+  color: $white;
+  background: $primary-1;
+  text-align: center;
+  position: fixed;
+  right: 1em;
+  bottom: 1em;
+  transition: $second-transitions;
+  cursor: pointer;
+  z-index: 1000;
+  display: none;
+}

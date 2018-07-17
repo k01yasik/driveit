@@ -1,0 +1,54 @@
+.username-block {
+  height: 3em;
+  line-height: 3em;
+  border-radius: $base-border-radius;
+  box-shadow: $sixth-box-shadow;
+  margin-bottom: 2em;
+  padding: 0 1em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .text-username {
+    margin-left: 1em;
+  }
+
+  a {
+    color: $grey-2;
+
+    &:hover {
+      color: $grey-0;
+    }
+  }
+
+  .add-friend-button, .add-friend-request, .add-friend-remove-request {
+    float: right;
+    height: 2em;
+    line-height: 2em;
+    margin-top: .5em;
+    width: 2em;
+    border-radius: $base-border-radius;
+    text-align: center;
+    box-shadow: $sixth-box-shadow;
+    color: $grey-2;
+    transition: $second-transitions;
+
+    &:hover {
+      color: $primary-1;
+    }
+  }
+
+  .add-friend-button {
+    cursor: pointer;
+  }
+
+  .add-friend-remove-request {
+    margin-right: 1em;
+    cursor: pointer;
+  }
+}
+
+.friends-box-username {
+  overflow-wrap: break-word;
+}

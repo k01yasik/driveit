@@ -1,0 +1,197 @@
+.message-box {
+  margin-bottom: 2em;
+  @include animation(fadeIn 1s ease-in);
+
+  &-avatar {
+    float: left;
+    width: 19.03225%;
+    margin-right: 4.83874%;
+    box-shadow: $sixth-box-shadow;
+    padding: .5em;
+
+    a {
+      color: $grey-2;
+
+      &:hover {
+        color: $grey-0;
+      }
+    }
+  }
+
+  &-body {
+    float: left;
+    width: 76.12901%;
+    padding: 1em;
+    box-shadow: $sixth-box-shadow;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.current-user-message {
+  box-shadow: $eight-box-shadow;
+}
+
+.image-crop {
+  width: 4em;
+  height: 4em;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0 auto;
+
+  img {
+    vertical-align: middle;
+  }
+}
+
+.username {
+  text-transform: uppercase;
+  margin-top: 1em;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.message-box-body-footer {
+  height: 2em;
+  line-height: 2em;
+  margin-top: 2em;
+}
+
+.message-data {
+  float: left;
+  color: $grey-2;
+}
+
+.control-button {
+  float: right;
+}
+.message-button, .confirm-message-button {
+  float: right;
+  width: 2em;
+  text-align: center;
+  border-radius: $base-border-radius;
+  cursor: pointer;
+}
+
+.confirm-message-button {
+  box-shadow: $sixth-box-shadow;
+  color: $grey-2;
+  transition: $second-transitions;
+  margin-right: 1em;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.message-button {
+  box-shadow: $sixth-box-shadow;
+  color: $grey-2;
+  transition: $second-transitions;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.message-box-body-text {
+  margin-bottom: 1em;
+
+  h1, h2, h3, h4, h5 {
+    margin: 1em 0 0;
+    font-weight: normal;
+  }
+
+  p {
+    margin: 1em 0 0;
+
+    &:first-child {
+      margin: 0;
+    }
+  }
+
+  ol {
+    list-style-type: decimal;
+    margin: 1em 0;
+    padding-left: 3em;
+
+    li {
+      margin-bottom: 1em;
+    }
+  }
+
+  ul {
+    margin: 1em 0 0 2em;
+
+    li {
+      list-style-type: disc;
+    }
+  }
+
+  a {
+    color: $primary-1;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  blockquote {
+    margin: 1em 0 0;
+    padding-left: 1em;
+    border-left: 3px solid $grey-3;
+  }
+
+  pre {
+    border: $base-border;
+    border-radius: 3px;
+    padding: .5em 1em;
+    overflow: auto;
+    word-break: break-all;
+    word-wrap: break-word;
+
+    code {
+      white-space: pre-wrap;
+    }
+  }
+}
+
+.message-box-avatar-reverse {
+  float: right;
+  width: 19.03225%;
+  margin-left: 4.83874%;
+  box-shadow: $sixth-box-shadow;
+  padding: 1em;
+}
+
+.message-box-body-reverse {
+  float: right;
+  width: 76.12901%;
+  padding: 1em;
+  box-shadow: $sixth-box-shadow;
+}
+
+.add-message {
+  margin-top: 1em;
+  box-shadow: $sixth-box-shadow;
+  border-radius: $base-border-radius;
+  padding: 2em;
+
+  textarea {
+    min-height: 10em;
+    border: none;
+    overflow: hidden;
+    box-shadow: $sixth-box-shadow;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+
+.not-read-message {
+  background: $light-gray-primary;
+}

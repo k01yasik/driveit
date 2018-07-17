@@ -1,0 +1,26 @@
+#{$all-buttons} {
+  background: $primary-1;
+  border: $third-border-bottom;
+  border-radius: $base-border-radius;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  padding: 0 2em;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: $white;
+  @include transition($second-transitions);
+  -webkit-font-smoothing: antialiased;
+
+
+  &:hover,
+  &:focus {
+    outline: none;
+
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}

@@ -1,0 +1,239 @@
+.onecomment {
+  @include animation(fadeIn 1s ease-in);
+  margin-bottom: 2em;
+  padding: 2em;
+  background: $white;
+  border-radius: $base-border-radius;
+
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  > h2 {
+    margin: 0 0 2rem;
+    color: $grey-0;
+    font-weight: normal;
+  }
+
+  .wrapper {
+    margin-bottom: 2em;
+
+  }
+
+  hr {
+    border-bottom: $third-border-bottom;
+    margin: 0 0 2rem 0;
+  }
+
+  .comment-caption {
+    height: 3em;
+    line-height: 3em;
+    padding: 0 2em;
+    border-bottom: 1px solid $grey-6;
+
+    .user-logo {
+      display: block;
+      float: left;
+      line-height: 2em;
+      height: 2em;
+      margin-top: .5em;
+      width: 2em;
+      border-radius: 1em;
+      overflow: hidden;
+      margin-right: .5em;
+    }
+
+    .user-container {
+      margin-right: 2em;
+      height: 3em;
+      line-height: 3em;
+      display: inline;
+      float: left;
+
+      .share-left {
+        float: left;
+        height: 2em;
+        line-height: 2em;
+        margin: .5em 1em 0;
+        width: 2em;
+        color: $grey-2;
+        text-align: center;
+      }
+    }
+
+    .user-link {
+      display: block;
+      float: left;
+      height: 3em;
+      line-height: 3em;
+      color: $grey-2;
+      @include transition($second-transitions);
+
+      &:hover {
+        color: $grey-0;
+      }
+    }
+
+    p {
+      margin: 0;
+      display: block;
+      float: left;
+      height: 3em;
+      line-height: 3em;
+      color: $grey-2;
+    }
+  }
+
+  .comment-body {
+    padding: 2em;
+
+    > :first-child {
+      margin: 0;
+    }
+
+    h1, h2, h3, h4, h5 {
+      margin: 2rem 0 0;
+    }
+
+    p {
+      margin: 1em 0 0;
+    }
+
+    img {
+      vertical-align: middle;
+    }
+
+    ol {
+      list-style-type: decimal;
+      margin: 1em 0;
+      padding-left: 3em;
+
+      li {
+        margin-bottom: 1em;
+      }
+    }
+
+    ul {
+      margin: 1em 0 0 2em;
+
+      li {
+        list-style-type: disc;
+      }
+    }
+
+    a {
+      color: $grey-0;
+      font-weight: normal;
+      display: inline-block;
+      border-bottom: 1px dashed $grey-0;
+
+      &:hover {
+        color: $primary-1;
+        border-bottom: 1px dashed $primary-1;
+      }
+    }
+
+    blockquote {
+      margin: 1em 0 0;
+      padding-left: 1em;
+      border-left: 3px solid $grey-3;
+    }
+
+    pre {
+      border: $third-border;
+      border-radius: 3px;
+      padding: 1em;
+      margin: 1em 0 0;
+      overflow: auto;
+      word-break: break-all;
+      word-wrap: break-word;
+
+      code {
+        white-space: pre-wrap;
+      }
+    }
+  }
+
+  .circle {
+    width: .26em;
+    float: left;
+    height: .26em;
+    border-radius: .13em;
+    margin-left: .37em;
+    margin-right: .37em;
+    margin-top: 1.24em;
+    text-align: center;
+  }
+
+  .one {
+    background: $grey-2;
+    opacity: 0;
+    @include transition(all .5s ease-in-out);
+  }
+
+  .two {
+    background: $grey-2;
+    opacity: 0;
+    @include transition(all 1s ease-in-out);
+  }
+
+  .three {
+    background: $grey-2;
+    opacity: 0;
+    @include transition(all 1.5s ease-in-out);
+  }
+
+  .wrapper:hover {
+    .one, .two, .three {
+      opacity: 1;
+    }
+  }
+
+  .indent-0, .indent-1, .indent-2, .indent-3 {
+    border-radius: $base-border-radius;
+    box-shadow: $sixth-box-shadow;
+    overflow: hidden;
+  }
+
+  .indent-0 {
+    margin-left: 0;
+  }
+
+  .indent-1 {
+    margin-left: 1em;
+  }
+
+  .indent-2 {
+    margin-left: 2em;
+  }
+
+  .indent-3 {
+    margin-left: 3em;
+  }
+}
+
+.no-comments {
+  margin-bottom: 2em;
+  text-align: center;
+  box-shadow: $sixth-box-shadow;
+  padding: 1em 0;
+  border-radius: $base-border-radius;
+}
+
+.margin-top {
+  margin-top: 2em;
+}
+
+.edit-one-comment {
+  textarea {
+    min-height: 10em;
+    box-shadow: $sixth-box-shadow;;
+    overflow: hidden;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

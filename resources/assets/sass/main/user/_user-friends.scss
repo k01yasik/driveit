@@ -1,0 +1,96 @@
+.friend-item {
+  @include animation(fadeIn 1s ease-in);
+  line-height: 3em;
+  margin-bottom: 2em;
+  padding: 0 1em;
+  box-shadow: $sixth-box-shadow;
+  float: left;
+  width: 100%;
+
+
+
+  .add-to-friend {
+    float: right;
+    height: 2em;
+    line-height: 2em;
+    margin-top: .5em;
+    color: $white;
+    background: $primary-1;
+    border-radius: $base-border-radius;
+    padding: 0 2em;
+    cursor: pointer;
+  }
+
+  .friend-item-username {
+    float: left;
+    line-height: 3em;
+    width: 50%;
+
+    a {
+      display: block;
+      padding-left: 1em;
+      color: $grey-2;
+      overflow-wrap: break-word;
+
+      &:hover {
+        color: $grey-0;
+      }
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.friend-item-avatar {
+  height: 2em;
+  margin-top: .5em;
+  overflow: hidden;
+  border-radius: 1em;
+  display: inline-block;
+  float: left;
+
+  img {
+    vertical-align: middle;
+    width: 2em;
+  }
+}
+
+.add-friend {
+  background: $primary-1;
+  color: $white;
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+  border-radius: $base-border-radius;
+  float: right;
+  padding: 0 2em;
+
+  &:hover {
+    color: $white;
+  }
+}
+
+.friend-item-icon-delete, .friend-item-icon-check {
+  float: right;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  margin-top: .5em;
+  border-radius: $base-border-radius;
+  box-shadow: $sixth-box-shadow;
+  color: $grey-2;
+  cursor: pointer;
+  text-align: center;
+  transition: $second-transitions;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.friend-item-icon-check {
+  margin-right: 1em;
+  display: none;
+}

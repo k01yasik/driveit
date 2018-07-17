@@ -1,0 +1,25 @@
+.main-row {
+  @include row();
+  background: $grey-4;
+
+  .main-wrapper {
+    @include outer-container();
+    padding: 3em 0;
+  }
+}
+
+main {
+  float: left;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-right: 2.35765%;
+  width: 74.41059%;
+  margin-left: 0;
+  min-height: 1em;
+}
+
+aside {
+  @include span-columns(3);
+}
+
