@@ -31,32 +31,32 @@
                 <h3>Мы в соцсетях</h3>
                 <a href="https://vk.com/driveitwithme" target="_blank" rel="nofollow" class="outer-container">
                     <div class="first-inner-container">
-                        <i class="fa fa-vk"></i>
+                        <i class="fab fa-vk"></i>
                     </div>
                     <div class="second-inner-container">ВКонтакте</div>
                 </a>
                 <a href="https://www.facebook.com/groups/745210485639351" target="_blank" rel="nofollow" class="outer-container">
                     <div class="first-inner-container">
-                        <i class="fa fa-facebook-official"></i>
+                        <i class="fab fa-facebook-square"></i>
                     </div>
                     <div class="second-inner-container">Facebook</div>
                 </a>
                 <a href="https://twitter.com/driveitwithme" target="_blank" rel="nofollow" class="outer-container">
                     <div class="first-inner-container">
-                        <i class="fa fa-twitter-square"></i>
+                        <i class="fab fa-twitter-square"></i>
                     </div>
                     <div class="second-inner-container">Twitter</div>
                 </a>
                 <a href="https://plus.google.com/u/0/communities/103637419906040787158" target="_blank" rel="nofollow" class="outer-container">
                     <div class="first-inner-container">
-                        <i class="fa fa-google-plus-square"></i>
+                        <i class="fab fa-google-plus-square"></i>
                     </div>
                     <div class="second-inner-container">Google</div>
                 </a>
             </div>
         </div>
         <div class="copyright">
-            <p><i class="fa fa-copyright"></i> 2017 Driveitwith.me. Все права защищены.</p>
+            <p><i class="fas fa-copyright"></i> 2018 - Driveitwith.me. Все права защищены.</p>
         </div>
     </div>
 </div>

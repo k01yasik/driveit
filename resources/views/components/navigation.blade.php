@@ -4,7 +4,7 @@
             <noindex>
                 <div class="small-nav">
                     <h2>Menu</h2>
-                    <div class="small-nav-icon"><i class="fa fa-bars" aria-hidden="true"></i></div>
+                    <div class="small-nav-icon"><i class="fas fa-bars" aria-hidden="true"></i></div>
                 </div>
             </noindex>
             <ul class="first-level">
@@ -12,7 +12,7 @@
                     <a href="#">Главная</a>
                 </li>
                 <li class="menuItem">
-                    <a href="/tags/auto">Авто <i class="fa fa-chevron-down"></i></a>
+                    <a href="/tags/auto">Авто <i class="fas fa-chevron-down"></i></a>
                     <ul class="hidden">
                         <li><a href="/tags/auto-reviews">Обзоры автомобилей</a></li>
                         <li><a href="/tags/auto-repairs">Ремонт автомобиля</a></li>
@@ -22,7 +22,7 @@
                     </ul>
                 </li>
                 <li class="menuItem">
-                    <a href="/tags/moto">Мото <i class="fa fa-chevron-down"></i></a>
+                    <a href="/tags/moto">Мото <i class="fas fa-chevron-down"></i></a>
                     <ul class="hidden">
                         <li><a href="/tags/moto-reviews">Обзоры мотоциклов</a></li>
                         <li><a href="/tags/moto-repairs">Ремонт мотоцикла</a></li>
@@ -31,7 +31,7 @@
                 </li>
                 <li class="menuItem"><a href="/tags/law">Право</a></li>
                 <li class="menuItem">
-                    <a href="/tags/helpful">Полезное <i class="fa fa-chevron-down"></i></a>
+                    <a href="/tags/helpful">Полезное <i class="fas fa-chevron-down"></i></a>
                     <ul class="hidden">
                         <li><a href="/tags/rims">Автомобильный диск</a></li>
                         <li><a href="/tags/other">Разное</a></li>
@@ -40,7 +40,7 @@
             </ul>
             <noindex>
                 <div class="small-first-level">
-                    <div class="small-delete-button"><i class="fa fa-times" aria-hidden="true"></i></div>
+                    <div class="small-delete-button"><i class="fas fa-times" aria-hidden="true"></i></div>
                     <ul>
                         <li class="small-deleted-item">
                             <a href="{{url('/')}}">Главная</a>

@@ -5,13 +5,13 @@
             <div class="search-block">
                 <form class="search-form">
                     <input name="search" type="text" class="inputSearch" value="" autocomplete="off">
-                    <button type="submit"><i class="fa fa-search"></i></button>
+                    <button type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </div>
             <ul class="social-button">
-                <li><a href="https://vk.com/driveitwithme" target="_blank" rel="nofollow"><i class="fa fa-vk"></i></a></li>
-                <li><a href="https://www.facebook.com/groups/745210485639351/" target="_blank" rel="nofollow"><i class="fa fa-facebook-official"></i></a></li>
-                <li><a href="https://twitter.com/driveitwithme" target="_blank" rel="nofollow"><i class="fa fa-twitter-square"></i></a></li>
+                <li><a href="https://vk.com/driveitwithme" target="_blank" rel="nofollow"><i class="fab fa-vk"></i></a></li>
+                <li><a href="https://www.facebook.com/groups/745210485639351/" target="_blank" rel="nofollow"><i class="fab fa-facebook-square"></i></a></li>
+                <li><a href="https://twitter.com/driveitwithme" target="_blank" rel="nofollow"><i class="fab fa-twitter-square"></i></a></li>
             </ul>
         </div>
         <div class="sitetop-right">
