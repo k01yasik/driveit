@@ -11,10 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use Illuminate\Http\Request;
+
+Route::get('/', function (Request $request) {
+    $title = 'Сайт о ремонте и уходе за автомобилями и мотоциклами';
+    $route_name = 'home';
+    return view('welcome', compact('title'));
+})->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home2');

@@ -11,7 +11,7 @@
         <meta name="msvalidate.01" content="5C7980ED46474154F14D366202946FE3" />
         <meta name="790ac42607dbab4325ac5d1f68751ae2" content="">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        @yield('seo')
+        @include('seo.index')
         <script src="{{ asset('js/app.js') }}" defer></script>
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
