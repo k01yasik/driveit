@@ -11,14 +11,19 @@
 |
 */
 
-use Illuminate\Http\Request;
 
-Route::get('/', function (Request $request) {
-    $title = 'Сайт о ремонте и уходе за автомобилями и мотоциклами';
-    $route_name = 'home';
-    return view('welcome', compact('title'));
-})->name('home');
+Route::get('/', 'PageController@home')->name('home');
+
+Route::get('/users', 'PublicUsersController@index')->name('users');
+
+Route::get('/user/{username}', 'UserPageController@index')->name('user.page');
+
+Route::get('/user/{username}/settings', 'UserPageController@settings')->name('user.settings');
+
+Route::get('/user/{username}/friends', 'UserPageController@friends')->name('user.friends');
+
+Route::get('/user/{username}/messages', 'UserPageController@messages')->name('user.messages');
+
+Route::get('/user/{username}/messages/{friend}', 'UserPageController@friendMessages')->name('user.friend.messages');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home2');
