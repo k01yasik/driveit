@@ -12,22 +12,22 @@ class UserPageController extends Controller
     }
 
     public function index($username) {
-        return view('users.homepage');
+        return view('user.homepage');
     }
 
     public function settings($username) {
-        return view('users.settings');
+        return view('user.settings');
     }
 
     public function friends($username) {
-        return view('users.friends');
+        return view('user.friends');
     }
 
     public function messages($username) {
-        return view('users.messages');
+        return view('user.messages');
     }
 
     public function friendMessages($username, $friend) {
-        return view('users.friendmessages');
+        return view('user.friendmessages');
     }
 }

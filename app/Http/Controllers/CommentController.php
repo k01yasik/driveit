@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PublicUsersController extends Controller
+class CommentController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function index() {
-        return view('user.public');
+    public function edit($username, $id){
+        return view('user.comment.edit');
     }
 }
