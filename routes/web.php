@@ -48,6 +48,22 @@ Route::get('/about', 'PageController@about')->name('page.about');
 
 Route::get('/rules', 'PageController@rules')->name('page.rules');
 
+Route::get('/admin', 'AdminController@index')->name('admin.index');
 
+Route::get('/admin/users', 'AdminController@users')->name('admin.users');
+
+Route::get('/admin/posts', 'AdminController@posts')->name('admin.posts');
+
+Route::get('/admin/comments', 'AdminController@comments')->name('admin.comments');
+
+Route::get('/admin/seo', 'AdminController@seo')->name('admin.seo');
+
+Route::get('/admin/seo/create', 'SeoController@create')->name('seo.create');
+
+Route::get('/admin/seo/{id}', 'SeoController@show')->name('seo.show');
+
+Route::get('/admin/seo/{id}/edit', 'SeoController@edit')->name('seo.edit');
+
+Route::get('/admin/comments/{id}/edit', 'CommentController@adminedit')->name('admin.comment.edit');
 
 Auth::routes();

@@ -14,4 +14,9 @@ class CommentController extends Controller
     public function edit($username, $id){
         return view('user.comment.edit');
     }
+
+    public function adminedit($id)
+    {
+        return view('admin.comment.edit');
+    }
 }
