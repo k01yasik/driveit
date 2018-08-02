@@ -111,7 +111,7 @@
   }
 }
 
-#at-nav-button {
+.registration {
   float: right;
   text-align: center;
   border-radius: 3px;
@@ -119,6 +119,10 @@
   color: $primary-1;
   padding: 0 2em;
   cursor: pointer;
+}
+
+.signin {
+  padding: 0 2em;
 }
 
 .button-block {
@@ -150,7 +154,7 @@
   margin-top: .5em;
   float: right;
 
-  a {
+  .signin {
     color: $white;
   }
 

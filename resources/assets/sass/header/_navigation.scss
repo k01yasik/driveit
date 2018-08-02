@@ -1,10 +1,14 @@
 .navigation-row {
   @include  row();
-  background: $secondary-2-1;
-  position: relative;
+  margin-top: -20em;
 
   .navigation-wrapper {
     @include outer-container();
+    background: $secondary-2-1;
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1000;
   }
 }
 
@@ -30,13 +34,13 @@ nav {
     > .menuItem {
       @include transition($second-transitions);
       float: left;
-      height: 2em;
-      width: 18%;
+      height: 3em;
+      width: 20%;
       text-align: center;
-      line-height: 2em;
-      margin-top: .5em;
-      margin-right: 2.5%;
+      line-height: 3em;
       cursor: pointer;
+      border-left: 1px solid $secondary-2-1;
+      border-right: 1px solid $secondary-2-1;
 
       &:last-child {
         margin-right: 0;
@@ -55,7 +59,8 @@ nav {
       &:hover {
 
         background: $primary-1;
-        border-radius: $base-border-radius;
+        border-left: 1px solid $primary-1;
+        border-right: 1px solid $primary-1;
 
         > a {
           color: $white;
@@ -65,15 +70,16 @@ nav {
           @include transition($second-transitions);
           position: absolute;
           border-radius: $base-border-radius;
-          box-shadow: $seventh-box-shadow;
+          box-shadow: $nineth-box-shadow;
           z-index: 20;
 
           li {
             @include transition($second-transitions);
             display: block;
             float: none;
-            background: $white;
-            box-shadow: $sixth-box-shadow;
+            background: $grey-3;
+            border-left: 3px solid $grey-3;
+            border-right: 3px solid $grey-3;
 
             a {
               color: $grey-0;
@@ -89,12 +95,8 @@ nav {
 
 
             &:hover {
-              background: $primary-1;
+              border-left: 3px solid $primary-1;
               position: relative;
-
-              a {
-                color: $white;
-              }
             }
           }
         }
@@ -103,7 +105,8 @@ nav {
     .active {
       color: $white;
       background: $primary-1;
-      border-radius: $base-border-radius;
+      border-left: 1px solid $primary-1;
+      border-right: 1px solid $primary-1;
 
       .hidden {
         a {
@@ -139,5 +142,9 @@ nav {
     text-align: left;
     padding: 0 1em;
   }
+}
+
+.active + .menuItem:hover {
+  border-left: 1px solid $white!important;
 }
 

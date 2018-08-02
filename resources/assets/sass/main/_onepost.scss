@@ -9,9 +9,6 @@
 
 .onepost {
   @include animation(fadeIn 1s ease-in);
-  margin-bottom: 2em;
-  padding: 2em;
-  background: $white;
   border-radius: $base-border-radius;
   width: 48%;
 
@@ -21,8 +18,8 @@
     font-weight: normal;
   }
 
-  &:last-child {
-    margin-bottom: 0;
+  h2 {
+    margin-top: 0;
   }
 
   .body-content {

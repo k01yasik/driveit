@@ -12,7 +12,6 @@
         <meta name="790ac42607dbab4325ac5d1f68751ae2" content="">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         @include('seo.index')
-        <script src="{{ asset('js/app.js') }}" defer></script>
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -67,5 +66,6 @@
             @include('components.footer')
         </footer>
         @include('components.backbutton')
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

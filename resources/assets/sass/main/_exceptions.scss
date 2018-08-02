@@ -1,0 +1,13 @@
+.exception-danger {
+  background: $primary-1;
+  padding: 2em;
+  border-radius: 3px;
+  width: 100%;
+  color: $white;
+
+  p {
+    font-size: 2em;
+    margin: 0;
+    text-align: center;
+  }
+}

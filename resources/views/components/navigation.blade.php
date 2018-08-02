@@ -8,8 +8,8 @@
                 </div>
             </noindex>
             <ul class="first-level">
-                <li class="menuItem">
-                    <a href="#">Главная</a>
+                <li class="menuItem {{Route::currentRouteName() === 'page.home' ? 'active' : ''}}">
+                    <a href="{{ route('page.home') }}">Главная</a>
                 </li>
                 <li class="menuItem">
                     <a href="/tags/auto">Авто <i class="fas fa-chevron-down"></i></a>

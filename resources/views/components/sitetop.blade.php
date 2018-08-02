@@ -24,7 +24,8 @@
                 </div>
             @else
                 <div class="active-sign-in">
-                    <a id="at-nav-button">Войти</a>
+                    <a href="#" class="signin">Войти</a>
+                    <a href="#" class="registration">Регистрация</a>
                 </div>
             @endauth
         </div>

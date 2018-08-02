@@ -3,8 +3,6 @@
   background: $grey-4;
 
   .carousel-wrapper {
-    @include outer-container();
-    overflow: hidden;
 
     .rslides {
       position: relative;
@@ -56,7 +54,7 @@
 .tooltip, .tooltip-black {
   position: absolute;
   padding: 0 2em;
-  bottom: 2em;
+  top: 3em;
   height: 3em;
   line-height: 3em;
   border-radius: 0 3px 3px 0;

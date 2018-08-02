@@ -50,7 +50,7 @@ Route::get('/about', 'PageController@about')->name('page.about');
 
 Route::get('/rules', 'PageController@rules')->name('page.rules');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/', 'AdminController@index')->name('admin.index');
 
