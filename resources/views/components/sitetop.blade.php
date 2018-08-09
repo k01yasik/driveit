@@ -20,12 +20,15 @@
                     <div class="my-page-block">
                         <a href="/user/{{Auth::user()->name}}">Профиль</a>
                     </div>
-                    <a id="at-nav-button-logout">Выйти</a>
+                    <form class="at-nav-button" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit">Выйти</button>
+                    </form>
                 </div>
             @else
                 <div class="active-sign-in">
-                    <a href="#" class="signin">Войти</a>
-                    <a href="#" class="registration">Регистрация</a>
+                    <a href="{{ route('login') }}" class="signin">Войти</a>
+                    <a href="{{ route('register') }}" class="registration">Регистрация</a>
                 </div>
             @endauth
         </div>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class UserPageController extends Controller
 {
     public function index($username) {
-        return view('user.homepage');
+        return view('user.profile');
     }
 
     public function settings($username) {

@@ -15,7 +15,7 @@
 Route::get('/', 'PageController@home')->name('page.home');
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
-    Route::get('/{username}', 'UserPageController@index')->name('user.page');
+    Route::get('/{username}', 'UserPageController@index')->name('user.profile');
 
     Route::get('/{username}/settings', 'UserPageController@settings')->name('user.settings');
 
@@ -38,11 +38,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
 
 Route::get('/users', 'PublicUsersController@index')->name('users');
 
-Route::get('/tags/{tag}', 'TagsController@show')->name('tags.show');
+Route::get('/category/{category}', 'CategoryController@show')->name('category.show');
 
-Route::get('/top-rated', 'PageController@list')->name('posts.top');
+Route::get('/best-rated', 'PageController@list')->name('posts.rated');
 
-Route::get('/best-views', 'PageController@list')->name('posts.best');
+Route::get('/best-views', 'PageController@list')->name('posts.views');
 
 Route::get('/best-comments', 'PageController@list')->name('posts.comments');
 
@@ -77,5 +77,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 });
 
 Route::get('/posts/{slug}', 'PageController@post')->name('posts.show');
+
+Route::get('login/facebook', 'Auth\LoginController@redirectToProviderFacebook')->name('login.facebook');
+
+Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallbackFacebook');
+
+Route::get('login/google', 'Auth\LoginController@redirectToProviderGoogle')->name('login.google');
+
+Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallbackGoogle');
 
 Auth::routes();

@@ -65,7 +65,7 @@
         }
       }
     }
-    form {
+    .search-form {
       display: flex;
       border-radius: $base-border-radius;
       box-shadow: $sixth-box-shadow;
@@ -114,7 +114,7 @@
 .registration {
   float: right;
   text-align: center;
-  border-radius: 3px;
+  border-radius: 0 3px 3px 0;
   background: $white;
   color: $primary-1;
   padding: 0 2em;
@@ -123,6 +123,18 @@
 
 .signin {
   padding: 0 2em;
+}
+
+.at-nav-button {
+  float: right;
+
+  button {
+    background: $white;
+    color: $primary-1;
+    border-radius: 0 3px 3px 0;
+    vertical-align: inherit;
+    border: none;
+  }
 }
 
 .button-block {
@@ -149,13 +161,14 @@
 .active-sign-in {
   height: 2em;
   line-height: 2em;
-  background: $primary-1;
-  border-radius: $base-border-radius;
   margin-top: .5em;
   float: right;
 
   .signin {
     color: $white;
+    background: $primary-1;
+    display: inline-block;
+    border-radius: 3px 0 0 3px;
   }
 
   &:focus {

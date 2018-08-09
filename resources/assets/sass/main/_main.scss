@@ -10,7 +10,6 @@
     position: relative;
     margin-bottom: 3em;
     border-radius: 0 0 3px 3px;
-    min-height: 50em;
   }
 }
 
@@ -27,5 +26,11 @@ main {
 
 aside {
   @include span-columns(3);
+}
+
+.empty-container {
+  float: left;
+  width: 33%;
+  margin-left: 33%;
 }
 
