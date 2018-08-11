@@ -66,6 +66,10 @@ nav {
         border-left: 1px solid $primary-1;
         border-right: 1px solid $primary-1;
 
+        #caret {
+          transform: rotate(0deg);
+        }
+
         > a {
           color: $white;
         }
@@ -76,6 +80,7 @@ nav {
           border-radius: $base-border-radius;
           box-shadow: $tenth-box-shadow;
           z-index: 20;
+          opacity: 1;
 
           li {
             @include transition($second-transitions);
@@ -136,6 +141,7 @@ nav {
 .hidden  {
   padding: 0 1em;
   background: $white;
+  opacity: 0;
 
   li {
     display: none;
@@ -152,3 +158,11 @@ nav {
   border-left: 1px solid $white!important;
 }
 
+#caret {
+  height: 14px;
+  fill: $white;
+  transform: rotate(180deg);
+  margin-bottom: -.1em;
+  margin-left: .5em;
+  transition: all .5s ease-in-out;
+}

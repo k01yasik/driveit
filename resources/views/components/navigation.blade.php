@@ -12,7 +12,14 @@
                     <a href="{{ route('page.home') }}">Главная</a>
                 </li>
                 <li class="menuItem">
-                    <a href="/tags/auto">Авто <i class="fas fa-chevron-down"></i></a>
+                    <a href="/tags/auto">Авто <svg version="1.1" id="caret" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 307.054 307.054" style="enable-background:new 0 0 307.054 307.054;"
+                            xml:space="preserve">
+                                <g>
+                                    <path d="M302.445,205.788L164.63,67.959c-6.136-6.13-16.074-6.13-22.203,0L4.597,205.788c-6.129,6.132-6.129,16.069,0,22.201
+                                    l11.101,11.101c6.129,6.136,16.076,6.136,22.209,0l115.62-115.626L269.151,239.09c6.128,6.136,16.07,6.136,22.201,0
+                                    l11.101-11.101C308.589,221.85,308.589,211.92,302.445,205.788z"/>
+                                </g>
+                            </svg></a>
                     <ul class="hidden">
                         <li><a href="/tags/auto-reviews">Обзоры автомобилей</a></li>
                         <li><a href="/tags/auto-repairs">Ремонт автомобиля</a></li>
@@ -22,7 +29,14 @@
                     </ul>
                 </li>
                 <li class="menuItem">
-                    <a href="/tags/moto">Мото <i class="fas fa-chevron-down"></i></a>
+                    <a href="/tags/moto">Мото <svg version="1.1" id="caret" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 307.054 307.054" style="enable-background:new 0 0 307.054 307.054;"
+                                                   xml:space="preserve">
+                                <g>
+                                    <path d="M302.445,205.788L164.63,67.959c-6.136-6.13-16.074-6.13-22.203,0L4.597,205.788c-6.129,6.132-6.129,16.069,0,22.201
+                                    l11.101,11.101c6.129,6.136,16.076,6.136,22.209,0l115.62-115.626L269.151,239.09c6.128,6.136,16.07,6.136,22.201,0
+                                    l11.101-11.101C308.589,221.85,308.589,211.92,302.445,205.788z"/>
+                                </g>
+                            </svg></a>
                     <ul class="hidden">
                         <li><a href="/tags/moto-reviews">Обзоры мотоциклов</a></li>
                         <li><a href="/tags/moto-repairs">Ремонт мотоцикла</a></li>
@@ -31,7 +45,14 @@
                 </li>
                 <li class="menuItem"><a href="/tags/law">Право</a></li>
                 <li class="menuItem">
-                    <a href="/tags/helpful">Полезное <i class="fas fa-chevron-down"></i></a>
+                    <a href="/tags/helpful">Полезное <svg version="1.1" id="caret" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 307.054 307.054" style="enable-background:new 0 0 307.054 307.054;"
+                                                          xml:space="preserve">
+                                <g>
+                                    <path d="M302.445,205.788L164.63,67.959c-6.136-6.13-16.074-6.13-22.203,0L4.597,205.788c-6.129,6.132-6.129,16.069,0,22.201
+                                    l11.101,11.101c6.129,6.136,16.076,6.136,22.209,0l115.62-115.626L269.151,239.09c6.128,6.136,16.07,6.136,22.201,0
+                                    l11.101-11.101C308.589,221.85,308.589,211.92,302.445,205.788z"/>
+                                </g>
+                            </svg></a>
                     <ul class="hidden">
                         <li><a href="/tags/rims">Автомобильный диск</a></li>
                         <li><a href="/tags/other">Разное</a></li>

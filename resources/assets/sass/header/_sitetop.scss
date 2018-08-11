@@ -47,14 +47,17 @@
         color: $white;
         float: left;
         width: 100%;
-        height: 2em;
+        height: 1em;
       }
 
       li {
-        float: right;
+        float: left;
         text-align: center;
-        width: 2em;
-        height: 2em;
+        width: 1em;
+        height: 1em;
+        line-height: 1em;
+        margin-right: 1em;
+        margin-top: .5em;
 
         &:hover {
           a {
@@ -63,14 +66,13 @@
         }
 
         &:last-child {
-          margin-left: 0;
+          margin-right: 0;
         }
       }
     }
     .search-form {
       display: flex;
       border-radius: $base-border-radius;
-      box-shadow: $sixth-box-shadow;
       height: 2em;
       margin-top: .5em;
       position: relative;
@@ -88,6 +90,11 @@
             background: $primary-1;
             color: $white;
             border: $third-border-bottom;
+
+            #magnifying {
+              fill: $white;
+            }
+
           }
         }
         &:hover {
@@ -100,13 +107,18 @@
         border: 1px solid $white;
         border-radius: 0 3px 3px 0;
         color: $grey-2;
-        padding: 0 1em;
+        padding: 0 .5em;
         @include transition($third-transitions);
+        display: flex;
 
         &:hover {
           background: $primary-1;
           color: $white;
           border: $third-border-bottom;
+
+          #magnifying {
+            fill: $white;
+          }
         }
       }
     }
@@ -234,4 +246,23 @@
 
 .my-page-block ~ #at-nav-button {
   border-radius: 0 3px 3px 0;
+}
+
+#vk, #facebook, #twitter {
+  fill: $white;
+  transition: all .5s ease-in-out;
+
+  &:hover {
+    fill: $primary-1;
+  }
+}
+
+#vk {
+  border-radius: 3px;
+}
+
+#magnifying {
+  width: 1em;
+  fill: $primary-1;
+  transition: all .5s ease-in-out;
 }
