@@ -11,7 +11,7 @@ $factory->define(App\Post::class, function (Faker $faker) {
         'name' => function (array $post) {
             return $post['title'];
         },
-        'image' => $faker->imageUrl(500, 333, 'transport'),
+        'image' => '/photo/repair-of-car-dents.jpg',
         'caption' => $faker->paragraph(7),
         'body' => $faker->text(3000),
         'text' => function (array $post) {
@@ -21,6 +21,7 @@ $factory->define(App\Post::class, function (Faker $faker) {
             return User::find(1)->id;
         },
         'rating' => $faker->numberBetween(0, 1000),
-        'views' => $faker->numberBetween(1, 1000)
+        'views' => $faker->numberBetween(1, 1000),
+        'comments' => $faker->numberBetween(1, 200)
     ];
 });

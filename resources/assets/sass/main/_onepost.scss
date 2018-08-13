@@ -6,257 +6,8 @@
   float: right;
 }
 
-
-.onepost {
-  @include animation(fadeIn 1s ease-in);
-  border-radius: $base-border-radius;
-  width: 48%;
-
-  .display-tag-name {
-    font-size: 1.5em;
-    margin: 0;
-    font-weight: normal;
-  }
-
-  h2 {
-    margin-top: 0;
-  }
-
-  .body-content {
-    margin-top: -5em;
-  }
-
-  .body-content-normal {
-    float: left;
-  }
-
-  .body-content, .body-content-normal {
-    margin-bottom: 2em;    
-
-    ul {
-      list-style-type: disc;
-      margin: 1em 0;
-      padding-left: 3em;
-
-      li {
-        margin-bottom: .5em;
-      }
-    }
-
-    ol {
-      list-style-type: decimal;
-      margin: 1em 0;
-      padding-left: 3em;
-
-      li {
-        margin-bottom: 1em;
-      }
-    }
-
-    a {
-      color: $secondary-2-1;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      margin: 2rem 0 1rem;
-    }
-
-    .post-name {
-      margin: 1rem 0 0;
-      font-weight: normal;
-      height: 7rem;
-      overflow: hidden;
-    }
-
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .buttonWrapper {
-    margin-bottom: 2em;
-    display: flex;
-    justify-content: center;
-  }
-
-  hr {
-    border-bottom: $third-border-bottom;
-    margin: 0 0 1em 0;
-  }
-
-  header {
-    display: flex;
-    justify-content: center;
-
-
-
-    .bottom-header {
-
-      float: left;
-      width: 100%;
-
-
-      .username-link {
-        float: right;
-        color: $grey-2;
-
-        &:hover {
-          color: $grey-0;
-        }
-      }
-
-      ul {
-        float: left;
-        height: 3em;
-        line-height: 3em;
-
-        li {
-          float: left;
-          margin-right: 1em;
-          color: $grey-2;
-
-          &:first-child {
-            width: 1em;
-          }
-        }
-
-        a {
-          color: $grey-2;
-
-          &:hover {
-            color: $grey-0;
-          }
-        }
-      }
-
-      p {
-        color: $grey-0;
-        margin: 0;
-      }
-    }
-  }
-
-  p {
-    margin-bottom: 1em;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  img {
-    width: 100%;
-    vertical-align: middle;
-    border-radius: $base-border-radius;
-  }
-
-  .post-link {
-    display: block;
-    margin-bottom: 1em;
-  }
-
-  footer {
-    display: inline-block;
-    width: 100%;
-
-    .left {
-      height: 3em;
-      line-height: 3em;
-    }
-
-    ul {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      height: 3em;
-      line-height: 3em;
-
-      li {
-        float: left;
-        margin-right: .5em;
-        color: $grey-2;
-
-        a {
-          color: $grey-2;
-        }
-
-        &:last-child {
-          margin-right: 0;
-        }
-      }
-    }
-
-    .date-published {
-      height: 3em;
-      line-height: 3em;
-      display: flex;
-      justify-content: center;
-
-      time {
-        margin-left: .5em;
-      }
-    }
-
-    #share {
-      margin-bottom: 2em;
-    }
-
-    p {
-      margin-bottom: 0;
-      color: $grey-2;
-    }
-
-    .disabled {
-      cursor: not-allowed;
-    }
-
-    .allowed {
-      cursor: pointer;
-
-      .fa-eye, .fa-star {
-        @include transition($second-transitions);
-      }
-
-      &:hover {
-        .fa {
-          color: $primary-1;
-        }
-      }
-    }
-    .info {
-      float: right;
-      padding: 0 1em;
-      color: $grey-2;
-
-      .fa-eye,
-      .fa-star,
-      .fa-comments {
-        margin-right: .3em;
-      }
-    }
-  }
-}
 .img-margin-bottom {
   margin-bottom: 1em;
-}
-
-.avatar-image {
-  float: left;
-  width: 8em;
-  height: 8em;
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-.avatar-image-small {
-  float: left;
-  width: 2em;
-  height: 2em;
-  overflow: hidden;
-  border-radius: 50%;
-  margin-top: .5em;
-  margin-right: 1em;
 }
 
 .btn {
@@ -284,31 +35,6 @@
 
   i {
     padding-left: 0.5em;
-  }
-}
-
-.btn-circle {
-  border-radius: 1.5em;
-  box-shadow: $sixth-box-shadow;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 400;
-  background: $primary-1;
-  height: 3em;
-  line-height: 3em;
-  width: 3em;
-  vertical-align: middle;
-  white-space: nowrap;
-  color: $white;
-  text-align: center;
-  @include transition($second-transitions);
-
-  &:hover {
-    color: $white;
-  }
-
-  &:focus {
-    outline: none;
   }
 }
 
@@ -389,26 +115,6 @@
       .allowed {
         cursor: pointer;
       }
-
-      .info {
-        float: right;
-        width: 33%;
-        text-align: center;
-
-        &:hover {
-          .fa-star {
-            color: $primary-1;
-          }
-        }
-
-        .fa-star {
-          @include transition($second-transitions);
-        }
-
-        i {
-          margin-right: .5em;
-        }
-      }
     }
   }
 
@@ -417,13 +123,6 @@
     margin-bottom: 3.5em;
     display: inline-block;
   }
-}
-
-.block-icons {
-  height: 3em;
-  line-height: 3em;
-  display: flex;
-  justify-content: center;
 }
 
 .block-icons-normal {
@@ -506,21 +205,6 @@
   width: 1em;
 }
 
-.slim-top-padding {
-  padding: 1em 2em 2em;
-}
-
-.avatar-wrapper {
-  background: $white;
-  z-index: 10;
-  width: 10em;
-  height: 10em;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .full-width {
   width: 100%;
 
@@ -546,3 +230,184 @@
   float: left;
   width: 100%;
 }
+
+.post {
+  background: $white;
+  border-radius: 3px;
+  padding: 2em;
+  margin-bottom: 2em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  header {
+    height: 3em;
+    line-height: 3em;
+    margin-bottom: 1em;
+
+    .user-avatar-link {
+      float: left;
+      margin-top: .5em;
+    }
+
+    .user-avatar {
+      height: 2em;
+      width: 2em;
+      border-radius: 50%;
+      float: left;
+    }
+
+    .post-author {
+      height: 2em;
+      line-height: 2em;
+      margin: .5em 1em;
+      font-weight: bold;
+      float: left;
+    }
+  }
+
+  .post-header {
+    border-radius: 3px;
+    position: absolute;
+    padding: 2em;
+    width: 100%;
+    top: 0;
+  }
+
+  .post-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .post-image {
+    vertical-align: middle;
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  .post-header-inner {
+    background: rgba(255,255,255, .8);
+    padding: 2em;
+    border-radius: 3px;
+  }
+
+  .post-name-link {
+    float: left;
+    width: 100%;
+    margin-bottom: .5em;
+
+    &:hover {
+      color: $grey-0;
+    }
+  }
+
+  .post-name {
+    margin: 0;
+    font-weight: normal;
+  }
+
+  .post-categories {
+    display: inline-block;
+    width: 100%;
+
+    ul {
+      float: left;
+    }
+
+    li {
+      float: left;
+      margin-right: 1em;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .category-link {
+      color: $grey-2;
+
+      &:hover {
+        color: $primary-1;
+      }
+    }
+
+    #tags {
+      width: 1em;
+      fill: $grey-2;
+      float: left;
+      margin-top: 4px;
+      margin-right: 1em;
+    }
+  }
+}
+
+.post-read-more-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: -6em;
+  position: relative;
+
+  .post-read-more {
+    height: 3em;
+    padding: 0 2em;
+    background: $primary-1;
+    display: inline-block;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .post-read-more-link {
+    height: 2em;
+    line-height: 2em;
+    float: left;
+    margin-top: .5em;
+    color: $white;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  #arrow {
+    float: left;
+    width: 1em;
+    margin-top: 1em;
+    margin-left: 1em;
+    fill: $white;
+  }
+}
+
+.post-buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  .post-buttons {
+    height: 3em;
+    background: $secondary-2-1;
+    display: inline-block;
+    padding: 0 2em;
+    border-radius: 3px 3px 0 0;
+
+    p {
+      margin: .5em 1em 0;
+      color: $white;
+      float: left;
+      height: 2em;
+      line-height: 2em;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  #eye, #star, #comments {
+    fill: $white;
+    width: 1.5em;
+    margin-top: 12px;
+    float: left;
+  }
+}
+

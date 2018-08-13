@@ -26,6 +26,7 @@ class CreatePostsTable extends Migration
             $table->integer('user_id');
             $table->integer('rating');
             $table->integer('views');
+            $table->integer('comments');
             $table->timestamps();
         });
     }

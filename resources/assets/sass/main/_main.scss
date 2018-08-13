@@ -4,24 +4,17 @@
 
   .main-wrapper {
     @include outer-container();
-    padding: 2em;
-    background: $white;
+    padding: 2em 0;
     z-index: 900;
     position: relative;
-    margin-bottom: 3em;
-    border-radius: 0 0 3px 3px;
+    min-height: 50em;
   }
 }
 
 main {
   float: left;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   margin-right: 2.35765%;
   width: 74.41059%;
-  margin-left: 0;
-  min-height: 1em;
 }
 
 aside {

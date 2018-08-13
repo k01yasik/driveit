@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\SeoService;
+use App\Post;
 
 class PageController extends Controller
 {
@@ -17,7 +18,8 @@ class PageController extends Controller
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
-        return view('page.home', compact('seo'));
+        $posts = Post::take(10)->get();
+        return view('page.home', compact('seo', 'posts'));
     }
 
     public function list(Request $request) {
