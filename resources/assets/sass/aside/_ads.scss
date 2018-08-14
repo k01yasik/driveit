@@ -1,6 +1,8 @@
 .leaderboard {
   @include animation(fadeIn 1s ease-in);
   border-radius: $base-border-radius;
+  padding: 2em;
+  background: $white;
 
   img {
     width: 100%;

@@ -354,23 +354,13 @@
     padding: 0 2em;
     background: $primary-1;
     display: inline-block;
+    line-height: 3em;
+    color: $white;
     border-radius: 3px 3px 0 0;
   }
 
-  .post-read-more-link {
-    height: 2em;
-    line-height: 2em;
-    float: left;
-    margin-top: .5em;
-    color: $white;
-
-    &:hover {
-      color: $white;
-    }
-  }
-
   #arrow {
-    float: left;
+    float: right;
     width: 1em;
     margin-top: 1em;
     margin-left: 1em;
@@ -408,6 +398,14 @@
     width: 1.5em;
     margin-top: 12px;
     float: left;
+  }
+}
+
+.post-content {
+  margin-top: 2em;
+
+  p:last-child {
+    margin-bottom: 0;
   }
 }
 

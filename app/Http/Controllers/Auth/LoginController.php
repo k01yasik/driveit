@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
+use App\Services\SeoService;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -21,6 +23,8 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    protected $seoService;
+
     /**
      * Where to redirect users after login.
      *
@@ -33,9 +37,10 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SeoService $seoService)
     {
         $this->middleware('guest')->except('logout');
+        $this->seoService = $seoService;
     }
 
     public function username()
@@ -65,5 +70,11 @@ class LoginController extends Controller
         $user = Socialite::driver('google')->user();
 
         return $user;
+    }
+
+    public function showLoginForm(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+        return view('auth.login', compact('seo'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Services\SeoService;
 use App\Post;
 
@@ -18,7 +19,12 @@ class PageController extends Controller
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
-        $posts = Post::take(10)->get();
+        /*$posts = Cache::remember('all-posts', 60, function () {
+            return Post::with(['user', 'categories', 'user.profile'])->take(10)->get();
+        });*/
+
+        $posts = Post::with(['user', 'categories', 'user.profile'])->take(10)->get();
+
         return view('page.home', compact('seo', 'posts'));
     }
 
@@ -39,6 +45,14 @@ class PageController extends Controller
 
     public function post($slug)
     {
-        return view('posts.show');
+        $post = Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
+
+        debug($post);
+
+        $seo = [
+            "title" => $post->title,
+            "description" => $post->description,
+        ];
+        return view('posts.show', compact('seo', 'post'));
     }
 }

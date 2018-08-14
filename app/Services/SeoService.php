@@ -10,12 +10,16 @@ namespace App\Services;
 
 use App\Seo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SeoService
 {
     public function getSeoData(Request $request)
     {
         $route_name = $request->route()->getName();
-        return Seo::where('route_name', $route_name)->firstOrFail();
+        $seoData = Cache::rememberForever($route_name, function () use ($route_name) {
+            return Seo::where('route_name', $route_name)->firstOrFail();
+        });
+        return $seoData;
     }
 }

@@ -1,9 +1,9 @@
 <article class="post">
     <header>
-        <a href="{{ route('user.profile', ['username' => $post->user()->first()->username]) }}" class="user-avatar-link">
-            <img src="{{ $post->user()->first()->profile()->first()->avatar }}" class="user-avatar" />
+        <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
+            <img src="{{ $post->user->profile->avatar }}" class="user-avatar" />
         </a>
-        <a href="{{ route('user.profile', ['username' => $post->user()->first()->username]) }}" class="post-author">{{ $post->user()->first()->username }}</a>
+        <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
         <time datetime="{{ $post->created_at }}">{{ $post->created_at }}</time>
     </header>
 
@@ -34,7 +34,7 @@
                     </g>
                     </svg>
                     <ul>
-                        @foreach($post->categories()->get() as $category)
+                        @foreach($post->categories as $category)
                             <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a></li>
                         @endforeach
                     </ul>
@@ -44,10 +44,9 @@
     </div>
 
     <div class="post-read-more-wrapper">
-        <div class="post-read-more">
-            <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-read-more-link">{{__('Read more')}}</a>
+        <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-read-more">{{__('Read more')}}
             <svg version="1.1" id="arrow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 444.815 444.815" style="enable-background:new 0 0 444.815 444.815;"
-                 xml:space="preserve">
+                                                                                                                    xml:space="preserve">
             <g>
                 <path d="M421.976,196.712L236.111,10.848C228.884,3.615,220.219,0,210.131,0c-9.9,0-18.464,3.615-25.697,10.848L163.023,32.26
                 c-7.234,6.853-10.85,15.418-10.85,25.697c0,10.277,3.616,18.842,10.85,25.697l83.653,83.937H45.677
@@ -57,7 +56,7 @@
                 c7.043-7.043,10.567-15.701,10.567-25.981C432.54,211.939,429.016,203.37,421.976,196.712z"/>
             </g>
         </svg>
-        </div>
+        </a>
     </div>
     <div class="post-buttons-wrapper">
         <div class="post-buttons">
@@ -114,5 +113,8 @@
             </svg>
             <p>{{ $post->comments }}</p>
         </div>
+    </div>
+    <div class="post-content">
+        <p>{{ $post->caption }}</p>
     </div>
 </article>
