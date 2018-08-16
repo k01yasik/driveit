@@ -1,0 +1,33 @@
+.content {
+  background: $white;
+  border-radius: 3px;
+  padding: 2em;
+
+  > h2 {
+    margin: 0 0 1em;
+    font-weight: normal;
+  }
+
+  .users-element {
+    height: 3em;
+    padding: 0 1em;
+    background: $grey-4;
+
+    .profile-link {
+      float: left;
+      display: block;
+      width: 2em;
+      margin: .5em 0;
+
+      .avatar-image {
+        vertical-align: middle;
+        border-radius: 50%;
+      }
+    }
+
+    .profile-name {
+      margin: .75em 1em;
+      float: left;
+    }
+  }
+}

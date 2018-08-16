@@ -17,6 +17,7 @@ class CreateProfilesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unique();
             $table->text('avatar');
+            $table->boolean('public');
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ $factory->define(App\Profile::class, function (Faker $faker) {
         'user_id' => function () {
             return User::find(1)->id;
         },
-        'avatar' => '/photo/admin-avatar.jpg'
+        'avatar' => '/photo/admin-avatar.jpg',
+        'public' => true
     ];
 });
