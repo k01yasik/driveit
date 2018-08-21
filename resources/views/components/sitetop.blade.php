@@ -3,7 +3,7 @@
         <div class="logo"><a href="{{url('/')}}">Driveitwith.<span>me</span></a></div>
         <div class="sitetop-middle">
             <div class="search-block">
-                <form class="search-form">
+                <form class="search-form" role="search">
                     <input name="search" type="text" class="inputSearch" value="" autocomplete="off">
                     <button type="submit">
                         <svg version="1.1" id="magnifying" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 30.239 30.239" style="enable-background:new 0 0 30.239 30.239;"

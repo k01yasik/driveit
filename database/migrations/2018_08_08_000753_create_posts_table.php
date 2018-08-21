@@ -19,10 +19,8 @@ class CreatePostsTable extends Migration
             $table->string('title', 255);
             $table->text('description');
             $table->string('name', 255);
-            $table->text('image');
             $table->text('caption');
             $table->text('body');
-            $table->text('text');
             $table->integer('user_id');
             $table->integer('rating');
             $table->integer('views');

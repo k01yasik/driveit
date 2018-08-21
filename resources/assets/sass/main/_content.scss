@@ -29,5 +29,51 @@
       margin: .75em 1em;
       float: left;
     }
+
+    .request-friend {
+      height: 2em;
+      margin: .5em 0;
+      width: 2em;
+    }
+
+    button {
+      background: $primary-1;
+      border: none;
+      border-radius: 3px;
+      padding: 0;
+      height: 2em;
+      cursor: pointer;
+      outline: none;
+    }
+  }
+
+  #plus {
+    width: 1em;
+    fill: $white;
+    margin: .5em;
+  }
+}
+
+.waiting, .confirmed {
+  height: 2em;
+  margin: .5em 0;
+  background: $primary-1;
+  width: 2em;
+  border-radius: 3px;
+}
+
+.waiting {
+  #hourglass {
+    fill: $white;
+    height: 1em;
+    margin: .5em;
+  }
+}
+
+.confirmed {
+  #checked {
+    fill: $white;
+    height: 1em;
+    margin: .5em;
   }
 }

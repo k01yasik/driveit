@@ -53,10 +53,10 @@
         </header>
         <div class="main-row">
             <div class="main-wrapper">
-                <main>
+                <main role="main">
                    @yield('content')
                 </main>
-                <aside>
+                <aside role="complementary">
                     @include('components.ads')
                     @include('components.comments')
                 </aside>

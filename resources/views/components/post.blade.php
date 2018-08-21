@@ -115,6 +115,6 @@
         </div>
     </div>
     <div class="post-content">
-        <p>{{ $post->caption }}</p>
+       {!! $post->caption !!}
     </div>
 </article>

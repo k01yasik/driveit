@@ -102,8 +102,8 @@
             </div>
         </div>
         <div class="post-content">
-            <p>{{ $post->caption }}</p>
-            <p>{{ $post->body }}</p>
+            <p>{!! $post->caption !!}</p>
+            <p>{!! $post->body !!}</p>
         </div>
     </article>
 @endsection

@@ -33,7 +33,7 @@
 
             <label for="remember">{{ __('Remember Me') }}</label>
 
-            <button type="submit" class="submit-form">{{ __('Login') }}</button>
+            <button type="submit" class="submit-form button">{{ __('Login') }}</button>
         </form>
     </div>
     <div class="form-footer">

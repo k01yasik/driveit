@@ -38,6 +38,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
 
 Route::get('/users', 'PublicUsersController@index')->name('users');
 
+Route::post('/users', 'PublicUsersController@store')->name('users.store');
+
 Route::get('/category/{category}', 'CategoryController@show')->name('category.show');
 
 Route::get('/best-rated', 'PageController@list')->name('posts.rated');
