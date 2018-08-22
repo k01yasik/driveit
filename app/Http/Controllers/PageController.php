@@ -47,7 +47,7 @@ class PageController extends Controller
     {
         $post = Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
 
-        debug($post);
+        $post->increment('views');
 
         $seo = [
             "title" => $post->title,
