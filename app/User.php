@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Friend');
     }
+
+    public function albums()
+    {
+        return $this->hasMany('App\Album');
+    }
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Post;
+use App\Album;
+use App\User;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 class PostTableSeeder extends Seeder
@@ -13,12 +15,16 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
+        $album = new Album;
+        $album->name = 'default';
+        $album->user()->associate(User::find(1));
+        $album->save();
+
         $post = new Post;
         $post->slug = 'corrosion-of-the-vehicle-and-methods-of-its-elimination';
         $post->title = 'Методы устранения коррозии автомобиля';
         $post->description = 'Статья о видах коррозии автомобиля и о методах ее устранения';
         $post->name = 'Повреждение кузова коррозией и методы ее устранения.';
-        //$post->image = 'https://208503.selcdn.ru/driveitwithme/bzdykin/albums/posts/corrosion.jpg';
         $post->caption = '<p>Кузов — это основная часть автомобиля, которая имеет две основные функции. Во-первых, он защищает пассажиров и водителя, во-вторых, к нему крепятся основные узлы автомобиля. При поражении <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D1%80%D1%80%D0%BE%D0%B7%D0%B8%D1%8F" target="_blank">коррозией</a> днища и основных элементов кузова возникает опасность возникновения аварийных ситуаций. Прежде всего, коррозии подвержены сварные швы, места стыков, капот, фланцы дверей, крышка багажников, места крепления ручек и замков.</p>';
         $post->body = '<h3>Виды коррозии:</h3>
 <ul>

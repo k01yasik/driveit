@@ -1,5 +1,5 @@
 <?php
-
+use App\Media;
 return [
 
     /*
@@ -80,7 +80,7 @@ return [
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'path_generator' => null,
+    'path_generator' => Media\CustomPath::class,
 
     /*
      * Medialibrary will try to optimize all converted images by removing
