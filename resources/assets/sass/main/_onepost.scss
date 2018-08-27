@@ -373,7 +373,7 @@
   justify-content: center;
   position: relative;
 
-  .post-buttons {
+  .post-buttons, .post-buttons-changed {
     height: 3em;
     background: $secondary-2-1;
     display: inline-block;
@@ -391,6 +391,10 @@
         margin-right: 0;
       }
     }
+  }
+
+  .post-buttons-changed {
+    margin-top: -3em;
   }
 
   #eye, #star, #comments {

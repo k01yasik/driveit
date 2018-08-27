@@ -11,6 +11,7 @@ namespace App\Media;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class CustomPath implements PathGenerator
 {
@@ -18,7 +19,11 @@ class CustomPath implements PathGenerator
 
     public function getPath(Media $media): string
     {
-        $user = User::find(1);
+        if (Auth::user()) {
+            $user = Auth::user();
+        } else {
+            $user = User::find(1);
+        }
 
         return $user->username .'/'. $user->albums()->first()->name .'/';
     }

@@ -7,7 +7,7 @@
                 <img src="{{ $post->user->profile->avatar }}" class="user-avatar" />
             </a>
             <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
-            <time datetime="{{ $post->created_at }}">{{ $post->created_at }}</time>
+            <time datetime="{{ $post->created_at }}" class="right">{{ $post->created_at }}</time>
         </header>
 
         <div class="post-wrapper">
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="post-buttons-wrapper">
-            <div class="post-buttons">
+            <div class="post-buttons-changed">
                 <svg version="1.1" id="eye" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                 <g>
                     <path d="M508.177,245.995C503.607,240.897,393.682,121,256,121S8.394,240.897,3.823,245.995c-5.098,5.698-5.098,14.312,0,20.01
@@ -102,8 +102,7 @@
             </div>
         </div>
         <div class="post-content">
-            <p>{!! $post->caption !!}</p>
-            <p>{!! $post->body !!}</p>
+            {!! $post->body !!}
         </div>
     </article>
 @endsection
