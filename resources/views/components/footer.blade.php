@@ -4,17 +4,17 @@
             <div class="first-column">
                 <h3>Разделы</h3>
                 <ul>
-                    <li><a href="/tags/auto">Авто</a></li>
-                    <li><a href="/tags/moto">Мото</a></li>
-                    <li><a href="/tags/law">Право</a></li>
-                    <li><a href="/tags/helpful">Полезное</a></li>
+                    <li><a href="{{ route('category.show', ['category' => 'auto']) }}">Авто</a></li>
+                    <li><a href="{{ route('category.show', ['category' => 'moto']) }}">Мото</a></li>
+                    <li><a href="{{ route('category.show', ['category' => 'law']) }}">Право</a></li>
+                    <li><a href="{{ route('category.show', ['category' => 'helpful']) }}">Полезное</a></li>
                 </ul>
             </div>
             <div class="second-column">
                 <h3>Информация</h3>
                 <ul>
-                    <li><a href="/about">О сайте</a></li>
-                    <li><a href="/rules">Правила</a></li>
+                    <li><a href="{{ route('page.about') }}">О сайте</a></li>
+                    <li><a href="{{ route('page.rules') }}">Правила</a></li>
                 </ul>
             </div>
         </div>
@@ -22,9 +22,9 @@
             <div class="third-column">
                 <h3>Лучшие статьи</h3>
                 <ul>
-                    <li><a href="/top-rated">по рейтингу</a></li>
-                    <li><a href="/best-views">по просмотрам</a></li>
-                    <li><a href="/best-comments">по комментариям</a></li>
+                    <li><a href="{{ route('posts.rated') }}">по рейтингу</a></li>
+                    <li><a href="{{ route('posts.views') }}">по просмотрам</a></li>
+                    <li><a href="{{ route('posts.comments') }}">по комментариям</a></li>
                 </ul>
             </div>
             <div class="fourth-column">

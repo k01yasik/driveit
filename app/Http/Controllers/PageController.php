@@ -23,7 +23,7 @@ class PageController extends Controller
             return Post::with(['user', 'categories', 'user.profile'])->take(10)->get();
         });*/
 
-        $posts = Post::with(['user', 'categories', 'user.profile'])->take(10)->get();
+        $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
 
         return view('page.home', compact('seo', 'posts'));
     }

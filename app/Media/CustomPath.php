@@ -19,13 +19,7 @@ class CustomPath implements PathGenerator
 
     public function getPath(Media $media): string
     {
-        if (Auth::user()) {
-            $user = Auth::user();
-        } else {
-            $user = User::find(1);
-        }
-
-        return $user->username .'/'. $user->albums()->first()->name .'/';
+        return 'Bzdykin/default/';
     }
 
     public function getPathForConversions(Media $media): string

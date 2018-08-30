@@ -288,7 +288,7 @@
   }
 
   .post-header-inner {
-    background: rgba(255,255,255, .8);
+    background: rgba(255,255,255, .9);
     padding: 2em;
     border-radius: 3px;
   }
@@ -301,11 +301,16 @@
     &:hover {
       color: $grey-0;
     }
+
+    &:active {
+      color: $grey-0;
+    }
   }
 
   .post-name {
     margin: 0;
     font-weight: normal;
+    color: $secondary-2-1;
   }
 
   .post-categories {

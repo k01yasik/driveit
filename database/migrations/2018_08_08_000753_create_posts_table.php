@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->string('name', 255);
             $table->text('caption');
             $table->text('body');
-            $table->boolean('id_published');
+            $table->boolean('is_published');
             $table->timestamp('date_published');
             $table->integer('user_id');
             $table->integer('rating');

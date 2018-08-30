@@ -1,5 +1,5 @@
 @extends('layouts.main')
 
 @section('content')
-    <p>All posts with category</p>
+    @each('components.post', $posts, 'post')
 @endsection

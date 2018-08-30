@@ -15,7 +15,7 @@
             <div class="post-header">
                 <div class="post-header-inner">
                     <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-name-link">
-                        <h2 class="post-name">{{ $post->name }}</h2>
+                        <h1 class="post-name">{{ $post->name }}</h1>
                     </a>
                     <div class="post-categories">
                         <svg version="1.1" id="tags" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 542.183 542.183" style="enable-background:new 0 0 542.183 542.183;"
