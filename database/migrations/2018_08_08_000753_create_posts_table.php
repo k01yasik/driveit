@@ -21,8 +21,9 @@ class CreatePostsTable extends Migration
             $table->string('name', 255);
             $table->text('caption');
             $table->text('body');
+            $table->text('image_path');
             $table->boolean('is_published');
-            $table->timestamp('date_published');
+            $table->dateTime('date_published');
             $table->integer('user_id');
             $table->integer('rating');
             $table->integer('views');

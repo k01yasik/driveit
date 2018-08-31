@@ -8,7 +8,7 @@
     </header>
 
     <div class="post-wrapper">
-        <img src="{{ $post->getFirstMediaUrl() }}" alt="{{ $post->name }}" class="post-image">
+        <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image">
         <div class="post-header">
             <div class="post-header-inner">
                 <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-name-link">

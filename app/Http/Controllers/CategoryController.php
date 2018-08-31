@@ -17,7 +17,7 @@ class CategoryController extends Controller
             "description" => 'Все статьи в категории '.$category->displayname,
         ];
 
-        $posts = $category->posts()->with(['user', 'categories', 'user.profile', 'media'])->where('is_published', 1)->orderByDesc('date_published')->get();
+        $posts = $category->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->get();
 
         return view('category.show', compact('seo', 'posts'));
     }
