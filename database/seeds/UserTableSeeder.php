@@ -13,9 +13,9 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $user = new User;
-        $user->username = env('ADMIN_USERNAME');
-        $user->email = env('ADMIN_EMAIL');
-        $user->password = Hash::make(env('ADMIN_PASSWORD'));
+        $user->username = config('admin.username');
+        $user->email = config('admin.email');
+        $user->password = Hash::make(config('admin.password'));
         $user->save();
     }
 }

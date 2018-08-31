@@ -88,4 +88,6 @@ Route::get('login/google', 'Auth\LoginController@redirectToProviderGoogle')->nam
 
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallbackGoogle');
 
+Route::get('turbo.rss', 'TurboController@index');
+
 Auth::routes();
