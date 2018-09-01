@@ -78,7 +78,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
 });
 
-Route::get('/posts/{slug}', 'PageController@post')->name('posts.show');
+Route::get('/posts', 'PageController@index')->name('posts.index');
+
+Route::get('/posts/{slug}', 'PageController@show')->name('posts.show');
 
 Route::get('login/facebook', 'Auth\LoginController@redirectToProviderFacebook')->name('login.facebook');
 

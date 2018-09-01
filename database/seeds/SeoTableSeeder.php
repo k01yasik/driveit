@@ -17,11 +17,11 @@ class SeoTableSeeder extends Seeder
                 'description' => 'Советы по ремонту и уходу за автомобилями и мотоциклами. Рекомендации для новичков. Правовая и полезная информация для автолюбителей.',
                 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now() ],
             ['route_name' => 'users', 'title' => 'Пользователи', 'description' => 'Публичные пользователи', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now() ],
-            ['route_name' => 'page.about', 'title' => 'О сайте', 'description' => 'О сайте', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
+            ['route_name' => 'page.about', 'title' => 'Краткая информация о сайте', 'description' => 'Краткая информация о сайте и благодарности', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.friends', 'title' => 'Друзья пользователя', 'description' => 'Друзья пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.albums.edit', 'title' => 'Редактирование названия альбома', 'description' => 'Редактирование названия альбома', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.settings', 'title' => 'Настройки профиля', 'description' => 'Настройки профиля', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
-            ['route_name' => 'page.rules', 'title' => 'Правила сайта', 'description' => 'Правила сайта', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
+            ['route_name' => 'page.rules', 'title' => 'Правила сайта', 'description' => 'Свод правил, которые нужно соблюдать на сайте', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'posts.rated', 'title' => 'Лучшие статьи по рейтингу', 'description' => 'Лучшие статьи по рейтингу', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'category.show', 'title' => 'Статьи в категории ', 'description' => 'Статьи в категории ', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.albums.create', 'title' => 'Создание нового альбома', 'description' => 'Создание нового альбома', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
@@ -40,7 +40,8 @@ class SeoTableSeeder extends Seeder
             ['route_name' => 'user.albums.index', 'title' => 'Альбомы пользователя', 'description' => 'Альбомы пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.albums.show', 'title' => 'Альбом пользователя', 'description' => 'Альбом пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.profile', 'title' => 'Профиль пользователя', 'description' => 'Профиль пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
-            ['route_name' => 'login', 'title' => 'Войти', 'description' => 'Войти на сайт', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),]
+            ['route_name' => 'login', 'title' => 'Войти', 'description' => 'Войти на сайт', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['route_name' => 'posts.index', 'title' => 'Все статьи', 'description' => 'Все статьи', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

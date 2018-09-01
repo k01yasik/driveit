@@ -28,6 +28,16 @@ class PageController extends Controller
         return view('page.home', compact('seo', 'posts'));
     }
 
+    public function index(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
+
+        return view('posts.index', compact('seo', 'posts'));
+
+    }
+
     public function list(Request $request) {
         $seo = $this->seoService->getSeoData($request);
         return view('posts.list', compact('seo'));
@@ -43,7 +53,7 @@ class PageController extends Controller
         return view('page.rules', compact('seo'));
     }
 
-    public function post($slug)
+    public function show($slug)
     {
         $post = Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
 

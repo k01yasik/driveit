@@ -7,7 +7,7 @@
                 <img src="{{ $post->user->profile->avatar }}" class="user-avatar" />
             </a>
             <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
-            <time datetime="{{ $post->created_at }}" class="right">{{ $post->created_at }}</time>
+            <time datetime="{{ $post->date_published }}" class="right">{{ $post->date_published }}</time>
         </header>
 
         <div class="post-wrapper">

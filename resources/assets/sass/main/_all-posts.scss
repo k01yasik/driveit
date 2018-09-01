@@ -1,0 +1,23 @@
+.all-posts {
+  background: $white;
+  height: 3em;
+  line-height: 3em;
+  margin-bottom: 2em;
+  padding: 0 2em;
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: normal;
+  }
+}
+
+.all-posts-item {
+  float: left;
+  margin-right: 1em;
+}
+
+span.all-posts-item {
+  width: 1em;
+  text-align: center;
+}

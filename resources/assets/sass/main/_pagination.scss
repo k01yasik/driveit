@@ -1,0 +1,40 @@
+.pagination-wrapper {
+  background: $white;
+  height: 3em;
+  border-radius: 3px;
+  padding: 0 2em;
+}
+
+.page-item {
+  float: left;
+  height: 2em;
+  line-height: 2em;
+  width: 2em;
+  margin: .5em 1em .5em 0;
+  text-align: center;
+  border-radius: 3px;
+  transition: all .5s ease-in-out;
+
+  &:hover {
+    background: $primary-1;
+
+    a {
+      color: $white;
+    }
+  }
+}
+
+.page-item.disabled {
+  cursor: not-allowed;
+
+  &:hover {
+    background: inherit;
+    color: inherit;
+  }
+}
+
+.page-item.active {
+  background: $primary-1;
+  border-radius: 3px;
+  color: $white;
+}

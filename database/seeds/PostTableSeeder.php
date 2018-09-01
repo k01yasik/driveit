@@ -222,7 +222,7 @@ class PostTableSeeder extends Seeder
 <h3>Мытье не менее важно</h3>
 <p>В конце подготовки давайте почистим аккуратно мотоцикл. Благодаря этому, мы увидим все, что мы могли раньше не заметить, например, небольшую утечку или шатающиеся или неплотно прилегающие части. Независимо от этих действий, всегда стоит ознакомиться с техническими рекомендациями, касающимися конкретных моделей мотоциклов.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/bike-man-woman.jpg';
+        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/bike-man-and-woman.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
@@ -630,7 +630,7 @@ class PostTableSeeder extends Seeder
 <p>В качестве минуса скажу, что он не очень дешевый, порядка 8000 рублей, упомяну также немного массивный корпус и настройки по умолчанию. Обратите внимание, в настройках по умолчанию выставлено качество Full HD, надо самостоятельно установить Super HD. А также самостоятельно установить дату, время и часовой пояс, ну, это и так понятно…</p>
 <p>В конечном итоге скажу, что видеорегистратор КАРКАМ Q7 – достаточно серьезное и качественное устройство, и пользоваться им удобно и легко!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/karkam-q7.jpg';
+        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/karkam-q7.png';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 5);
         $post->user()->associate($user);

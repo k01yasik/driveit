@@ -56,7 +56,7 @@
                 </main>
                 <aside role="complementary">
                     @include('components.ads')
-                    @include('components.comments')
+                    {{--@include('components.comments')--}}
                 </aside>
             </div>
         </div>

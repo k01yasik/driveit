@@ -288,7 +288,7 @@
   }
 
   .post-header-inner {
-    background: rgba(255,255,255, .9);
+    background: $secondary-2-1-trans;
     padding: 2em;
     border-radius: 3px;
   }
@@ -309,8 +309,7 @@
 
   .post-name {
     margin: 0;
-    font-weight: normal;
-    color: $secondary-2-1;
+    color: $white;
   }
 
   .post-categories {
@@ -324,6 +323,8 @@
     li {
       float: left;
       margin-right: 1em;
+      border-radius: 3px;
+      transition: all .5s ease-in-out;
 
       &:last-child {
         margin-right: 0;
@@ -331,16 +332,17 @@
     }
 
     .category-link {
-      color: $grey-2;
+      color: $white;
+      padding: 0 .5em;
 
       &:hover {
-        color: $primary-1;
+        color: $white;
       }
     }
 
     #tags {
       width: 1em;
-      fill: $grey-2;
+      fill: $white;
       float: left;
       margin-top: 4px;
       margin-right: 1em;
