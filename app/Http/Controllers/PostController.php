@@ -2,12 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStore;
 use Illuminate\Http\Request;
+use App\Services\SeoService;
 
 class PostController extends Controller
 {
-    public function create()
+    protected $seoService;
+    protected $commentService;
+
+    public function __construct(SeoService $seoService)
     {
-        return view('admin.posts.create');
+        $this->seoService = $seoService;
+    }
+
+    public function create(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        return view('admin.posts.create', compact('seo'));
+    }
+
+    public function store(PostStore $request)
+    {
+
     }
 }

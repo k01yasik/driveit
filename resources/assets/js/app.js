@@ -8,3 +8,7 @@
 require('./bootstrap');
 require('./responsiveslides');
 require('./slider');
+require('./post-upload-image');
+require('./editor');
+
+import 'social-likes-next';

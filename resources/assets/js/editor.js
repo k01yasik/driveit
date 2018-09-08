@@ -1,0 +1,251 @@
+$().ready(function () {
+
+    let editor = $('.text-editor-body');
+
+    let headingSub = $('.select-heading-sub');
+    let selectItemSub = $('.select-item-sub');
+    let imageSelectItemSub = $('.image-select-item-sub');
+    let selectItemInput = $('.select-item-input');
+    let imageSelectItemInput = $('.image-select-item-input');
+    let imageItem = $('.image-item');
+
+    let restoreSelection = function () {
+        if (savedRange != null) {
+            if (window.getSelection)
+            {
+                let s = window.getSelection();
+                if (s.rangeCount > 0)
+                    s.removeAllRanges();
+                s.addRange(savedRange);
+            }
+            else if (document.createRange)
+            {
+                window.getSelection().addRange(savedRange);
+            }
+            else if (document.selection) //IE
+            {
+                savedRange.select();
+            }
+        }
+    };
+
+    let saveSelection = function () {
+        if (window.getSelection)
+        {
+            savedRange = window.getSelection().getRangeAt(0);
+        }
+        else if (document.selection) //IE
+        {
+            savedRange = document.selection.createRange();
+        }
+    };
+
+    editor.focus();
+
+    $('.select-heading').mouseenter(function () {
+       headingSub.show();
+    }).mouseleave(function () {
+        headingSub.hide();
+    });
+
+    $('.link-item').mouseenter(function () {
+        selectItemSub.show();
+    }).mouseleave(function () {
+        selectItemSub.hide();
+    });
+
+    imageItem.mouseenter(function () {
+        imageSelectItemSub.show();
+    }).mouseleave(function () {
+       imageSelectItemSub.hide();
+    });
+
+    $('.delete-item').click(function () {
+       selectItemInput.val('');
+    });
+
+    $('.image-delete-item').click(function (e) {
+        e.stopImmediatePropagation();
+        imageSelectItemInput.val('');
+    });
+
+    imageSelectItemSub.click(function (e) {
+       e.stopImmediatePropagation();
+    });
+
+    $('.heading_2').click(function () {
+        let element = $('.select-heading-input');
+        if (element.text() !== 'Heading 2') {
+            element.text("Heading 2");
+        }
+
+        editor.focus();
+
+        restoreSelection();
+
+        document.execCommand('formatBlock', false, 'h2');
+
+        headingSub.hide();
+    });
+    $('.heading_3').click(function () {
+        let element = $('.select-heading-input');
+        if (element.text() !== 'Heading 3') {
+            element.text("Heading 3");
+        }
+
+        editor.focus();
+
+        restoreSelection();
+
+        document.execCommand('formatBlock', false, 'h3');
+
+        headingSub.hide();
+    });
+    $('.paragraph').click(function () {
+        let element = $('.select-heading-input');
+        if (element.text() !== 'Paragraph') {
+            element.text("Paragraph");
+        }
+
+        editor.focus();
+
+        restoreSelection();
+
+        document.execCommand('formatBlock', false, 'p');
+
+        headingSub.hide();
+    });
+
+    $('.bold-item').click(function () {
+        editor.focus();
+
+        restoreSelection();
+
+        document.execCommand("bold", false, null);
+    });
+
+    $('.italic-item').click(function () {
+       editor.focus();
+
+       restoreSelection();
+
+       document.execCommand("italic", false, null);
+    });
+
+    $('.checked-item').click(function () {
+        let input = selectItemInput.val();
+        selectItemInput.val('');
+
+        selectItemSub.hide();
+
+        editor.focus();
+
+        restoreSelection();
+
+        document.execCommand('createLink', false, input);
+    });
+
+    $('.image-checked-item').click(function (e) {
+        e.stopImmediatePropagation();
+        let input = imageSelectItemInput.val();
+        imageSelectItemInput.val('');
+
+        if (input) {
+            let images = $('.text-editor-body img');
+
+            let images_len = images.length;
+
+            if (images_len !== 0) {
+                images.last().attr('alt', input);
+                imageSelectItemSub.hide();
+            }
+        }
+    });
+
+    $('.broken-item').click(function () {
+       editor.focus();
+
+       restoreSelection();
+
+       document.execCommand('unlink', false, null);
+    });
+
+    $('.ordered-item').click(function () {
+       editor.focus();
+
+       restoreSelection();
+
+       document.execCommand('insertOrderedList', false, null);
+    });
+
+    $('.unordered-item').click(function () {
+       editor.focus();
+
+       restoreSelection();
+
+       document.execCommand('insertUnorderedList', false, null);
+    });
+
+    $('.quotes-item').click(function () {
+       editor.focus();
+
+       restoreSelection();
+
+       document.execCommand('formatBlock', false, 'BLOCKQUOTE');
+    });
+
+    $('.indent-item').click(function () {
+       editor.focus();
+
+       restoreSelection();
+
+       document.execCommand('indent', false, null);
+    });
+
+    $('.outdent-item').click(function () {
+       editor.focus();
+
+       restoreSelection();
+
+       document.execCommand('outdent', false, null);
+    });
+
+    imageItem.click(function () {
+        $('#body_post_upload_image_input').click();
+    });
+
+    $('#body_post_upload_image_input').change(function () {
+       let selectedFile = $('#body_post_upload_image_input')[0].files[0];
+
+       let formData = new FormData();
+       formData.append('body_post_upload', selectedFile);
+
+        if (selectedFile) {
+
+            $.ajax({
+                method: "POST",
+                url: "/admin/posts/body-post-upload",
+                contentType: false,
+                processData: false,
+                dataType: 'text',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            }).done(function (result) {
+
+                editor.focus();
+
+                restoreSelection();
+
+                document.execCommand('insertImage', false, result);
+
+            });
+
+        }
+    });
+    
+    editor.focusout(function () {
+        saveSelection();
+    })
+});

@@ -20,6 +20,8 @@ label {
 
   &.required::after {
     content: "*";
+    color: $primary-1;
+    margin-left: .25em;
   }
 
   abbr {
@@ -72,12 +74,16 @@ input[type="file"] {
   width: 100%;
 }
 
-select {
+.select {
   margin-bottom: $base-spacing;
   max-width: 100%;
   width: auto;
 }
 
 input:focus {
+  outline: none;
+}
+
+textarea:focus {
   outline: none;
 }

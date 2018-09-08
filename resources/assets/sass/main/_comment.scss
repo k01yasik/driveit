@@ -1,0 +1,47 @@
+.comments-wrapper {
+  background: $white;
+  border-radius: 3px;
+  padding: 2em;
+
+  .comment-item {
+    margin-bottom: 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .header {
+      line-height: 3em;
+      width: 100%;
+      display: inline-block;
+
+      .header-item {
+        float: left;
+      }
+
+      .user-avatar {
+        height: 2em;
+        width: 2em;
+        border-radius: 50%;
+        float: left;
+        margin: .5em 1em .5em 0;
+      }
+    }
+
+    .body {
+      min-height: 3em;
+    }
+  }
+
+  .level-1 {
+    margin-left: 2em;
+  }
+
+  .level-2 {
+    margin-left: 4em;
+  }
+
+  .level-3 {
+    margin-left: 6em;
+  }
+}

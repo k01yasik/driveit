@@ -13,5 +13,16 @@
   "Send request to add to friends": "Отправить запрос для добавления в друзья",
   "Waiting for confirmation.": "Ожидание подтверждения.",
   "Posts": "Статьи",
-  "All posts": "Все статьи"
+  "All posts": "Все статьи",
+  "User is not logged in.": "Пользователь не вошел в систему.",
+  "Create a post": "Создать статью",
+  "Save a post": "Сохранить статью",
+  "Post slug": "ЧПУ",
+  "Post title": "Title статьи",
+  "Post description": "Description статьи",
+  "Post name": "Название статьи",
+  "Post caption": "Шапка статьи",
+  "Post body": "Вся статья",
+  "Upload image": "Загрузите изображение",
+  "Choose an image": "Выбрать изображение"
 }

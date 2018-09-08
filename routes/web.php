@@ -60,6 +60,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/posts', 'AdminController@posts')->name('admin.posts');
 
+    Route::post('/posts/image-upload', 'ImageUploadController@index')->name('admin.posts.image.upload');
+
+    Route::post('/posts/body-post-upload', 'ImageUploadController@upload')->name('admin.posts.body.image.upload');
+
+    Route::delete('/posts/image-destroy', 'ImageUploadController@destroy')->name('admin.posts.image.destroy');
+
     Route::get('/comments', 'AdminController@comments')->name('admin.comments');
 
     Route::get('/seo', 'AdminController@seo')->name('admin.seo');
@@ -73,6 +79,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
     Route::get('/comments/{id}/edit', 'AdminCommentController@edit')->name('admin.comment.edit');
 
     Route::get('/posts/create', 'PostController@create')->name('admin.posts.create');
+
+    Route::post('/posts', 'PostController@store')->name('admin.posts.store');
 
     Route::get('/posts/{id}/edit', 'PostController@edit')->name('admin.posts.edit');
 

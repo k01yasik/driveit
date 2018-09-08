@@ -5,24 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
-class Post extends Model
+class Comment extends Model
 {
-    public function categories()
-    {
-        return $this->belongsToMany('App\Category');
-    }
-
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo('App\User');
     }
 
-    public function comments()
-    {
-        return $this->hasMany('App\Comment');
+    public function post() {
+        return $this->belongsTo('App\Post');
     }
 
-    public function getDatePublishedAttribute($value)
+    public function getCreatedAtAttribute($value)
     {
         $date = new Carbon($value);
         Carbon::setLocale('ru');

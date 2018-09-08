@@ -15,5 +15,7 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4"
     },
-    "dependencies": {}
+    "dependencies": {
+        "social-likes-next": "^1.1.0"
+    }
 }

@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Services\SeoService;
+use App\Services\CommentService;
 use App\Post;
 
 class PageController extends Controller
 {
     protected $seoService;
+    protected $commentService;
 
-    public function __construct(SeoService $seoService)
+    public function __construct(SeoService $seoService, CommentService $commentService)
     {
         $this->seoService = $seoService;
+        $this->commentService = $commentService;
     }
 
     public function home(Request $request)
@@ -63,6 +66,9 @@ class PageController extends Controller
             "title" => $post->title,
             "description" => $post->description,
         ];
-        return view('posts.show', compact('seo', 'post'));
+
+        $sortedComments = $this->commentService->sortComments($post->id);
+
+        return view('posts.show', compact('seo', 'post', 'sortedComments'));
     }
 }
