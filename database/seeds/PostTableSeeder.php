@@ -1059,14 +1059,6 @@ class PostTableSeeder extends Seeder
 
         $post->categories()->attach([7, 9]);
 
-        try {
-            $post->addMediaFromUrl('https://208503.selcdn.ru/driveitwithme/bzdykin/albums/posts/motorcycle-engine.jpg')
-                ->toMediaCollection();
-        } catch (FileCannotBeAdded $e) {
-            report($e);
-        }
-
-
 
         $post = new Post;
         $post->slug = 'replacing-the-engine-oil-renault-logan';
