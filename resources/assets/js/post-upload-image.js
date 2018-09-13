@@ -1,4 +1,15 @@
 $().ready(function () {
+
+    let storage = localStorage.getItem('title-post-image-url');
+
+    if (storage) {
+        let image_element = "<img src=" + storage + " class='uploaded-image' />";
+
+        $('.block-wrapper').after(image_element);
+
+        $('#image').val(storage);
+    }
+
     $('.post_upload_image_button').click(function () {
         $('#post_upload_image_input').click();
     });
@@ -41,11 +52,13 @@ $().ready(function () {
 
                         $('.uploaded-image').remove();
 
-                        let image_element = "<img src="+ result + " class='uploaded-image' />";
+                        let image_element = "<img src=" + result + " class='uploaded-image' />";
 
-                        $('.post-create-subheading').after(image_element);
+                        $('.block-wrapper').after(image_element);
 
                         $('#image').val(result);
+
+                        localStorage.setItem('title-post-image-url', result);
 
                     });
 
@@ -74,9 +87,11 @@ $().ready(function () {
 
                     let image_element = "<img src="+ result + " class='uploaded-image' />";
 
-                    $('.post-create-subheading').after(image_element);
+                    $('.block-wrapper').after(image_element);
 
                     $('#image').val(result);
+
+                    localStorage.setItem('title-post-image-url', result);
 
                 });
 

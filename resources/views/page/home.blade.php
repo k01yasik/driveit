@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="all-posts">
-        <h2 class="all-posts-item">{{ __('Posts') }}</h2>
+        <h3 class="all-posts-item">{{ __('Posts') }}</h3>
         <span class="all-posts-item">/</span>
-        <a href="{{ route('posts.index') }}" class="all-posts-item"><h2>{{ __('All posts') }}</h2></a>
+        <a href="{{ route('posts.index') }}" class="all-posts-item"><h3>{{ __('All posts') }}</h3></a>
     </div>
     @each('components.post', $posts, 'post')
 @endsection

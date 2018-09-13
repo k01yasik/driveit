@@ -10,5 +10,6 @@ require('./responsiveslides');
 require('./slider');
 require('./post-upload-image');
 require('./editor');
+require('./publish-post');
 
 import 'social-likes-next';

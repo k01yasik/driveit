@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 use App\Post;
 use App\Album;
 use App\User;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Illuminate\Support\Carbon;
 
 
@@ -73,7 +72,7 @@ class PostTableSeeder extends Seeder
 <p>При износе антикоррозийного покрытия днища, нанесенного производителем, владельцам автомобиля надо заняться защитой дополнительно.</p>
 <p>Таким образом, для предотвращения появления коррозии нужно регулярно проводить внешний осмотр автомобиля. При ее возникновении лучше сразу принять меры. Использовать надо проверенные средства и профессиональный инструмент, чтобы не ухудшить состояние кузова.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/corrosion.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/corrosion.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 23);
         $post->user()->associate($user);
@@ -116,7 +115,7 @@ class PostTableSeeder extends Seeder
 <p>Отдельно разберем еще один способ торможения – мотором автомашины. Данным способом можно пользоваться в некоторых случаях, когда вам, например, нужно лишь уменьшить скорость хода автомашины. Для полной остановки авто все равно придется пользоваться тормозной системой. Суть данного способа состоит в том, что происходит переход с повышенной передачи на пониженную. Даже в том случае, если вы отпускаете педаль газа на имеющейся передаче, скорость авто тотчас убавится, потому что двигатель достаточно скоро перейдет в режим холостого хода.</p>
 <p>Нужно отметить, что использование на практике изложенных выше советов должным образом впишется в обыденную жизнь автомобилиста. Таким образом вы сделаете свою жизнь значительно безопасней. Каждый водитель должен четко осмысливать всю серьезность ситуаций на проезжей части. Эксперты рекомендуют довести технику торможения до автоматизма.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-on-road.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-on-road.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 25);
         $post->user()->associate($user);
@@ -146,7 +145,7 @@ class PostTableSeeder extends Seeder
 <p>Во время низкой температуры двигателя происходит не совсем правильное распределение и воспламенение горючей смеси, что также не принесет пользы деталям, и нанесет небольшой вред экологии.</p>
 <p>Вот основные аргументы. Теперь можно на основе фактов каждому автолюбителю решить, стоит ли тратить время и топливо на прогрев или не стоит. В любом случае, пусть лучше потеряется пара лишних литров бензина на прогрев, чем последует заклинивание двигателя и очень дорогостоящий ремонт. Обратитесь к инструкции, там написаны все рекомендации от завода-изготовителя. Соблюдая их, автомобиль прослужит верой и правдой на долгий срок. Если же двигатель долго не может прогреться или же вообще остается холодным, это повод заехать на станцию технического обслуживания. Следите за уровнем охлаждающей жидкости в системе, это очень важно. При постоянных утечках не медлите – обратитесь к специалисту.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-engine.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-engine.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 25);
         $post->user()->associate($user);
@@ -183,7 +182,7 @@ class PostTableSeeder extends Seeder
 <p>Теперь можно приступить к замене прокладок. После того, как все будет готово, можно будет приступить к сборке рулевой рейки. Для этого необходимо произвести действия нашего плана в обратном порядке.</p>
 <p>Как видите, можно своими руками и без лишних затрат устранить неисправность легковой машины.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/bmw-e39.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/bmw-e39.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
@@ -222,7 +221,7 @@ class PostTableSeeder extends Seeder
 <h3>Мытье не менее важно</h3>
 <p>В конце подготовки давайте почистим аккуратно мотоцикл. Благодаря этому, мы увидим все, что мы могли раньше не заметить, например, небольшую утечку или шатающиеся или неплотно прилегающие части. Независимо от этих действий, всегда стоит ознакомиться с техническими рекомендациями, касающимися конкретных моделей мотоциклов.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/bike-man-and-woman.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/bike-man-and-woman.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
@@ -256,7 +255,7 @@ class PostTableSeeder extends Seeder
 <p>Мотоциклы склонны к коррозии. Её причиной могут быть как внешние факторы, так и пот гонщика. Убедитесь, что все части, соприкасающиеся с рамой, в хорошем состоянии и обслуживаются в соответствии с рекомендациями производителя.</p>
 <p>Проверьте наличие коррозии, сняв сиденье. Для этого нужно с нажимом протереть трубки рамы под сиденьем. Если они запеклись коричневым цветом, то рама проржавела. В гараже эту проблему, если она так запущена, решить не удастся. Для предотвращения ржавчины стоит снимать сиденье для просушки рамы под ним после езды под дождем.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/vintage-motorcycle.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/vintage-motorcycle.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
@@ -328,7 +327,7 @@ class PostTableSeeder extends Seeder
 <p>Если виновника на месте установить нет возможности, то постановление о вине участника ДТП выносит суд.</p>
 <p>Важно соблюдать сроки подачи документов в страховую после ДТП – это пять рабочих дней с момента аварии. Чем раньше подадите все документы, тем лучше.</p>
 <p>Чтобы сэкономить время, нервы и деньги, лучше возмещение ущерба доверить профессионалам, которые смогут максимально компенсировать ущерб от автомобильной аварии.</p>';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-accident.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-accident.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
@@ -379,7 +378,7 @@ class PostTableSeeder extends Seeder
 <p>Задний ряд выделяется отсутствием тоннеля поля, большим запасом пространства по ширине и длине, ведь I40 выступает в бизнес-классе, где запас пространства на заднем ряду вкупе с комфортом передвижения и отсутствием акустических шумов зачастую играет первостепенное значение.</p>
 <p>В целом Hyundai I40 является достойным представителем бизнес-класса и уверенно удерживает свою долю автомобильного рынка.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/hyundai-i40.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/hyundai-i40.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
@@ -441,7 +440,7 @@ class PostTableSeeder extends Seeder
 <p>Можно обойтись без категории 0. Но 0+ очень важна в вопросе надежности и безопасности, ею пренебрегать нельзя. Как, впрочем, и остальными группами. Можно, конечно, после первого типа перейти на третий, но и это нежелательно из-за огромного разрыва в их особенностях.</p>
 <p>Не стоит экономить на своих детях! Всегда выбирайте качественный вариант, соответствующий реальным параметрам. В случае нехватки денег, прибегните к покупке автокресла, бывшего в эксплуатации. Обращайте внимание на технические характеристики и не забывайте о таком серьезном факте, как отсутствие аварий в прошлом. Выбирайте для своих малышей только лучшее, и об этом никогда не придется жалеть!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Woman-chooses-a-baby-car-seat.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Woman-chooses-a-baby-car-seat.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 28);
         $post->user()->associate($user);
@@ -483,7 +482,7 @@ class PostTableSeeder extends Seeder
 <p>В некоторых японских моделях мотоциклов (например, Suzuki) есть 6 мм болт, фиксирующий точку на конце коленвала. Не используйте его для прокручивания коленвала, поскольку это может привести к его отрыву. При такой конструкции для вращения двигателя предназначена большая гайка в том же месте.</p>
 <p>Кроме того, вращение двигателя можно достичь путем нажатия ножного стартера или прокручивания заднего колеса.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/yamaha.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/yamaha.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 31);
         $post->user()->associate($user);
@@ -508,7 +507,7 @@ class PostTableSeeder extends Seeder
 <p>Внешне мотоцикл выглядит более дорого, чем он стоит на самом деле, для некоторых мотоциклистов, вопрос немаловажный. Правда, мотоцикл солидной марки, поэтому его цена сопоставима со стоимостью “народного” компактного VW. А если мотоцикл добавочно оснастить разнообразными опциями, его стоимость будет повышаться соответственно “аппетитам” его новоиспеченного владельца. В списке дополнительного оборудования, кроме ABS (система устанавливается штатно), предложены: ASC, аналог автомобильной системы ESP, система настройки подвески (только задний демпфер), трекшн-контроль, пневмоконтроль, бортовой компьютер, “теплый руль”, кофры с креплениями, и прочие мелочи.</p>
 <p>Мотоцикл очень чувствителен к ручке газа, поэтому, во избежание чрезмерно резкого старта, обращаться с ней рекомендуется крайне аккуратно. На трассе мотоцикл держится уверенно, ход мягкий, посему усиливать жесткость подвески на качественном дорожном покрытии не имеет смысла. При езде в городском режиме дорожные кофры целесообразней удалить. BMW F800 GT проскользнет в любом городском заторе, а мощный обтекатель и высокое дорожное стекло, защитят водителя от любых дорожных неприятностей.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/bmw-f800gt.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/bmw-f800gt.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 1);
         $post->user()->associate($user);
@@ -561,7 +560,7 @@ class PostTableSeeder extends Seeder
 <h3>Почему важно устранить неисправность</h3>
 <p>Если утечка масла невелика, вы можете какое-то время ездить на автомобиле. Тем не менее, эта ситуация требует проведения ремонта. Чтобы не усугублять проблему, опытному механику необходимо провести диагностику и определить вид работ, которые требуется провести.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/differential.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/differential.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 1);
         $post->user()->associate($user);
@@ -598,7 +597,7 @@ class PostTableSeeder extends Seeder
 На втором месте – видеорегистратор Vizant 920 K. Данное устройство - это прогрессивный аппарат 5 в 1, который представлен в виде зеркала. Одно из важных достоинств данного аппарата – наличие двух камер. Диагональ экрана у данного устройства – 5 дюймов. Видеорегистратор имеет GPS, угол обзора у него равен 140 градусам.
 На третьем месте – автомобильный видеорегистратор Neoline G-tech X23. Это двухкамерное устройство имеет мощный литий-ионный аккумулятор, емкость которого составляет 600 мАч. Угол обзора у данного аппарата – 170 градусов. Качество видеосъемки – Full HD 1920х1080 Пикселей.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-dvr.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-dvr.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 4);
         $post->user()->associate($user);
@@ -630,7 +629,7 @@ class PostTableSeeder extends Seeder
 <p>В качестве минуса скажу, что он не очень дешевый, порядка 8000 рублей, упомяну также немного массивный корпус и настройки по умолчанию. Обратите внимание, в настройках по умолчанию выставлено качество Full HD, надо самостоятельно установить Super HD. А также самостоятельно установить дату, время и часовой пояс, ну, это и так понятно…</p>
 <p>В конечном итоге скажу, что видеорегистратор КАРКАМ Q7 – достаточно серьезное и качественное устройство, и пользоваться им удобно и легко!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/karkam-q7.png';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/karkam-q7.png';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 5);
         $post->user()->associate($user);
@@ -703,7 +702,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Несмотря на некоторые отрицательные стороны, КАРКАМ Т3 относится к современным, стильным и качественным гаджетам. Данная модель обеспечивает комфортный просмотр видеозаписи прямо в машине, а в ситуации ДТП сохранит качественную картинку произошедшего события. Для любого автомобилиста видеорегистратор КАРКАМ Т3 будет интересен не только своим функционалом, но и стильным внешним видом, который станет украшением любого салона автомобиля.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/karkam-t3.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/karkam-t3.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 5);
         $post->user()->associate($user);
@@ -738,7 +737,7 @@ class PostTableSeeder extends Seeder
 <h3>TomTom GO 6000</h3>
 <p>Отлично разработанное устройство, изготовитель при его создании точно постарался на славу. Он является одним из лучших в своем роде, при этом может потягаться со знаменитым Гармином. Стоит отметить, что по своей функциональности он ни в чем не уступает, при этом экран позволяет наблюдать полноценное изображение местности. С такой моделью можно насладиться 3д визуализацией. Устройство сообщает о различных происшествиях на дороге, предупреждает о пробках, а также позволяет распространять данные между пользователями таких же устройств прямо в дороге.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/gps-navigator.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/gps-navigator.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 6);
         $post->user()->associate($user);
@@ -772,7 +771,7 @@ class PostTableSeeder extends Seeder
 <p>Большинство дополнительных систем пассивной безопасности являются одноразовыми, поэтому использование деталей подушек безопасности с другого автомобиля запрещено, как и попытки разобрать и отремонтировать блоки управления подушек безопасности, контактный диск, проводку. В случае падения любого из элементов системы, появления трещин или других дефектов на корпусе модуля, кронштейне или разъеме проводов автопроизводители также рекомендуют заменить их.</p>
 <p>При срабатывании систем пассивной безопасности на приборной панели загорается контрольный сигнал двигателя или индикаторная лампа неисправности (MIL). Компьютер автомобиля делает запись срабатывания системы. На некоторых автомобилях после установки нового оборудования и его успешной проверки системой внутренней диагностики контрольный сигнал двигателя гаснет сам. Однако случается, что даже при нормальном функционировании нового оборудования в системе остается записанный код неисправности, и контрольный сигнал двигателя не гаснет. Для того чтобы удалить эти коды, перед установкой новых подушек безопасности необходимо провести проверку правильности функционирования системы. Когда система безопасности успешно пройдет рекомендованную проверку, можно устанавливать новую систему пассивной безопасности, не опасаясь случайной активации систем после восстановления подачи электроэнергии. В случае если система работает нормально и все проверки пройдены успешно, можно погасить сигнальную лампочку при помощи сканера.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/airbag.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/airbag.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
@@ -798,7 +797,7 @@ class PostTableSeeder extends Seeder
 <p>Если обнаружены трещины в месте выхода отводящей тубы из корпуса, их заварите электросваркой и усильте место соединения трубы и корпуса, для чего приварите по окружности трубы три-четыре угольника шириной 12-15 мм, согнутые из листовой стали толщиной 1.5-2.0 мм. Небольшие повреждения или прогалины на трубах заварите, используя заплатки в виде накладок. Сильно поврежденные участки труб вырежьте и вместо них приварите новые куски (можно сделать их, свернув из стального листа толщиной 1.5 мм).</p>
 <p>Если использование электросварки недоступно, на какое-то время восстановить работу глушителя и труб можно, покрыв прогоревшие или проржавевшие места предварительно увлажненным куском асбестового картона толщиной 2-3 мм, который закрывают накладкой из листовой стали и приматывают проволокой.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-silencer.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-silencer.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
@@ -840,7 +839,7 @@ class PostTableSeeder extends Seeder
 <p>Неоспоримым преимуществом является их высокая прочность и стойкость к повреждениям, которая почти соответствует уровню штампованных дисков. Благодаря включению в состав титана или магния, такие диски являются самыми легкими.</p>
 <p>Однако из-за специфичной технологии изготовления кованые диски не могут соперничать с предыдущим классом по вариантам внешнего вида. Кроме того, недостатком данного вида дисков является их высокая цена.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/rims.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/rims.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
@@ -884,7 +883,7 @@ class PostTableSeeder extends Seeder
 <p>Демонтированный радиатор можно погрузить в емкость с жидкостью. Этот способ не только промоет мелкие составляющие устройства, но и выявит трещины, пробоины. Многие автолюбители отмывают загрязнение водой под давлением или сжатым воздухом. Это опасная практика. Такое воздействие нередко приводит к появлению деформаций и дальнейшему повышенному износу узла. Опытные мастера рекомендуют использовать для чистки нейлоновую кисть и доступный любому человеку, мыльный раствор.</p>
 <p>В технической документации к радиаторам современных авто указанно, что техническое обслуживание и мытье секций устройства должно производиться не реже чем через 20 000 километров. Но тяжелые условия эксплуатации, смена температурных режимов и низкое качество технологических жидкостей может заставить автовладельцев выполнять такую процедуру намного чаще.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-radiator.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-radiator.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
@@ -932,7 +931,7 @@ class PostTableSeeder extends Seeder
 <p>Возникшее между витками стартера замыкание, как и пробой, также может вывести генератор из строя. Определить их можно по ускоренному разряду АКБ при малых оборотах. Генератор может сильно «выть» при включении фары или другого электрооборудования. Определить такую неисправность несложно – следует завести мотоцикл при снятой плюсовой схеме. Если вой исчезнет, значит, проблема кроется в обмотках. Продолжающийся вой укажет на неисправности контактных колец. Решит проблему лишь полная перемотка с дальнейшим восстановлением изолирующего слоя.</p>
 <p>Проблемы может доставить и сильный износ щеток, предполагающий их полную замену. Следует знать, что установка слишком жестких щеток может окончиться появлением видимых углублений в поверхности контактных колец. Слабое закрепление щеток на заводе, как и при самостоятельной разборке, может привести к их обрыву. В этом случае проблема решается заменой провода.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-generator.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-generator.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
@@ -980,7 +979,7 @@ class PostTableSeeder extends Seeder
 <p>Также при долгой езде может развалиться игольчатый подшипник, что может закончиться очень неприятными последствиями. Его работоспособность легко проверяется. На вывешенном переднем колесе не должно быть люфтов и вращение руля должно быть плавным. Если же вы обнаружили неисправность, то разбирайте траверсу, вынимайте её из рамы и меняйте игольчатый подшипник. При покупке нового сверьте все необходимые размеры с оригиналом.</p>
 <p>В вилку заливается специальное вилочное масло. Если в вашу вилку залито очень густое масло, то на морозе оно может практически полностью блокировать работу переднего амортизатора. В этом случае вам необходимо открутить сливные пробки внизу вилки, слив всё старое масло. Делать это необходимо в тёплом помещении, дабы масло потекло. После этого надо залить в вилку новое вилочное масло меньшей вязкости. Каждый производитель рекомендует свои объёмы и вязкость масла, поэтому используйте их для более точной настройки жёсткости переднего амортизатора.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-fork.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-fork.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
@@ -1048,7 +1047,7 @@ class PostTableSeeder extends Seeder
 <p>Замена масла - самая легкая, но при этом постоянная процедура. Его необходимо менять, согласно сервисному мануалу мотоцикла. Например, для спортбайков подойдет масло 10W-40, которое меняется каждые 6000 км. Фильтры меняются один раз на две замены масла.</p>
 <p>Очень часто бывает, что диски сцепления крошатся и эти крошки попадают в картер. Также, при замене дисков его куски роняются в поддон. Определить это можно только при замене дисков сцепления. Удалять какие-либо лишние предметы из двигателя нужно обязательно, потому как они могут попасть в механизм или забить сопло маслозаборника. Поддон снимается достаточно легко, а маслозаборник промывается керосином.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-engine.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-engine.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
@@ -1096,7 +1095,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Для исключения выдавливания масла через сальник коленчатого вала, уровень нового масла не следует доводить до максимального уровня. Необходимое количество смазывающей жидкости для 16 клапанных моторов 1,6 литра – 4,35 литра, для 8 клапанных 1.4 литра – 3.35 литра. Фильтрующие элементы для всех двигателей одинаковы. Желательно использовать оригинальную продукцию. Рекомендованное масло для использования в двигателях Рено Логан – ELF EVOLUTION с вязкостью 5W30 или 5W40. Желательно записать пробег автомобиля, при котором была проведена замена масла.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/renault-logan.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/renault-logan.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
@@ -1147,7 +1146,7 @@ class PostTableSeeder extends Seeder
 <p>Кроме перечисленных выше ключевых узлов, все современные автомобили имеют электрическое оборудование, которое включает в себя источники, а также потребителей электрического тока.</p>
 <p>Именно электрооборудование машины запускает авто, освещает салон автомобиля, отвечает за его обогрев, поддерживает работу противоугонной системы, а также позволяет работать магнитоле.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-device.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-device.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 14);
         $post->user()->associate($user);
@@ -1183,7 +1182,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Вам нет никакой необходимости самолично посещать офис страховщика, стоять в длинных очередях и записываться на прием к офисному работнику. Вы сами решаете, что будете приобретать, а значит, вам никто не будет навязывать дополнительные услуги. Электронные способы оформления и получения документов все чаще используются автолюбителями благодаря простоте процедуры.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/e-osago.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/e-osago.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1218,7 +1217,7 @@ class PostTableSeeder extends Seeder
 <p>Еще один момент. Зимой сотрудники дорожно-коммунальных служб используют всевозможные реагенты. Подобные составы способны разрушить даже лучшее лакокрасочное покрытие, в том числе, высшего качества. Поэтому по окончанию зимнего сезона диски могут утратить красоту и потребовать дорогостоящего косметического восстановления.</p>
 <p>Если вы выбрали для холодов и гололеда литые диски, позаботьтесь об установке высокопрофильной резины. Вы сделаете поездки более безопасными и комфортными.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/alloy-wheels.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/alloy-wheels.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1253,7 +1252,7 @@ class PostTableSeeder extends Seeder
 <li>некоторые модели имеют не вполне презентабельный внешний вид. Что иногда, впрочем, выступает и своеобразным преимуществом, ведь можно произвести покраску и нанести защитное покрытие, не беспокоясь о возможном ухудшении внешнего вида.</li>
 </ul>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/pressed-disk.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/pressed-disk.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1353,7 +1352,7 @@ class PostTableSeeder extends Seeder
 <p>Если сумма после оценки страховщика не достаточна для ремонта, клиент должен нанять независимого эксперта для определения суммы ремонта.</p>
 <p>В случае, когда страховая компания не согласится с результатами независимой экспертизы, владельцу автомобиля стоит позаботиться о подготовке досудебной претензии. Если вопрос не получится решить в досудебном порядке - на основании поданного иска судебный эксперт-оценщик проведет свою оценку стоимости восстановления автомобиля, и суд обяжет страховую компанию оплатить нужную сумму.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-repair.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-repair.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1405,7 +1404,7 @@ class PostTableSeeder extends Seeder
 <h3>Как выбрать литые диски</h3>
 <p>С внешним видом водитель определяется исходя из личных предпочтений и вкусов. Что касается технических параметров, то нужно будет переписать с покрышки, для которых приобретается диск, все данные - диаметр, ширина, индекс скорости и другие. На основании них специалист сообщит о том, какие литые диски подойдут для автомобиля.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/alloy-wheels-2.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/alloy-wheels-2.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1462,7 +1461,7 @@ class PostTableSeeder extends Seeder
 <h3>Как понять, что двигатель вышел из строя</h3>
 <p>Не нужно быть опытным водителем, который отлично разбирается в машине, чтобы это понять. Основные симптомы скорой поломки узла - это падение мощности, нестабильная работа, запуск со второй или последующих попыток и наличие масляных потеков в местах стыка составляющих мотора.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-engine-2.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-engine-2.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1507,7 +1506,7 @@ class PostTableSeeder extends Seeder
 <p>Если взять во внимание алюминиевый кузов, то он будет служить десятки лет. Даже при наличии оголенных частей металла на кузове появление очагов ржавчины исключено. Стальные кузова служат меньше. Виной всему постепенное развитие коррозии в незащищенных местах. Это места скола краски. Их количество со временем лишь увеличивается.</p>
 <p>Примерно через 8-10 лет эксплуатации машины можно заметить наличие коррозии как на дверях, капоте, багажнике, так и на днище. Чтобы избежать развития коррозии и появления сквозных отверстий, следует обновить слой лакокрасочного покрытия. В такой ситуации внешнему виду машины возвращается первозданный вид, и она выглядит как новая.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-body.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-body.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1588,7 +1587,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>Вывод — мнение пользователей во многом совпадает с мнением экспертов.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/auto-insurence.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/auto-insurence.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1638,7 +1637,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Из-за плохого покрытия дорог страдает вся система автомобиля, но прежде всего достается подвеске и амортизаторам. Для избежания полной замены подвески, а это ощутимые денежные средства, необходимо регулярно производить техническое обслуживание. В прочем это касается не только подвески, но и всех элементов транспортного средства. В обратном случае, не миновать беды, поломка одного механизма при движении может послужить цепной реакцией для нанесения ущерба другим, зависимым от него, узлам. Бережное обращение к автомобилю - это залог безопасности владельца и пассажиров.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-chassis.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-chassis.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
@@ -1684,7 +1683,7 @@ class PostTableSeeder extends Seeder
 <p>Таким вот незамысловатым методом можно отрегулировать клапана двигателя, вернуть ему былую мощность и стабильную работоспособность. Для данной работы не нужны специальные навыки и опыт. Достаточно необходимых инструментов и щупа.</p>
 <p>Внимание! Всегда, перед тем как отрегулировать клапана, надо убедиться, что двигатель холодный (при необходимости дать остыть).</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-valve.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-valve.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 18);
         $post->user()->associate($user);
@@ -1728,7 +1727,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Без всего вышеперечисленного речи о проведении подобной процедуры вне стен СТО и быть не может. И проточка тормозных дисков своими руками становится невозможной задачей.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/brake-disk.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/brake-disk.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 18);
         $post->user()->associate($user);
@@ -1773,7 +1772,7 @@ class PostTableSeeder extends Seeder
 <p>После благополучного тестирования ремонт или замену можно считать завершенными.</p>
 <p>В конце надо отметить, что неисправность, описываемого выше узла авто, не является фатальной и не сказывается на исправности всей тормозной системы. Просто водителю будет сложно давить на педаль тормоза. Поэтому ремонт вакуумного усилителя тормозов нужно проводить желательно как можно скорее.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/brake-servo.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/brake-servo.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
@@ -1812,7 +1811,7 @@ class PostTableSeeder extends Seeder
 <p>После завершения работы приведите в порядок стекла автомобиля, зеркала, приборную панель и обшивку дверей.</p>
 <p>Автомобиль сохранит свой внешний вид и будет радовать вас долгое время, если вовремя проводить обработку антикоррозийным средством. Поэтому не жалейте денег и времени на эту процедуру. Желаем удачи на дорогах!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/anticorrosive-agent.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/anticorrosive-agent.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
@@ -1839,7 +1838,7 @@ class PostTableSeeder extends Seeder
 <p>Нужно учитывать ещё один нюанс: уведомления о штрафах отправляются должнику через Почту России, то есть в почтовый ящик. Но человек может не жить по этому адресу и не знать, что там скопилось в его почтовом ящике. Поэтому нужно попросить соседей, чтобы они иногда проверяли содержание почтового ящика и сообщали об этом его владельцу.</p>
 <p>Жаловаться здесь не на что, всё правильно – нарушил, изволь заплатить. Лучше, конечно, до этого вообще не доводить и ездить по улицам города с соблюдением правил дорожного движения. Но тем не менее водитель имеет право знать, за что его оштрафовали.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-fine.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-fine.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
@@ -1879,7 +1878,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>Безусловно, достигнуть правильной посадки порой нелегко, так как в некоторых случаях это зависит не только от человека, но ещё от конструкции автомобиля. Но она вполне осуществима. Потратьте пару недель на закрепление найденной правильной посадки, контролируйте её всё это время, и тогда она просто войдёт в привычку. Взамен вы не сможете испортить себе здоровье и в целом будете себя чувствовать лучше.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/woman-driving.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/woman-driving.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
@@ -1905,7 +1904,7 @@ class PostTableSeeder extends Seeder
 <p>Идеальным вариантом будет наличие не одного, а двух агрегатов. В этом случае, один прибор (моющий) используется для основательной уборки, а второй, не дорогой, для быстрой уборки.</p>
 <p>Какая конкретная модель может быть наилучшим выбором, утверждать сложно. Производители предлагают разнообразную продукцию, имеющие свои плюсы и минусы. Покупатель должен сам решить, какие характеристики для него важнее, а если нужно, можно посоветоваться с консультантом.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/vacuum-cleaner.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/vacuum-cleaner.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
@@ -1942,7 +1941,7 @@ class PostTableSeeder extends Seeder
 <p>Самым главным минусом является опасное влияние средства на кожу человека. Поэтому ни в коем случае нельзя начинать процедуру сухой мойки автомобиля без резиновых перчаток.</p>
 <p>Чистый автомобиль приносит удовольствие водителю и его пассажирам. Яркий блеск элементов кузова вызывает восхищение не только у хозяина, но и у любого ценителя машин. При соблюдении правил и техники безопасности идеальный внешний вид легко создать с помощью сухого автошампуня, не прибегая к платным услугам автомоек.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/dry-car-wash.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/dry-car-wash.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -1998,7 +1997,7 @@ class PostTableSeeder extends Seeder
 <p>Жители поселков и иных населенных пунктов с плохими дорогами должны осуществлять диагностику рулевого механизма не реже чем 1 раз в 1-3 месяца. Это позволит оперативно выявить и устранить неисправность в данном узле машины.
 Проведение вышеописанных работ имеет среднюю оценку сложности, поэтому каких-либо трудностей возникнуть не должно. Однако если все же не удастся должным образом провести ремонт рулевой рейки своими руками, то лучше прибегнуть к помощи автосервиса.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/steering-rack.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/steering-rack.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2027,7 +2026,7 @@ class PostTableSeeder extends Seeder
 <p>В случае кражи номерных знаков можно изготовить их дубликат. Изготовить дубликат номера сейчас не составляет никакого труда. Для этого не требуется никаких разрешений. Достаточно подъехать в организацию, у которой есть принтер для печати номерных знаков, предъявить свидетельство о регистрации транспортного средства, паспорт или водительское удостоверение и через 10 минут новые номера будут готовы. Стоимость такой услуги — 1500 рублей.</p>
 <p>В данном случае гораздо выгоднее поступить по закону и вернуть свои номера за 1500 рублей, чем идти на поводу у мошенников и отдавать при этом 5000 рублей. Не нужно поощрять такие махинации.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-number.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-number.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2056,7 +2055,7 @@ class PostTableSeeder extends Seeder
 <p>При установке спутниковой системы безопасности, клиент оплачивает стоимость механического оборудования и программного обеспечения. Кроме того, охранная фирма устанавливает месячный тариф на круглосуточное обслуживание.</p>
 <p>Таким образом, спутниковые системы охраны автомобиля – это удовольствие не из дешевых. Но современные технологии дают нам возможность чувствовать себя и свой автомобиль в полной безопасности и целиком оправдывают свою цену.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/satellite-car-security-systems.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/satellite-car-security-systems.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2085,7 +2084,7 @@ class PostTableSeeder extends Seeder
 <p>Скоростной индекс в низкопрофильных начинается с 210 км/час. Такая резина хорошо удерживает автомобиль на поворотах.</p>
 <p>Нужно учитывать, что резину с низким профилем очень легко пробить. А, учитывая отечественные дорожные покрытия, на большой скорости очень легко можно повредить диски. Со временем это выльется в поломку ходовой части, что может обойтись в серьёзную копеечку. По сравнению с обычной покрышкой, ресурс такой шины значительно снижается. И, стоит ли оборудовать автомобиль низкопрофильной резиной, зависит только от автовладельца.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/low-profile-rubber.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/low-profile-rubber.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2122,7 +2121,7 @@ class PostTableSeeder extends Seeder
 <p>Несомненно, бронирование защитной пленкой частей кузова автомобиля дает ряд преимуществ автовладельцу, среди которых гарантия производителя на используемый материал, а также рассеивание удара по поверхности, при этом гравий не может целенаправленно повредить кузов.</p>
 <p>Кроме того, услуги бронирования можно получить практически в любой мастерской, осуществляющей техническое обслуживание авто. Удаление пленки происходит быстро и легко, при этом не оставляя следов на машине.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-reservation-with-a-film.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-reservation-with-a-film.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2165,7 +2164,7 @@ class PostTableSeeder extends Seeder
 <p>При профессиональной коррекции спидометра сторонние системы не подлежат исправлению и в дальнейшем стабильно работают. Скрытность операции достигается за счет обнуления ранних показателей и стирания данных о подключении к диагностическому порту. Показания электронного одометра записываются в бортовом компьютере. В нем также фиксируют данные о проведении ТО. Наработанные сведения о спецификации и блоках содержания информации в различных марках автомобилей позволяют грамотно скинуть пробег и выполнить необходимые манипуляции.</p>
 <p>Мастера знают, что степень износа автомобиля определяется не по пробегу. При покупке машины следует обращать внимание на степень износа эксплуатации двигателя, состояние кузова и других механизмов. Сведения о технических данных транспорта (прохождение ТО, дата замены моторного масла) обычно записывают на бирках, которые крепят под капотом. На наклейках записывают данные об авто, замене масла и др.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/speedometer.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/speedometer.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2191,7 +2190,7 @@ class PostTableSeeder extends Seeder
 <p>Выходит, что при форсировке атмосферного двигателя без увеличения оборотов не обойтись. Дело это не только сложное, но и весьма затратное. Придется увеличить прочность деталей цилиндропоршневой группы и попутно снизить массу большинства деталей. Стандартный коленчатый вал уступит свое место кованому, стандартный маслонасос – более производительному. И это лишь малая часть доработок. Используемые в «заряженных» автомобилях форсированные «атмосферники» зачастую имеют кованые шатуны, более прочные болты шатунов и массу других нестандартных составляющих. Доработка поршневой группы в свою очередь потребует модернизации механизма ГРМ. Клапаны придется заменить на облегченные, которые при этом должны быть прочнее стандартных.</p>
 <p>И даже после этого говорить о повышении мощности в несколько раз не придется. В лучшем случае стандартный гражданский двигатель станет мощнее на 20-30%, а его максимальные обороты упрутся в отметку 9000 об/мин. Естественно, что и среди атмосферных агрегатов есть такие, которые отлично себя чувствуют и при 12-13 тысячах об/мин, но это скорее исключение из правил. Да и справедливо оно скорее не для автомобильных, а мотоциклетных двигателей. Так что при всех ухищрениях и практически неограниченном бюджете заметно форсировать атмосферный двигатель не удастся. Другое дело силовые агрегаты с турбонаддувом. Там при гораздо меньших затратах мощность можно увеличить в разы. Но это, согласитесь, уже не так интересно.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-engine-3.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-engine-3.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2220,7 +2219,7 @@ class PostTableSeeder extends Seeder
 <p>Иногда свечи зажигания очищают при помощи химических веществ. Для этого их некоторое время держат в бензине, после чего протирают и на полчаса помещают в 20% раствор уксусного аммония. После этой процедуры свечи необходимо почистить и протереть. Проверить работоспособность свечи после обслуживания можно при помощи специального тестера, который имитирует работу двигателя внутреннего сгорания.</p>
 <p>Таким образом, при правильном обслуживании свеч зажигания, можно максимально продлить срок их службы и обеспечить надёжную работу систем автомобиля.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/spark-plug.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/spark-plug.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2246,7 +2245,7 @@ class PostTableSeeder extends Seeder
 <p>Принцип работы стояночной системы несколько отличается. При поднятии рычага стояночного тормоза тот фиксируется в данном положении. Тросы, прикрепленные к нему, передают возникшее усилие на отвечающий за сведение колодок механизм, те прижимаются к барабанам и блокируют колеса, не давая автомобилю скатиться с крутого склона.</p>
 <p>Торможение автомобиля с автоматической коробкой передач отличается от машины с механикой. В первом случае коробка сама понижает передачу, в то время как водитель жмет на педаль тормоза. Во втором есть выбор: выжимать сцепление или оставаться на передаче. Если сцепление разомкнуто, машина замедляется из-за трения колодок и дисков, если нет — работающий на малых оборотах мотор помогает тормозам, уменьшая инерцию. Торможение двигателем эффективно при спуске, так как использование возможностей исключительно тормозной системы приводит к перегреву дисков и колодок, который оборачивается возрастанием тормозного пути до 20-25 %. Правильное применение этого метода продлевает срок службы компонентов деталей.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/brake-system.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/brake-system.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2278,7 +2277,7 @@ class PostTableSeeder extends Seeder
 <p>Для проверки правильности попросите товарища пройти вокруг машины примерно в двух метрах от нее. Вы должны все время видеть своего товарища. Как только он пропадет в одном зеркале, то сразу же должен появиться в другом. Этот же тест поможет с определением «мертвой зоны».</p>
 <p>Кстати говоря, «мертвых зон» не избежать. Можно, конечно, купить накладки на зеркала, которые немного увеличивают угол обзора, а можно повернуть голову или посмотреть в боковые зеркала слегка склонившись к рулю.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/girl-driving-a-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/girl-driving-a-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2320,7 +2319,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>В любом случае, остается лишь порекомендовать водителям “прислушиваться” к двигателям своих автомобилей и вовремя отвозить их на СТО. Поговорка “Скупой платит дважды”, говоря об автомобилях, звучит правдиво, как никогда ранее.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-engine-repair.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-engine-repair.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
@@ -2347,7 +2346,7 @@ class PostTableSeeder extends Seeder
 <p>На бездорожье на Seat Ateca я выехал только для того, чтобы в очередной раз убедиться, что подключаемый полный привод с муфтой Haldex 5 способен выручить после ночного снегопада, но не более. При попытке штурма склона Ateca раз за разом вязла в сухом песке. Переход в режим «Внедорожный» существенно картину не изменил. Да и дорожный просвет у испанского кроссовера маловат. В официальном пресс-релизе – 18 сантиметров. Мы же намерили на 2 сантиметра меньше.</p>
 <p>Первый кроссовер от Seat мы ждали долго. И не зря: автомобиль получился стильным, для своих габаритов просторным, с хорошей управляемостью. При этом маркетологи концерна Volkswagen отлично развели три модели, которые теоретически должны были уводить покупателей друг у друга. Volkswagen Tiguan – для тех, кто мечтает о премиуме, но пока финансово не готов к этому. Skoda Kodiaq – для людей семейных, жаждущих много автомобиля за те же деньги. Seat Ateca – для всех остальных.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Seat-Ateca.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Seat-Ateca.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
@@ -2386,7 +2385,7 @@ class PostTableSeeder extends Seeder
 <p>Сразу отметим – винил не ткань. Этим материалом оклеивают пластиковые детали салона. Винил не только красивый декоративный материал, но и метод защиты пластика в салоне. Также виниловая пленка скроет все дефекты деталей. Если пленка нанесена правильно, снять ее не составит труда. Плюс винила – выбор цвета: мат, хамелеон, глянец и т.д. Применим как для отделки интерьера. Так и корпуса авто.</p>
 <p>В статье приведен краткий перечень материалов, используемых для тюнинга салона. Выбор – за вами: необходимо лишь придумать дизайн и приступать к исполнению. Комбинируйте их между собой, чтобы создать собственный уникальный стиль авто.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/tuning-cars.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/tuning-cars.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
@@ -2417,7 +2416,7 @@ class PostTableSeeder extends Seeder
 <p>Новомодные системы автоматического переключения света фар – не панацея. Равно как и оптика с продвинутым матричным светом. Во многом умные системы действительно действуют не хуже опытного водителя, но многочисленные тесты показали, что до идеала им еще далеко. Яркий фонарь у дороги, например, автоматика может принять за автомобиль и выключить дальний свет фар. И наоборот – тусклые задние габариты, которые в зимнее время бывают покрыты слоем снега, обычно остаются без внимания. Когда прогресс шагнет еще дальше, все автомобили будут оснащаться камерами ночного видения, что избавит водителей еще от ряда проблем, но случится это еще не скоро.</p>
 <p>Пока же всем, кто отправляется в ночную поездку, приходится смотреть в оба. Благо, что при наличии исправного автомобиля и выполнении всех описанных выше правил поездку «под луной» можно превратить из тяжелой работы если и не в удовольствие, то хотя бы в запоминающееся приключение.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/The-blonde-in-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/The-blonde-in-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
@@ -2442,7 +2441,7 @@ class PostTableSeeder extends Seeder
 <p>Но тут возникает другая проблема. С номерами автомобиль или без номеров, если приедет эвакуатор, его заберут в любом случае. Но в случае если автомобиль был эвакуирован со своим номерным знаком, его потом по этому знаку можно будет найти. А если у автомобиля не было номера, как его потом искать? Тогда только по марке автомобиля и цвету, а учитывая, что автомобили в нашей стране красят всего в три цвета, то искать придётся долго. Да плюс ко всему нужно будет платить штраф за парковку и эвакуацию. Может возникнуть и ещё более сложная ситуация: если машина стоит без номеров, инспектор сообщает об этом полиции, полиция своими силами пытается установить владельца данного авто, и если это не удаётся, то тогда уже подключается антитеррористическая комиссия.</p>
 <p>Сегодня у многих водителей уже встаёт вопрос: а стоит ли вообще покупать машину в наше время? куда ставить-то?</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Parking-in-the-city.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Parking-in-the-city.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
@@ -2496,7 +2495,7 @@ class PostTableSeeder extends Seeder
 <p>Всякие мелочи на ваше усмотрение.</p>
 <p>Влажные салфетки, зонт, спрей для чистки стекол, туалетная бумага, предохранители, переходники для зарядки телефона и многое другое. Набор предметов зависит от состояния автомобиля и ваших предпочтений. А мы вам желаем удачи на дорогах и безаварийных поездок!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/tips-for-all-cases.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/tips-for-all-cases.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
@@ -2524,7 +2523,7 @@ class PostTableSeeder extends Seeder
 <p>Жаль, что не обошлось без ложки дегтя. А скорее, даже целого черпака. Пары километров хватает, чтобы понять, что на шумоизоляции корейцы сэкономили. И если в городских пробках этот недостаток себя особо не проявляет, то на шоссе тишины в салоне Solaris ждать не приходится. С шипованными шинами и на шершавом асфальте – дело еще хуже. Конечно, спустя пару месяцев после старта продаж даже официальные дилеры предложат решение данной проблемы, но хотелось бы, чтобы в Hyundai подумали об этом изначально. Или, раз уж сразу не догадались, сделали работу над ошибками и улучшили шумоизоляцию тех Solaris, что еще будут выпущены.</p>
 <p>С другой стороны, что уж тут скрывать, даже шумный Solaris покупать будут. Причем покупать активно. Ведь как ни крути, а при смене поколений автомобиль во всем стал лучше. В чем-то – совсем немного, в чем-то – очень заметно. И даже ценник на Solaris второго поколения вопреки ожиданиям остался вполне щадящим. Так что побить рекорд предшественника могут помешать разве что ограниченные производственные мощности, поскольку новый Hyundai Solaris и недавно дебютировавшая Creta выпускаются на одном заводе. Придется чем-то жертвовать. Или думать о расширении. Остальным на зависть.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/hyundai-solaris-2017.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/hyundai-solaris-2017.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
@@ -2619,7 +2618,7 @@ class PostTableSeeder extends Seeder
 <p>Главное преимущество в приобретении автомобиля с пробегом — договорная цена. Это знают и продавец и покупатель. Важной причиной для снижения стоимости послужат выявленные недостатки. Поэтому запрашивать скидку в 10–15% можно и нужно. Это будет приятным бонусом к удачному приобретению.</p>
 <p>Пускай наши советы помогут вам выбрать надёжный автомобиль с пробегом, получить хорошую скидку и заключить выгодную сделку.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Shelby-Mustang-1966.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Shelby-Mustang-1966.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
@@ -2672,7 +2671,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Таким образом, если следовать рекомендациям, то можно избежать больших убытков, связанных с капитальным ремонтом двигателя. Любые поломки в дороге - это повод произвести полную диагностику вашего «коня».</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/smoking-car-engine.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/smoking-car-engine.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
@@ -2700,7 +2699,7 @@ class PostTableSeeder extends Seeder
 <p>Гидравлическое устройство легко устанавливается и довольно легко демонтируется. При посадке заходить в машину удобнее спиной, а когда сиденье осядет, можно легко вернуться в привычное положение. Безопасная езда вполне компенсирует неизбежное неудобство входа в автомобиль.</p>
 <p>Предлагаемые салонами автомобильные кресла рассчитаны на любые условия езды. Выбор оборудования автомобилей огромен, а грамотный тюнинг внутреннего пространства удовлетворит запросы автолюбителей, любящих индивидуальный стиль оформления салона машины.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/hydraulic-car-seats.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/hydraulic-car-seats.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
@@ -2726,7 +2725,7 @@ class PostTableSeeder extends Seeder
 <p>Работу ABS водитель может ощутить ногой — педаль тормоза как будто пульсирует. Порой при движении по дороге с покрытием плохого качества — например, по песку или снегу, создается впечатление, что машина не замедляется, хотя антиблокировочная система работает. Это происходит потому, что на таком покрытии сцепление шин с дорогой снижается, колеса постоянно блокируются механизмами тормозов, чему и препятствует ABS. В этом случае тормозной путь ощутимо увеличивается. Чтобы не усугубить и без этого непростую ситуацию, новичкам за рулем не рекомендуется при торможении пытаться маневрировать и отпускать педаль тормоза до полной остановки транспортного средства.</p>
 <p>Если сравнивать две аналогичные машины, которые едут по ровному асфальту, то быстрее остановится оснащенная ABS. На плохой дороге эта система уменьшает риск заноса и потери управляемости, но тормозной путь оказывается длиннее, впрочем, здесь нужно учитывать и состояние резины. Тормозной путь на авто без “антиблокировки” уменьшается за счет того, что колесо будто зарывается в рыхлую поверхность и замедляется сильнее по сравнению с тем, которому не дают заблокироваться. Чтобы устранить этот недочет, разработали ABS, меняющую режим работы в зависимости от типа покрытия и имеющую опцию выключения по желанию водителя. Если же дорога ровная и скользкая, все колеса блокируются, то система может и не сработать, так как ею сравнивается скорость их вращения относительно друг друга, которая при таком раскладе равна.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/anti-lock-braking-system.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/anti-lock-braking-system.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
@@ -2763,7 +2762,7 @@ class PostTableSeeder extends Seeder
 <li>Если уличная температура ниже 15 градусов, в течении 5-10 минут прогрейте машину. Зимой, масло в автоматической коробке может застыть и в результате повышенного трения между частями трансмиссии могут возникнуть повреждение внутренних частей.</li>
 </ol>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/automatic-transmission.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/automatic-transmission.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
@@ -2797,7 +2796,7 @@ class PostTableSeeder extends Seeder
 <li>Самой экономичной считается езда на повышенной передаче, а стрелка тахометра должна показывать 2000 – 2300 оборотов в минуту. Если стрелка упала ниже 1500 оборотов, переключитесь на пониженную передачу. При совершении необходимых ускорений обороты должны доходить до 3500-4000. Тем самым вы упростите работу двигателю.</li>
 </ol>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/woman-pours-gasoline-into-the-gas-tank-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/woman-pours-gasoline-into-the-gas-tank-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
@@ -2825,7 +2824,7 @@ class PostTableSeeder extends Seeder
 <h3>А какой огнетушитель лучше всего использовать для тушения пожара в автомобиле?</h3>
 <p>Для машин подходят два типа – углекислотный и порошковый. Они лучше всего справятся с пожаром в машине – и газ, и порошок проникают во все труднодоступные места и покрывают все раскаленные поверхности. Лучше всего использовать углекислотный, потому что от него меньше всего повреждаются детали и интерьер автомобиля. Порошковый огнетушитель все-таки химический. И бывает, что после его использования оборудование и обшивка приходят в негодность.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/burning-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/burning-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
@@ -2851,7 +2850,7 @@ class PostTableSeeder extends Seeder
 <p>«Сердце» премиального BMW M550i xDrive - V8 M Performance мотор TwinPower Turbo, развивающий 465 л.с. (650 Нм), потребляющий в среднем 9 л бензина. Два турбокомпрессора и система полного привода обеспечивают динамику разгона достаточно крупного и далеко не легкого автомобиля за 4 секунды, задействована в этом процессе также и автоматическая трансмиссия 8-Steptronic Sport.</p>
 <p>В отличие от своего предшественника – БМВ М5, отличавшегося, по отзывам, весьма норовистым и стремительным нравом, совладать с которым под силу не каждому, BMW M550i xDrive ведет себя на дороге более сдержанно и предсказуемее, он более покладист и стабилен в нормальных условиях, при форсировании, и даже при вхождении в повороты на больших скоростях.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/BMW-M550i-xDrive.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/BMW-M550i-xDrive.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 01);
         $post->user()->associate($user);
@@ -2878,7 +2877,7 @@ class PostTableSeeder extends Seeder
 <p>Так ведь идеология полноприводной Creta вовсе не в активном вождении. Четыре ведущих колеса должны дать владельцу автомобиля уверенность в том, что он проедет там, где моноприводный кроссовер встанет намертво. И помучив Crety по бездорожью, можно с уверенностью утверждать, что разница между передним и полным приводом действительно ощутима. Даже после получаса активных покатушек в глубоком песке муфта подключения задних колес не перегрелась. Так что преодолеть пару километров раскисшего проселка до дачи для Creta 1,6 AWD труда не составит. Разве что о том, что силенок у мотора не слишком много, придется помнить практически всегда. В глубоком песке, например, колеса проворачивались уже с трудом.</p>
 <p>В том, что полноприводная Creta с 1,6-литровым двигателем будет продаваться не хуже мороженого в жаркий день, корейцы нисколько не сомневаются. И уже сейчас озвучивают следующие цифры: доля кроссоверов с полным приводом вскоре должна вырасти с 30 до 50 процентов. И в это охотно верится. Выдающаяся разгонная динамика нужна далеко не каждому, в то время как с испугом думать о том, как доехать до работы после ночного снегопада, приходится всем без исключения. Да и ценник на Hyundai Creta 1,6 AWD вполне адекватен. Реальную конкуренцию корейскому кроссоверу может составить разве что полноприводный Renault Duster с таким же по объему двигателем. Но он на фоне Creta кажется безнадежно устаревшим. Так что… Шах и мат от Hyundai.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Hyundai-Creta.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Hyundai-Creta.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
@@ -2913,7 +2912,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>Хотелось бы заострить внимание на том, что безопасность превыше всего и не стоит гнать автомобиль из последних сил. Наши советы будут полезны, если до пункта назначения осталось небольшое расстояние. Во всех других ситуациях разумнее всего будет поспать. Берегите себя и своих близких!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-girl-yawns-while-driving-a-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-girl-yawns-while-driving-a-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
@@ -2966,7 +2965,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Некоторые мастера не только смачивают полировочные круги водой, а и вовсе весь процесс производят под непрерывной водной струёй. Это позволяет существенно упростить процесс, но увлажнять круг во время завершающей обработки без абразива не стоит, так как из-за обилия воды круг потеряет контакт с поверхностью.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/plastic-motorcycle-bumper.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/plastic-motorcycle-bumper.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
@@ -2995,7 +2994,7 @@ class PostTableSeeder extends Seeder
 <h3>Покраска</h3>
 <p>Локальная покраска бампера делает возможным нанесение лакокрасочного покрытия только на восстановленную часть детали – это позволяет избежать трудоемкого и дорогостоящего перекрашивания всего элемента кузова. Автоэмаль наносится несколькими слоями, каждый из которых немного должен перекрывать предыдущий. Благодаря таким «переходам» удается достичь плавной, практически невидимой границы между новым и старым (заводским) покрытием. Окрашенная таким образом поверхность покрывается автомобильным лаком (края лакированной области размываются специальными растворителями) и сушится. Завершает процесс восстановления бампера тщательная полировка окрашенной поверхности.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/scratches-on-the-car-bumper.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/scratches-on-the-car-bumper.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
@@ -3047,7 +3046,7 @@ class PostTableSeeder extends Seeder
 <p>Мы надеемся, что наши советы помогут вам в борьбе с вашим прихотливым авто, чтобы он знал, кто в доме главный и не был таким привередливым в следующий раз.</p>
 <p>А какие советы знаете вы, которые помогут другим отомстить своему автомобилю? Оставляйте свои советы в комментариях!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-man-prays-near-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-man-prays-near-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 2);
         $post->user()->associate($user);
@@ -3081,7 +3080,7 @@ class PostTableSeeder extends Seeder
 <p>При сильном ударе может отслоиться средний пластиковый слой стекла-триплекс, так что на месте устранения повреждения останется мутное пятно. И последним фактором является то, что каждое стекло отличается по оптическим свойствам и поэтому возможны случаи, когда оптические свойства полимера и стекла будут неодинаковыми.</p>
 <p>Надеемся, что наши доводы убедили вас не откладывать ремонт, а сразу устранять возникшую проблему с лобовым стеклом автомобиля.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-windshield-repair.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-windshield-repair.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 10);
         $post->user()->associate($user);
@@ -3133,7 +3132,7 @@ class PostTableSeeder extends Seeder
 <li>пребывание за рулём постороннего человека – в случае вынесения постановления по представленным данным съёмки камерой. В этом случае могут использоваться доверенности, оформленные на имя данного водителя, билеты, согласно которым вы в тот момент уезжали из города и другие документы.</li>
 </ul>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/penalty-for-crossing-a-solid-line-on-the-road.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/penalty-for-crossing-a-solid-line-on-the-road.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 13);
         $post->user()->associate($user);
@@ -3171,7 +3170,7 @@ class PostTableSeeder extends Seeder
 <p>Штраф за это правонарушение назначается лишь в том случае, если человек управляет автомобилем, поэтому самый простой способ не узнать на практике, какой штраф назначается за просроченные права — это не садиться за руль. Ездить пассажиром и даже владеть автомобилем лицу без прав закон не запрещает. Не разрешено лишь ездить за рулём машины.</p>
 <p>Кроме того, за просроченные права штраф не назначается, если вовремя получить новые. Для этого вам нужно обратиться в ближайшее отделение ГИБДД, занимающееся регистрационной деятельностью. Куда конкретно нужно обращаться с учётом вашего места жительства, можно узнать на официальных сайтах ГИБДД либо обратившись в ближайшее отделение (если вы не относитесь к его зоне работы, вас просто направят в нужное). При этом не следует беспокоиться о том, где именно вы получали права в прошлый раз: в России замена водительского удостоверения не зависит от места его получения.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/drivers-license.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/drivers-license.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 13);
         $post->user()->associate($user);
@@ -3196,7 +3195,7 @@ class PostTableSeeder extends Seeder
 <p>Логично предположить, что при полном приводе энергия двигателя поступает на все 4 колеса. Такой тип нашел применение в автомобилях различного типа, начиная с седана и, заканчивая внедорожниками. Что касается спортивных авто, то это скорее раллийная серия машин. Модификации бывают 2-х видов. В первом варианте энергия распределяется пополам между передней и задней парой колес, а во втором – в различной пропорции, в зависимости от дорожных условий. По итогу имеем отличную проходимость, которая порадует даже новичка. Такие машины меньше всего подвержены заносу. Из минусов, пожалуй, большой вес, который отрицательно влияет на расход горючего, и высокая стоимость автомобиля.</p>
 <p>Подводя итоги, хотим отметить, что для начинающего автолюбителя самым доступным по ценовой политике и оптимальным по характеристикам, является передний привод. Так что, смело выбирайте себе такой автомобиль. Он создаст комфортные условия для поездок при наименьших затратах. Желаем удачи на дорогах!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/types-of-automobile-drives.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/types-of-automobile-drives.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
@@ -3236,7 +3235,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>Если вы моете автомобиль своими руками, это совсем не значит, что вы скряга и экономите на машине. Это говорит о том, что вы сами способны сделать это гораздо лучше и качественнее многих автомоек. Тем более, согласитесь, приятно видеть плоды своего труда.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/girls-washing-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/girls-washing-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
@@ -3292,7 +3291,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>В любом случае, помните: от того, как вы себя экипируете, зависит ваша безопасность. Некачественная или неудобная мотоодежда может не только усугубить возможные повреждения, но и спровоцировать ДТП.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/girl-and-motorcycle.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/girl-and-motorcycle.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
@@ -3337,7 +3336,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Советы носят сугубо рекомендательный характер, и выбор гардероба все равно остается за представительницей прекрасного пола. Главное не забывайте, что даже самый надежный автомобиль может подвести. И если вы собрались в дальнюю поездку, стоит одеться максимально комфортно, учитывая варианты непредвиденных остановок или даже поломок авто.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-girl-in-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-girl-in-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
@@ -3369,7 +3368,7 @@ class PostTableSeeder extends Seeder
 <p>Короткие песчаные участки дороги лучше проезжать, предварительно разогнавшись.</p>
 <p>Соблюдайте осторожность, проезжая места выезда сельскохозяйственной техники, которая на своих колесах выносит грязь, делая эти участки скользкими для движения.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-on-a-country-road.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-on-a-country-road.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
@@ -3400,7 +3399,7 @@ class PostTableSeeder extends Seeder
 <h3>Существенные повреждения</h3>
 <p>Если краска сколота до грунтовки, карандаш уже не поможет. Лучше обратиться к профессионалам. Стоить такой ремонт будет недорого, а выполнен качественно.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/scratches-on-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/scratches-on-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 4);
         $post->user()->associate($user);
@@ -3443,7 +3442,7 @@ class PostTableSeeder extends Seeder
 <p>Емкости автомобильного огнетушителя должно быть достаточно для гашения возгораний на борту автомобиля.</p>
 <p>Защитите сиденья специальными чехлами. Они позволят надолго сохранить первоначальный вид обивки.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/prepare-a-new-car-for-operation.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/prepare-a-new-car-for-operation.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
@@ -3469,7 +3468,7 @@ class PostTableSeeder extends Seeder
 <p>Полировку совершают глубокую, если дефекты на поверхности разные. Пользуемся бумагой наждачной на 2000 единиц, резиновым бруском. Прошлифовываем большие царапины. Такие изъяны чувствуются пальцем. Потом шлифовку совершаем «наждаком», выполняя крестообразные перемещения. Поверхность в итоге получится однородной. Иногда большую царапину делят на фрагменты и полируют по отдельности. Дальше увлажняем полотно, добавляем полировочного состава на шлифмашинку. Действуем медленно для равномерности распределения пасты. Ускоряемся, аккуратно полируем. Машинкой перемещаем плавно, не задерживаемся.</p>
 <p>Абразивная процедура происходит по лаку. При наличии многих изъянов предварительно снимем тусклый слой, полируем.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-man-polishes-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-man-polishes-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 13);
         $post->user()->associate($user);
@@ -3498,7 +3497,7 @@ class PostTableSeeder extends Seeder
 <p>Может так случиться, что в мотор залит не тот тип масла или вещество низкой степени качества. Если это так, то необходимо как можно скорее делать промыв мотора и заменять все жидкости. Ведь характеристики масла не того типа могут совсем не подойти для деталей и узлов двигателя. Помимо этого, высокий расход масла является также результатом того, что автомобилист просто ошибся с маркировкой смазочного вещества. Это также негативно сказывается на элементах любого мотора. Поэтому при замене масла необходимо для начала узнать из документации о его маркировке и типе.</p>
 <p>В общем, к проблеме, связанной с высоким расходом моторного масла, нужно относиться серьёзно и постараться сразу же выявить и устранить причины её появления. В противном случае в лучшем случае водителя ожидает необходимость постоянной дозаправки маслом, а в худшем – дорогой ремонт мотора.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/girl-checks-the-oil-level-in-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/girl-checks-the-oil-level-in-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
@@ -3537,7 +3536,7 @@ class PostTableSeeder extends Seeder
 <li>Ставим на место пластик и наслаждаемся ездой.</li>
 </ol>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-clutch-with-drive-chain.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-clutch-with-drive-chain.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 16);
         $post->user()->associate($user);
@@ -3560,7 +3559,7 @@ class PostTableSeeder extends Seeder
 <p>Так что, если ваша коробка передач мотоцикла не справляется с выключением и включением, происходит простой или передачи сами по себе выключаются, тогда без качественного ремонта здесь не обойтись. Конечно же, для устранения неполадок, важно обратиться к профессионалам, ведь самостоятельное вмешательство и отсутствие навыков, соответствующих инструментов, может только усугубить проблему, нанести транспортному средству ещё больший урон.</p>
 <p>Обращаясь к профессионалам, мотоцикл пройдёт детальную диагностику, с помощью современного оборудования, в результате которой профессионалы установят поломку, а также её причину. После этого, мастера проведут качественный ремонт, максимально оперативно. Ремонтные работы коробки передач предполагают полный осмотр устройства, замену определённых частей. Поломка коробки мотоцикла приводит к негативным последствиям, поэтому её диагностику следует доверить высококвалифицированным мастерам. Только тогда вы будете уверены в том, что ваше транспортное средство не просто безопасно, но и как прежде, полноценно функционирует.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-gearbox.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-gearbox.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 16);
         $post->user()->associate($user);
@@ -3588,7 +3587,7 @@ class PostTableSeeder extends Seeder
 <p>Когда вы полностью разберете коленвал, можно будет поставить ремонтные ролики большего размера. В случае необходимости ставится новый шатун и палец, размер которых также можно увеличить. При любых работах важно обеспечить радиальный зазор в подшипнике, в границах от 0,01 до 0,02 мм. Это станет залогом правильного и максимального долгого функционирования подшипника. Если замене подлежат шатуны и пальцы, то убедитесь, что их баланс равный.
 Если зазор подшипника будет большим, то его эксплуатационный срок сильно сократится. При хорошем моторном масле он прослужит около 15 000 км пробега. А если зазор будет меньше 0,01 мм или его вовсе не будет, то подшипник может рассыпаться уже в первые дни после ремонта двигателя.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-crankshaft.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-crankshaft.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 17);
         $post->user()->associate($user);
@@ -3655,7 +3654,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>По окончании работ необходимо произвести пробный пуск двигателя, при этом нужно обязательно подкачать бензин в камеру сгорания несколько раз нажав на специальную кнопку карбюратора и прокрутив двигатель кикстартером при выключенном зажигании. При исправности всех систем мотоцикл должен завестись с “пол - оборота”.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-cylinder-head.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-cylinder-head.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 17);
         $post->user()->associate($user);
@@ -3681,7 +3680,7 @@ class PostTableSeeder extends Seeder
 <p>После этого слейте все масло и померьте, какой объем находился в каждом амортизаторе. Ослабляйте шток крепежного болта. Теперь можно убрать устаревший пыльник. Снимите стопорное кольцо. Уберите в коробочку сальник с пружиной.</p>
 <p>После этого возьмите все детали амортизатора и промойте их бензином. Не дожидайтесь, пока все высохнет, вытрите детали сухой ветошью. Если кольцо имеет дефекты, то вы сможете его отполировать. Теперь можно приступать к обратной сборке. Только не прилагайте чрезмерных усилий, чтобы не навредить компонентам. Когда вы соберете амортизатор, можете влить в него новое масло. Возьмите за норму тот объем, который был вылит вами в самом начале. Вот и все, теперь вы можете снова кататься на своем мотоцикле. Если же вы снова испытываете проблемы с плавностью хода, то обратитесь в специализированный сервис. Здесь проведут тщательную диагностику и произведут хороший ремонт.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/motorcycle-shock-absorber.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/motorcycle-shock-absorber.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
@@ -3709,7 +3708,7 @@ class PostTableSeeder extends Seeder
 <p>Посадка на байке очень удобная, почти круизерная. Ноги можно удобно вытянуть к переднему колесу, для того, чтобы при такой «королевской» посадке нормально дотягиваться до руля, не нужно обладать рекордной длиной рук. Одним словом, прекрасный мотоцикл для достаточно скоростной, но комфортной езды.
 Кстати, несколько слов о езде. Благодаря перестройке двигателя и увеличенному крутящему моменту мотоцикл стал очень тяговитым и приемистым. И если дизайн японского дорожника с внешностью круизера может несколько не совпадать со вкусами приверженцев «старой школы», то отличные ходовые качества не оставят равнодушными никого. Стоит только раз оседлать этого железного коня – и расстаться с ним будет практически невозможно, не зря Kawasaki Vulcan S отлично продается и в Европе, и у себя на родине.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Kawasaki-Vulcan-S.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Kawasaki-Vulcan-S.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
@@ -3734,7 +3733,7 @@ class PostTableSeeder extends Seeder
 <p>Звук выхлопа можно регулировать благодаря усовершенствованной системе выпуска 2 в 1, где был увеличен сам диаметр трубы, а также её длина. Да и сам глушитель обладает укороченной длиной и новой накладкой, это помогает предотвратить ожог на ногах пассажира мотоциклиста.</p>
 <p>Также стоит отметить, что изменились и скоростные показатели мотобайка, они стали в разы лучше, нежели у своего предшественника. Kawasaki Ninja 300 - это мотоцикл, который воплотил в себе лучшие показатели, он стал максимально мощным, производительным. Передвигаться на нём - истинное удовольствие. Естественно, производитель, в этот раз сделал акцент и на дизайне данного транспортного средства, который существенно выделяется на фоне многих других транспортных средств. А стоимость вполне приемлема.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Kawasaki-Ninja-300.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Kawasaki-Ninja-300.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
@@ -3761,7 +3760,7 @@ class PostTableSeeder extends Seeder
 <p>Посадка удобная и естественная, привыкать к чему-то не приходится и это огромный плюс. Ожидаемо для Suzuki перед запуском двигателя выжимаем сцепление, поворачиваем ключ и старый-добрый V-Twin оживает мягкой пульсацией. От вибраций на холостых никуда не денешься, но жить с ними можно. 59 лошадиных сил и 69 ньютон метров момента не бог весть сколько для мотоцикла массой 277 кг, но недостатка мощности не возникает. Стрелка спидометра уверенно взбирается до отметки 100 и выше. Об отсутствии тахометра с V-Twin жалеть не приходится. Если сиденье сильно зудит - пора переключаться вверх, если трясет - оборотов маловато и пора переключаться вниз. Именно вибрационная загруженность мотора является своеобразным ограничителем при езде на скоростях выше 120 км/ч. Удовольствия это не доставляет, ну а если поумерить пыл, то Suzuki Intruder C800 вполне себе приятен в обращении. Он неплохо разглаживает все неровности дорожного полотна, хорошо стоит на прямой и заднего барабанного тормоза тогда вполне достаточно.</p>
 <p>В итоге по совокупности качеств и балансу мотоцикл должен понравиться новичку. Да, Suzuki Intruder C800 не обладает ураганной динамикой, коробка переключается обыденно, а шасси лишено монолитной точности по обратной связи с водителем, но от мотоцикла с такой стоимостью такого и не ждешь. Все эти изъяны вылезают наружу только при прямом сравнении с более дорогими моделями, а в своем классе Suzuki Intruder C800 одно из лучших предложений. Понятный и надежный мотоцикл. Чего только стоит один карданный привод, который прослужит всю жизнь и минимум электроники. Поэтому, если очень хочется круизер, а денег не так много, однозначно смотрите в сторону Suzuki Intruder 800.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/suzuki-intruder-c800.jpeg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/suzuki-intruder-c800.jpeg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
@@ -3796,7 +3795,7 @@ class PostTableSeeder extends Seeder
 <li>бак способен поместить в себе 14,5 л топлива (3,5 л находятся в запасе).</li>
 </ul>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Aprilia-RS4-125.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Aprilia-RS4-125.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
@@ -3835,7 +3834,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Разрабатывая Harley-Davidson Street 750 изготовитель ориентировался в первую очередь на молодежь, о чем говорит дешевизна, внешность и компактные размеры. Модель рассчитана на новичков, которые только осваивают азы управления двухколесным транспортом и еще не набрались достаточного опыта. За счет хорошей управляемости вы быстро привыкнете к мотоциклу, а дизайн приведет вас и окружающих в неподдельный восторг. Эффектные диски, выполненные из сплава магния, круглая фара, бензобак в классическом стиле с логотипом производителя, все это создает единый, очень яркий дизайн. Недостаткам не стоит удивляться, ведь при разработке старались по максимуму удешевить модель, что и привело к таким последствиям. Мотоцикл довольно быстрый, но в пределах разумного. При этом расход топлива 5,7 литров на сто километров пробега, что в сочетании с баком на 13,2 литра сделает вас частым посетителем заправок.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Harley-Davidson-Street-750.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Harley-Davidson-Street-750.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
@@ -3887,7 +3886,7 @@ class PostTableSeeder extends Seeder
 <li>идеальные условия хранения покрышек самостоятельно создать практически невозможно, поэтому многие специалисты рекомендуют отдавать покрышки в специализированные компании.</li>
 </ul>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-tires.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-tires.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 24);
         $post->user()->associate($user);
@@ -3917,7 +3916,7 @@ class PostTableSeeder extends Seeder
 <h3>Важно знать</h3>
 <p>Ремонт машины – это сложное, ответственное дело. Ведь транспорт стоит достаточно дорого, а нарушить жизненно важные для него детали – пара пустяков. Здесь не обойтись обычной отверткой или другими инструментами. Если речь идет о простой замене масла, фильтров, фар или других мелочей, то с этим справиться несложно. Такой ремонт можно доверить даже начинающему водителю. Даже отремонтировать подвеску несложно, прилагая свои усилия и знания. Но если речь идет об электронной части, о двигателе или коробке передач, то лучше не рисковать и довериться профессионалу.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-service.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-service.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 27);
         $post->user()->associate($user);
@@ -3946,7 +3945,7 @@ class PostTableSeeder extends Seeder
 <p>Теперь вам нужно распылять краску горизонтально, сверху вниз. Так, чтобы каждый последующий слой ложился перпендикулярно предыдущему. Что касается расстояния, то оно должно составлять примерно 20 см между баллончиком и поверхностью. Если вы решили полностью перекрасить дверь, то здесь все существенно проще. Необходимо просто разместить дверь вертикально и окрасить вертикальную и горизонтальную поверхность. Крайне желательно наносить два слоя для надежности.</p>
 <p>Как видите, данная работа совсем несложная. Единственные затруднения могут заключаться только в выборе правильной краски. Кроме того, требуется работать максимально аккуратно, чтобы ремонтные работы прошли максимально незаметно.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-door.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-door.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 27);
         $post->user()->associate($user);
@@ -3982,7 +3981,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Конечно же, профессионалы к каждой ситуации подходят в индивидуальном порядке, предварительно согласовывая все действия с клиентом. Для качественного ремонта, опытными мастерами используются материалы и составы, благодаря которым салон будет выглядеть, как и прежде.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/vehicle-interior.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/vehicle-interior.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 28);
         $post->user()->associate($user);
@@ -4010,7 +4009,7 @@ class PostTableSeeder extends Seeder
 <p>Приступаем к лакировке, наносим также в несколько слоев с интервалом в 10-15 минут между слоями.</p>
 <p>В целом, как вы видите, удаление ржавчины не такая уж сложная процедура и занимает не очень много времени, но многие автолюбители не придают этой проблеме большого значения до тех пор, пока это не перейдет в критическое состояние, а тогда-то они и понимают, что удаление ржавчины в салоне это не такая уж и дешевая процедура. С помощью описанного выше способа вы можете легко избавится от небольших дефектов. Лучше всего не допускать ржавления кузова и обрабатывать его специальными антикоррозийными средствами, но если такая неприятность случилась, то лучше не откладывать проблему, а сразу ее устранить - это сэкономит вам и силы и деньги.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/fender-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/fender-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 29);
         $post->user()->associate($user);
@@ -4040,7 +4039,7 @@ class PostTableSeeder extends Seeder
 <p>Что же касается переднего привода, то здесь необходимо больше навыков. В частности, потребуется открутить верхнюю трубу. Амортизатор нужно снимать, держа ее ключом. Пружина должна быть сжата подготовленной стяжкой. Сложность заключается в том, что стойка здесь объединена с пружиной. Поэтому, если вы не уверены в своих действиях, то лучше всего предварительно обратиться к специалистам в СТО. Чтобы провести работу максимально аккуратно, необходимо использовать винтовые стяжки, имеющие двойную резьбу, а также крючки. На витки пружины следует прикрепить крючки, как следует сжать пружину. После этого поверните стержень с помощью ключа. Зажатую пружину ставьте на стойку. Теперь можно собрать все в обратном порядке.</p>
 <p>Как видите, для того, чтобы произвести ремонт подвески, совсем не обязательно обращаться в сервис. Если вы прочитали данную статью, то убедились, что все достаточно просто сделать и своими руками. Специалисты настоятельно советуют проверять во время разборки все детали подвески. Вполне возможно, что какая-то из них нуждается в срочной замене. Очень часто проблемы возникают с шарнирами. Лучше не использовать домкраты, желательно отыскать какую-нибудь более надежную опору. Кроме того, желательно присмотреться к спортивным или жестким амортизаторам. Они не только прослужат дольше, но и обеспечат вам лучшую управляемость. Во время ремонта смазывайте все соединения специализированной смазкой.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-suspension-repair.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-suspension-repair.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 29);
         $post->user()->associate($user);
@@ -4092,7 +4091,7 @@ class PostTableSeeder extends Seeder
 <p>Можно также разрезать часть порога в верху и разъединить места, где он был ранее сварен. Когда выправка порогов завершится, необходимо будет заварить отверстие. Ремонт абсолютно гнилых порогов выполнять нецелесообразно, стоит полностью выполнить замену данных деталей.</p>
 <p>Ремонт данных элементов кузова не терпит спешки. Как гласит народная мудрость: «Семь раз отмерь – один раз отрежь». Лучше потратить больше времени на подгонку и шлифовку порогов, чем потом заново переделывать всю работу.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-threshold.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-threshold.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 31);
         $post->user()->associate($user);
@@ -4116,7 +4115,7 @@ class PostTableSeeder extends Seeder
 <p>После того, как убедились в исправности предохранителя и в наличии давления фреона (хладагента) в системе охлаждения, значит у вас неисправен датчик давления фреона (хладагента). По условию включения полумуфты компрессора кондиционера, у вас давление фреона должно составлять не менее двух килограмм, но после зимнего периода очень часто эти датчики выходят из строя и приносят кучу неприятностей вместе с первыми весенними теплыми днями. Обычно этот датчик установлен возле осушителя или в непосредственной близости радиатора кондиционера, поэтому найти его не трудно. Так же они бывают двух, трех и четырех контактные, поэтому по числу проводов вы сможете без труда определить какой у вас. В основном у всех стоит трехконтактный датчик давления фреона и обычно подходит FCR210720 FRANCECAR, так как он является универсальными для многих производителей, но лучше обратиться в любой магазин автозапчастей, где по вашему винкоду подберут необходимый датчик. Этот датчик вы сможете заменить самостоятельно, он выполнен так, что во время демонтажа старого и монтажа нового датчика фреон не будет уходить из системы. Чтобы поменять датчик следует отсоединить фишку с проводами и обычным гаечным ключом выкрутить старый и вкрутить новый, абсолютно ничего сложного.</p>
 <p>Мы рассмотрели самые простые варианты поломок кондиционера и как их исправить самостоятельно, не прибегая к дорогой диагностике в сервисных центрах. Ведь везде работают такие люди как и вы, которые будут следовать по такому же плану обнаружения неисправности. Единственное, без чего не обойтись самостоятельно - это заправка фреона, обнаружение утечек фреона и устранение их. Ведь для этого понадобится профессиональное и дорогостоящее оборудование как для заправки, так и для пайки системы кондиционирования, тут уж к ним обязательно. Но будем надеяться, что до этого не дойдет и вы все сделаете сами избегая лишних денежных затрат и поездок по сервисам.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/repair-of-the-air-conditioner-in-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/repair-of-the-air-conditioner-in-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 31);
         $post->user()->associate($user);
@@ -4148,7 +4147,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Бывает происходит и такая ситуация, когда после остановки машины, выключения всех приборов и зажигания сигнализация начинает работать, хотя для этого нет никаких предпосылок. Чаще всего это тоже говорит о том, что пришла пора менять  батарейку. После такого момента нужно полностью отключить сигнализацию и начать разбираться в проблеме. Если есть какие-то дефекты в этой части, не стоит сильно переживать и волноваться. Все сбои реально починить даже самостоятельно, в этом нет никакой сложности. Для ремонта стоит приобрести профессиональные инструменты, которые помогут вам быстро и правильно совершать операции с системой.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/girl-with-a-wrench.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/girl-with-a-wrench.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 1);
         $post->user()->associate($user);
@@ -4188,7 +4187,7 @@ class PostTableSeeder extends Seeder
 <p><strong>Конечный этап покраски</strong> – нанесение нескольких слоёв защитного лака, который возьмёт на себя все внешние факторы окружающей среды.</p>
 <p>Восстановить пластик в салоне можно и нужно, если вам этого хочется, но не забывайте о вредных испарениях. Проветрите салон, некоторое время воздержитесь от перевозки детей, если не уверены в качестве используемых материалов.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/cuba-old-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/cuba-old-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 1);
         $post->user()->associate($user);
@@ -4238,7 +4237,7 @@ class PostTableSeeder extends Seeder
 <p>Пока участок ремонта остывает, приготовьте краску. С помощью веера с различными цветами выберите соответствующий оттенок. После того как краска будет готова, снимите тефлоновую прокладку с места ремонта. Налейте краску в аэрограф и распылите ее. Дайте высохнуть краске.</p>
 <p>Восстановив поврежденный фрагмент таким способом, вы можете быть уверены в его долговечности и эстетичном виде.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/leather-interior-of-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/leather-interior-of-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 4);
         $post->user()->associate($user);
@@ -4271,7 +4270,7 @@ class PostTableSeeder extends Seeder
 <p>Некоторые моменты, как неисправность крепежной системы фар, нарушение герметичности швов можно исправить самостоятельно. Важно следить за состоянием устройства, так как обычное запотевание фары не выглядит, как дефект. Но если не ухаживать за поверхностью, то скоро может нарушиться зеркальный слой, и ремонт фар будет неизбежен. Тем более что влага, проникшая глубже в само устройство оптики, может подействовать на контакты, и они окислятся. Такую проблему не стоит затягивать, а лучше решить, как только она возникла.</p>
 <p>Если вы будете ездить очень аккуратно, все равно гарантировать, что на фарах не появится ни единой царапины, вы не сможете. Многие вещи не зависят только от вас: автомобиль могут зацепить, врезаться в него, и вашей вины в том не будет. Главное – это не паниковать, а знать, что в таком случае надо делать, чтобы быстро восстановить поверхность фары и снова ездить по дорогам полноценно. Можно своими руками отшлифовать поверхность, чтобы она стала ровной, а после отполировать. И тогда оптика снова станет как новая, а может и лучше. Вы сможете сами восстановить первоначальный вид фар, не потратив при этом слишком много средств, чтобы выгодно каждому автомобилисту.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-man-is-holding-a-car-headlight.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-man-is-holding-a-car-headlight.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 4);
         $post->user()->associate($user);
@@ -4329,7 +4328,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Стоит помнить, что данная работа не терпит спешки. Если вы хотите качественно выполнить ремонт арок, то спешить не стоит. Особое внимание необходимо уделить подгону деталей во время сваривания и окончательному выводу правильной геометрии арок. Нужно понимать, что от качества этих работ будет зависеть общий облик автомобиля.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-arch.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-arch.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 7);
         $post->user()->associate($user);
@@ -4366,7 +4365,7 @@ class PostTableSeeder extends Seeder
 <p>После того как проведена диагностика авто, установлена поломка и её причины, производятся ремонтные работы электрооборудования. Но тут, конечно же, присутствует большое количество всевозможных тонкостей и нюансов. Поэтому, зачастую, без помощи квалифицированного мастера здесь не обойтись. Возможно, некоторые водители владеют определенными знаниями и навыками, которые помогут отремонтировать всё быстро и эффективно, хотя, чаще всего, владельцы авто обращаются к профессионалам.</p>
 <p>Только опытные специалисты смогут определить поломку, установить её причину и восстановить работоспособность электрооборудования в кратчайшие сроки.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-mechanic-works-with-the-electronics-of-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-mechanic-works-with-the-electronics-of-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 8);
         $post->user()->associate($user);
@@ -4395,7 +4394,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>Как мы видим из данной статьи, помочь нашему электрическому другу можно и своими руками, но все же, как и в человеческих заболеваниях, так и в «заболеваниях» автомобиля – профилактика это лучшее лекарство и случаи с аккумуляторами не исключение. Важно придерживаться инструкции, соблюдать правила эксплуатации и вовремя производить зарядку прибора. При соблюдении этих правил ваш аккумулятор будет радовать вас на протяжении многих лет.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-battery.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-battery.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 11);
         $post->user()->associate($user);
@@ -4442,7 +4441,7 @@ class PostTableSeeder extends Seeder
 <p>Последняя часть - натягивание чехла на уже готовый каркас. Вы же помните, каким именно способом он был натянут, когда вы его снимали? Повторяем все действия в обратном порядке, затягиваем хомуты, ставим на место все болты. Осталось только отпарить сиденья целиком и установить обратно в машину.</p>
 <p>Необходимо помнить, что сиденья со встроенными подушками безопасности, к сожалению, не подлежат самостоятельному ремонту. У остальных же моделей есть свои особенности, но справиться с восстановлением своими руками может каждый. Приятных поездок в обновленном салоне вашей любимой машины!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-seat.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-seat.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 14);
         $post->user()->associate($user);
@@ -4510,7 +4509,7 @@ class PostTableSeeder extends Seeder
 <p>И вот результат вашей плодотворной работы, повреждения исправлены собственными силами.</p>
 <p>Произведя трудный ремонт своими собственными руками, вы ощутите прилив душевного спокойствия и полного умиротворения в душе. Ведь вы подарили новую жизнь, вашему железному другу!!!</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-mechanic-restores-the-car-body.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-mechanic-restores-the-car-body.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 14);
         $post->user()->associate($user);
@@ -4535,7 +4534,7 @@ class PostTableSeeder extends Seeder
 <p>Чаще всего подделывают «расходники», то есть масло, тосол, фильтра, свечи зажигания, элементы ходовой части и тормозной системы. Стоит отметить, что порой качество подделок находится на весьма высоком уровне. Даже опытные продавцы не всегда могут отличить оригинальную запчасть от китайской либо турецкой. Что касается самого производства оригинальных комплектующих, им занимаются не сами автоконцерны. Как правило, тендер на выпуск той или иной запчасти разыгрывается между частными компаниями. После испытаний на такие детали ставится клеймо автопроизводителя и цена на них возрастает в несколько раз исключительно за счет «брендовости».</p>
 <p>Несмотря на то, что от контрафактной продукции страдают как сами автовладельцы, так и легальные производители запчастей, подделки продолжают наполнять рынок. Низкая стоимость всегда сопровождается спросом, поэтому избавиться от рассматриваемой проблемы вряд ли удастся. На торговле контрафактом строятся целые торговые империи. К сожалению, о проблемах потребителей у нас думают далеко не в первую очередь. Единственное, что может сделать покупатель во избежание обмана — приобретать оригинальные детали у официальных представителей автокомпаний. Пусть цена и «кусается», зато гарантия безопасности налицо.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/automobile-spare-parts.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/automobile-spare-parts.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 20);
         $post->user()->associate($user);
@@ -4574,7 +4573,7 @@ class PostTableSeeder extends Seeder
 </ul>
 <p>Соблюдая простые советы, вы обязательно предотвратите изнашивание автомобильных стекол.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/a-man-is-wiping-the-windshield.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/a-man-is-wiping-the-windshield.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 21);
         $post->user()->associate($user);
@@ -4622,7 +4621,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>Меняют такие датчики по пробегу автомобиля, спустя 100 тысяч км. Ведь «начинка» установки не выдерживает перегрева, а приходится работать при смене температуры. Приобретая новый экземпляр, проверяйте параметры, рекомендованные производителем.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/the-girl-is-repairing-the-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/the-girl-is-repairing-the-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 22);
         $post->user()->associate($user);
@@ -4706,7 +4705,7 @@ class PostTableSeeder extends Seeder
 </ol>
 <p>Мы рассмотрели способы самостоятельного устранения вмятин на авто.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/repair-of-car-dents.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/repair-of-car-dents.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 7, 11);
         $post->user()->associate($user);
@@ -4756,7 +4755,7 @@ class PostTableSeeder extends Seeder
 <li>Сиденье не рассчитано на дальние поездки. Рекомендуется приобрести новое.</li>
 <li>Наличие большого количества пластиковых деталей.</li>
 </ol>';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/Honda_VTX_1300C.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/Honda_VTX_1300C.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 7, 22);
         $post->user()->associate($user);
@@ -4784,7 +4783,7 @@ class PostTableSeeder extends Seeder
 <h3>Модели с иммобилайзером</h3>
 <p>Устройства данного типа созданы для активной защиты машины от взломов при помощи кодграперов. Современные модификации оснащаются закрытыми блокираторами, а контроллеры у них применяются на два выхода. Большинство автосигнализаций делается с антенной, которая может передавать сигнал примерно на 140 метров. Модели с блоком антиограбления могут оснащаться блокиратором или проводным адаптером.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/alarms-for-car.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/alarms-for-car.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 9, 9);
         $post->user()->associate($user);
@@ -4809,7 +4808,7 @@ class PostTableSeeder extends Seeder
 <p>Далее нужно рассмотреть особенности проведения ремонта в гаражных мастерских. Как было сказано выше, в этом случае не будет гарантии на ремонт и старого, и нового автомобиля. Но при этом в таких мастерских обычно отсутствуют очереди. Проведение диагностики в таком случае занимает обычно 1-1,5 часа. Если в результате нее выявлена необходимость проведения несложной операции, такой как, например, вышеупомянутая замена фильтра, выполнение ее займет лишь 1-2 часа. При этом владельцу придется самостоятельно предварительно отправиться в магазин запчастей с целью приобретения необходимой детали на свой выбор, которая по возвращении будет установлена гаражным мастером. Как видно, при таком способе ремонта достигается существенная экономия времени в сравнении с вышеописанным способом. К тому же это в большинстве случаев существенно дешевле по двум причинам. Во-первых, владелец автомобиля имеет возможность самостоятельного выбора необходимых деталей в соответствии со своими пожеланиями и материальными возможностями. Во-вторых, стоимость установки деталей в гаражных мастерских существенно меньше, чем в сервисных и дилерских центрах. Что касается качества проведения работ, оно в данном случае определяется не только навыками гаражного мастера, но и в то же время загруженностью выбранной мастерской, что сказывается на его усталости, а также качеством приобретенных владельцем транспортного средства деталей. При этом следует учитывать, что все вышесказанное относится к несложному ремонту. В случае серьезной поломки следует обращаться в сервисный или дилерский центр в связи с их более совершенным оснащением, обязательным наличием квалификации у сотрудников и выдачей гарантии на осуществленные ремонтные услуги. В частности это относится к кузовным работам, таким как, например, правка и рихтовка.</p>
 <p>Как видно из сказанного, оба способа имеют недостатки и достоинства, вследствие чего нелогично отдавать безоговорочное предпочтение одному из них.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/car-repair-girl.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/car-repair-girl.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 9, 10);
         $post->user()->associate($user);
@@ -4840,7 +4839,7 @@ class PostTableSeeder extends Seeder
 <p>Конечно, идеальным вариантом для каждого автолюбителя, столкнувшегося с необходимостью ремонта или замены ДВС, является новый двигатель. Однако приобретение нового агрегата для автомобилей иностранного производства – довольно затратная вещь и является нерентабельной для машин старше 5 лет, так как именно после этого срока гарантийное обслуживание подходит к концу и потребность в новом двигателе отпадает.</p>
 <p>Капитальный ремонт – один из выходов из ситуации, когда требуется замена вышедших из строя деталей, но в то же время при дефектовке мотора может возникнуть потребность в замене и других узлов агрегата, что приведет к дополнительным затратам, сопоставимыми с покупкой контрактного двигателя. Многие поставщики контрактных запчастей предлагают моторы с аналогичных автомобилей и без навесного оборудования, а также отдельных узлов агрегата, что позволяет существенно сэкономить при заказе новых или аналогичных запчастей.</p>
 ';
-        $post->image_path = 'https://s3.'.config('amazon.region').'.amazonaws.com/'.config('amazon.bucket').'/Bzdykin/default/ICE-buy-a-contract-or-repair-an-old-one.jpg';
+        $post->image_path = config('filesystems.disks.public.url').'/Bzdykin/default/ICE-buy-a-contract-or-repair-an-old-one.jpg';
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 9, 11);
         $post->user()->associate($user);

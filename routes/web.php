@@ -62,7 +62,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::post('/posts/image-upload', 'ImageUploadController@index')->name('admin.posts.image.upload');
 
-    Route::post('/posts/body-post-upload', 'ImageUploadController@upload')->name('admin.posts.body.image.upload');
+    Route::post('/posts/editor-upload', 'ImageUploadController@upload')->name('admin.posts.editor.upload');
 
     Route::delete('/posts/image-destroy', 'ImageUploadController@destroy')->name('admin.posts.image.destroy');
 
@@ -84,6 +84,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/posts/{id}/edit', 'PostController@edit')->name('admin.posts.edit');
 
+    Route::put('/posts/publish', 'PostController@publish')->name('admin.posts.publish');
+
+    Route::get('/posts/{id}/show', 'PostController@show')->name('admin.posts.show');
+
 });
 
 Route::get('/posts', 'PageController@index')->name('posts.index');
@@ -99,5 +103,7 @@ Route::get('login/google', 'Auth\LoginController@redirectToProviderGoogle')->nam
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallbackGoogle');
 
 Route::get('turbo.rss', 'TurboController@index');
+
+Route::get('sitemap.xml', 'SitemapController@index');
 
 Auth::routes();

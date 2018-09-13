@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Profile;
+use App\Album;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -70,11 +71,17 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $profile = Profile::create([
-            'user_id' => $user->id,
-            'avatar' => 'https://208503.selcdn.ru//driveitwithme/default-user/default-user.jpg',
-            'public' => false
-        ]);
+        $profile = new Profile;
+        $profile->avatar = 'https://s3.eu-central-1.amazonaws.com/driveitwithme/avatars/default-user.jpg';
+        $profile->public = false;
+        $profile->user()->associate($user);
+        $profile->save();
+
+        $album = new Album;
+        $album->name = 'posts';
+        $album->user()->associate($user);
+        $album->save();
+
 
         return $user;
     }

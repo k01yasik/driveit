@@ -3,6 +3,7 @@
   border: none;
   border-radius: 3px;
   color: $white;
+  cursor: pointer;
   outline: none;
   padding: 0 2em;
 }
@@ -10,4 +11,5 @@
 .btn-post-height {
   line-height: 3em;
   margin-top: 2em;
+  display: inline-block;
 }

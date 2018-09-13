@@ -289,7 +289,7 @@
 
   .post-header-inner {
     background: $secondary-2-1-trans;
-    padding: 2em;
+    padding: 1em;
     border-radius: 3px;
   }
 
@@ -310,6 +310,7 @@
   .post-name {
     margin: 0 0 .5em;
     font-size: 1.5em;
+    font-weight: normal;
     line-height: 1.5;
     color: $white;
   }
