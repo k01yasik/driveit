@@ -70,9 +70,11 @@ class PostController extends Controller
         return redirect()->route('admin.posts');
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
+        $seo = $this->seoService->getSeoData($request);
 
+        return view('admin.posts.show', compact('seo'));
     }
 
     /**

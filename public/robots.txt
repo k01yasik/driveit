@@ -1,4 +1,4 @@
-User-agent: *
+User-agent: Yandex, Googlebot
 Allow: /
 Disallow: /user
 Disallow: /users

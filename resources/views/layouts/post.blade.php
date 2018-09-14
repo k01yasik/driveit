@@ -9,6 +9,7 @@
     @include('components.verification')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('seo.index')
+    <link rel="amphtml" href="{{ route('amp.show', ['slug' => $post->slug]) }}">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -52,9 +53,12 @@
 </header>
 <div class="main-row">
     <div class="main-wrapper">
-        <div class="empty-container">
+        <main>
             @yield('content')
-        </div>
+        </main>
+        <aside role="complementary">
+            @include('components.ads')
+        </aside>
     </div>
 </div>
 <footer>

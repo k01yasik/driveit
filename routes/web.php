@@ -90,6 +90,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
 });
 
+Route::get('/amp/{slug}', 'AmpController@show')->name('amp.show');
+
 Route::get('/posts', 'PageController@index')->name('posts.index');
 
 Route::get('/posts/{slug}', 'PageController@show')->name('posts.show');
