@@ -56,7 +56,7 @@
         <main>
             @yield('content')
         </main>
-        <aside role="complementary">
+        <aside>
             @include('components.ads')
         </aside>
     </div>

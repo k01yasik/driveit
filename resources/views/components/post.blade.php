@@ -1,7 +1,7 @@
 <article class="post">
     <header>
         <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
-            <img src="{{ $post->user->profile->avatar }}" class="user-avatar" />
+            <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
         </a>
         <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
         <div class="right">{{ $post->date_published }}</div>
@@ -15,7 +15,7 @@
                     <h2 class="post-name">{{ $post->name }}</h2>
                 </a>
                 <div class="post-categories">
-                    <svg version="1.1" id="tags" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 542.183 542.183" style="enable-background:new 0 0 542.183 542.183;"
+                    <svg version="1.1" class="tags-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 542.183 542.183" style="enable-background:new 0 0 542.183 542.183;"
                     xml:space="preserve">
                         <g>
                             <path d="M432.544,310.636c0-9.897-3.521-18.559-10.564-25.984L217.844,80.8c-7.232-7.238-16.939-13.374-29.121-18.416
@@ -45,7 +45,7 @@
 
     <div class="post-read-more-wrapper">
         <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-read-more">{{__('Read more')}}
-            <svg version="1.1" id="arrow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 444.815 444.815" style="enable-background:new 0 0 444.815 444.815;"
+            <svg version="1.1" class="arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 444.815 444.815" style="enable-background:new 0 0 444.815 444.815;"
                                                                                                                     xml:space="preserve">
             <g>
                 <path d="M421.976,196.712L236.111,10.848C228.884,3.615,220.219,0,210.131,0c-9.9,0-18.464,3.615-25.697,10.848L163.023,32.26
@@ -53,14 +53,14 @@
                 c-9.895,0-17.937,3.568-24.123,10.707s-9.279,15.752-9.279,25.837v36.546c0,10.088,3.094,18.698,9.279,25.837
                 s14.228,10.704,24.123,10.704h200.995L163.02,360.88c-7.234,7.228-10.85,15.89-10.85,25.981c0,10.089,3.616,18.75,10.85,25.978
                 l21.411,21.412c7.426,7.043,15.99,10.564,25.697,10.564c9.899,0,18.562-3.521,25.981-10.564l185.864-185.864
-                c7.043-7.043,10.567-15.701,10.567-25.981C432.54,211.939,429.016,203.37,421.976,196.712z"/>
+                c7.043-7.043,10.567-15.701,10.567-25.981C432.54,211.939,429.016,203.37,421.976,196.712z"></path>
             </g>
         </svg>
         </a>
     </div>
     <div class="post-buttons-wrapper">
         <div class="post-buttons">
-            <svg version="1.1" id="eye" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+            <svg version="1.1" class="eye-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                 <g>
                     <path d="M508.177,245.995C503.607,240.897,393.682,121,256,121S8.394,240.897,3.823,245.995c-5.098,5.698-5.098,14.312,0,20.01
                     C8.394,271.103,118.32,391,256,391s247.606-119.897,252.177-124.995C513.274,260.307,513.274,251.693,508.177,245.995z M256,361
@@ -72,7 +72,7 @@
                 </g>
             </svg>
             <p>{{ $post->views }}</p>
-            <svg version="1.1" id="star" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 46.354 46.354" style="enable-background:new 0 0 46.354 46.354;"
+            <svg version="1.1" class="star-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 46.354 46.354" style="enable-background:new 0 0 46.354 46.354;"
             xml:space="preserve">
                 <g>
                     <path d="M21.57,2.049c0.303-0.612,0.927-1,1.609-1c0.682,0,1.307,0.388,1.609,1l5.771,11.695c0.261,0.529,0.767,0.896,1.352,0.981
@@ -85,7 +85,7 @@
                 </g>
             </svg>
             <p>{{ $post->rating }}</p>
-            <svg version="1.1" id="comments" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
+            <svg version="1.1" class="comments-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
             xml:space="preserve">
                 <g>
                     <path d="M301.927,327.605c30.926-13.038,55.34-30.785,73.23-53.248c17.888-22.458,26.833-46.915,26.833-73.372

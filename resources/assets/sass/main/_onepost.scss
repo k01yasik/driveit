@@ -347,7 +347,7 @@
       }
     }
 
-    #tags {
+    .tags-svg {
       width: 1em;
       fill: $white;
       float: left;
@@ -373,7 +373,7 @@
     border-radius: 3px 3px 0 0;
   }
 
-  #arrow {
+  .arrow-svg {
     float: right;
     width: 1em;
     margin-top: 1em;
@@ -411,7 +411,7 @@
     margin-top: -3em;
   }
 
-  #eye, #star, #comments {
+  .eye-svg, .star-svg, .comments-svg {
     fill: $white;
     width: 1.5em;
     margin-top: 12px;

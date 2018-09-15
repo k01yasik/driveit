@@ -1,12 +1,12 @@
 <div class="navigation-row">
     <div class="navigation-wrapper">
         <nav>
-            <noindex>
-                <div class="small-nav">
-                    <h2>Menu</h2>
-                    <div class="small-nav-icon"><i class="fas fa-bars" aria-hidden="true"></i></div>
-                </div>
-            </noindex>
+
+            <div class="small-nav">
+                <h2>Menu</h2>
+                <div class="small-nav-icon"><i class="fas fa-bars" aria-hidden="true"></i></div>
+            </div>
+
             <ul class="first-level">
                 <li class="menuItem {{Route::currentRouteName() === 'page.home' ? 'active' : ''}}">
                     <a href="{{ route('page.home') }}">Главная</a>
@@ -48,34 +48,34 @@
                     <a href="{{ route('category.show', ['category' => 'helpful']) }}">Полезное</a>
                 </li>
             </ul>
-            <noindex>
-                <div class="small-first-level">
-                    <div class="small-delete-button"><i class="fas fa-times" aria-hidden="true"></i></div>
-                    <ul>
-                        <li class="small-deleted-item">
-                            <a href="{{ route('page.home') }}">Главная</a>
-                        </li>
-                        <li class="small-deleted-item">
-                            <a href="{{ route('category.show', ['category' => 'auto']) }}">Авто</a>
-                        </li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'auto-reviews']) }}">Обзоры автомобилей</a></li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'auto-repairs']) }}">Ремонт автомобиля</a></li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'car-care']) }}">Уход за автомобилем</a> </li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'car-device']) }}">Устройство автомобиля</a></li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'auto-tips-for-begining']) }}">Советы начинающим</a></li>
-                        <li class="small-deleted-item">
-                            <a href="{{ route('category.show', ['category' => 'moto']) }}">Мото</a>
-                        </li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'moto-reviews']) }}">Обзоры мотоциклов</a></li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'moto-repairs']) }}">Ремонт мотоцикла</a></li>
-                        <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'moto-care']) }}">Уход за мотоциклом</a></li>
-                        <li class="small-deleted-item"><a href="{{ route('category.show', ['category' => 'law']) }}">Право</a></li>
-                        <li class="small-deleted-item">
-                            <a href="{{ route('category.show', ['category' => 'helpful']) }}">Полезное</a>
-                        </li>
-                    </ul>
-                </div>
-            </noindex>
+
+            <div class="small-first-level">
+                <div class="small-delete-button"><i class="fas fa-times" aria-hidden="true"></i></div>
+                <ul>
+                    <li class="small-deleted-item">
+                        <a href="{{ route('page.home') }}">Главная</a>
+                    </li>
+                    <li class="small-deleted-item">
+                        <a href="{{ route('category.show', ['category' => 'auto']) }}">Авто</a>
+                    </li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'auto-reviews']) }}">Обзоры автомобилей</a></li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'auto-repairs']) }}">Ремонт автомобиля</a></li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'car-care']) }}">Уход за автомобилем</a> </li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'car-device']) }}">Устройство автомобиля</a></li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'auto-tips-for-begining']) }}">Советы начинающим</a></li>
+                    <li class="small-deleted-item">
+                        <a href="{{ route('category.show', ['category' => 'moto']) }}">Мото</a>
+                    </li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'moto-reviews']) }}">Обзоры мотоциклов</a></li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'moto-repairs']) }}">Ремонт мотоцикла</a></li>
+                    <li class="small-second-level small-deleted-item"><a href="{{ route('category.show', ['category' => 'moto-care']) }}">Уход за мотоциклом</a></li>
+                    <li class="small-deleted-item"><a href="{{ route('category.show', ['category' => 'law']) }}">Право</a></li>
+                    <li class="small-deleted-item">
+                        <a href="{{ route('category.show', ['category' => 'helpful']) }}">Полезное</a>
+                    </li>
+                </ul>
+            </div>
+
         </nav>
     </div>
 </div>

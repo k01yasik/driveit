@@ -55,7 +55,7 @@
                 <main>
                    @yield('content')
                 </main>
-                <aside role="complementary">
+                <aside>
                     @include('components.ads')
                     {{--@include('components.comments')--}}
                 </aside>
