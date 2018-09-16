@@ -38,9 +38,9 @@
         </header>
 
         <div class="post-wrapper">
-            <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image">
+            <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image-show">
             <div class="post-header">
-                <div class="post-header-inner">
+                <div class="post-header-inner-show">
                     <h1 class="post-name">{{ $post->name }}</h1>
                     <div class="post-categories">
                         <svg version="1.1" class="tags-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 542.183 542.183" style="enable-background:new 0 0 542.183 542.183;"

@@ -8,9 +8,9 @@ use App\Category;
 
 class CategoryController extends Controller
 {
-    public function show($category) {
+    public function show($categoryInput) {
 
-        $category = Category::where('name', $category)->firstOrFail();
+        $category = Category::where('name', $categoryInput)->firstOrFail();
 
         $seo = [
             "title" => 'Статьи в категории '.$category->displayname,
@@ -19,6 +19,6 @@ class CategoryController extends Controller
 
         $posts = $category->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->get();
 
-        return view('category.show', compact('seo', 'posts'));
+        return view('category.show', compact('seo', 'posts', 'categoryInput'));
     }
 }

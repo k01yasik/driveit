@@ -158,6 +158,10 @@ nav {
   border-left: 1px solid $white!important;
 }
 
+.menuItem:hover + .active {
+  border-left: 1px solid $white;
+}
+
 .caret {
   height: 14px;
   fill: $white;
@@ -165,4 +169,11 @@ nav {
   margin-bottom: -.1em;
   margin-left: .5em;
   transition: all .5s ease-in-out;
+}
+
+.delete-menu-svg {
+  height: 1em;
+  width: 1em;
+  margin: .5em;
+  fill: white;
 }

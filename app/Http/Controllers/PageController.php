@@ -22,11 +22,9 @@ class PageController extends Controller
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
-        /*$posts = Cache::remember('all-posts', 60, function () {
-            return Post::with(['user', 'categories', 'user.profile'])->take(10)->get();
-        });*/
-
-        $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
+        $posts = Cache::remember('all-posts', 60, function () {
+            return Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
+        });
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -43,7 +41,17 @@ class PageController extends Controller
 
     public function list(Request $request) {
         $seo = $this->seoService->getSeoData($request);
-        return view('posts.list', compact('seo'));
+        $name = $request->route()->getName();
+
+        if ($name == 'posts.rated') {
+            $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('rating')->orderByDesc('date_published')->paginate(10);
+        } else if ($name == 'posts.views') {
+            $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('views')->orderByDesc('date_published')->paginate(10);
+        } else {
+            $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('comments')->orderByDesc('date_published')->paginate(10);
+        }
+
+        return view('posts.list', compact('seo', 'posts'));
     }
 
     public function about(Request $request) {

@@ -11,5 +11,6 @@ require('./slider');
 require('./post-upload-image');
 require('./editor');
 require('./publish-post');
+require('./small-menu');
 
 import 'social-likes-next';
