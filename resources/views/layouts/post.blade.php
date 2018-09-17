@@ -41,9 +41,21 @@
                     "https://twitter.com/driveitwithme",
                     "https://plus.google.com/u/0/communities/103637419906040787158",
                     "https://plus.google.com/111603036897334855307"
-                ]
+                ],
+                "logo" : "{{ config('app.url') }}/public/android-icon-192x192.png"
             }
-        </script>
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Article",
+            "author": "{{ $post->user->username }}",
+            "name": "{{ $post->name }}",
+            "description": "{{ $post->description }}",
+            "image": "{{ $post->image_path }}",
+            "url": "{{ config('app.url') }}/posts/{{ $post->slug }}"
+        }
+    </script>
 </head>
 <body>
 <header>

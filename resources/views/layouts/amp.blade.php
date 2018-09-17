@@ -28,21 +28,33 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic">
     <script type="application/ld+json">
-            {
-                "@context" : "http://schema.org",
-                "@type" : "Organization",
-                "name" : "Driveitwith.me",
-                "url" : "https://driveitwith.me",
-                "sameAs" : [
-                    "https://vk.com/driveitwithme",
-                    "https://www.facebook.com/driveitwithme/",
-                    "https://www.facebook.com/groups/745210485639351/",
-                    "https://twitter.com/driveitwithme",
-                    "https://plus.google.com/u/0/communities/103637419906040787158",
-                    "https://plus.google.com/111603036897334855307"
-                ]
-            }
-        </script>
+        {
+            "@context" : "http://schema.org",
+            "@type" : "Organization",
+            "name" : "Driveitwith.me",
+            "url" : "https://driveitwith.me",
+            "sameAs" : [
+                "https://vk.com/driveitwithme",
+                "https://www.facebook.com/driveitwithme/",
+                "https://www.facebook.com/groups/745210485639351/",
+                "https://twitter.com/driveitwithme",
+                "https://plus.google.com/u/0/communities/103637419906040787158",
+                "https://plus.google.com/111603036897334855307"
+            ],
+            "logo" : "{{ config('app.url') }}/public/android-icon-192x192.png"
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Article",
+            "author": "{{ $post->user->username }}",
+            "name": "{{ $post->name }}",
+            "description": "{{ $post->description }}",
+            "image": "{{ $post->image_path }}",
+            "url": "{{ config('app.url') }}/posts/{{ $post->slug }}"
+        }
+    </script>
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
     <style amp-custom>
         body {

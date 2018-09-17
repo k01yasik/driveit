@@ -40,7 +40,8 @@
                     "https://twitter.com/driveitwithme",
                     "https://plus.google.com/u/0/communities/103637419906040787158",
                     "https://plus.google.com/111603036897334855307"
-                ]
+                ],
+                "logo" : "{{ config('app.url') }}/public/android-icon-192x192.png"
             }
         </script>
 </head>

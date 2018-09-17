@@ -26,13 +26,13 @@
     margin-bottom: 0;
   }
 
-  a {
+  .post-block-link {
     float: left;
-    width: 90%;
+    width: 80%;
   }
 }
 
-.publish {
+.publish, .edit-post {
   display: inline-block;
   line-height: 2em;
   width: 2em;
@@ -47,7 +47,11 @@
   }
 }
 
-#unpublish, #publish {
+.edit-post {
+  margin-right: 1em;
+}
+
+.unpublish-svg, .publish-svg, .edit-svg {
   height: 1em;
   width: 1em;
   margin: .5em;

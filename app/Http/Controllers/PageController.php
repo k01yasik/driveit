@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use App\Services\SeoService;
 use App\Services\CommentService;
 use App\Post;
@@ -22,9 +21,7 @@ class PageController extends Controller
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
-        $posts = Cache::remember('all-posts', 60, function () {
-            return Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
-        });
+        $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -66,7 +63,7 @@ class PageController extends Controller
 
     public function show($slug)
     {
-        $post = Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
+        $post = Post::with(['user', 'categories', 'user.profile'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
 
         $post->increment('views');
 

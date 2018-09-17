@@ -70,11 +70,46 @@ class PostController extends Controller
         return redirect()->route('admin.posts');
     }
 
+    public function update($id, PostStore $request)
+    {
+        $data = $request->validated();
+
+        $post = Post::find($id);
+        $post->slug = $data['slug'];
+        $post->title = $data['title'];
+        $post->description = $data['description'];
+        $post->name = $data['name'];
+        $post->caption = $data['caption'];
+        $post->body = $data['body'];
+        $post->image_path = $data['image'];
+        $post->is_published = 0;
+        $post->user()->associate(Auth::user());
+        $post->save();
+
+        $category = Category::find($data['category']);
+
+        $arrayCategoryId = [];
+
+        if ($category->parent_id) {
+            array_push($arrayCategoryId, $category->parent_id);
+        }
+
+        array_push($arrayCategoryId, $category->id);
+
+        $post->categories()->detach();
+
+        $post->categories()->attach($arrayCategoryId);
+
+        return redirect()->route('admin.posts.show', ['id' => $id]);
+    }
+
     public function show($id, Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
-        return view('admin.posts.show', compact('seo'));
+        $post = Post::with(['user', 'categories', 'user.profile'])->where('id', $id)->firstOrFail();
+
+        return view('admin.posts.show', compact('seo', 'post'));
     }
 
     /**
@@ -94,5 +129,22 @@ class PostController extends Controller
         }
 
         $post->save();
+    }
+
+    public function edit($id, Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $post = Post::with('categories')->where('id', $id)->firstOrFail();
+
+        $categories = Category::where('has_child', 0)->get();
+
+        $categoryArray = [];
+
+        foreach ($post->categories as $category) {
+            array_push($categoryArray, $category->id);
+        }
+
+        return view('admin.posts.edit', compact('seo', 'post', 'categories', 'categoryArray'));
     }
 }

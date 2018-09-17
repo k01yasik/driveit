@@ -276,12 +276,20 @@ $().ready(function () {
     
     editor.focusout(function () {
         saveSelection();
-    })
+    });
 
     $('.submit-post-form').click(function () {
        $('#body').val(editor.html());
        localStorage.removeItem('post-body');
        localStorage.removeItem('title-post-image-url');
        $('#create-post-form').submit();
+    });
+
+    $('.submit-edit-post-form').click(function () {
+        $('#body').val(editor.html());
+        $('#caption').val($('.text-editor-body p')[0]);
+        localStorage.removeItem('post-body');
+        localStorage.removeItem('title-post-image-url');
+        $('#create-post-form').submit();
     });
 });
