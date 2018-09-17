@@ -70,6 +70,8 @@ class PageController extends Controller
         $seo = [
             "title" => $post->title,
             "description" => $post->description,
+            "image" => $post->image_path,
+            "type" => 'article'
         ];
 
         $sortedComments = $this->commentService->sortComments($post->id);
