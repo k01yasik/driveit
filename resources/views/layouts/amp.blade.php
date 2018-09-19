@@ -48,11 +48,28 @@
         {
             "@context": "http://schema.org",
             "@type": "Article",
-            "author": "{{ $post->user->username }}",
+            "author": {
+                "@type": "Person",
+                "name": "{{ $post->user->username }}"
+            },
             "name": "{{ $post->name }}",
             "description": "{{ $post->description }}",
             "image": "{{ $post->image_path }}",
-            "url": "{{ config('app.url') }}/posts/{{ $post->slug }}"
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "{{ config('app.url') }}/posts/{{ $post->slug }}"
+            },
+            "datePublished": "{{ $post->getOriginal('date_published') }}",
+            "dateModified": "{{ $post->getOriginal('date_published') }}",
+            "headline": "{{ $post->name }}",
+            "publisher": {
+                "@type": "Organization",
+                "name": "{{ config('app.name') }}",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ config('app.url') }}/public/android-icon-192x192.png"
+                }
+            }
         }
     </script>
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>

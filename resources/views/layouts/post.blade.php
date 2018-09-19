@@ -53,7 +53,10 @@
             "name": "{{ $post->name }}",
             "description": "{{ $post->description }}",
             "image": "{{ $post->image_path }}",
-            "url": "{{ config('app.url') }}/posts/{{ $post->slug }}"
+            "url": "{{ config('app.url') }}/posts/{{ $post->slug }}",
+            "headline": "{{ $post->name }}",
+            "datePublished": "{{ $post->getOriginal('date_published') }}",
+            "dateModified": "{{ $post->getOriginal('date_published') }}",
         }
     </script>
 </head>
