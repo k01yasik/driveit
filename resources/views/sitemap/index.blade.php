@@ -64,6 +64,39 @@
     <url>
         <loc>https://driveitwith.me/posts</loc>
     </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/2</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/3</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/4</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/5</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/6</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/7</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/8</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/9</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/10</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/11</loc>
+    </url>
+    <url>
+        <loc>{{ config('app.url') }}/posts/page/12</loc>
+    </url>
     @foreach($data as $key => $item)
     <url>
         <loc>{{ $item['link'] }}</loc>

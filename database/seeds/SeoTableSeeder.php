@@ -43,6 +43,7 @@ class SeoTableSeeder extends Seeder
             ['route_name' => 'user.profile', 'title' => 'Профиль пользователя', 'description' => 'Профиль пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'login', 'title' => 'Войти', 'description' => 'Войти на сайт', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['route_name' => 'posts.index', 'title' => 'Все статьи', 'description' => 'Все статьи', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['route_name' => 'posts.paginate', 'title' => 'Все статьи', 'description' => 'Все статьи', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

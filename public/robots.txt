@@ -2,12 +2,6 @@ User-agent: Yandex, Googlebot
 Allow: /
 Disallow: /user
 Disallow: /users
-Disallow: /category
-Disallow: /best-rated
-Disallow: /best-views
-Disallow: /best-comments
 Disallow: /admin
-Disallow: /login
 Disallow: /logout
-Disallow: /register
 sitemap: https://driveitwith.me/sitemap.xml

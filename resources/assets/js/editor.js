@@ -287,7 +287,7 @@ $().ready(function () {
 
     $('.submit-edit-post-form').click(function () {
         $('#body').val(editor.html());
-        $('#caption').val($('.text-editor-body p')[0]);
+        $('#caption').val('<p>' + $('.text-editor-body').children().first().html() + '</p>');
         localStorage.removeItem('post-body');
         localStorage.removeItem('title-post-image-url');
         $('#create-post-form').submit();

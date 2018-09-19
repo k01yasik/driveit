@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Services\CommentService;
 use App\Post;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PageController extends Controller
 {
@@ -32,7 +33,29 @@ class PageController extends Controller
 
         $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
 
-        return view('posts.index', compact('seo', 'posts'));
+        $previousNumberPage = $posts->currentPage() - 1;
+        $nextNumberPage = $posts->currentPage() + 1;
+        $lastNumberPage = $posts->lastPage();
+
+        debug($posts);
+
+        return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
+
+    }
+
+    public function paginate($id, Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10, ['*'], 'page', $id);
+
+        $previousNumberPage = $posts->currentPage() - 1;
+        $nextNumberPage = $posts->currentPage() + 1;
+        $lastNumberPage = $posts->lastPage();
+
+        debug($posts);
+
+        return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
 
     }
 

@@ -86,7 +86,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::put('/posts/{id}', 'PostController@update')->name('admin.posts.update');
 
-    Route::put('/posts/publish', 'PostController@publish')->name('admin.posts.publish');
+    Route::put('/publish/post', 'PostController@publish')->name('admin.posts.publish');
 
     Route::get('/posts/{id}', 'PostController@show')->name('admin.posts.show');
 
@@ -95,6 +95,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 Route::get('/amp/{slug}', 'AmpController@show')->name('amp.show');
 
 Route::get('/posts', 'PageController@index')->name('posts.index');
+
+Route::get('/posts/pages/{id}', 'PageController@paginate')->name('posts.paginate');
 
 Route::get('/posts/{slug}', 'PageController@show')->name('posts.show');
 
