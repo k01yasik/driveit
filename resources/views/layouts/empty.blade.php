@@ -28,28 +28,26 @@
     @include('components.google')
     @include('components.yandex')
     <script type="application/ld+json">
-            {
-                "@context" : "http://schema.org",
-                "@type" : "Organization",
-                "name" : "Driveitwith.me",
-                "url" : "https://driveitwith.me",
-                "sameAs" : [
-                    "https://vk.com/driveitwithme",
-                    "https://www.facebook.com/driveitwithme/",
-                    "https://www.facebook.com/groups/745210485639351/",
-                    "https://twitter.com/driveitwithme",
-                    "https://plus.google.com/u/0/communities/103637419906040787158",
-                    "https://plus.google.com/111603036897334855307"
-                ],
-                "logo" : "{{ config('app.url') }}/public/android-icon-192x192.png"
-            }
-        </script>
+        {
+            "@context" : "http://schema.org",
+            "@type" : "Organization",
+            "name" : "Driveitwith.me",
+            "url" : "https://driveitwith.me",
+            "sameAs" : [
+                "https://vk.com/driveitwithme",
+                "https://www.facebook.com/driveitwithme/",
+                "https://www.facebook.com/groups/745210485639351/",
+                "https://twitter.com/driveitwithme",
+                "https://plus.google.com/u/0/communities/103637419906040787158",
+                "https://plus.google.com/111603036897334855307"
+            ],
+            "logo" : "{{ config('app.url') }}/public/android-icon-192x192.png"
+        }
+    </script>
 </head>
 <body>
 <header>
     @include('components.sitetop')
-    @include('components.carousel')
-    @include('components.navigation')
 </header>
 <div class="main-row">
     <div class="main-wrapper">

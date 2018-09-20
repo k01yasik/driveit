@@ -7,7 +7,6 @@
     padding: 2em 0;
     z-index: 900;
     position: relative;
-    min-height: 50em;
   }
 }
 
@@ -22,7 +21,6 @@ aside {
 }
 
 .empty-container {
-  float: left;
   width: 33%;
-  margin-left: 33%;
+  margin: 3em auto;
 }

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Services\CommentService;
 use App\Post;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class PageController extends Controller
 {

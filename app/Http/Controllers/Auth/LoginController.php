@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use Socialite;
 use App\Services\SeoService;
 use Illuminate\Http\Request;
+use App\User;
+use App\Profile;
+use App\Album;
 
 class LoginController extends Controller
 {
@@ -62,19 +66,56 @@ class LoginController extends Controller
     {
         $user = Socialite::driver('facebook')->user();
 
-        return $user;
+        $authUser = $this->findOrCreateUser($user, 'facebook');
+
+        Auth::login($authUser, true);
+
+        return redirect($this->redirectTo);
     }
 
     public function handleProviderCallbackGoogle()
     {
         $user = Socialite::driver('google')->user();
 
-        return $user;
+        $authUser = $this->findOrCreateUser($user, 'google');
+
+        Auth::login($authUser, true);
+
+        return redirect($this->redirectTo);
     }
 
     public function showLoginForm(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
         return view('auth.login', compact('seo'));
+    }
+
+    public function findOrCreateUser($user, $provider)
+    {
+        $authUser = User::where('provider_id', $user->id)->first();
+
+        if ($authUser) {
+            return $authUser;
+        }
+
+        $userCreate = User::create([
+           'username' => $user->nickname,
+           'email' => $user->email,
+           'provider' => $provider,
+           'provider_id' => $user->id
+        ]);
+
+        $profile = new Profile;
+        $profile->avatar = $user->avatar;
+        $profile->public = false;
+        $profile->user()->associate($userCreate);
+        $profile->save();
+
+        $album = new Album;
+        $album->name = 'posts';
+        $album->user()->associate($userCreate);
+        $album->save();
+
+        return $userCreate;
     }
 }

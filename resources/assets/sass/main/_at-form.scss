@@ -18,7 +18,7 @@
 }
 
 .form-body {
-  margin: 1em 0 2em;
+  margin-bottom: 2em;
 
   input {
     height: 3em;
@@ -65,6 +65,14 @@
     .right-block {
       color: $white;
     }
+
+    .left-block {
+      background: $white;
+    }
+
+    .facebook-login-svg, .google-login-svg {
+      fill: $primary-1;
+    }
   }
 
   .left-block {
@@ -97,4 +105,17 @@
 
 .link-right {
   float: right;
+}
+
+.login-wrapper {
+  background: $white;
+  border-radius: 3px;
+  padding: 2em;
+}
+
+.facebook-login-svg, .google-login-svg {
+  width: 1em;
+  fill: $white;
+  margin: .5em;
+  transition: $second-transitions;
 }

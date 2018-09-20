@@ -100,6 +100,8 @@ Route::get('/posts/pages/{id}', 'PageController@paginate')->name('posts.paginate
 
 Route::get('/posts/{slug}', 'PageController@show')->name('posts.show');
 
+Route::get('/search', 'SearchController@index')->name('search.index');
+
 Route::get('login/facebook', 'Auth\LoginController@redirectToProviderFacebook')->name('login.facebook');
 
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallbackFacebook');

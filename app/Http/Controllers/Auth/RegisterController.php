@@ -72,7 +72,7 @@ class RegisterController extends Controller
         ]);
 
         $profile = new Profile;
-        $profile->avatar = 'https://s3.eu-central-1.amazonaws.com/driveitwithme/avatars/default-user.jpg';
+        $profile->avatar = config('app.url').'/storage/avatars/default-user.jpg';
         $profile->public = false;
         $profile->user()->associate($user);
         $profile->save();
