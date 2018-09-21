@@ -4,4 +4,8 @@ Disallow: /user
 Disallow: /users
 Disallow: /admin
 Disallow: /logout
+Disallow: /search
+Disallow: /login/facebook
+Disallow: /login/google
+Disallow: /password/reset
 sitemap: https://driveitwith.me/sitemap.xml
