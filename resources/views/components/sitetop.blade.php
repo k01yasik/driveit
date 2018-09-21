@@ -68,7 +68,7 @@
             @auth
                 <div class="button-block">
                     <div class="my-page-block">
-                        <a href="/user/{{Auth::user()->name}}">Профиль</a>
+                        <a href="/user/{{Auth::user()->username}}">Профиль</a>
                     </div>
                     <form class="at-nav-button" action="{{ route('logout') }}" method="POST">
                         @csrf

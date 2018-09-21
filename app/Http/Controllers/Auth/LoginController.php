@@ -70,7 +70,7 @@ class LoginController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect()->route('user.profile', ['usernam' => $authUser->username]);
+        return redirect()->route('user.profile', ['username' => $authUser->username]);
     }
 
     public function handleProviderCallbackGoogle()
@@ -81,7 +81,7 @@ class LoginController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect()->route('user.profile', ['usernam' => $authUser->username]);
+        return redirect()->route('user.profile', ['username' => $authUser->username]);
     }
 
     public function showLoginForm(Request $request)
