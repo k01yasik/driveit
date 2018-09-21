@@ -99,7 +99,7 @@ class LoginController extends Controller
         }
 
         $userCreate = User::create([
-           'username' => $user->nickname,
+           'username' => $user->id,
            'email' => $user->email,
            'provider' => $provider,
            'provider_id' => $user->id
