@@ -96,7 +96,7 @@ Route::get('/amp/{slug}', 'AmpController@show')->name('amp.show');
 
 Route::get('/posts', 'PageController@index')->name('posts.index');
 
-Route::get('/posts/pages/{id}', 'PageController@paginate')->name('posts.paginate');
+Route::get('/posts/page/{id}', 'PageController@paginate')->name('posts.paginate');
 
 Route::get('/posts/{slug}', 'PageController@show')->name('posts.show');
 

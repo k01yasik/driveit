@@ -11,7 +11,7 @@
                     </li>
                 @else
                     <li class="page-item">
-                        <a class="page-link" href="{{ config('app.url').'/posts/pages/'. $previousNumberPage }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                        <a class="page-link" href="{{ config('app.url').'/posts/page/'. $previousNumberPage }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
                     </li>
                 @endif
 
@@ -22,14 +22,14 @@
                         @if ($i == 1)
                             <li class="page-item"><a class="page-link" href="{{ config('app.url').'/posts' }}">{{ $i }}</a></li>
                         @else
-                            <li class="page-item"><a class="page-link" href="{{ config('app.url').'/posts/pages/'.$i }}">{{ $i }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ config('app.url').'/posts/page/'.$i }}">{{ $i }}</a></li>
                         @endif
                     @endif
                 @endfor
 
                 @if ($posts->hasMorePages())
                     <li class="page-item">
-                        <a class="page-link" href="{{ config('app.url').'/posts/pages/'. $nextNumberPage }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                        <a class="page-link" href="{{ config('app.url').'/posts/page/'. $nextNumberPage }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
                     </li>
                 @else
                     <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
