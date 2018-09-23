@@ -27,6 +27,11 @@ class Post extends Model
         return $this->hasMany('App\Comment');
     }
 
+    public function rating()
+    {
+        return $this->hasMany('App\Rating');
+    }
+
     public function getDatePublishedAttribute($value)
     {
         $date = new Carbon($value);

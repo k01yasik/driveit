@@ -25,7 +25,6 @@ class CreatePostsTable extends Migration
             $table->boolean('is_published');
             $table->dateTime('date_published')->nullable();
             $table->integer('user_id');
-            $table->integer('rating');
             $table->integer('views');
             $table->integer('comments');
             $table->timestamps();

@@ -400,10 +400,6 @@
       float: left;
       height: 2em;
       line-height: 2em;
-
-      &:last-child {
-        margin-right: 0;
-      }
     }
   }
 
@@ -414,7 +410,8 @@
   .eye-svg, .star-svg, .comments-svg {
     fill: $white;
     width: 1.5em;
-    margin-top: 12px;
+    margin-top: .75em;
+    margin-bottom: .75em;
     float: left;
   }
 }
@@ -429,4 +426,20 @@
 
 .social-likes {
   margin-top: 2em;
+}
+
+.eye-block, .rating-block, .comments-block {
+  float: left;
+}
+
+.eye-block, .rating-block {
+  margin-right: 1em;
+}
+
+.rating-auth {
+  cursor: pointer;
+}
+
+.rating-guest {
+  cursor: not-allowed;
 }

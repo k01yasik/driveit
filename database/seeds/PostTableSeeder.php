@@ -76,7 +76,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 23);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -119,7 +118,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 25);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -149,7 +147,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 25);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -186,7 +183,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -225,7 +221,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -259,7 +254,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -331,7 +325,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -382,7 +375,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 27);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -444,7 +436,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -486,7 +477,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 3, 31);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -511,7 +501,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -564,7 +553,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -601,7 +589,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 4);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -633,7 +620,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 5);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -706,7 +692,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 5);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -741,7 +726,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 6);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -775,7 +759,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -801,7 +784,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -843,7 +825,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -887,7 +868,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 8);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -935,7 +915,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -983,7 +962,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1051,7 +1029,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1099,7 +1076,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 10);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1150,7 +1126,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1186,7 +1161,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1221,7 +1195,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1256,7 +1229,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1356,7 +1328,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1408,7 +1379,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1465,7 +1435,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1510,7 +1479,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1591,7 +1559,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1641,7 +1608,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1687,7 +1653,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1731,7 +1696,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1776,7 +1740,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1815,7 +1778,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1842,7 +1804,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1882,7 +1843,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1908,7 +1868,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 19);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -1945,7 +1904,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2001,7 +1959,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2030,7 +1987,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2059,7 +2015,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2088,7 +2043,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2125,7 +2079,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2168,7 +2121,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2194,7 +2146,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2223,7 +2174,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2249,7 +2199,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2281,7 +2230,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2323,7 +2271,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2350,7 +2297,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2389,7 +2335,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2420,7 +2365,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2445,7 +2389,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2499,7 +2442,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2527,7 +2469,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2622,7 +2563,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2675,7 +2615,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2703,7 +2642,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2729,7 +2667,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2766,7 +2703,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2800,7 +2736,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2828,7 +2763,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 4, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2854,7 +2788,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 01);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2881,7 +2814,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2916,7 +2848,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2969,7 +2900,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -2998,7 +2928,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3050,7 +2979,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 2);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3084,7 +3012,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 10);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3136,7 +3063,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 13);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3174,7 +3100,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 13);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3199,7 +3124,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3239,7 +3163,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3295,7 +3218,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3340,7 +3262,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3372,7 +3293,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3403,7 +3323,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 4);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3446,7 +3365,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3472,7 +3390,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 13);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3501,7 +3418,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3540,7 +3456,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 16);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3563,7 +3478,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 16);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3591,7 +3505,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3658,7 +3571,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 17);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3684,7 +3596,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3712,7 +3623,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3737,7 +3647,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3764,7 +3673,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3799,7 +3707,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3838,7 +3745,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 18);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3890,7 +3796,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 24);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3920,7 +3825,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 27);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3949,7 +3853,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 27);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -3985,7 +3888,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 28);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4013,7 +3915,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4043,7 +3944,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 29);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4095,7 +3995,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 31);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4119,7 +4018,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 5, 31);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4151,7 +4049,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4191,7 +4088,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 1);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4241,7 +4137,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 4);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4274,7 +4169,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 4);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4332,7 +4226,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 7);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4369,7 +4262,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 8);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4398,7 +4290,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 11);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4445,7 +4336,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4513,7 +4403,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 14);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4538,7 +4427,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 20);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4577,7 +4465,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 21);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4625,7 +4512,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 6, 22);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4709,7 +4595,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 7, 11);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4759,7 +4644,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 7, 22);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4787,7 +4671,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 9, 9);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4812,7 +4695,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 9, 10);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();
@@ -4843,7 +4725,6 @@ class PostTableSeeder extends Seeder
         $post->is_published = 1;
         $post->date_published = Carbon::create(2017, 9, 11);
         $post->user()->associate($user);
-        $post->rating = 0;
         $post->views = 0;
         $post->comments = 0;
         $post->save();

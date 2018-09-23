@@ -13,5 +13,6 @@ require('./editor');
 require('./publish-post');
 require('./small-menu');
 require('./remove-hashtags');
+require('./rating');
 
 import 'social-likes-next';

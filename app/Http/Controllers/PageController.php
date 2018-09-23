@@ -21,7 +21,7 @@ class PageController extends Controller
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
-        $posts = Post::with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
+        $posts = Post::with(['user', 'categories', 'user.profile', 'rating'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -36,10 +36,7 @@ class PageController extends Controller
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
 
-        debug($posts);
-
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
-
     }
 
     public function paginate($id, Request $request)
@@ -52,10 +49,7 @@ class PageController extends Controller
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
 
-        debug($posts);
-
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
-
     }
 
     public function list(Request $request) {
@@ -85,7 +79,7 @@ class PageController extends Controller
 
     public function show($slug)
     {
-        $post = Post::with(['user', 'categories', 'user.profile'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
+        $post = Post::with(['user', 'categories', 'user.profile', 'rating'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
 
         $post->increment('views');
 

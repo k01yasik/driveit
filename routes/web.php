@@ -40,8 +40,6 @@ Route::get('/users', 'PublicUsersController@index')->name('users');
 
 Route::post('/users', 'PublicUsersController@store')->name('users.store');
 
-Route::get('/category/{category}', 'CategoryController@show')->name('category.show');
-
 Route::get('/best-rated', 'PageController@list')->name('posts.rated');
 
 Route::get('/best-views', 'PageController@list')->name('posts.views');
@@ -94,11 +92,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
 Route::get('/amp/{slug}', 'AmpController@show')->name('amp.show');
 
+Route::get('/category/{category}', 'CategoryController@show')->name('category.show');
+
+Route::get('/category/{category}/page/{id}', 'CategoryController@paginate')->name('category.paginate');
+
 Route::get('/posts', 'PageController@index')->name('posts.index');
 
 Route::get('/posts/page/{id}', 'PageController@paginate')->name('posts.paginate');
 
 Route::get('/posts/{slug}', 'PageController@show')->name('posts.show');
+
+Route::post('/rating/post', 'RatingController@update')->name('rating.post');
 
 Route::get('/search', 'SearchController@index')->name('search.index');
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\SeoService;
 use App\User;
 use App\Profile;
 use App\Album;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -32,14 +34,17 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
+    protected $seoService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SeoService $seoService)
     {
         $this->middleware('guest');
+        $this->seoService = $seoService;
     }
 
     /**
@@ -84,5 +89,12 @@ class RegisterController extends Controller
 
 
         return $user;
+    }
+
+    public function showRegistrationForm(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        return view('auth.register', compact('seo'));
     }
 }
