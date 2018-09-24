@@ -15,8 +15,8 @@
 
                 @if ($errors->has('username'))
                     <span role="alert">
-                <strong>{{ $errors->first('username') }}</strong>
-            </span>
+                        <strong>{{ $errors->first('username') }}</strong>
+                    </span>
                 @endif
 
                 <label for="email">{{ __('E-Mail Address') }}</label>
@@ -25,8 +25,8 @@
 
                 @if ($errors->has('email'))
                     <span role="alert">
-                <strong>{{ $errors->first('email') }}</strong>
-            </span>
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
                 @endif
 
                 <label for="password">{{ __('Password') }}</label>
@@ -35,8 +35,8 @@
 
                 @if ($errors->has('password'))
                     <span role="alert">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
                 @endif
 
                 <label for="password-confirm">{{ __('Confirm Password') }}</label>

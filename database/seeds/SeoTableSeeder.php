@@ -49,6 +49,8 @@ class SeoTableSeeder extends Seeder
             ['route_name' => 'posts.index', 'title' => 'Все статьи', 'description' => 'Все статьи', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['route_name' => 'posts.paginate', 'title' => 'Все статьи', 'description' => 'Все статьи', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['route_name' => 'search.index', 'title' => 'Результаты поиска', 'description' => 'Результаты поиска', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['route_name' => 'password.request', 'title' => 'Запрос на сброс пароля', 'description' => 'Запрос на сброс пароля', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['route_name' => 'password.reset', 'title' => 'Сброс пароля', 'description' => 'Сброс пароля', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

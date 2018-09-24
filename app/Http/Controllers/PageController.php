@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Services\CommentService;
+use App\Services\PaginateService;
+use App\Services\PostSortService;
 use App\Post;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -12,11 +14,15 @@ class PageController extends Controller
 {
     protected $seoService;
     protected $commentService;
+    protected $paginateService;
+    protected $postSortService;
 
-    public function __construct(SeoService $seoService, CommentService $commentService)
+    public function __construct(SeoService $seoService, CommentService $commentService, PaginateService $paginateService, PostSortService $postSortService)
     {
         $this->seoService = $seoService;
         $this->commentService = $commentService;
+        $this->paginateService = $paginateService;
+        $this->postSortService = $postSortService;
     }
 
     public function home(Request $request)
@@ -57,179 +63,85 @@ class PageController extends Controller
         $seo = $this->seoService->getSeoData($request);
         $name = $request->route()->getName();
 
-        $perPage = 10;
-        $currentPage = 1;
-        $currentUrl = url()->current();
-
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
 
-        $lastNumberPage = max((int) ceil($posts->count() / $perPage), 1);
-
-        $previousNumberPage = $currentPage - 1;
-        $nextNumberPage = $currentPage + 1;
-
-        $hasPages = $currentPage != 1 || $currentPage < $lastNumberPage;
-        $hasMorePages = $currentPage < $lastNumberPage;
+        $data = $this->paginateService->paginationData(10, 1, url()->current(), $posts->count());
 
         if ($name == 'posts.rated') {
 
-            foreach ($posts as $post) {
-                $post->setAttribute('rat', $post->rating->count());
-                $post->setAttribute('seconds', strtotime($post->getOriginal('date_published')));
-            }
+            $posts = $this->postSortService->sortedBy($posts, 'posts.rated');
 
-            $posts = $posts->values()->all();
-
-            array_multisort(array_column($posts, 'rat'), SORT_DESC, array_column($posts, 'seconds'), SORT_DESC, $posts);
-
-            $posts = collect($posts);
-
-            $posts = $posts->slice( 0, $perPage);
+            $posts = $posts->slice( 0, $data['perPage']);
 
         } else if ($name == 'posts.views') {
 
-            foreach ($posts as $post) {
-                $post->setAttribute('seconds', strtotime($post->getOriginal('date_published')));
-            }
+            $posts = $this->postSortService->sortedBy($posts, 'posts.views');
 
-            $posts = $posts->values()->all();
-
-            array_multisort(array_column($posts, 'views'), SORT_DESC, array_column($posts, 'seconds'), SORT_DESC, $posts);
-
-            $posts = collect($posts);
-
-            $posts = $posts->slice(0, $perPage);
+            $posts = $posts->slice(0, $data['perPage']);
 
         } else {
 
-            foreach ($posts as $post) {
-                $post->setAttribute('comment', $post->comments->count());
-                $post->setAttribute('seconds', strtotime($post->getOriginal('date_published')));
-            }
+            $posts = $this->postSortService->sortedBy($posts, 'posts.comments');
 
-            $posts = $posts->values()->all();
-
-            array_multisort(array_column($posts, 'comment'), SORT_DESC, array_column($posts, 'seconds'), SORT_DESC, $posts);
-
-            $posts = collect($posts);
-
-            $posts = $posts->slice(0, $perPage);
+            $posts = $posts->slice(0, $data['perPage']);
 
         }
 
-
-
-        return view('posts.list', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'hasPages', 'hasMorePages', 'currentPage', 'currentUrl'));
+        return view('posts.list', compact('seo', 'posts', 'data'));
     }
 
     public function commentsPaginate($id, Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
+        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
         $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
 
-        $perPage = 10;
-        $currentPage = $id;
-        $currentUrl = config('app.url').'/best-comments';
+        $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-comments', $posts->count());
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+        $posts = $this->postSortService->sortedBy($posts, 'posts.comments');
 
-        $lastNumberPage = max((int) ceil($posts->count() / $perPage), 1);
+        $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
 
-        $previousNumberPage = $currentPage - 1;
-        $nextNumberPage = $currentPage + 1;
-
-        $hasPages = $currentPage != 1 || $currentPage < $lastNumberPage;
-        $hasMorePages = $currentPage < $lastNumberPage;
-
-        foreach ($posts as $post) {
-            $post->setAttribute('comment', $post->comments->count());
-            $post->setAttribute('seconds', strtotime($post->getOriginal('date_published')));
-        }
-
-        $posts = $posts->values()->all();
-
-        array_multisort(array_column($posts, 'comment'), SORT_DESC, array_column($posts, 'seconds'), SORT_DESC, $posts);
-
-        $posts = collect($posts);
-
-        $posts = $posts->slice($perPage * $id - $perPage, $perPage);
-
-        return view('posts.list', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'hasPages', 'hasMorePages', 'currentPage', 'currentUrl'));
+        return view('posts.list', compact('seo', 'posts', 'data'));
     }
 
     public function ratedPaginate($id, Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
+        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
         $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
 
-        $perPage = 10;
-        $currentPage = $id;
-        $currentUrl = config('app.url').'/best-rated';
+        $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-rated', $posts->count());
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->get();
+        $posts = $this->postSortService->sortedBy($posts, 'posts.rated');
 
-        $lastNumberPage = max((int) ceil($posts->count() / $perPage), 1);
+        $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
 
-        $previousNumberPage = $currentPage - 1;
-        $nextNumberPage = $currentPage + 1;
-
-        $hasPages = $currentPage != 1 || $currentPage < $lastNumberPage;
-        $hasMorePages = $currentPage < $lastNumberPage;
-
-        foreach ($posts as $post) {
-            $post->setAttribute('rat', $post->rating->count());
-            $post->setAttribute('seconds', strtotime($post->getOriginal('date_published')));
-        }
-
-        $posts = $posts->values()->all();
-
-        array_multisort(array_column($posts, 'rat'), SORT_DESC, array_column($posts, 'seconds'), SORT_DESC, $posts);
-
-        $posts = collect($posts);
-
-        $posts = $posts->slice($perPage * $id - $perPage, $perPage);
-
-        return view('posts.list', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'hasPages', 'hasMorePages', 'currentPage', 'currentUrl'));
+        return view('posts.list', compact('seo', 'posts', 'data'));
     }
 
     public function viewsPaginate($id, Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
+        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
         $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
 
-        $perPage = 10;
-        $currentPage = $id;
-        $currentUrl = config('app.url').'/best-views';
+        $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-views', $posts->count());
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+        $posts = $this->postSortService->sortedBy($posts, 'posts.views');
 
-        $lastNumberPage = max((int) ceil($posts->count() / $perPage), 1);
+        $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
 
-        $previousNumberPage = $currentPage - 1;
-        $nextNumberPage = $currentPage + 1;
-
-        $hasPages = $currentPage != 1 || $currentPage < $lastNumberPage;
-        $hasMorePages = $currentPage < $lastNumberPage;
-
-        foreach ($posts as $post) {
-            $post->setAttribute('seconds', strtotime($post->getOriginal('date_published')));
-        }
-
-        $posts = $posts->values()->all();
-
-        array_multisort(array_column($posts, 'views'), SORT_DESC, array_column($posts, 'seconds'), SORT_DESC, $posts);
-
-        $posts = collect($posts);
-
-        $posts = $posts->slice($perPage * $id - $perPage, $perPage);
-
-        return view('posts.list', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'hasPages', 'hasMorePages', 'currentPage', 'currentUrl'));
+        return view('posts.list', compact('seo', 'posts', 'data'));
     }
 
     public function about(Request $request) {
