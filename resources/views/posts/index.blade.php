@@ -4,7 +4,7 @@
     @each('components.post', $posts, 'post')
     <div class="pagination-wrapper">
         @if ($posts->hasPages())
-            <ul class="pagination" role="navigation">
+            <ul class="pagination">
                 @if ($posts->onFirstPage())
                     <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
                         <span class="page-link" aria-hidden="true">&lsaquo;</span>

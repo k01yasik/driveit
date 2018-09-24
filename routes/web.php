@@ -42,9 +42,15 @@ Route::post('/users', 'PublicUsersController@store')->name('users.store');
 
 Route::get('/best-rated', 'PageController@list')->name('posts.rated');
 
+Route::get('/best-rated/page/{id}', 'PageController@ratedPaginate')->name('best.rated.paginate');
+
 Route::get('/best-views', 'PageController@list')->name('posts.views');
 
+Route::get('/best-views/page/{id}', 'PageController@viewsPaginate')->name('best.views.paginate');
+
 Route::get('/best-comments', 'PageController@list')->name('posts.comments');
+
+Route::get('/best-comments/page/{id}', 'PageController@commentsPaginate')->name('best.comments.paginate');
 
 Route::get('/about', 'PageController@about')->name('page.about');
 

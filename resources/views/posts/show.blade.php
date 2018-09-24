@@ -136,7 +136,7 @@
                             ></path>
                         </g>
                     </svg>
-                    <p>{{ $post->comments }}</p>
+                    <p>{{ $post->comments->count() }}</p>
                 </div>
             </div>
         </div>
@@ -151,7 +151,9 @@
             <div data-service="plusone" title="Share link on Google+">Google+</div>
         </div>
     </article>
-    <div class="comments-wrapper">
-        @each('components.comment', $sortedComments, 'comment')
-    </div>
+    @if ($sortedComments)
+        <div class="comments-wrapper">
+            @each('components.comment', $sortedComments, 'comment')
+        </div>
+    @endif
 @endsection

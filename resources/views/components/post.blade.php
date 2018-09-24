@@ -124,7 +124,7 @@
                         ></path>
                     </g>
                 </svg>
-                <p>{{ $post->comments }}</p>
+                <p>{{ $post->comments->count() }}</p>
             </div>
         </div>
     </div>
