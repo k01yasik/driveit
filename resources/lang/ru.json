@@ -13,6 +13,9 @@
   "Send request to add to friends": "Отправить запрос для добавления в друзья",
   "Waiting for confirmation.": "Ожидание подтверждения.",
   "Posts": "Статьи",
+  "Users": "Пользователи",
+  "Comments": "Комментарии",
+  "Seo": "Seo",
   "All posts": "Все статьи",
   "User is not logged in.": "Пользователь не вошел в систему.",
   "Create a post": "Создать статью",
@@ -28,5 +31,15 @@
   "Choose a category": "Выберите категорию",
   "Searching results": "Результаты поиска",
   "Reset Password": "Сброс пароля",
-  "Send Password Reset Link": "Выслать ссылку сброса пароля"
+  "Send Password Reset Link": "Выслать ссылку сброса пароля",
+  "Adding a comment": "Добавление комментария",
+  "Add a comment": "Добавить комментарий",
+  "Comment was sent for moderation.": "Комментарий отправлен на модерацию.",
+  "Reply": "Ответить",
+  "Only registered users can post a new comment.": "Только зарегистрированные пользователи могут оставлять комментарии.",
+  "Menu": "Меню",
+  "Published": "Опубликовано",
+  "Unpublished": "Неопубликовано",
+  "Unpublished comments": "Неопубликованные комментарии",
+  "There are no unpublished comments": "Нет неопубликованных коментариев"
 }

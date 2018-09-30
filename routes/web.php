@@ -56,6 +56,8 @@ Route::get('/about', 'PageController@about')->name('page.about');
 
 Route::get('/rules', 'PageController@rules')->name('page.rules');
 
+Route::post('/comment/store', 'CommentController@store')->name('comment.store');
+
 Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/', 'AdminController@index')->name('admin.index');
@@ -64,13 +66,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/posts', 'AdminController@posts')->name('admin.posts');
 
+    Route::get('/posts/page/{id}', 'AdminController@paginate')->name('admin.posts.paginate');
+
     Route::post('/posts/image-upload', 'ImageUploadController@index')->name('admin.posts.image.upload');
 
-    Route::post('/posts/editor-upload', 'ImageUploadController@upload')->name('admin.posts.editor.upload');
+    Route::post('/image/upload', 'ImageUploadController@upload')->name('admin.image.upload');
 
     Route::delete('/posts/image-destroy', 'ImageUploadController@destroy')->name('admin.posts.image.destroy');
 
     Route::get('/comments', 'AdminController@comments')->name('admin.comments');
+
+    Route::get('/comments/page/{id}', 'AdminController@commentsPaginate')->name('admin.comments.paginate');
+
+    Route::put('/comments/publish', 'AdminCommentController@publish')->name('admin.comments.publish');
+
+    Route::get('/comments/unpublished', 'AdminController@unpublished')->name('admin.comments.unpublished');
 
     Route::get('/seo', 'AdminController@seo')->name('admin.seo');
 
@@ -90,7 +100,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::put('/posts/{id}', 'PostController@update')->name('admin.posts.update');
 
-    Route::put('/publish/post', 'PostController@publish')->name('admin.posts.publish');
+    Route::put('/posts/publish', 'PostController@publish')->name('admin.posts.publish');
 
     Route::get('/posts/{id}', 'PostController@show')->name('admin.posts.show');
 

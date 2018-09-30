@@ -6,9 +6,11 @@
         <span class="all-posts-item">/</span>
         <a href="{{ route('posts.index') }}" class="all-posts-item"><h3>{{ __('All posts') }}</h3></a>
     </div>
+
     @each('components.post', $posts, 'post')
-    <div class="pagination-wrapper">
-        @if ($data['hasPages'])
+
+    @if ($data['hasPages'])
+        <div class="pagination-wrapper">
             <ul class="pagination">
                 @if ($data['currentPage'] == 1)
                     <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
@@ -42,6 +44,6 @@
                     </li>
                 @endif
             </ul>
-        @endif
-    </div>
+        </div>
+    @endif
 @endsection

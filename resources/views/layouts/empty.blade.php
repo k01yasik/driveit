@@ -51,9 +51,7 @@
 </header>
 <div class="main-row">
     <div class="main-wrapper">
-        <div class="empty-container">
-            @yield('content')
-        </div>
+        @yield('content')
     </div>
 </div>
 <footer>

@@ -2,8 +2,8 @@
 
 @section('content')
     @each('components.post', $posts, 'post')
-    <div class="pagination-wrapper">
-        @if ($posts->hasPages())
+    @if ($posts->hasPages())
+        <div class="pagination-wrapper">
             <ul class="pagination">
                 @if ($posts->onFirstPage())
                     <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
@@ -37,6 +37,6 @@
                     </li>
                 @endif
             </ul>
-        @endif
-    </div>
+        </div>
+    @endif
 @endsection

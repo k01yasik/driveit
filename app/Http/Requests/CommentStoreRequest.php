@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class BodyImageUpload extends FormRequest
+class CommentStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class BodyImageUpload extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -24,8 +25,10 @@ class BodyImageUpload extends FormRequest
     public function rules()
     {
         return [
-            'upload_image_form_input' => 'required|image',
-            'type' => 'required'
+            'post' => 'required|integer',
+            'level' => 'required|integer|min:0|max:3',
+            'parent' => 'required|integer',
+            'message' => 'required',
         ];
     }
 }

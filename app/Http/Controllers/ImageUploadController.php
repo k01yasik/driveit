@@ -24,7 +24,7 @@ class ImageUploadController extends Controller
 
         $data = $request->validated()['post_upload'];
 
-        $image_item =  $this->uploadImageService->storeToCloud($data);
+        $image_item =  $this->uploadImageService->storeToPublicDisk($data, 'post');
 
         $this->uploadImageService->saveToImageTable($image_item);
 
@@ -34,9 +34,12 @@ class ImageUploadController extends Controller
 
     public function upload(BodyImageUpload $request) {
 
-        $data = $request->validated()['body_post_upload'];
+        $data = $request->validated();
 
-        $image_item =  $this->uploadImageService->storeToCloud($data);
+        $image = $data['upload_image_form_input'];
+        $type = $data['type'];
+
+        $image_item =  $this->uploadImageService->storeToPublicDisk($image, $type);
 
         $this->uploadImageService->saveToImageTable($image_item);
 

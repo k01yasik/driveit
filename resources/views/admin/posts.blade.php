@@ -58,4 +58,41 @@
             </div>
         @endforeach
     </div>
+    @if ($posts->hasPages())
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                @if ($posts->onFirstPage())
+                    <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                        <span class="page-link" aria-hidden="true">&lsaquo;</span>
+                    </li>
+                @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ config('app.url').'/admin/posts/page/'. $previousNumberPage }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                    </li>
+                @endif
+
+                @for ($i = 1; $i <= $lastNumberPage; $i++)
+                    @if ($i == $posts->currentPage())
+                        <li class="page-item active" aria-current="page"><span class="page-link">{{ $i }}</span></li>
+                    @else
+                        @if ($i == 1)
+                            <li class="page-item"><a class="page-link" href="{{ config('app.url').'/admin/posts' }}">{{ $i }}</a></li>
+                        @else
+                            <li class="page-item"><a class="page-link" href="{{ config('app.url').'/admin/posts/page/'.$i }}">{{ $i }}</a></li>
+                        @endif
+                    @endif
+                @endfor
+
+                @if ($posts->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ config('app.url').'/admin/posts/page/'. $nextNumberPage }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                    </li>
+                @else
+                    <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                        <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                    </li>
+                @endif
+            </ul>
+        </div>
+    @endif
 @endsection

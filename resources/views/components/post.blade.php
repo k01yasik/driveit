@@ -124,7 +124,15 @@
                         ></path>
                     </g>
                 </svg>
-                <p>{{ $post->comments->count() }}</p>
+                @php
+                    $p=0;
+                    foreach ($post->comments as $c) {
+                        if ($c->is_verified == 1) {
+                            $p+=1;
+                        }
+                    }
+                @endphp
+                <p>{{ $p }}</p>
             </div>
         </div>
     </div>

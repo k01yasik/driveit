@@ -9,12 +9,12 @@ use App\Image;
 
 class UploadImageService
 {
-    public function storeToCloud($data)
+    public function storeToPublicDisk(UploadedFile $image, $type)
     {
         $username = Auth::user()->username;
 
 
-        $path = $data->storePubliclyAs($username .'/posts', $data->getClientOriginalName(), ['disk' => 'public']);
+        $path = $image->storePubliclyAs($username .'/'.$type.'/', $image->getClientOriginalName(), ['disk' => 'public']);
 
         $imageUrl = Storage::disk('public')->url($path);
 

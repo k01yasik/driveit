@@ -136,7 +136,15 @@
                             ></path>
                         </g>
                     </svg>
-                    <p>{{ $post->comments->count() }}</p>
+                    @php
+                        $p=0;
+                        foreach ($post->comments as $c) {
+                            if ($c->is_verified == 1) {
+                                $p+=1;
+                            }
+                        }
+                    @endphp
+                    <p>{{ $p }}</p>
                 </div>
             </div>
         </div>
@@ -152,8 +160,27 @@
         </div>
     </article>
     @if ($sortedComments)
+        <div class="caption-block">
+            <h3>{{ __('Comments') }}</h3>
+        </div>
         <div class="comments-wrapper">
-            @each('components.comment', $sortedComments, 'comment')
+            @foreach($sortedComments as $comment)
+                @include('components.comment')
+            @endforeach
         </div>
     @endif
+    @auth
+        <div class="caption-block">
+            <h3>{{ __('Adding a comment') }}</h3>
+        </div>
+        <div class="add-comment-wrapper" id="add-comment" data-post="{{ $post->id }}" data-level="0" data-parent="0">
+            @include('components.texteditor', ['type' => 'comment'])
+            <div class="button btn-post-height right add-comment-button">{{ __('Add a comment') }}</div>
+        </div>
+    @endauth
+    @guest
+        <div class="caption-block">
+            <h3>{{ __('Only registered users can post a new comment.') }}</h3>
+        </div>
+    @endguest
 @endsection

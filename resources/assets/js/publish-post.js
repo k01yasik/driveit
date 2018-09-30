@@ -15,7 +15,7 @@ $().ready(function () {
         
         $.ajax({
             method: "PUT",
-            url: "/admin/publish/post",
+            url: "/admin/posts/publish",
             data: data,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

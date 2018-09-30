@@ -1,0 +1,62 @@
+.left-panel {
+  float: left;
+  background: $white;
+  border-radius: 3px;
+  padding: 2em;
+}
+
+.right-panel {
+  width: 65.33%;
+  float: left;
+  min-height: 30em;
+}
+
+.left-panel {
+  width: 32.67%;
+  margin-right: 2%;
+
+  li {
+    margin-bottom: 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    span {
+      background: $primary-1;
+      text-align: center;
+      color: $white;
+      border-radius: 3px;
+      padding: 0 .5em;
+    }
+  }
+}
+
+.menu-header {
+  line-height: 3rem;
+  text-align: center;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.comment-publish-button {
+  width: 2em;
+  height: 2em;
+  margin: .5em 1em .5em 0;
+  background: $dark-gray-bottom;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+
+  &:hover {
+    background: $gray-0;
+  }
+}
+
+.comment-publish-svg, .comment-unpublish-svg {
+  height: 1em;
+  width: 1em;
+  margin: .5em;
+  fill: $white;
+}

@@ -1,5 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.empty')
 
 @section('content')
-    <p>Admin index page!</p>
+    @include('admin.components.panel')
+    <div class="right-panel">
+
+    </div>
 @endsection

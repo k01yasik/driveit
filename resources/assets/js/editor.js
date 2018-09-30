@@ -8,6 +8,7 @@ $().ready(function () {
     let selectItemInput = $('.select-item-input');
     let imageSelectItemInput = $('.image-select-item-input');
     let imageItem = $('.image-item');
+    let upload_image = $('#upload_image_form_input');
 
     let textPostBody = localStorage.getItem('post-body');
 
@@ -240,20 +241,26 @@ $().ready(function () {
     });
 
     imageItem.click(function () {
-        $('#body_post_upload_image_input').click();
+        upload_image.click();
     });
 
-    $('#body_post_upload_image_input').change(function () {
-       let selectedFile = $('#body_post_upload_image_input')[0].files[0];
+    upload_image.change(function () {
+       let selectedFile = upload_image[0].files[0];
 
        let formData = new FormData();
-       formData.append('body_post_upload', selectedFile);
+       formData.append('upload_image_form_input', selectedFile);
+
+       let type = upload_image.data('type');
+
+       if (type === 'post' || type === 'comment') {
+           formData.append('type', type);
+       }
 
         if (selectedFile) {
 
             $.ajax({
                 method: "POST",
-                url: "/admin/posts/editor-upload",
+                url: "/admin/image/upload",
                 contentType: false,
                 processData: false,
                 dataType: 'text',

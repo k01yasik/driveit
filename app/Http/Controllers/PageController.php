@@ -8,7 +8,7 @@ use App\Services\CommentService;
 use App\Services\PaginateService;
 use App\Services\PostSortService;
 use App\Post;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
@@ -167,8 +167,9 @@ class PageController extends Controller
             "type" => 'article'
         ];
 
+        $authenticated = Auth::check();
         $sortedComments = $this->commentService->sortComments($post->id);
 
-        return view('posts.show', compact('seo', 'post', 'sortedComments'));
+        return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated'));
     }
 }
