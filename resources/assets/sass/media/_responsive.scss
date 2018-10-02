@@ -8,6 +8,18 @@
     padding: 5%;
   }
 
+  .button-block {
+    margin-top: 0;
+  }
+
+  .at-nav-button {
+    width: 50%;
+
+    button {
+      width: 100%;
+    }
+  }
+
   .breadcrumbs {
     height: initial;
     display: inline-block;
@@ -176,17 +188,21 @@
       background: $grey-9;
       padding: 0 3em;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       width: 100%;
+
+      p {
+        margin: .5em .5em 0;
+      }
     }
 
     .post-buttons-changed {
       margin-top: 0;
     }
+  }
 
-    .eye-svg, .star-svg, .comments-svg {
-      margin-top: 0;
-    }
+  .eye-block, .rating-block {
+    margin-right: 0;
   }
 
   .post-content {
@@ -235,7 +251,7 @@
     float: left;
     margin: 0 5%;
 
-    h2 {
+    .small-nav-caption {
       color: $white;
       margin: 0;
       font-weight: normal;
@@ -347,10 +363,6 @@
         padding: 0;
         margin-top: 1em;
       }
-
-      h3 {
-        font-weight: normal;
-      }
     }
   }
 
@@ -430,11 +442,6 @@
     width: 65%;
   }
 
-  .avatar-block {
-    width: 100%;
-    margin-right: 0;
-  }
-
   .user-main {
     width: 100%;
     margin-top: 2em;
@@ -468,21 +475,6 @@
     }
   }
 
-  .avatar-block-image-body {
-    img {
-      float: none;
-      display: block;
-      width: initial;
-      margin: 0 auto;
-    }
-  }
-
-  .message-box-avatar {
-    width: 100%;
-    margin-right: 0;
-    padding: .5em;
-  }
-
   .image-crop {
     float: left;
   }
@@ -493,11 +485,6 @@
     float: left;
     margin-left: 2em;
   }
-
-  .message-box-body {
-    width: 100%;
-    margin-top: .5em;
-  }  
 
   .add-message {
     padding: 1em;
@@ -680,6 +667,18 @@
     width: 100%;
   }
 
+  .button-block {
+    margin-top: 0;
+  };
+
+  .at-nav-button {
+    width: 50%;
+
+    button {
+      width: 100%;
+    }
+  }
+
   .post-buttons-wrapper {
     .post-buttons-changed {
       margin-top: 1em;
@@ -785,11 +784,11 @@
       border-radius: 0 0 3px 3px;
       width: 100%;
       display: flex;
-      justify-content: center;
-    }
+      justify-content: space-between;
 
-    .eye-svg, .star-svg, .comments-svg {
-      margin-top: 0;
+      .eye-block, .right-block {
+        margin-right: 0;
+      };
     }
   }
 
@@ -839,12 +838,6 @@
     }
   }
 
-  .username-block {
-    .avatar-block-image-body {
-      margin-left: 0;
-    }
-  }
-
   .sitetop-row {
     .sitetop-wrapper {
       .logo {
@@ -873,7 +866,7 @@
 
         li {
           margin-left: 0;
-          margin-right: 1em;
+          margin-right: 3em;
 
           &:last-child {
             margin-right: 0;
@@ -910,7 +903,7 @@
     float: left;
     padding: 0 2em;
 
-    h2 {
+    .small-nav-caption {
       color: $white;
       font-size: 1.5em;
       margin: 0;
@@ -1038,10 +1031,6 @@
         padding: 0;
         margin-top: 1em;
       }
-
-      h3 {
-        font-weight: normal;
-      }
     }
   }
   .full-size {
@@ -1124,11 +1113,6 @@
     width: 100%;
   }
 
-  .avatar-block {
-    width: 100%;
-    margin-right: 0;
-  }
-
   .user-main {
     width: 100%;
     margin-top: 2em;
@@ -1138,31 +1122,6 @@
   .two-column-row {
     float: left;
     width: 100%;
-  }
-
-  .avatar-block-image {
-    padding: 2em 0;
-  }
-
-  .avatar-block-image-body {
-    width: 80%;
-    margin-left: 10%;
-
-    img {
-      float: none;
-      width: initial;
-      display: block;
-      margin: 0 auto;
-    }
-  }
-
-  .avatar-block-menu {
-    padding: 2em 0;
-
-    ul {
-      width: 80%;
-      margin-left: 10%;
-    }
   }
 
   .user-main-post {
@@ -1192,12 +1151,6 @@
     }
   }
 
-  .message-box-avatar {
-    width: 100%;
-    margin-right: 0;
-    padding: .5em;
-  }
-
   .image-crop {
     float: left;
   }
@@ -1208,11 +1161,6 @@
     height: 2em;
     line-height: 2em;
   }
-
-  .message-box-body {
-    width: 100%;
-    margin-top: .5em;
-  }  
 
   .add-message {
     padding: 1em;
@@ -1434,12 +1382,6 @@
     height: auto;
   }
 
-  .message-box-avatar {
-    width: 100%;
-    margin-right: 0;
-    padding: .5em;
-  }
-
   .image-crop {
     float: left;
   }
@@ -1450,11 +1392,6 @@
     height: 2em;
     line-height: 2em;
   }
-
-  .message-box-body {
-    width: 100%;
-    margin-top: .5em;
-  }  
 
   .add-message {
     padding: 1em;
@@ -1612,28 +1549,11 @@
     height: auto;
   }
 
-  .avatar-block-menu {
-    padding: 2em 1em;
-    li {
-      height: auto;
-    }
-  }
-
-  .avatar-block-image {
-    padding: 2em 1em;
-  }
-
   .user-main-header {
     h3 {
       width: 80%;
       height: auto;
     }
-  }
-
-  .message-box-avatar {
-    width: 100%;
-    margin-right: 0;
-    padding: .5em;
   }
 
   .image-crop {
@@ -1646,11 +1566,6 @@
     float: left;
     margin-left: 2em;
   }
-
-  .message-box-body {
-    width: 100%;
-    margin-top: .5em;
-  }  
 
   .add-message {
     padding: 1em;

@@ -78,12 +78,7 @@ class AdminController extends Controller
         $nextNumberPage = $comments->currentPage() + 1;
         $lastNumberPage = $comments->lastPage();
 
-        $posts_count = Post::all()->count();
-        $users_count = User::all()->count();
-        $comments_count = Comment::all()->count();
-        $seo_count = Seo::all()->count();
-
-        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'posts_count', 'users_count', 'comments_count', 'seo_count'));
+        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
     }
 
     public function commentsPaginate(Request $request, $id)
@@ -100,12 +95,7 @@ class AdminController extends Controller
         $nextNumberPage = $comments->currentPage() + 1;
         $lastNumberPage = $comments->lastPage();
 
-        $posts_count = Post::all()->count();
-        $users_count = User::all()->count();
-        $comments_count = Comment::all()->count();
-        $seo_count = Seo::all()->count();
-
-        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'posts_count', 'users_count', 'comments_count', 'seo_count'));
+        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
     }
 
     public function unpublished(Request $request)
@@ -114,14 +104,7 @@ class AdminController extends Controller
 
         $comments = Comment::with(['user', 'user.profile'])->where('is_verified', 0)->orderByDesc('created_at')->get();
 
-        $posts_count = Post::all()->count();
-        $users_count = User::all()->count();
-        $comments_count = Comment::all()->count();
-        $seo_count = Seo::all()->count();
-
-        debug($comments);
-
-        return view('admin.unpublished', compact('seo', 'comments', 'posts_count', 'users_count', 'comments_count', 'seo_count'));
+        return view('admin.unpublished', compact('seo', 'comments'));
     }
 
     public function seo()

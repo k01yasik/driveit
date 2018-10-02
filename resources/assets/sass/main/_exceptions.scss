@@ -15,5 +15,20 @@
   h2 {
     font-weight: normal;
     margin: 0;
+    text-align: center;
   }
+}
+
+.big-caption {
+  font-size: 10em;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 $grey-1;
+}
+
+.small-caption {
+  text-align: center;
+  font-weight: bold;
+  font-size: 4rem;
+  margin-bottom: 2rem;
 }

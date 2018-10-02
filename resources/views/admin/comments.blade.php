@@ -25,22 +25,23 @@
                 <li><a href="{{ route('admin.comments.unpublished') }}">{{ __('Unpublished comments') }}</a></li>
             </ul>
         </div>
-        <div class="comments-wrapper">
-            @foreach($comments as $comment)
-                <div class="comment-item">
-                    <div class="header">
-                        <a href="{{ route('user.profile', ['username' => $comment->user->username]) }}" class="user-avatar-link header-item">
-                            <img src="{{ $comment->user->profile->avatar }}" class="user-avatar" alt="{{ $comment->user->username }}" />
-                        </a>
-                        <a href="{{ route('user.profile', ['username' => $comment->user->username]) }}" class="post-author header-item">{{ $comment->user->username }}</a>
-                        <div class="right">{{ $comment->created_at }}</div>
-                        <div class="comment-publish-button right" data-id="{{ $comment->id }}">
-                            @if ($comment->is_verified)
-                                <svg version="1.1" class="comment-publish-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
-                                    <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"></path>
-                                </svg>
-                            @else
-                                <svg version="1.1" class="comment-unpublish-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.381 15.381" style="enable-background:new 0 0 15.381 15.381;" xml:space="preserve">
+        @if ($comments->count() > 0)
+            <div class="comments-wrapper">
+                @foreach($comments as $comment)
+                    <div class="comment-item">
+                        <div class="header">
+                            <a href="{{ route('user.profile', ['username' => $comment->user->username]) }}" class="user-avatar-link header-item">
+                                <img src="{{ $comment->user->profile->avatar }}" class="user-avatar" alt="{{ $comment->user->username }}" />
+                            </a>
+                            <a href="{{ route('user.profile', ['username' => $comment->user->username]) }}" class="post-author header-item">{{ $comment->user->username }}</a>
+                            <div class="right">{{ $comment->created_at }}</div>
+                            <div class="comment-publish-button right" data-id="{{ $comment->id }}">
+                                @if ($comment->is_verified)
+                                    <svg version="1.1" class="comment-publish-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
+                                        <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"></path>
+                                    </svg>
+                                @else
+                                    <svg version="1.1" class="comment-unpublish-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.381 15.381" style="enable-background:new 0 0 15.381 15.381;" xml:space="preserve">
                                     <g>
                                         <g>
                                             <path d="M12.016,15.381h-8.65c-1.558,0-2.826-1.268-2.826-2.825v-9.73C0.54,1.268,1.808,0,3.366,0h8.65
@@ -50,15 +51,18 @@
                                         </g>
                                     </g>
                                 </svg>
-                            @endif
+                                @endif
+                            </div>
+                        </div>
+                        <div class="body">
+                            {!! $comment->message !!}
                         </div>
                     </div>
-                    <div class="body">
-                        {!! $comment->message !!}
-                    </div>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @else
+
+        @endif
         @if ($comments->hasPages())
             <div class="pagination-wrapper">
                 <ul class="pagination">

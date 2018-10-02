@@ -14,26 +14,29 @@
 
 Route::get('/', 'PageController@home')->name('page.home');
 
-Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public']], function () {
     Route::get('/{username}', 'UserPageController@index')->name('user.profile');
-
-    Route::get('/{username}/settings', 'UserPageController@settings')->name('user.settings');
-
-    Route::get('/{username}/friends', 'UserPageController@friends')->name('user.friends');
-
-    Route::get('/{username}/messages', 'UserPageController@messages')->name('user.messages');
-
-    Route::get('/{username}/messages/{friend}', 'UserPageController@friendMessages')->name('user.friend.messages');
-
-    Route::get('/{username}/comment/{id}/edit', 'CommentController@edit')->name('user.comment.edit');
 
     Route::get('/{username}/albums', 'UserAlbumsController@index')->name('user.albums.index');
 
-    Route::get('/{username}/albums/create', 'UserAlbumsController@create')->name('user.albums.create');
-
     Route::get('/{username}/albums/{albumname}', 'UserAlbumsController@show')->name('user.albums.show');
 
-    Route::get('/{username}/albums/{albumname}/edit', 'UserAlbumsController@update')->name('user.albums.edit');
+    Route::group(['middleware' => 'current'], function () {
+        Route::get('/{username}/settings', 'UserPageController@settings')->name('user.settings');
+
+        Route::get('/{username}/friends', 'UserPageController@friends')->name('user.friends');
+
+        Route::get('/{username}/messages', 'UserPageController@messages')->name('user.messages');
+
+        Route::get('/{username}/messages/{friend}', 'UserPageController@friendMessages')->name('user.friend.messages');
+
+        Route::get('/{username}/comment/{id}/edit', 'CommentController@edit')->name('user.comment.edit');
+
+        Route::get('/{username}/albums/create', 'UserAlbumsController@create')->name('user.albums.create');
+
+        Route::get('/{username}/albums/{albumname}/edit', 'UserAlbumsController@update')->name('user.albums.edit');
+    });
+
 });
 
 Route::get('/users', 'PublicUsersController@index')->name('users');

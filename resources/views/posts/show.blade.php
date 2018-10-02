@@ -161,7 +161,7 @@
     </article>
     @if ($sortedComments)
         <div class="caption-block">
-            <h3>{{ __('Comments') }}</h3>
+            <div class="caption-block-text">{{ __('Comments') }}</div>
         </div>
         <div class="comments-wrapper">
             @foreach($sortedComments as $comment)
@@ -171,7 +171,7 @@
     @endif
     @auth
         <div class="caption-block">
-            <h3>{{ __('Adding a comment') }}</h3>
+            <div class="caption-block-text">{{ __('Adding a comment') }}</div>
         </div>
         <div class="add-comment-wrapper" id="add-comment" data-post="{{ $post->id }}" data-level="0" data-parent="0">
             @include('components.texteditor', ['type' => 'comment'])
@@ -180,7 +180,7 @@
     @endauth
     @guest
         <div class="caption-block">
-            <h3>{{ __('Only registered users can post a new comment.') }}</h3>
+            <div class="caption-block-text">{{ __('Only registered users can post a new comment.') }}</div>
         </div>
     @endguest
 @endsection

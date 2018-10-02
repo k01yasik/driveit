@@ -1,54 +1,48 @@
-.username-block {
-  height: 3em;
-  line-height: 3em;
-  border-radius: $base-border-radius;
-  box-shadow: $sixth-box-shadow;
-  margin-bottom: 2em;
-  padding: 0 1em;
+.user-profile {
+  width: 23.2317613%;
+  margin-right: 2.35765%;
+  float: left;
+  background: $white;
+  border-radius: 3px;
+  padding: 2em;
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+  ul {
+    margin-top: 3em;
 
-  .text-username {
-    margin-left: 1em;
-  }
+    li {
+      margin-bottom: 1em;
 
-  a {
-    color: $grey-2;
-
-    &:hover {
-      color: $grey-0;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
-  }
-
-  .add-friend-button, .add-friend-request, .add-friend-remove-request {
-    float: right;
-    height: 2em;
-    line-height: 2em;
-    margin-top: .5em;
-    width: 2em;
-    border-radius: $base-border-radius;
-    text-align: center;
-    box-shadow: $sixth-box-shadow;
-    color: $grey-2;
-    transition: $second-transitions;
-
-    &:hover {
-      color: $primary-1;
-    }
-  }
-
-  .add-friend-button {
-    cursor: pointer;
-  }
-
-  .add-friend-remove-request {
-    margin-right: 1em;
-    cursor: pointer;
   }
 }
 
-.friends-box-username {
-  overflow-wrap: break-word;
+.user-profile-content {
+  width: 74.41059%;
+  background: $white;
+  float: left;
+  border-radius: 3px;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+
+  img {
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+}
+
+.user-profile-username {
+  margin-top: 2em;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+
+  p {
+    margin: 0;
+  }
 }

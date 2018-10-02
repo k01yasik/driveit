@@ -17,7 +17,7 @@
   "Comments": "Комментарии",
   "Seo": "Seo",
   "All posts": "Все статьи",
-  "User is not logged in.": "Пользователь не вошел в систему.",
+  "User is not logged in.": "Необходимо войти на сайт",
   "Create a post": "Создать статью",
   "Edit a post": "Редактировать статью",
   "Save a post": "Сохранить статью",
@@ -41,5 +41,14 @@
   "Published": "Опубликовано",
   "Unpublished": "Неопубликовано",
   "Unpublished comments": "Неопубликованные комментарии",
-  "There are no unpublished comments": "Нет неопубликованных коментариев"
+  "There are no unpublished comments": "Нет неопубликованных коментариев",
+  "Dashboard": "Главная",
+  "User profile is not public": "Профиль пользователя не является публичным",
+  "You are not the owner of this profile": "Вы не являетесь владельцем данного профиля",
+  "An error has occurred": "Произошла ошибка",
+  "error": "ошибка",
+  "Albums": "Альбомы",
+  "Friends": "Друзья",
+  "Messages": "Сообщения",
+  "Settings": "Настройки"
 }

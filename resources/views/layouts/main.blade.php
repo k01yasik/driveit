@@ -58,7 +58,6 @@
                 </main>
                 <aside>
                     @include('components.ads')
-                    {{--@include('components.comments')--}}
                 </aside>
             </div>
         </div>

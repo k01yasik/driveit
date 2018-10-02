@@ -6,8 +6,9 @@
   .footer-wrapper {
     @include outer-container();
 
-    h3 {
+    .column-caption {
       font-weight: normal;
+      font-size: 1.25em;
       color: $grey-0;
       margin: 0 0 1rem;
     }

@@ -2,7 +2,7 @@
     <div class="footer-wrapper">
         <div class="two-column-row">
             <div class="first-column">
-                <h3>Разделы</h3>
+                <div class="column-caption">Разделы</div>
                 <ul>
                     <li><a href="{{ route('category.show', ['category' => 'auto']) }}">Авто</a></li>
                     <li><a href="{{ route('category.show', ['category' => 'moto']) }}">Мото</a></li>
@@ -11,7 +11,7 @@
                 </ul>
             </div>
             <div class="second-column">
-                <h3>Информация</h3>
+                <div class="column-caption">Информация</div>
                 <ul>
                     <li><a href="{{ route('page.about') }}">О сайте</a></li>
                     <li><a href="{{ route('page.rules') }}">Правила</a></li>
@@ -20,7 +20,7 @@
         </div>
         <div class="two-column-row">
             <div class="third-column">
-                <h3>Лучшие статьи</h3>
+                <div class="column-caption">Лучшие статьи</div>
                 <ul>
                     <li><a href="{{ route('posts.rated') }}">по рейтингу</a></li>
                     <li><a href="{{ route('posts.views') }}">по просмотрам</a></li>
@@ -28,7 +28,7 @@
                 </ul>
             </div>
             <div class="fourth-column">
-                <h3>Мы в соцсетях</h3>
+                <div class="column-caption">Мы в соцсетях</div>
                 <a href="https://vk.com/driveitwithme" target="_blank" rel="nofollow" class="outer-container">
                     <div class="first-inner-container">
                         <svg version="1.1" id="vk-btn" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 14.171 14.171" style="enable-background:new 0 0 14.171 14.171;" xml:space="preserve">

@@ -3,7 +3,7 @@
         <nav>
 
             <div class="small-nav">
-                <h2>Menu</h2>
+                <div class="small-nav-caption">Menu</div>
                 <div class="menu-icon-svg">
                     <svg version="1.1" class="reorder-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 438.533 438.533" style="enable-background:new 0 0 438.533 438.533;"
                     xml:space="preserve">
