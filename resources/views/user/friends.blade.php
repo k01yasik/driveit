@@ -1,5 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.empty')
 
 @section('content')
-    <p>User's friends!</p>
+    @include('components.profile')
+    <div class="user-profile-content">
+
+    </div>
 @endsection

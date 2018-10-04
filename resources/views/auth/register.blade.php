@@ -1,4 +1,4 @@
-@extends('layouts.empty')
+@extends('layouts.register')
 
 @section('content')
     <div class="login-wrapper">
