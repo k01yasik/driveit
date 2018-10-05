@@ -25,8 +25,6 @@
             @csrf
             @method('PUT')
             <input type="hidden" id="image" name="image" value="{{ $post->image_path }}">
-            <label for="slug" class="required">{{ __('Post slug')}}</label>
-            <input name="slug" id="slug" type="text" value="{{ $post->slug }}" required>
             <label for="title" class="required">{{ __('Post title')}}</label>
             <input name="title" id="title" type="text" value="{{ $post->title }}" required>
             <label for="description" class="required">{{ __('Post description')}}</label>

@@ -75,7 +75,6 @@ class PostController extends Controller
         $data = $request->validated();
 
         $post = Post::find($id);
-        $post->slug = $data['slug'];
         $post->title = $data['title'];
         $post->description = $data['description'];
         $post->name = $data['name'];

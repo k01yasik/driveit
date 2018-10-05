@@ -25,7 +25,6 @@ class PostStore extends FormRequest
     {
         return [
             'image' => 'required|url',
-            'slug' => 'required|alpha_dash|unique:posts',
             'title' => 'required',
             'description' => 'required',
             'name' => 'required',
