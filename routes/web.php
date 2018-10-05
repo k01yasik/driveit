@@ -101,9 +101,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/posts/{id}/edit', 'PostController@edit')->name('admin.posts.edit');
 
-    Route::put('/posts/{id}', 'PostController@update')->name('admin.posts.update');
-
     Route::put('/posts/publish', 'PostController@publish')->name('admin.posts.publish');
+
+    Route::put('/posts/{id}', 'PostController@update')->name('admin.posts.update');
 
     Route::get('/posts/{id}', 'PostController@show')->name('admin.posts.show');
 
