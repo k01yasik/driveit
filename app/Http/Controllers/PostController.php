@@ -81,7 +81,6 @@ class PostController extends Controller
         $post->caption = $data['caption'];
         $post->body = $data['body'];
         $post->image_path = $data['image'];
-        $post->is_published = 0;
         $post->user()->associate(Auth::user());
         $post->save();
 
