@@ -14,7 +14,7 @@
 
 Route::get('/', 'PageController@home')->name('page.home');
 
-Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public']], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']], function () {
     Route::get('/{username}', 'UserPageController@index')->name('user.profile');
 
     Route::get('/{username}/albums', 'UserAlbumsController@index')->name('user.albums.index');
@@ -137,4 +137,4 @@ Route::get('turbo.rss', 'TurboController@index');
 
 Route::get('sitemap.xml', 'SitemapController@index');
 
-Auth::routes();
+Auth::routes(['verify' => true]);

@@ -42,6 +42,25 @@
     }
   }
 
+  .login-wrapper {
+    padding: 5%;
+    width: initial;
+    margin: initial;
+  }
+
+  .margin-bottom-5 {
+    margin-bottom: 1em;
+  }
+
+  .main-caption {
+    padding: initial;
+    font-size: .8em;
+  }
+
+  .login-wrapper-text {
+    margin-bottom: 1em;
+  }
+
   .sitetop-row {
     .sitetop-wrapper {
       .logo {
@@ -679,6 +698,25 @@
     }
   }
 
+  .login-wrapper {
+    padding: 2em;
+    width: initial;
+    margin: initial;
+  }
+
+  .margin-bottom-5 {
+    margin-bottom: 1em;
+  }
+
+  .main-caption {
+    padding: initial;
+    font-size: .8em;
+  }
+
+  .login-wrapper-text {
+    margin-bottom: 1em;
+  }
+
   .post-buttons-wrapper {
     .post-buttons-changed {
       margin-top: 1em;
@@ -1290,6 +1328,14 @@
     }
   }
 
+  .login-wrapper {
+    width: 50%;
+  }
+
+  .main-caption {
+    font-size: .8em;
+  }
+
   .leaderboard {
     img {
       width: auto;
@@ -1452,6 +1498,14 @@
 
   .registration {
     padding: 0 1em;
+  }
+
+  .login-wrapper {
+    width: 40%;
+  }
+
+  .main-caption {
+    font-size: .8em;
   }
 
   .post {

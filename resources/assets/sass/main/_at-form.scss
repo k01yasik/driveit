@@ -1,6 +1,5 @@
 .form-caption {
   text-align: center;
-  height: 3em;
   line-height: 3em;
 
   h2 {
@@ -8,6 +7,31 @@
     font-weight: normal;
     text-transform: uppercase;
   }
+
+  h3 {
+    margin: 0;
+    font-weight: normal;
+  }
+}
+
+.margin-bottom-5 {
+  margin-bottom: 5em;
+}
+
+.main-caption {
+  background: $primary-1;
+  border-radius: 3px;
+  padding: 0 1em;
+  color: $white;
+  font-size: .9em;
+}
+
+.verify-link {
+  text-decoration: underline;
+}
+
+.login-wrapper-text {
+  margin-bottom: 3em;
 }
 
 .empty-container {
