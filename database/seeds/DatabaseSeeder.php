@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             SeoTableSeeder::class,
             CategoryTableSeeder::class,
             PostTableSeeder::class,
-            ProfileTableSeeder::class,
         ]);
     }
 }

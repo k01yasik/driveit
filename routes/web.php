@@ -15,6 +15,9 @@
 Route::get('/', 'PageController@home')->name('page.home');
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']], function () {
+
+    Route::post('/favorite/add', 'FavoriteController@vote')->name('user.favorite.image');
+
     Route::get('/{username}', 'UserPageController@index')->name('user.profile');
 
     Route::get('/{username}/albums', 'UserAlbumsController@index')->name('user.albums.index');
@@ -22,6 +25,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
     Route::get('/{username}/albums/{albumname}', 'UserAlbumsController@show')->name('user.albums.show');
 
     Route::group(['middleware' => 'current'], function () {
+
+        Route::delete('/image/delete', 'ImageUploadController@delete')->name('user.image.delete');
+
         Route::get('/{username}/settings', 'UserPageController@settings')->name('user.settings');
 
         Route::get('/{username}/friends', 'UserPageController@friends')->name('user.friends');
@@ -32,9 +38,15 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::get('/{username}/comment/{id}/edit', 'CommentController@edit')->name('user.comment.edit');
 
-        Route::get('/{username}/albums/create', 'UserAlbumsController@create')->name('user.albums.create');
+        Route::get('/{username}/new/albums', 'UserAlbumsController@create')->name('user.albums.create');
 
-        Route::get('/{username}/albums/{albumname}/edit', 'UserAlbumsController@update')->name('user.albums.edit');
+        Route::post('/{username}/albums', 'UserAlbumsController@store')->name('user.albums.store');
+
+        Route::get('/{username}/albums/{albumname}/edit', 'UserAlbumsController@edit')->name('user.albums.edit');
+
+        Route::put('/{username}/albums/{albumname}', 'UserAlbumsController@update')->name('user.albums.update');
+
+        Route::post('/albums/image/upload', 'ImageUploadController@image')->name('user.albums.image.upload');
     });
 
 });

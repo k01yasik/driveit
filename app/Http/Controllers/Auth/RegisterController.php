@@ -77,16 +77,10 @@ class RegisterController extends Controller
         ]);
 
         $profile = new Profile;
-        $profile->avatar = config('app.url').'/storage/avatars/default-user.jpg';
+        $profile->avatar = config('app.url').'/storage/avatars/user.svg';
         $profile->public = false;
         $profile->user()->associate($user);
         $profile->save();
-
-        $album = new Album;
-        $album->name = 'posts';
-        $album->user()->associate($user);
-        $album->save();
-
 
         return $user;
     }

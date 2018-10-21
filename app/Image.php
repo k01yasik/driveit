@@ -8,6 +8,10 @@ class Image extends Model
 {
     public function album()
     {
-        $this->belongsTo('App\Album');
+        return $this->belongsTo('App\Album');
+    }
+
+    public function favorites() {
+        return $this->hasMany('App\Favorite');
     }
 }

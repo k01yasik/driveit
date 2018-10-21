@@ -1,0 +1,280 @@
+.album-wrapper {
+  margin-bottom: 2em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .album-caption {
+    line-height: 3em;
+    background: $white;
+    padding: 0 2em;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .album-cover {
+    border-radius: 0 0 3px 3px;
+    overflow: hidden;
+
+    img {
+      vertical-align: middle;
+    }
+  }
+}
+
+.album-block {
+  width: 74.41059%;
+  float: left;
+}
+
+.album-breadcrumbs {
+  background: $white;
+  border-radius: 3px;
+  padding: 0 2em;
+  margin-bottom: 2em;
+  height: 3em;
+  line-height: 3em;
+}
+
+.album-breadcrumbs-item {
+  float: left;
+  margin-right: 1em;
+  font-size: 1.25rem;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.breadcrumbs-bold-item {
+  font-weight: bold;
+}
+
+.no-images {
+  background: $white;
+  padding: 0 2em;
+  line-height: 3em;
+  border-radius: 3px;
+}
+
+.add-image {
+  background: $white;
+  border-radius: 3px;
+  padding: 0 2em;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.add-image-button {
+  height: 5em;
+  border-radius: 50%;
+  background: linear-gradient(to top, #ef4747 0%, #f08048 100%);
+  width: 5em;
+  margin: 2em auto;
+  cursor: pointer;
+}
+
+.add-image-plus {
+  width: 3em;
+  margin: 1em;
+  fill: white;
+}
+
+.add-image-footer {
+  line-height: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+#upload_image_to_album {
+  display: none;
+}
+
+.image-block {
+  width: 30.9442%;
+  background: $white;
+  border-radius: 3px;
+  margin-bottom: 2em;
+  position: relative;
+}
+
+.image-block-header {
+  padding: 0 2em;
+  line-height: 3rem;
+  height: 3em;
+  overflow: hidden;
+}
+
+.image-block img {
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.image-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: -2em;
+}
+
+.image-wrapper::after {
+  content: "";
+  width: 32%;
+}
+
+.image-block-footer {
+  position: absolute;
+  bottom: 0;
+  height: 11em;
+  width: 100%;
+  padding: 0 2em;
+  border-radius: 0 0 3px 3px;
+  transition: $second-transitions;
+  opacity: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.image-block:hover .image-block-footer {
+  opacity: 1;
+}
+
+.image-block-footer-button {
+  height: 5em;
+  background: linear-gradient(to top, rgba(239,71,71,1) 0%, rgba(240,128,72,1) 100%);
+  border-radius: 50%;
+  width: 5em;
+  cursor: pointer;
+  transition: $second-transitions;
+}
+
+.heart-svg {
+  fill: $white;
+  height: 3em;
+  margin: 1em;
+}
+
+.image-block-footer-wrapper {
+  margin: 1em auto;
+  height: 7em;
+  width: 7em;
+  border-radius: 50%;
+  background: $white;
+  padding: 1em;
+}
+
+.image-block-footer-counter {
+  height: 2em;
+  background: $white;
+  min-width: 2em;
+  border-radius: 1em;
+  margin: 0 auto;
+  display: inline-block;
+  line-height: 2em;
+  text-align: center;
+  padding: 0 1em;
+}
+
+.image-block-top {
+  position: absolute;
+  line-height: 3em;
+  width: 100%;
+  height: 3em;
+}
+
+.image-block-top-button {
+  width: 2em;
+  height: 2em;
+  margin: .5em auto;
+  background: linear-gradient(to top, #ef4747 0%, #f08048 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+  opacity: 0;
+}
+
+svg.image-block-button-svg {
+  fill: white;
+  height: 1em;
+  width: 1em;
+  margin: .5em;
+}
+
+.image-block:hover .image-block-top-button {
+  opacity: 1;
+}
+
+.image-progress {
+  -webkit-appearance: none;
+  width: 100%;
+  position: relative;
+  display: none;
+}
+
+.image-progress::-webkit-progress-value {
+  background-image:
+          -webkit-linear-gradient(-45deg,
+                  transparent 33%, rgba(0, 0, 0, .1) 33%,
+                  rgba(0,0, 0, .1) 66%, transparent 66%),
+          -webkit-linear-gradient(top,
+                  rgba(255, 255, 255, .25),
+                  rgba(0, 0, 0, .25)),
+          -webkit-linear-gradient(left, #ef4747 0%, #f08048 100%);
+
+  border-radius: 3px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+.image-progress::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+.image-progress-wrapper {
+  height: 1em;
+}
+
+.create-album {
+  height: 2em;
+  width: 2em;
+  margin: .5em 0;
+  background: linear-gradient(to top, #ef4747 0%, #f08048 100%);
+  border-radius: 3px;
+}
+
+.create-album-svg {
+  fill: $white;
+  height: 1.5em;
+  width: 1.5em;
+  margin: .25em;
+}
+
+.create-album-form {
+  background: $white;
+  padding: 2em;
+  border-radius: 3px;
+  display: inline-block;
+  width: 100%;
+}
+
+.edit-album {
+  height: 2em;
+  width: 2em;
+  border-radius: 3px;
+  background: linear-gradient(to top, #ef4747 0%, #f08048 100%);
+  margin: .5em 0;
+}
+
+.edit-album-svg {
+  height: 1.5em;
+  width: 1.5em;
+  margin: .25em;
+  fill: $white;
+}

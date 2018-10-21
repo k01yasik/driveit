@@ -43,7 +43,7 @@ class SeoTableSeeder extends Seeder
             ['route_name' => 'posts.views', 'title' => 'Лучшие статьи по просмотрам', 'description' => 'Лучшие статьи по просмотрам', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'best.views.paginate', 'title' => 'Лучшие статьи по просмотрам', 'description' => 'Лучшие статьи по просмотрам', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.albums.index', 'title' => 'Альбомы пользователя', 'description' => 'Альбомы пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
-            ['route_name' => 'user.albums.show', 'title' => 'Альбом пользователя', 'description' => 'Альбом пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
+            ['route_name' => 'user.albums.show', 'title' => 'Альбом', 'description' => 'Альбом', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.profile', 'title' => 'Профиль пользователя', 'description' => 'Профиль пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'login', 'title' => 'Войти на сайт', 'description' => 'Войти на сайт', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['route_name' => 'register', 'title' => 'Зарегистрироваться на сайте', 'description' => 'Зарегистрироваться на сайте', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -54,5 +54,7 @@ class SeoTableSeeder extends Seeder
             ['route_name' => 'password.reset', 'title' => 'Сброс пароля', 'description' => 'Сброс пароля', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['route_name' => 'verification.notice', 'title' => 'Подтверждение адреса элекстронной почты', 'description' => 'Подтверждение адреса электронной почты', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
+
+        Cache::flush();
     }
 }

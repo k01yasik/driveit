@@ -18,6 +18,7 @@ class PostTableSeeder extends Seeder
     {
         $album = new Album;
         $album->name = 'default';
+        $album->path = str_random(10);
         $album->user()->associate(User::find(1));
         $album->save();
 

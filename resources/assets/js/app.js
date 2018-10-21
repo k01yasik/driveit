@@ -1,10 +1,3 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 require('./responsiveslides');
 require('./slider');
@@ -16,5 +9,8 @@ require('./remove-hashtags');
 require('./rating');
 require('./add-comment');
 require('./publish-comment');
+require('./album-upload-image');
+require('./favorite');
+require('./image-delete');
 
 import 'social-likes-next';

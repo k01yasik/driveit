@@ -1,6 +1,8 @@
 <div class="user-profile">
     <div class="avatar">
-        <img src="{{ $user->profile->avatar }}">
+        <div class="avatar-inner">
+            <img src="{{ $user->profile->avatar }}">
+        </div>
     </div>
     <div class="user-profile-username">
         <p>{{ $user->username }}</p>

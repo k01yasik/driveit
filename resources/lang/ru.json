@@ -47,6 +47,7 @@
   "You are not the owner of this profile": "Вы не являетесь владельцем данного профиля",
   "An error has occurred": "Произошла ошибка",
   "error": "ошибка",
+  "Profile": "Профиль",
   "Albums": "Альбомы",
   "Friends": "Друзья",
   "Messages": "Сообщения",
@@ -56,5 +57,13 @@
   "Before proceeding, please check your email for a verification link.": "Для продолжения необходимо подтвердить адрес электронной почты.",
   "If you did not receive the email": "Если вы не получали письмо",
   "click here to request another": "нажмите здесь",
-  "A fresh verification link has been sent to your email address.": "Новая ссылка для подтверждения была выслана на ваш адрес электронной почты."
+  "A fresh verification link has been sent to your email address.": "Новая ссылка для подтверждения была выслана на ваш адрес электронной почты.",
+  "Your email address is not verified.": "Ваш адрес электронной почтны не подтвержден.",
+  "The album is empty": "В альбоме нет фотографий",
+  "Add an image": "Добавить изображение",
+  "Create an album": "Создать альбом",
+  "New album": "Новый альбом",
+  "Album name": "Название альбома",
+  "Editing an album": "Редактирование альбома",
+  "Update an album": "Обновить альбом"
 }

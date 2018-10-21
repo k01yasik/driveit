@@ -7,7 +7,7 @@
   padding: 2em;
 
   ul {
-    margin-top: 3em;
+    margin-top: 2em;
 
     li {
       margin-bottom: 1em;
@@ -28,13 +28,17 @@
 }
 
 .avatar {
-  display: flex;
-  justify-content: center;
-
   img {
     vertical-align: middle;
-    border-radius: 50%;
   }
+}
+
+.avatar-inner {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  margin: 0 auto;
+  border-radius: 50%;
 }
 
 .user-profile-username {

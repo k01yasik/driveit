@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use App\User;
 use App\Album;
 use App\Profile;
@@ -18,28 +19,19 @@ class UserTableSeeder extends Seeder
         $user->username = config('admin.username');
         $user->email = config('admin.email');
         $user->password = Hash::make(config('admin.password'));
+        $user->email_verified_at = Carbon::now();
         $user->save();
 
         $album = new Album;
-        $album->name = 'posts';
-        $album->user()->associate($user);
-        $album->save();
-
-        $user = new User;
-        $user->username = 'test';
-        $user->email = 'test@mail.ru';
-        $user->password = Hash::make('test');
-        $user->save();
-
-        $album = new Album;
-        $album->name = 'posts';
+        $album->name = 'post';
+        $album->path = str_random(10);
         $album->user()->associate($user);
         $album->save();
 
         $profile = new Profile;
         $profile->user()->associate($user);
-        $profile->avatar = '/photo/admin-avatar.jpg';
-        $profile->public = false;
+        $profile->avatar = config('app.url').'/storage/Bzdykin/avatars/admin-avatar.jpg';
+        $profile->public = true;
         $profile->save();
     }
 }
