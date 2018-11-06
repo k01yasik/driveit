@@ -22,7 +22,7 @@
   }
 }
 
-.album-block {
+.album-block, .profile-block {
   width: 74.41059%;
   float: left;
 }
@@ -245,7 +245,7 @@ svg.image-block-button-svg {
   height: 2em;
   width: 2em;
   margin: .5em 0;
-  background: linear-gradient(to top, #ef4747 0%, #f08048 100%);
+  background: $primary-1;
   border-radius: 3px;
 }
 
@@ -268,11 +268,37 @@ svg.image-block-button-svg {
   height: 2em;
   width: 2em;
   border-radius: 3px;
-  background: linear-gradient(to top, #ef4747 0%, #f08048 100%);
+  background: $primary-1;
   margin: .5em 0;
 }
 
 .edit-album-svg {
+  height: 1.5em;
+  width: 1.5em;
+  margin: .25em;
+  fill: $white;
+}
+
+.profile-block-content {
+  background: $white;
+  border-radius: 3px;
+  padding: 2em;
+  display: inline-block;
+  width: 100%;
+}
+
+.public-user {
+  height: 2em;
+  width: 2em;
+  margin: .5em 0;
+  border-radius: 3px;
+  background: $primary-1;
+  float: left;
+  margin-right: 2em;
+  cursor: pointer;
+}
+
+.public-user-check, .public-user-uncheck {
   height: 1.5em;
   width: 1.5em;
   margin: .25em;

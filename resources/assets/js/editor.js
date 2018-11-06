@@ -16,9 +16,11 @@ $().ready(function () {
         editor.html(textPostBody)
     }
 
-    setInterval(function () {
-        localStorage.setItem('post-body', editor.html())
-    }, 10000);
+    if (editor !== "undefined") {
+        setInterval(function () {
+            localStorage.setItem('post-body', editor.html())
+        }, 10000);
+    }
 
     let bodyText = $('#body').val();
     if (bodyText !== "") {

@@ -12,5 +12,9 @@ require('./publish-comment');
 require('./album-upload-image');
 require('./favorite');
 require('./image-delete');
+require('./send-request-to-friend');
+require('./channel');
+require('./confirm-request');
+require('./send-message');
 
 import 'social-likes-next';

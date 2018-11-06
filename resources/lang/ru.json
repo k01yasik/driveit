@@ -9,7 +9,6 @@
   "Read more": "Чиать дальше",
   "E-Mail Address": "Адрес электронной почты",
   "Confirm Password": "Подтвердите пароль",
-  "All public users list:": "Список всех публичных пользователей:",
   "Send request to add to friends": "Отправить запрос для добавления в друзья",
   "Waiting for confirmation.": "Ожидание подтверждения.",
   "Posts": "Статьи",
@@ -30,6 +29,7 @@
   "Upload image": "Загрузите изображение",
   "Choose a category": "Выберите категорию",
   "Searching results": "Результаты поиска",
+  "Search": "Поиск",
   "Reset Password": "Сброс пароля",
   "Send Password Reset Link": "Выслать ссылку сброса пароля",
   "Adding a comment": "Добавление комментария",
@@ -50,6 +50,8 @@
   "Profile": "Профиль",
   "Albums": "Альбомы",
   "Friends": "Друзья",
+  "Friend requests": "Запросы в друзья",
+  "Find friends": "Найти друзей",
   "Messages": "Сообщения",
   "Settings": "Настройки",
   "Public profile": "Публичный профиль",
@@ -65,5 +67,9 @@
   "New album": "Новый альбом",
   "Album name": "Название альбома",
   "Editing an album": "Редактирование альбома",
-  "Update an album": "Обновить альбом"
+  "Update an album": "Обновить альбом",
+  "No results found": "Результаты не найдены",
+  "All requests are processed": "Все запросы обработаны",
+  "Dialogue": "Диалог",
+  "Have a nice chat!": "Приятного общения!"
 }

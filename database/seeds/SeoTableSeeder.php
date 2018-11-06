@@ -31,6 +31,7 @@ class SeoTableSeeder extends Seeder
             ['route_name' => 'admin.posts.edit', 'title' => 'Редактирование статьи', 'description' => 'Редактирование статьи', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'admin.posts.show', 'title' => 'Просмотр статьи', 'description' => 'Просмотр статьи', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'user.messages', 'title' => 'Сообщения пользователя', 'description' => 'Сообщения пользователя', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
+            ['route_name' => 'user.requests', 'title' => 'Запросы на добавление в друзья', 'description' => 'Запросы на добавление в друзья', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'admin.comments', 'title' => 'Все комментарии', 'description' => 'Все комментарии', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'admin.comments.unpublished', 'title' => 'Все неопубликованные комментарии', 'description' => 'Все неопубликованные комментарии', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],
             ['route_name' => 'posts.comments', 'title' => 'Лучшие статьи по комментариям', 'description' => 'Лучшие статьи по комментариям', 'created_at' => Carbon::now(), 'updated_at'=> Carbon::now()],

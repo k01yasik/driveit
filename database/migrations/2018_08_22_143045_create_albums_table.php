@@ -20,6 +20,8 @@ class CreateAlbumsTable extends Migration
             $table->string('cover')->nullable();
             $table->integer('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

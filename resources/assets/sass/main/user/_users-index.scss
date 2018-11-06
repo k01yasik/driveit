@@ -51,3 +51,48 @@
     margin: 0;
   }
 }
+
+.friend-requests {
+  background: $grey-3;
+  padding: 0 .5em;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: $second-transitions;
+}
+
+.friend-requests:hover {
+  background: $grey-8;
+}
+
+a.friend-requests:hover {
+  color: inherit;
+}
+
+.friend-request-button, .friend-button {
+  height: 2em;
+  width: 2em;
+  margin: .5em 0;
+  border-radius: 3px;
+  background: $dark-gray-bottom;
+  transition: $second-transitions;
+
+  &:hover {
+    background: $gray-0;
+  }
+}
+
+.friend-request-button {
+  cursor: pointer;
+}
+
+.request-list-element {
+  display: none;
+  padding: 0 1em;
+  background: $grey-4;
+  border-radius: 3px;
+  line-height: 3em;
+}
+
+.users-element-request:nth-last-child(2) {
+  margin-bottom: 0;
+}

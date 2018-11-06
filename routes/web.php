@@ -18,19 +18,31 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
     Route::post('/favorite/add', 'FavoriteController@vote')->name('user.favorite.image');
 
+    Route::post('/friends/requests', 'UserPageController@update')->name('user.requests.confirmation');
+
     Route::get('/{username}', 'UserPageController@index')->name('user.profile');
 
     Route::get('/{username}/albums', 'UserAlbumsController@index')->name('user.albums.index');
 
     Route::get('/{username}/albums/{albumname}', 'UserAlbumsController@show')->name('user.albums.show');
 
+    Route::post('/friends/add', 'PublicUsersController@store')->name('users.store');
+
+    Route::get('/{username}/friends', 'UserPageController@friends')->name('user.friends');
+
     Route::group(['middleware' => 'current'], function () {
+
+        Route::post('/messages/store', 'MessageController@store')->name('message.store');
 
         Route::delete('/image/delete', 'ImageUploadController@delete')->name('user.image.delete');
 
+        Route::post('/albums/image/upload', 'ImageUploadController@image')->name('user.albums.image.upload');
+
         Route::get('/{username}/settings', 'UserPageController@settings')->name('user.settings');
 
-        Route::get('/{username}/friends', 'UserPageController@friends')->name('user.friends');
+        Route::get('/{username}/friends/requests', 'UserPageController@requests')->name('user.requests');
+
+        Route::get('/{username}/friends/add', 'PublicUsersController@index')->name('users');
 
         Route::get('/{username}/messages', 'UserPageController@messages')->name('user.messages');
 
@@ -46,14 +58,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::put('/{username}/albums/{albumname}', 'UserAlbumsController@update')->name('user.albums.update');
 
-        Route::post('/albums/image/upload', 'ImageUploadController@image')->name('user.albums.image.upload');
     });
 
 });
-
-Route::get('/users', 'PublicUsersController@index')->name('users');
-
-Route::post('/users', 'PublicUsersController@store')->name('users.store');
 
 Route::get('/best-rated', 'PageController@list')->name('posts.rated');
 
@@ -150,3 +157,5 @@ Route::get('turbo.rss', 'TurboController@index');
 Route::get('sitemap.xml', 'SitemapController@index');
 
 Auth::routes(['verify' => true]);
+
+//Broadcast::routes();

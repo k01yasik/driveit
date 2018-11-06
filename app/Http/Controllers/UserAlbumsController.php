@@ -9,6 +9,7 @@ use App\Services\SeoService;
 use App\User;
 use App\Album;
 use App\Image;
+use App\Friend;
 
 class UserAlbumsController extends Controller
 {
@@ -27,18 +28,26 @@ class UserAlbumsController extends Controller
 
         $user = User::with('profile', 'albums', 'albums.images')->where('username', $username)->firstOrFail();
 
-        $currentUserProfile = $user->id === Auth::id();
+        $currentUserId = Auth::id();
 
-        return view('user.albums.index', compact('seo', 'user', 'currentUserProfile'));
+        $currentUserProfile = $user->id === $currentUserId;
+
+        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+
+        return view('user.albums.index', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
 
     public function create(Request $request, $username) {
         $seo = $this->seoService->getSeoData($request);
         $user = User::with('profile')->where('username', $username)->firstOrFail();
 
-        $currentUserProfile = $user->id === Auth::id();
+        $currentUserId = Auth::id();
 
-        return view('user.albums.create', compact('seo', 'user', 'currentUserProfile'));
+        $currentUserProfile = $user->id === $currentUserId;
+
+        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+
+        return view('user.albums.create', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
 
     public function show(Request $request, $username, $albumname) {
@@ -53,9 +62,13 @@ class UserAlbumsController extends Controller
 
         $user = User::with('profile', 'albums')->where('username', $username)->firstOrFail();
 
-        $currentUserProfile = $user->id === Auth::id();
+        $currentUserId = Auth::id();
 
-        return view('user.albums.show', compact('seo', 'user', 'currentUserProfile', 'images', 'album'));
+        $currentUserProfile = $user->id === $currentUserId;
+
+        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+
+        return view('user.albums.show', compact('seo', 'user', 'currentUserProfile', 'images', 'album', 'friendRequestCount'));
     }
 
     public function store(NewAlbumRequest $request, $username) {
@@ -78,9 +91,13 @@ class UserAlbumsController extends Controller
         $user = User::with('profile')->where('username', $username)->firstOrFail();
         $album = Album::where([['user_id', Auth::id()], ['name', $albumname]])->firstOrFail();
 
-        $currentUserProfile = $user->id === Auth::id();
+        $currentUserId = Auth::id();
 
-        return view('user.albums.edit', compact('seo', 'user', 'currentUserProfile', 'album'));
+        $currentUserProfile = $user->id === $currentUserId;
+
+        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+
+        return view('user.albums.edit', compact('seo', 'user', 'currentUserProfile', 'album', 'friendRequestCount'));
     }
 
     public function update(NewAlbumRequest $request, $username, $albumname) {

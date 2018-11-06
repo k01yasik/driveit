@@ -24,9 +24,11 @@ class CreatePostsTable extends Migration
             $table->text('image_path');
             $table->boolean('is_published');
             $table->dateTime('date_published')->nullable();
-            $table->integer('user_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->integer('views');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

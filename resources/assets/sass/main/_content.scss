@@ -1,69 +1,72 @@
-.content {
-  background: $white;
+.users-element, .users-element-request {
+  height: 3em;
+  padding: 0 1em;
+  background: $grey-4;
+  margin-bottom: 2em;
   border-radius: 3px;
-  padding: 2em;
 
-  > h2 {
-    margin: 0 0 1em;
-    font-weight: normal;
+  &:last-child {
+    margin-bottom: 0;
   }
 
-  .users-element {
-    height: 3em;
-    padding: 0 1em;
-    background: $grey-4;
+  .profile-link {
+    float: left;
+    display: block;
+    width: 2em;
+    margin: .5em 0;
 
-    .profile-link {
-      float: left;
-      display: block;
-      width: 2em;
-      margin: .5em 0;
-
-      .avatar-image {
-        vertical-align: middle;
-        border-radius: 50%;
-      }
-    }
-
-    .profile-name {
-      margin: .75em 1em;
-      float: left;
-    }
-
-    .request-friend {
-      height: 2em;
-      margin: .5em 0;
-      width: 2em;
-    }
-
-    button {
-      background: $primary-1;
-      border: none;
-      border-radius: 3px;
-      padding: 0;
-      height: 2em;
-      cursor: pointer;
-      outline: none;
+    .avatar-image {
+      vertical-align: middle;
+      border-radius: 50%;
     }
   }
 
-  #plus {
-    width: 1em;
-    fill: $white;
-    margin: .5em;
+  .profile-name {
+    margin: .75em 1em;
+    float: left;
   }
+
+  .request-friend {
+    height: 2em;
+    margin: .5em 0;
+    width: 2em;
+    background: $dark-gray-bottom;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: $second-transitions;
+
+    &:hover {
+      background: $gray-0;
+    }
+  }
+
+  button {
+    background: $primary-1;
+    border: none;
+    border-radius: 3px;
+    padding: 0;
+    height: 2em;
+    cursor: pointer;
+    outline: none;
+  }
+}
+
+.plus-friend-svg {
+  width: 1em;
+  fill: $white;
+  margin: .5em;
 }
 
 .waiting, .confirmed {
   height: 2em;
   margin: .5em 0;
-  background: $primary-1;
+  background: $dark-gray-bottom;
   width: 2em;
   border-radius: 3px;
 }
 
 .waiting {
-  #hourglass {
+  .hourglass-friend-svg {
     fill: $white;
     height: 1em;
     margin: .5em;
@@ -71,9 +74,22 @@
 }
 
 .confirmed {
-  #checked {
+  .checked-friend-svg {
     fill: $white;
     height: 1em;
     margin: .5em;
   }
+}
+
+.users-element-link {
+  display: inline-block;
+  width: 100%;
+
+  &:hover {
+    color: $grey-0;
+  }
+}
+
+.margin-bottom-2 {
+  margin-bottom: 2em;
 }

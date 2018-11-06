@@ -24,13 +24,13 @@
             @csrf
             <input type="hidden" id="image" name="image">
             <label for="slug" class="required">{{ __('Post slug')}}</label>
-            <input name="slug" id="slug" type="text" value="" required>
+            <input name="slug" id="slug" type="text" required>
             <label for="title" class="required">{{ __('Post title')}}</label>
-            <input name="title" id="title" type="text" value="" required>
+            <input name="title" id="title" type="text" required>
             <label for="description" class="required">{{ __('Post description')}}</label>
-            <input name="description" id="description" type="text" value="" required>
+            <input name="description" id="description" type="text" required>
             <label for="name" class="required">{{ __('Post name')}}</label>
-            <input name="name" id="name" type="text" value="" required>
+            <input name="name" id="name" type="text" required>
             <label for="category" class="required">{{ __('Choose a category') }}</label>
             <select id="category" name="category" class="select-category" required>
                 <option value="">--{{ __('Choose a category') }}--</option>

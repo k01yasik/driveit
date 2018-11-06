@@ -1,0 +1,32 @@
+.message-wrapper {
+  margin-bottom: 1em;
+  float: left;
+  width: 100%;
+}
+
+.message-header {
+  width: 3em;
+  height: 3em;
+  float: left;
+  margin-right: 2em;
+}
+
+.message-body {
+  float: left;
+  width: calc(100% - 5em);
+}
+
+.message-header-link {
+  display: block;
+  width: 3em;
+  height: 3em;
+
+  img {
+    vertical-align: middle;
+    border-radius: 3px;
+  }
+}
+
+.message-header-name {
+  font-weight: bold;
+}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FriendRequest;
 use App\Services\FriendService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,21 +18,30 @@ class PublicUsersController extends Controller
 
     public function __construct(SeoService $seoService, FriendService $friendService)
     {
-        $this->middleware('auth');
         $this->seoService = $seoService;
         $this->friendService = $friendService;
     }
 
-    public function index(Request $request) {
+    public function index(Request $request, $username) {
 
+        $currentUserId = Auth::id();
         $seo = $this->seoService->getSeoData($request);
-        $profiles = Profile::with(['user', 'user.friends'])->where('public', true )->get();
-        $currentUser = User::with('friends')->find(Auth::id());
+
+        $profiles = Profile::with(['user', 'user.friends'])->where([['public', true], ['user_id', '!=', $currentUserId]] )->get();
+
+        $currentUser = User::with('friends')->find($currentUserId);
 
         $confirmedFriends = $this->friendService->getConfirmedFriends($currentUser->friends);
+
         $requestedFriends = $this->friendService->getRequestedFriends($currentUser->friends);
 
-        return view('user.public', compact('seo', 'profiles', 'currentUser', 'confirmedFriends', 'requestedFriends'));
+        $user = User::with('profile')->where('username', $username)->firstOrFail();
+
+        $currentUserProfile = $user->id === $currentUserId;
+
+        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0], ['owner', 1]])->get()->count();
+
+        return view('user.public', compact('seo', 'profiles', 'currentUser', 'confirmedFriends', 'requestedFriends', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
 
     public function store(Request $request)
@@ -40,11 +50,22 @@ class PublicUsersController extends Controller
             'friend' => 'required|integer',
         ]);
 
+        $currentUserId = Auth::id();
+
         $friend = new Friend;
+        $friend->user_id = $currentUserId;
         $friend->friend_id = $data['friend'];
+        $friend->owner = true;
+        $friend->save();
 
-        Auth::user()->friends()->save($friend);
+        $friend = new Friend;
+        $friend->user_id = $data['friend'];
+        $friend->friend_id = $currentUserId;
+        $friend->owner = false;
+        $friend->save();
 
-        return redirect()->back();
+        broadcast(new FriendRequest(Auth::user(), User::find($data['friend'])));
+
+        return 'ok';
     }
 }

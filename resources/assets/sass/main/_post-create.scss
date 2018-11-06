@@ -53,8 +53,8 @@
 }
 
 .text-editor {
+  background: $white;
   border-radius: 3px;
-  box-shadow: $light-box-shadow;
   min-height: 20em;
   display: inline-block;
   width: 100%;
@@ -64,13 +64,14 @@
   line-height: 3em;
   float: left;
   width: 100%;
-  background: $grey-4;
+  background: $grey-3;
+  border-radius: 3px 3px 0 0;
 }
 
 .select-heading {
   float: left;
   border-radius: 3px 0 0 0;
-  background: $grey-4;
+  background: $grey-3;
   cursor: pointer;
   min-width: 10em;
   text-align: center;
