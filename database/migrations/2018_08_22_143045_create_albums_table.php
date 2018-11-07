@@ -18,7 +18,7 @@ class CreateAlbumsTable extends Migration
             $table->string('name');
             $table->string('path');
             $table->string('cover')->nullable();
-            $table->integer('user_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
