@@ -55,7 +55,12 @@ $().ready(function () {
             progress.prop('value', 0);
 
             result.forEach(function (res) {
-                $('.image-wrapper').prepend('<div class="image-block">'+
+                let wrapper = $('.image-wrapper');
+                if (wrapper.css('display') === 'none') {
+                    wrapper.css('display', 'flex');
+                }
+
+                wrapper.prepend('<div class="image-block">'+
                     '<div class="image-block-top">' +
                     '<div class="image-block-top-button" data-id="'+ res[2] +'" data-username="' + res[3] + '" data-album="'+ res[4] +'">' +
                     '<svg version="1.1" class="image-block-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"' +

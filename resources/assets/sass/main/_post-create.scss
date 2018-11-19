@@ -66,65 +66,7 @@
   width: 100%;
   background: $grey-3;
   border-radius: 3px 3px 0 0;
-}
-
-.select-heading {
-  float: left;
-  border-radius: 3px 0 0 0;
-  background: $grey-3;
-  cursor: pointer;
-  min-width: 10em;
-  text-align: center;
-  position: relative;
-}
-
-.select-heading-sub {
-  display: none;
-  position: absolute;
-  width: 100%;
-  z-index: 10;
-
-  div {
-    line-height: 2em;
-    padding: 0;
-    background: $grey-3;
-    border-bottom: $dark-border-bottom;
-    transition: $second-transitions;
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    &:hover {
-      background: $grey-8;
-    }
-  }
-}
-
-.select-heading-input {
-  transition: $second-transitions;
-}
-
-.select-heading .select-heading-input {
   padding: 0 2em;
-  transition: $second-transitions;
-  border-right: $dark-border-bottom;
-
-  &:hover {
-    background: $grey-8;
-  }
-}
-
-.select-wrapper:hover .select-heading-input {
-  background: $grey-8;
-}
-
-.caret-down {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  transition: $second-transitions;
-  transform: rotate(180deg);
 }
 
 #caret-post {
@@ -132,14 +74,6 @@
   width: 1em;
   height: 1em;
   float: right;
-}
-
-.select-heading:hover .caret-down {
-  transform: rotate(0deg);
-}
-
-.select-heading:hover #caret-post {
-  fill: $grey-0;
 }
 
 .select-item {
@@ -154,7 +88,8 @@
   }
 }
 
-#bold-text, #italic-text, #ordered-list, #unordered-list, #link-text, #broken-link, #landscape, #quotes, #indent, #outdent, #undo, #redo {
+.bold-text-svg, .italic-text-svg, .ordered-list-svg, .unordered-list-svg, .link-text-svg, .broken-link-svg,
+.landscape-svg, .quotes-svg, .indent-svg, .outdent-svg, .undo-svg, .redo-svg, .paragraph-svg {
   height: 1em;
   width: 1em;
   margin: 1em;
@@ -162,14 +97,22 @@
   fill: $grey-0;
 }
 
-#choose-landscape {
+.heading_2-svg, .heading_3-svg {
+  height: 2em;
+  width: 2em;
+  margin: .5em;
+  float: left;
+  fill: $grey-0;
+}
+
+.choose-landscape {
   float: left;
   height: 2em;
   margin: .5em;
   fill: $grey-0;
 }
 
-#redo {
+.redo-svg {
   transform: rotateY(-180deg);
 }
 
@@ -179,6 +122,8 @@
   position: relative;
   min-height: 17em;
   padding: 2em;
+  border: 1px solid $grey-3;
+  border-radius: 0 0 3px 3px;
 
   &:focus {
     outline: none;
@@ -195,6 +140,7 @@
   transition: $second-transitions;
   z-index: 10;
   display: none;
+  border-radius: 3px;
 
   &:hover {
     background: $grey-8;
@@ -221,7 +167,7 @@
   }
 }
 
-#checked-item, #delete {
+.checked-item-svg, .delete-svg {
   fill: $grey-0;
   width: 1em;
   height: 1em;

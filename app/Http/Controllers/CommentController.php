@@ -21,7 +21,7 @@ class CommentController extends Controller
         $comment = new Comment;
         $comment->user()->associate($current_user);
         $comment->post_id = $data['post'];
-        $comment->message = $data['message'];
+        $comment->message = clean($data['message']);
         $comment->is_verified = 0;
         $comment->level = $data['level'];
 

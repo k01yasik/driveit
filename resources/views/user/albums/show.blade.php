@@ -32,10 +32,8 @@
                 </form>
             </div>
         @endif
-        @if ($images->count() == 0)
-            <div class="no-images">{{ __('The album is empty') }}</div>
-        @endif
-        <div class="image-wrapper">
+        @if ($images->count() > 0)
+            <div class="image-wrapper">
             @foreach($images  as $image)
                 <div class="image-block">
                     @if ($image->url_thumbnail)
@@ -104,5 +102,9 @@
                 </div>
             @endforeach
         </div>
+        @else
+            <div class="no-images">{{ __('The album is empty') }}</div>
+            <div class="image-wrapper" style="display:none;"></div>
+        @endif
     </div>
 @endsection

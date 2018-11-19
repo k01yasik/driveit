@@ -29,7 +29,7 @@ $().ready(function () {
 
             requests = parseInt(requests);
 
-            requests = requests -1;
+            requests = requests - 1;
 
             let parentElement = element.parent();
 

@@ -29,6 +29,7 @@
                     </svg>
                 </div>
             @endif
+            <div class="profile-block-content-lable">{{ __('Public profile?') }}</div>
         </div>
     </div>
 @endsection

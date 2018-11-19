@@ -4,7 +4,10 @@ $().ready(function () {
             let dataElement = $('.profile-block-content');
             let username = dataElement.data('username');
             let friend_id = dataElement.data('friend');
-            let message = $('.text-editor-body').html();
+            let editor = $('.text-editor-body');
+            let message = editor.html();
+            editor.html('<div><br /></div>');
+            localStorage.removeItem('post-body');
 
             let formData = new FormData();
             formData.append('username', username);
@@ -16,13 +19,28 @@ $().ready(function () {
                 url: "/user/messages/store",
                 contentType: false,
                 processData: false,
-                dataType: 'text',
+                dataType: 'json',
                 data: formData,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             }).done(function (result) {
+                let data = '<div class="message-wrapper">' +
+                    '<div class="message-header">' +
+                    '<a href="'+ result.url +'" class="message-header-link"><img src="'+ result.avatar +'" class="message-header-avatar"></a>' +
+                    '</div>' +
+                    '<div class="message-body">' +
+                    '<div class="message-body-header">' +
+                    '<a href="'+ result.url +'" class="message-header-name">'+ result.username +'</a>' +
+                    '<div class="message-body-header-time">'+ result.time +'</div>' +
+                    '</div>' +
+                    '<div class="message-body-content">' +
+                    result.text +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
 
+                $('.profile-block-content').append(data);
             });
         }
     });

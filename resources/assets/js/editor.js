@@ -2,7 +2,6 @@ $().ready(function () {
 
     let editor = $('.text-editor-body');
 
-    let headingSub = $('.select-heading-sub');
     let selectItemSub = $('.select-item-sub');
     let imageSelectItemSub = $('.image-select-item-sub');
     let selectItemInput = $('.select-item-input');
@@ -12,7 +11,7 @@ $().ready(function () {
 
     let textPostBody = localStorage.getItem('post-body');
 
-    if (textPostBody !== "undefined") {
+    if (textPostBody !== "undefined" && textPostBody !== null) {
         editor.html(textPostBody)
     }
 
@@ -58,10 +57,22 @@ $().ready(function () {
         }
     };
 
-    $('.select-heading').mouseenter(function () {
-       headingSub.show();
-    }).mouseleave(function () {
-        headingSub.hide();
+    let editorToolbar = $('.text-editor-toolbar');
+
+    editorToolbar.on('touchstart', '.link-item', function () {
+        selectItemSub.show();
+    });
+
+    editorToolbar.on('touchcancel', '.link-item', function () {
+        selectItemSub.hide();
+    });
+
+    editorToolbar.on('touchstart', '.image-item', function () {
+        imageSelectItemSub.show();
+    });
+
+    editorToolbar.on('touchcancel', '.image-item', function () {
+        imageSelectItemSub.hide();
     });
 
     $('.link-item').mouseenter(function () {
@@ -90,46 +101,25 @@ $().ready(function () {
     });
 
     $('.heading_2').click(function () {
-        let element = $('.select-heading-input');
-        if (element.text() !== 'Heading 2') {
-            element.text("Heading 2");
-        }
-
         editor.focus();
 
         restoreSelection();
 
         document.execCommand('formatBlock', false, 'h2');
-
-        headingSub.hide();
     });
     $('.heading_3').click(function () {
-        let element = $('.select-heading-input');
-        if (element.text() !== 'Heading 3') {
-            element.text("Heading 3");
-        }
-
         editor.focus();
 
         restoreSelection();
 
         document.execCommand('formatBlock', false, 'h3');
-
-        headingSub.hide();
     });
     $('.paragraph').click(function () {
-        let element = $('.select-heading-input');
-        if (element.text() !== 'Paragraph') {
-            element.text("Paragraph");
-        }
-
         editor.focus();
 
         restoreSelection();
 
         document.execCommand('formatBlock', false, 'p');
-
-        headingSub.hide();
     });
 
     $('.bold-item').click(function () {

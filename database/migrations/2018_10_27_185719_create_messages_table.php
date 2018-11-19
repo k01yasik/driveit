@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedInteger('user_id')->index();
             $table->string('text');
             $table->unsignedInteger('friend_id');
+            $table->boolean('new')->default(true);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

@@ -1,4 +1,5 @@
 .album-wrapper {
+  float: left;
   margin-bottom: 2em;
 
   &:last-child {
@@ -32,8 +33,9 @@
   border-radius: 3px;
   padding: 0 2em;
   margin-bottom: 2em;
-  height: 3em;
   line-height: 3em;
+  float: left;
+  width: 100%;
 }
 
 .album-breadcrumbs-item {
@@ -199,7 +201,7 @@
   opacity: 0;
 }
 
-svg.image-block-button-svg {
+.image-block-button-svg {
   fill: white;
   height: 1em;
   width: 1em;
@@ -245,15 +247,20 @@ svg.image-block-button-svg {
   height: 2em;
   width: 2em;
   margin: .5em 0;
-  background: $primary-1;
+  background: $dark-gray-bottom;
   border-radius: 3px;
+  transition: $second-transitions;
+
+  &:hover {
+    background: $gray-0;
+  }
 }
 
 .create-album-svg {
   fill: $white;
-  height: 1.5em;
-  width: 1.5em;
-  margin: .25em;
+  height: 1em;
+  width: 1em;
+  margin: .5em;
 }
 
 .create-album-form {
@@ -268,14 +275,19 @@ svg.image-block-button-svg {
   height: 2em;
   width: 2em;
   border-radius: 3px;
-  background: $primary-1;
+  background: $dark-gray-bottom;
   margin: .5em 0;
+  transition: $second-transitions;
+
+  &:hover {
+    background: $gray-0;
+  }
 }
 
 .edit-album-svg {
-  height: 1.5em;
-  width: 1.5em;
-  margin: .25em;
+  height: 1em;
+  width: 1em;
+  margin: .5em;
   fill: $white;
 }
 
@@ -292,15 +304,24 @@ svg.image-block-button-svg {
   width: 2em;
   margin: .5em 0;
   border-radius: 3px;
-  background: $primary-1;
+  background: $dark-gray-bottom;
   float: left;
   margin-right: 2em;
   cursor: pointer;
+  transition: $second-transitions;
+
+  &:hover {
+    background: $gray-0;
+  }
 }
 
 .public-user-check, .public-user-uncheck {
-  height: 1.5em;
-  width: 1.5em;
-  margin: .25em;
+  height: 1em;
+  width: 1em;
+  margin: .5em;
   fill: $white;
+}
+
+.profile-block-content-lable {
+  line-height: 3em;
 }

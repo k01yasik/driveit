@@ -1,9 +1,10 @@
 .users-element, .users-element-request {
-  height: 3em;
+  float: left;
   padding: 0 1em;
   background: $grey-4;
   margin-bottom: 2em;
   border-radius: 3px;
+  width: 100%;
 
   &:last-child {
     margin-bottom: 0;
@@ -51,6 +52,11 @@
   }
 }
 
+.request-list {
+  float: left;
+  width: 100%;
+}
+
 .plus-friend-svg {
   width: 1em;
   fill: $white;
@@ -84,6 +90,7 @@
 .users-element-link {
   display: inline-block;
   width: 100%;
+  float: left;
 
   &:hover {
     color: $grey-0;

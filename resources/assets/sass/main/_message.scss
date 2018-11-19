@@ -2,18 +2,24 @@
   margin-bottom: 1em;
   float: left;
   width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .message-header {
   width: 3em;
   height: 3em;
   float: left;
-  margin-right: 2em;
+  margin-right: 1em;
 }
 
 .message-body {
   float: left;
-  width: calc(100% - 5em);
+  width: calc(100% - 4em);
+  border-radius: 3px;
+  padding: 0 1em;
 }
 
 .message-header-link {
@@ -29,4 +35,34 @@
 
 .message-header-name {
   font-weight: bold;
+  float: left;
+  margin-right: 2em;
+}
+
+.message-body-header-time {
+  float: left;
+  font-size: .8rem;
+  line-height: 1.5rem;
+  color: $gray-0;
+}
+
+.message-body-header {
+  float: left;
+  width: 100%;
+  margin-bottom: .5em;
+}
+
+.message-body-content {
+  float: left;
+  width: 100%;
+
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.new-message {
+  background: $grey-4;
 }

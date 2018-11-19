@@ -3,18 +3,36 @@ $().ready(function () {
     if (id) {
         window.Echo.private('user.' + id)
             .listen('MessageSaved', (e) => {
-                console.log(e.message.text);
-                window.messages.push({
-                    'message': e.message.text,
-                    'user_to': {
-                        'id': e.user_to.id,
-                        'username': e.user_to.username
-                    },
-                    'user_from': {
-                        'id': e.user_from.id,
-                        'username': e.user_from.username
+                let dataElement = $('.profile-block-content');
+                let friend_id = dataElement.data('friend');
+
+                if (friend_id === e.user_from.id) {
+                    dataElement.append('<div class="message-wrapper">' +
+                        '<div class="message-header">' +
+                        '<a href="'+ e.url +'" class="message-header-link"><img src="'+ e.user_from.profile.avatar +'" class="message-header-avatar"></a>' +
+                        '</div>' +
+                        '<div class="message-body">' +
+                        '<div class="message-body-header">' +
+                        '<a href="'+ e.url +'" class="message-header-name">'+ e.user_from.username +'</a>' +
+                        '<div class="message-body-header-time">'+ e.message.created_at +'</div>' +
+                        '</div>' +
+                        '<div class="message-body-content">' +
+                        e.message.text +
+                        '</div>' +
+                        '</div>' +
+                        '</div>');
+                } else {
+                    let messageCount = $('.messages-count');
+
+                    let count = parseInt(messageCount.html());
+                    count = count + 1;
+
+                    messageCount.html('+' + count);
+
+                    if (messageCount.css('display') === 'none') {
+                        messageCount.fadeIn(500);
                     }
-                });
+                }
             })
             .listen('FriendRequest', (e) => {
                 let friendRequests = $('.friend-requests');
@@ -26,6 +44,10 @@ $().ready(function () {
                 requests+=requests;
 
                 friendRequests.html('+' + requests);
+
+                if (friendRequests.css('display') === 'none') {
+                    friendRequests.fadeIn(500);
+                }
 
                 $('.users-element-request:last').after('<li class="users-element-request">' +
                     '<a href="'+ e.urlSender +'" class="profile-link"><img src="'+ e.avatar +'" class="avatar-image"></a>' +

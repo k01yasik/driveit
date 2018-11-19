@@ -19,12 +19,16 @@ class MessageSaved implements ShouldBroadcast
     public $message;
     public $user_to;
     public $user_from;
+    public $url;
 
     public function __construct(Message $message)
     {
         $this->message = $message;
-        $this->user_to = User::find($message->dest_user_id);
-        $this->user_from = User::find($message->user_id);
+        $this->user_to = User::find($message->friend_id);
+
+        $user = User::with('profile')->find($message->user_id);
+        $this->user_from = $user;
+        $this->url = route('user.profile', ['username' => $user->username]);
     }
 
     /**

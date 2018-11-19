@@ -17,12 +17,14 @@
                         <div class="message-header">
                             <a href="{{ route('user.profile', ['username' => $message->user->username]) }}" class="message-header-link"><img src="{{ $message->user->profile->avatar }}" class="message-header-avatar"></a>
                         </div>
-                        <div class="message-body">
+                        <div class="message-body {{ $message->new ? 'new-message' : '' }}">
                             <div class="message-body-header">
                                 <a href="{{ route('user.profile', ['username' => $message->user->username]) }}" class="message-header-name">{{ $message->user->username }}</a>
-                                <div>{{ $message->created_at }}</div>
+                                <div class="message-body-header-time">{{ $message->created_at }}</div>
                             </div>
-                            <div>test message here!</div>
+                            <div class="message-body-content">
+                                {!! $message->text !!}
+                            </div>
                         </div>
                     </div>
                 @endforeach

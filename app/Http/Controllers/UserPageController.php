@@ -154,10 +154,8 @@ class UserPageController extends Controller
         $messages = Message::with(['user', 'user.profile', 'friend', 'friend.profile'])
             ->where([['user_id', $currentUserId], ['friend_id', $friend->id]])
             ->orWhere([['user_id', $friend->id], ['friend_id', $currentUserId]])
-            ->orderByDesc('created_at')
+            ->orderBy('created_at')
             ->get();
-
-        debug($messages);
 
         return view('user.friendmessages', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount', 'friend', 'type', 'messages'));
     }

@@ -60,12 +60,18 @@ $().ready(function () {
     $('.reply-button').click(function () {
         let reply = $(this);
         let level = reply.data('level');
-        level+= 1;
+        level = level + 1;
 
         let parent = reply.data('parent');
 
+        console.log(level);
+        console.log(parent);
+
         wrapper.data('level', level);
         wrapper.data('parent', parent);
+
+        console.log(wrapper.data('level'));
+        console.log(wrapper.data('parent'));
 
         $('html, body').animate({
             scrollTop: $("#add-comment").offset().top
@@ -73,7 +79,7 @@ $().ready(function () {
 
         let clicked_parent = $(this).parents('.comment-item');
         let clicked_parent_level = clicked_parent.data('level');
-        clicked_parent_level+= 1;
+        clicked_parent_level = clicked_parent_level + 1;
 
         while (clicked_parent.next().data('level') >= clicked_parent_level) {
             clicked_parent = clicked_parent.next();
