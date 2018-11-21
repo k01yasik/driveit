@@ -57,24 +57,6 @@ $().ready(function () {
         }
     };
 
-    let editorToolbar = $('.text-editor-toolbar');
-
-    editorToolbar.on('touchstart', '.link-item', function () {
-        selectItemSub.show();
-    });
-
-    editorToolbar.on('touchcancel', '.link-item', function () {
-        selectItemSub.hide();
-    });
-
-    editorToolbar.on('touchstart', '.image-item', function () {
-        imageSelectItemSub.show();
-    });
-
-    editorToolbar.on('touchcancel', '.image-item', function () {
-        imageSelectItemSub.hide();
-    });
-
     $('.link-item').mouseenter(function () {
         selectItemSub.show();
     }).mouseleave(function () {
@@ -248,11 +230,17 @@ $().ready(function () {
            formData.append('type', type);
        }
 
+       let username = $('.add-comment-wrapper').data('username');
+
+       if (username) {
+           formData.append('username', username);
+       }
+
         if (selectedFile) {
 
             $.ajax({
                 method: "POST",
-                url: "/admin/image/upload",
+                url: "/user/image/upload",
                 contentType: false,
                 processData: false,
                 dataType: 'text',

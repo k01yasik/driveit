@@ -4,6 +4,26 @@
     width: 2em;
   }
 
+  .caption-block {
+    padding: 0 5%;
+  }
+
+  .add-comment-wrapper {
+    padding: 5%;
+
+    .text-editor {
+      float: left;
+    }
+  }
+
+  .btn-post-height {
+    margin-top: 5%;
+  }
+
+  .reply-button {
+    margin-right: 0;
+  }
+
   .main-card {
     padding: 5%;
   }
@@ -24,6 +44,7 @@
     height: initial;
     display: inline-block;
     width: 100%;
+    padding: 0 5%;
   }
 
   .comments-wrapper {

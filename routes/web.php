@@ -36,6 +36,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::delete('/image/delete', 'ImageUploadController@delete')->name('user.image.delete');
 
+        Route::post('/image/upload', 'ImageUploadController@upload')->name('user.image.upload');
+
         Route::post('/albums/image/upload', 'ImageUploadController@image')->name('user.albums.image.upload');
 
         Route::get('/{username}/settings', 'UserPageController@settings')->name('user.settings');
@@ -91,8 +93,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
     Route::get('/posts/page/{id}', 'AdminController@paginate')->name('admin.posts.paginate');
 
     Route::post('/posts/image-upload', 'ImageUploadController@index')->name('admin.posts.image.upload');
-
-    Route::post('/image/upload', 'ImageUploadController@upload')->name('admin.image.upload');
 
     Route::delete('/posts/image-destroy', 'ImageUploadController@destroy')->name('admin.posts.image.destroy');
 

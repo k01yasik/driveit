@@ -168,13 +168,20 @@
                 @include('components.comment')
             @endforeach
         </div>
+    @else
+        <div class="caption-block">
+            <div class="caption-block-text">{{ __('Comments') }}</div>
+        </div>
+        <div class="comments-wrapper">
+            <div class="empty-comments">{{ __('No comments.') }}</div>
+        </div>
     @endif
     @auth
         <div class="caption-block">
             <div class="caption-block-text">{{ __('Adding a comment') }}</div>
         </div>
-        <div class="add-comment-wrapper" id="add-comment" data-post="{{ $post->id }}" data-level="0" data-parent="0">
-            @include('components.texteditor', ['type' => 'comment'])
+        <div class="add-comment-wrapper" id="add-comment" data-post="{{ $post->id }}" data-level="0" data-parent="0" data-username="{{ $post->user->username }}">
+            @include('components.texteditor-mini', ['type' => 'comment'])
             <div class="button btn-post-height right add-comment-button">{{ __('Add a comment') }}</div>
         </div>
     @endauth

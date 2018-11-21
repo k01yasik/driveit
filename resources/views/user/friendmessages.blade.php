@@ -32,6 +32,6 @@
                 <h3>{{ __('Have a nice chat!') }}</h3>
             @endif
         </div>
-        @include('components.texteditor')
+        @include('components.texteditor-mini')
     </div>
 @endsection

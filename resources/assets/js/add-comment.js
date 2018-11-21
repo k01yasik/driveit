@@ -64,14 +64,8 @@ $().ready(function () {
 
         let parent = reply.data('parent');
 
-        console.log(level);
-        console.log(parent);
-
         wrapper.data('level', level);
         wrapper.data('parent', parent);
-
-        console.log(wrapper.data('level'));
-        console.log(wrapper.data('parent'));
 
         $('html, body').animate({
             scrollTop: $("#add-comment").offset().top

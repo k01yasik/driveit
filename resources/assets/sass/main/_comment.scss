@@ -1,6 +1,6 @@
 .comments-wrapper {
   background: $white;
-  border-radius: 3px;
+  border-radius: 0 0 3px 3px;
   padding: 2em;
   margin-bottom: 2em;
 
@@ -50,10 +50,10 @@
 }
 
 .caption-block {
-  border-radius: 3px;
+  border-radius: 3px 3px 0 0;
   line-height: 3em;
   background: $white;
-  margin-bottom: 2em;
+  border-bottom: 1px solid $grey-3;
   padding: 0 2em;
 
   .caption-block-text {
@@ -71,13 +71,13 @@
 .add-comment-wrapper {
   background: $white;
   padding: 2em;
-  border-radius: 3px;
+  border-radius: 0 0 3px 3px;
   display: inline-block;
 }
 
 .reply-button {
   margin-right: 1em;
-  padding: 0 2em;
+  padding: 0 1em;
   height: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
