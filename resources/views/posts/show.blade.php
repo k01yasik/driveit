@@ -28,7 +28,13 @@
             @endforeach
         </ul>
     </div>
-    <article class="post">
+    <div class="article-readers">
+        <div class="article-readers-caption">{{ __('This article is also read by users') }}</div>
+        <div class="article-readers-body">
+
+        </div>
+    </div>
+    <article class="post full-post" data-id="{{ $post->id }}">
         <header>
             <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
                 <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
@@ -187,7 +193,10 @@
     @endauth
     @guest
         <div class="caption-block">
-            <div class="caption-block-text">{{ __('Only registered users can post a new comment.') }}</div>
+            <div class="caption-block-text">{{ __('Adding a comment') }}</div>
+        </div>
+        <div class="comments-wrapper">
+            <div class="empty-comments">{{ __('Only registered users can post a new comment.') }}</div>
         </div>
     @endguest
 @endsection

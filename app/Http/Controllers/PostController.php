@@ -50,9 +50,7 @@ class PostController extends Controller
         $post->image_path = $data['image'];
         $post->is_published = 0;
         $post->user()->associate(Auth::user());
-        $post->rating = 0;
         $post->views = 0;
-        $post->comments = 0;
         $post->save();
 
         $category = Category::find($data['category']);

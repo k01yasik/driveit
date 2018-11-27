@@ -1,5 +1,7 @@
 $().ready(function () {
     let id = $('.channel').data('id');
+    let post_id = $('.full-post').data('id');
+
     if (id) {
         window.Echo.private('user.' + id)
             .listen('MessageSaved', (e) => {
@@ -74,5 +76,37 @@ $().ready(function () {
                     '</svg>' +
                     '</div>')
             })
+    }
+
+    if (post_id) {
+        window.Echo.join('post.' + post_id)
+            .joining((user) => {
+                $('.article-readers-body').append('<div class="post-reader" id="user-' + user.id + '">' +
+                    '<a href="' + user.url + '" class="user-avatar-link">' +
+                    '<img src="' + user.avatar + '" class="user-avatar" alt="' + user.username + '">' +
+                    '</a>' +
+                    '<a href="' + user.url + '" class="post-author">' + user.username + '</a>' +
+                    '</div>');
+            })
+            .here((users) => {
+                let article_body = $('.article-readers-body');
+                let children_length = article_body.children().length;
+
+                if (children_length === 0) {
+                    users.forEach(function (user) {
+                        article_body.append('<div class="post-reader" id="user-' + user.id + '">' +
+                            '<a href="' + user.url + '" class="user-avatar-link">' +
+                            '<img src="' + user.avatar + '" class="user-avatar" alt="' + user.username + '">' +
+                            '</a>' +
+                            '<a href="' + user.url + '" class="post-author">' + user.username + '</a>' +
+                            '</div>');
+                    })
+                }
+            })
+            .leaving((user) => {
+                console.log('working');
+                let id = '#user-' + user.id;
+                $(id).remove();
+            });
     }
 });

@@ -1,0 +1,47 @@
+.article-readers {
+  background: white;
+  margin-bottom: 2em;
+  line-height: 3em;
+  border-radius: 3px;
+}
+
+.article-readers-caption {
+  border-bottom: 1px solid $grey-3;
+  padding: 0 2em;
+}
+
+.article-readers-body {
+  padding: 0 2em;
+  line-height: 3em;
+  min-height: 3em;
+}
+
+.post-reader {
+  float: left;
+  line-height: 3em;
+  margin-right: 1em;
+
+  .user-avatar {
+    height: 2em;
+    width: 2em;
+    float: left;
+    border-radius: 50%;
+  }
+
+  .user-avatar-link {
+    float: left;
+    display: block;
+    margin-right: 1em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+  }
+
+  .post-author {
+    line-height: 3em;
+    float: left;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
