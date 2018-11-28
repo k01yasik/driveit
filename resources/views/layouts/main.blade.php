@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic">
         <link href="{{asset('css/app.css')}}" rel="stylesheet">
         @include('components.google')
+        @include('components.adsense')
         @include('components.yandex')
         <script type="application/ld+json">
             {
