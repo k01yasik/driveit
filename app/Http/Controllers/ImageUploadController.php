@@ -51,6 +51,36 @@ class ImageUploadController extends Controller
 
     }
 
+    public function avatar(Request $request) {
+
+        $data = $request->validate([
+            'avatar_upload' => 'required|image',
+            'x' => 'required|integer',
+            'y' => 'required|integer',
+            'height' => 'required|integer',
+            'width' => 'required|integer'
+        ]);
+
+        $image = $data['avatar_upload'];
+        $user = Auth::user();
+        $username = $user->username;
+        $image_name = $image->getClientOriginalName();
+
+        $avatar = Thumb::make($image)->crop($data['width'], $data['height'], $data['x'], $data['y']);
+        $stream = $avatar->stream('jpg', 80);
+
+        Storage::disk('public')->put($username.'/avatars/'.$image_name, $stream);
+
+        $avatar_path = $username.'/avatars/'.$image_name;
+        $avatar_url =  Storage::disk('public')->url($avatar_path);
+
+        $profile = $user->profile()->firstOrFail();
+        $profile->avatar = $avatar_url;
+        $profile->save();
+
+        return $avatar_url;
+    }
+
     public function image(Request $request) {
 
         $username = Auth::user()->username;

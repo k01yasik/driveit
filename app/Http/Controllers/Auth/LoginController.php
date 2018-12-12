@@ -111,11 +111,6 @@ class LoginController extends Controller
         $profile->user()->associate($userCreate);
         $profile->save();
 
-        $album = new Album;
-        $album->name = 'posts';
-        $album->user()->associate($userCreate);
-        $album->save();
-
         return $userCreate;
     }
 }

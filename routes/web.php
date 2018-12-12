@@ -38,6 +38,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::post('/image/upload', 'ImageUploadController@upload')->name('user.image.upload');
 
+        Route::post('/avatar/upload', 'ImageUploadController@avatar')->name('user.avatar.upload');
+
         Route::post('/albums/image/upload', 'ImageUploadController@image')->name('user.albums.image.upload');
 
         Route::get('/{username}/settings', 'UserPageController@settings')->name('user.settings');

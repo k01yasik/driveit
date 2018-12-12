@@ -16,5 +16,7 @@ require('./send-request-to-friend');
 require('./channel');
 require('./confirm-request');
 require('./send-message');
+require('./back-to-top');
+require('./upload-avatar');
 
 import 'social-likes-next';

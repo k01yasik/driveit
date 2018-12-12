@@ -132,8 +132,16 @@
   bottom: 1em;
   transition: $second-transitions;
   cursor: pointer;
-  z-index: 1000;
-  display: none;
+  z-index: -10;
+  opacity: 0;
+}
+
+.back-to-top-arrow {
+  fill: white;
+  transform: rotate(-90deg);
+  width: 1.5em;
+  height: 1.5em;
+  margin: .75em;
 }
 
 #vk-btn, #facebook-btn, #twitter-btn, #google-btn {

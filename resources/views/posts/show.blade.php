@@ -28,13 +28,15 @@
             @endforeach
         </ul>
     </div>
-    <div class="article-readers">
-        <div class="article-readers-caption">{{ __('This article is also read by users') }}</div>
-        <div class="article-readers-body">
+    @auth
+        <div class="article-readers">
+            <div class="article-readers-caption">{{ __('This article is also read by users') }}</div>
+            <div class="article-readers-body">
 
+            </div>
         </div>
-    </div>
-    <article class="post full-post" data-id="{{ $post->id }}">
+    @endauth
+    <article class="post full-post" @auth data-id="{{ $post->id }}"@endauth>
         <header>
             <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
                 <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
