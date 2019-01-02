@@ -1,7 +1,7 @@
 @extends('layouts.exception')
 
 @section('content')
-    <div class="navigation-wrapper">
+    <div class="navigation-wrapper-404">
         @include('components.navigation')
     </div>
     <div class="exception-wrapper">
