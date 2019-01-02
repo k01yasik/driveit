@@ -1,6 +1,11 @@
 <div class="left-panel">
-    <div class="menu-header">
-        {{ __('Menu') }}
+    <div class="avatar">
+        <div class="avatar-inner">
+            <img src="{{ $user->profile->avatar }}">
+        </div>
+    </div>
+    <div class="user-profile-username">
+        <a href="{{ route('user.profile', ['username' => $user->username]) }}">{{ $user->username }}</a>
     </div>
     <ul>
         <li><a href="{{ route('admin.index') }}">{{ __('Dashboard') }}</a></li>

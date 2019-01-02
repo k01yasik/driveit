@@ -90,6 +90,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/users', 'AdminController@users')->name('admin.users');
 
+    Route::get('/user/{username}', 'AdminController@show')->name('admin.user.show');
+
+    Route::get('/user/{username}/delete', 'AdminController@delete')->name('admin.user.delete');
+
+    Route::post('/rips', 'RipController@store')->name('admin.user.ban');
+
+    Route::delete('/rips', 'RipController@destroy')->name('admin.user.unban');
+
     Route::get('/posts', 'AdminController@posts')->name('admin.posts');
 
     Route::get('/posts/page/{id}', 'AdminController@paginate')->name('admin.posts.paginate');
@@ -121,6 +129,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
     Route::post('/posts', 'PostController@store')->name('admin.posts.store');
 
     Route::get('/posts/{id}/edit', 'PostController@edit')->name('admin.posts.edit');
+
+    Route::get('/posts/{id}/edit/html', 'PostController@editHtml')->name('admin.posts.html');
 
     Route::put('/posts/publish', 'PostController@publish')->name('admin.posts.publish');
 

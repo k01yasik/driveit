@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Post;
 use App\User;
 use App\Comment;
-use App\Seo;
+use App\Rip;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -22,17 +24,51 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts_count = Post::all()->count();
+        /*$posts_count = Post::all()->count();
         $users_count = User::all()->count();
         $comments_count = Comment::all()->count();
-        $seo_count = Seo::all()->count();
+        $seo_count = Seo::all()->count();*/
 
-        return view('admin.index', compact('seo', 'posts_count', 'users_count', 'comments_count', 'seo_count'));
+        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+
+        return view('admin.index', compact('seo', 'user'));
     }
 
-    public function users()
+    public function users(Request $request)
     {
-        return view('admin.users');
+        $seo = $this->seoService->getSeoData($request);
+
+        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+
+        $users = User::with('profile', 'rip')->get();
+
+        debug($users);
+
+        return view('admin.users', compact('seo', 'user', 'users'));
+    }
+
+    public function show(Request $request, $username)
+    {
+        $user = User::with('profile', 'rip')->where('username', $username)->firstOrFail();
+
+        $seo = [
+            'title' => 'Информация о пользователе '.$user->username,
+            'description' => 'Информация о пользователе '.$user->username
+        ];
+
+        return view('admin.user.show', compact('seo', 'user'));
+    }
+
+    public function delete(Request $request, $username)
+    {
+        $user = User::with('profile')->where('username', $username)->firstOrFail();
+
+        $seo = [
+            'title' => 'Удаление пользователя '.$user->username,
+            'description' => 'Удаление пользователя '.$user->username
+        ];
+
+        return view('admin.user.delete', compact('seo', 'user'));
     }
 
     /**
@@ -43,13 +79,15 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
+        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+
         $posts = Post::orderByDesc('id')->paginate(10);
 
         $previousNumberPage = $posts->currentPage() - 1;
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
 
-        return view('admin.posts', compact('seo', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
+        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
     }
 
     public function paginate(Request $request, $id)
@@ -59,13 +97,15 @@ class AdminController extends Controller
             "description" => "Все статьи. Страница - ".$id.".",
         ];
 
+        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+
         $posts = Post::orderByDesc('id')->paginate(10, ['*'], 'page', $id);
 
         $previousNumberPage = $posts->currentPage() - 1;
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
 
-        return view('admin.posts', compact('seo', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
+        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
     }
 
     public function comments(Request $request)

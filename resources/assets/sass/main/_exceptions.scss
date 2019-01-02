@@ -1,7 +1,14 @@
 .exception-wrapper {
-  background: $white;
-  border-radius: 3px;
+  background-image: url(https://driveitwith.me/storage/Bzdykin/default/repair-of-car-dents.jpg);
+  border-radius: 0 0 3px 3px;
   padding: 2em;
+  background-repeat: no-repeat;
+  background-position: right bottom, left top;
+  background-size: cover;
+  height: 799.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .exception-danger {
@@ -26,9 +33,23 @@
   text-shadow: 2px 2px 0 $grey-1;
 }
 
+.big-caption-404 {
+  font-size: 3rem;
+  text-align: center;
+  font-weight: bold;
+  padding: 2rem;
+  background: $white;
+  border-radius: 3px;
+  opacity: .8;
+}
+
 .small-caption {
   text-align: center;
   font-weight: bold;
   font-size: 4rem;
   margin-bottom: 2rem;
+}
+
+.navigation-wrapper {
+  margin-top: 3em;
 }

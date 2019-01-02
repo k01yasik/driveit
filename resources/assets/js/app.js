@@ -18,5 +18,7 @@ require('./confirm-request');
 require('./send-message');
 require('./back-to-top');
 require('./upload-avatar');
+require('./user-ban');
+require('./user-unban');
 
 import 'social-likes-next';

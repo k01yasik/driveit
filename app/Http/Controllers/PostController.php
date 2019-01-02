@@ -143,4 +143,13 @@ class PostController extends Controller
 
         return view('admin.posts.edit', compact('seo', 'post', 'categories', 'categoryArray'));
     }
+
+    public function editHtml($id, Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $post = Post::where('id', $id)->firstOrFail();
+
+        return view('admin.posts.html', compact('seo', 'post'));
+    }
 }

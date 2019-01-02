@@ -6,17 +6,21 @@
 }
 
 .right-panel {
-  width: 65.33%;
+  width: 74.41059%;
   float: left;
   min-height: 30em;
 }
 
 .left-panel {
-  width: 32.67%;
-  margin-right: 2%;
+  width: 23.2317613%;
+  margin-right: 2.35765%;
+
+  ul {
+    margin-top: 2em;
+  }
 
   li {
-    margin-bottom: 1em;
+    margin-bottom: .5em;
 
     &:last-child {
       margin-bottom: 0;
@@ -33,11 +37,10 @@
 }
 
 .menu-header {
-  line-height: 3rem;
-  text-align: center;
-  font-size: 1.5em;
   text-transform: uppercase;
-  margin-bottom: 2rem;
+  margin-bottom: .5em;
+  margin-top: 2em;
+  font-weight: bold;
 }
 
 .comment-publish-button {

@@ -6,7 +6,7 @@
         <div class="block-wrapper">
             <h3 class="post-create-subheading">{{ __('Upload image') }}</h3>
             <div class="post_upload_image_button">
-                <svg version="1.1" id="choose-landscape" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 315.58 315.58" style="enable-background:new 0 0 315.58 315.58;" xml:space="preserve">
+                <svg version="1.1" class="choose-image-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 315.58 315.58" style="enable-background:new 0 0 315.58 315.58;" xml:space="preserve">
                     <g>
                         <path d="M310.58,33.331H5c-2.761,0-5,2.238-5,5v238.918c0,2.762,2.239,5,5,5h305.58c2.763,0,5-2.238,5-5V38.331
                         C315.58,35.569,313.343,33.331,310.58,33.331z M285.58,242.386l-68.766-71.214c-0.76-0.785-2.003-0.836-2.823-0.114l-47.695,41.979
@@ -46,28 +46,23 @@
         </form>
         <div class="text-editor">
             <div class="text-editor-toolbar">
-                <div class="select-heading">
-                    <div class="select-wrapper">
-                        <div class="select-heading-input">Paragraph</div>
-                        <div class="caret-down">
-                            <svg version="1.1" id="caret-post" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 307.054 307.054" style="enable-background:new 0 0 307.054 307.054;"
-                                 xml:space="preserve">
-                                <g>
-                                    <path d="M302.445,205.788L164.63,67.959c-6.136-6.13-16.074-6.13-22.203,0L4.597,205.788c-6.129,6.132-6.129,16.069,0,22.201
-                                    l11.101,11.101c6.129,6.136,16.076,6.136,22.209,0l115.62-115.626L269.151,239.09c6.128,6.136,16.07,6.136,22.201,0
-                                    l11.101-11.101C308.589,221.85,308.589,211.92,302.445,205.788z"></path>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="select-heading-sub">
-                        <div class="heading_2">Heading 2</div>
-                        <div class="heading_3">Heading 3</div>
-                        <div class="paragraph">Paragraph</div>
-                    </div>
+                <div class="select-item heading_2">
+                    <svg class="heading_2-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M 17.375 6.84375 C 14.246 6.84375 13.90625 9.462 13.90625 10.125 L 15.90625 10.125 C 15.90625 8.476 17.11175 8.4375 17.34375 8.4375 C 18.48875 8.4375 18.625 9.433 18.625 9.875 C 18.625 11.208 16.849 12.48775 14.125 15.59375 L 14.125 16.9375 L 20.9375 16.9375 L 20.9375 15.34375 L 16.65625 15.34375 C 19.17425 12.69275 20.625 11.4675 20.625 9.6875 C 20.625 9.2505 20.606 6.84375 17.375 6.84375 z M 3 7 L 3 17 L 5.28125 17 L 5.28125 12.71875 L 9.71875 12.71875 L 9.71875 17 L 12 17 L 12 7 L 9.71875 7 L 9.71875 11.0625 L 5.28125 11.0625 L 5.28125 7 L 3 7 z"></path>
+                    </svg>
+                </div>
+                <div class="select-item heading_3">
+                    <svg class="heading_3-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M 17.125 7.8125 C 14.756 7.8125 14.4375 9.55425 14.4375 10.03125 L 16.0625 10.03125 C 16.0625 9.89025 16.15725 9.125 17.15625 9.125 C 18.24825 9.125 18.25 10.00725 18.25 10.15625 C 18.25 11.16725 17.4725 11.28125 17.0625 11.28125 L 16.1875 11.28125 L 16.1875 12.5625 L 17.0625 12.5625 C 17.2675 12.5625 18.375 12.51625 18.375 13.78125 C 18.375 13.94925 18.32625 14.875 17.15625 14.875 C 16.03325 14.875 15.96875 13.99675 15.96875 13.84375 L 14.34375 13.84375 C 14.34375 14.44275 14.725 16.1875 17.125 16.1875 C 17.777 16.1875 20 15.93225 20 13.78125 C 20 12.47825 19.084 12.039 18.625 11.875 C 18.822 11.785 19.875 11.267 19.875 10.125 C 19.875 9.744 19.759 7.8125 17.125 7.8125 z M 4 8 L 4 16 L 5.78125 16 L 5.78125 12.5625 L 9.21875 12.5625 L 9.21875 16 L 11 16 L 11 8 L 9.21875 8 L 9.21875 11.25 L 5.78125 11.25 L 5.78125 8 L 4 8 z"></path>
+                    </svg>
+                </div>
+                <div class="select-item paragraph">
+                    <svg class="paragraph-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path style="text-indent:0;text-align:start;line-height:normal;text-transform:none;block-progression:tb;-inkscape-font-specification:Bitstream Vera Sans" d="M 9 2 C 6.2504839 2 4 4.2504839 4 7 C 4 9.7495161 6.2504839 12 9 12 L 10 12 L 10 22 L 12 22 L 12 4 L 14 4 L 14 22 L 16 22 L 16 4 L 18 4 L 18 2 L 9 2 z M 9 4 L 10 4 L 10 10 L 9 10 C 7.3315161 10 6 8.6684839 6 7 C 6 5.3315161 7.3315161 4 9 4 z" overflow="visible" font-family="Bitstream Vera Sans"></path>
+                    </svg>
                 </div>
                 <div class="select-item bold-item">
-                    <svg version="1.1" id="bold-text" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 438.543 438.543" style="enable-background:new 0 0 438.543 438.543;"
+                    <svg version="1.1" class="bold-text-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 438.543 438.543" style="enable-background:new 0 0 438.543 438.543;"
                          xml:space="preserve">
                         <g>
                             <path d="M394.005,235.541c-17.131-19.987-42.537-33.878-76.231-41.683c23.612-10.85,37.887-18.177,42.835-21.982
@@ -93,7 +88,7 @@
                     </svg>
                 </div>
                 <div class="select-item italic-item">
-                    <svg version="1.1" id="italic-text" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 438.543 438.543" style="enable-background:new 0 0 438.543 438.543;"
+                    <svg version="1.1" class="italic-text-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 438.543 438.543" style="enable-background:new 0 0 438.543 438.543;"
                          xml:space="preserve">
                         <g>
                             <path d="M355.172,0.715c-6.659,0.478-13.134,0.909-19.417,1.287c-28.171,1.709-48.54,2.568-61.099,2.568
@@ -113,7 +108,7 @@
                     </svg>
                 </div>
                 <div class="select-item link-item">
-                    <svg version="1.1" id="link-text" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 442.246 442.246" style="enable-background:new 0 0 442.246 442.246;"
+                    <svg version="1.1" class="link-text-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 442.246 442.246" style="enable-background:new 0 0 442.246 442.246;"
                          xml:space="preserve">
                         <g>
                             <g>
@@ -132,9 +127,9 @@
                     </svg>
                     <div class="select-item-sub">
                         <label for="item-input">Url</label>
-                        <input type="text" name="item-input" id="item-input" value="" class="select-item-input">
+                        <input type="text" name="item-input" id="item-input" class="select-item-input">
                         <div class="select-item-sub-button delete-item">
-                            <svg version="1.1" id="delete" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
+                            <svg version="1.1" class="delete-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
                                  xml:space="preserve">
                                 <g>
                                     <path d="M55.931,47.463L94.306,9.09c0.826-0.827,0.826-2.167,0-2.994L88.833,0.62C88.436,0.224,87.896,0,87.335,0
@@ -146,14 +141,14 @@
                             </svg>
                         </div>
                         <div class="select-item-sub-button checked-item">
-                            <svg version="1.1" id="checked-item" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
+                            <svg version="1.1" class="checked-item-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
                                 <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"></path>
                             </svg>
                         </div>
                     </div>
                 </div>
                 <div class="select-item broken-item">
-                    <svg version="1.1" id="broken-link" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
+                    <svg version="1.1" class="broken-link-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
                         <g>
                             <g>
                                 <rect x="62.458" y="29.961" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -32.0859 77.4586)" width="30" height="94.999"></rect>
@@ -204,7 +199,7 @@
                     </svg>
                 </div>
                 <div class="select-item image-item">
-                    <svg version="1.1" id="landscape" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 315.58 315.58" style="enable-background:new 0 0 315.58 315.58;" xml:space="preserve">
+                    <svg version="1.1" class="landscape-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 315.58 315.58" style="enable-background:new 0 0 315.58 315.58;" xml:space="preserve">
                         <g>
                             <path d="M310.58,33.331H5c-2.761,0-5,2.238-5,5v238.918c0,2.762,2.239,5,5,5h305.58c2.763,0,5-2.238,5-5V38.331
                             C315.58,35.569,313.343,33.331,310.58,33.331z M285.58,242.386l-68.766-71.214c-0.76-0.785-2.003-0.836-2.823-0.114l-47.695,41.979
@@ -215,9 +210,9 @@
                     </svg>
                     <div class="image-select-item-sub">
                         <label for="image-item-input">Alt</label>
-                        <input type="text" name="image-item-input" id="image-item-input" value="" class="image-select-item-input">
+                        <input type="text" name="image-item-input" id="image-item-input" class="image-select-item-input">
                         <div class="select-item-sub-button image-delete-item">
-                            <svg version="1.1" id="delete" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
+                            <svg version="1.1" class="delete-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
                                  xml:space="preserve">
                                 <g>
                                     <path d="M55.931,47.463L94.306,9.09c0.826-0.827,0.826-2.167,0-2.994L88.833,0.62C88.436,0.224,87.896,0,87.335,0
@@ -229,17 +224,17 @@
                             </svg>
                         </div>
                         <div class="select-item-sub-button image-checked-item">
-                            <svg version="1.1" id="checked-item" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
+                            <svg version="1.1" class="checked-item-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
                                 <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"></path>
                             </svg>
                         </div>
                     </div>
                 </div>
-                <form enctype="multipart/form-data" id="body_post_upload_image">
-                    <input type="file" id="body_post_upload_image_input" accept="image/jpeg,image/png" name="body_post_upload_image">
+                <form enctype="multipart/form-data" id="upload_image_form">
+                    <input type="file" id="upload_image_form_input" accept="image/jpeg,image/png" name="upload_image_form_input"  data-type="post">
                 </form>
                 <div class="select-item ordered-item">
-                    <svg version="1.1" id="ordered-list" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 509.054 509.054" style="enable-background:new 0 0 509.054 509.054;"
+                    <svg version="1.1"class="ordered-list-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 509.054 509.054" style="enable-background:new 0 0 509.054 509.054;"
                          xml:space="preserve">
                         <g>
                             <g>
@@ -273,7 +268,7 @@
                     </svg>
                 </div>
                 <div class="select-item unordered-item">
-                    <svg version="1.1" id="unordered-list" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
+                    <svg version="1.1" class="unordered-list-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
                          xml:space="preserve">
                         <g>
                             <g>
@@ -300,7 +295,7 @@
                     </svg>
                 </div>
                 <div class="select-item quotes-item">
-                    <svg version="1.1" id="quotes" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.5 512.5" style="enable-background:new 0 0 512.5 512.5;" xml:space="preserve"
+                    <svg version="1.1" class="quotes-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.5 512.5" style="enable-background:new 0 0 512.5 512.5;" xml:space="preserve"
                     >
                         <g>
                             <path d="M112.5,208.25c61.856,0,112,50.145,112,112s-50.144,112-112,112s-112-50.145-112-112l-0.5-16
@@ -312,7 +307,7 @@
                     </svg>
                 </div>
                 <div class="select-item indent-item">
-                    <svg version="1.1" id="indent" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
+                    <svg version="1.1" class="indent-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
                          xml:space="preserve">
                         <g>
                             <g>
@@ -336,7 +331,7 @@
                     </svg>
                 </div>
                 <div class="select-item outdent-item">
-                    <svg version="1.1" id="outdent" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
+                    <svg version="1.1" class="outdent-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
                          xml:space="preserve">
                         <g>
                             <g>
@@ -361,7 +356,7 @@
                     </svg>
                 </div>
                 <div class="select-item undo-item">
-                    <svg version="1.1" id="undo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26.676 26.676" style="enable-background:new 0 0 26.676 26.676;" xml:space="preserve">
+                    <svg version="1.1" class="undo-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26.676 26.676" style="enable-background:new 0 0 26.676 26.676;" xml:space="preserve">
                         <g>
                             <path d="M26.105,21.891c-0.229,0-0.439-0.131-0.529-0.346l0,0c-0.066-0.156-1.716-3.857-7.885-4.59
                             c-1.285-0.156-2.824-0.236-4.693-0.25v4.613c0,0.213-0.115,0.406-0.304,0.508c-0.188,0.098-0.413,0.084-0.588-0.033L0.254,13.815
@@ -372,7 +367,7 @@
                     </svg>
                 </div>
                 <div class="select-item redo-item">
-                    <svg version="1.1" id="redo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26.676 26.676" style="enable-background:new 0 0 26.676 26.676;" xml:space="preserve">
+                    <svg version="1.1" class="redo-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26.676 26.676" style="enable-background:new 0 0 26.676 26.676;" xml:space="preserve">
                         <g>
                             <path d="M26.105,21.891c-0.229,0-0.439-0.131-0.529-0.346l0,0c-0.066-0.156-1.716-3.857-7.885-4.59
                             c-1.285-0.156-2.824-0.236-4.693-0.25v4.613c0,0.213-0.115,0.406-0.304,0.508c-0.188,0.098-0.413,0.084-0.588-0.033L0.254,13.815
@@ -385,6 +380,7 @@
             </div>
             <div class="text-editor-body" contenteditable="true">{!! $post->body !!}</div>
         </div>
-        <div class="button btn-post-height submit-edit-post-form">{{ __('Save a post') }}</div>
+        <div class="button btn-post-height submit-edit-post-form">{{ __('Update a post') }}</div>
+        <a href="{{ route('admin.posts.html', ['id' => $post->id]) }}" class="button btn-post-height right">{{ __('Edit HTML') }}</a>
     </div>
 @endsection

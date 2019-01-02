@@ -25,7 +25,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     @include('components.google')
     @include('components.adsense')
@@ -63,25 +62,26 @@
     </script>
 </head>
 <body>
-<header>
-    @include('components.sitetop')
-    @include('components.carousel')
-    @include('components.navigation')
-</header>
-<div class="main-row">
-    <div class="main-wrapper">
-        <main>
-            @yield('content')
-        </main>
-        <aside>
-            @include('components.ads')
-        </aside>
+    <header>
+        @include('components.sitetop')
+        @include('components.carousel')
+        @include('components.navigation')
+    </header>
+    <div class="main-row">
+        <div class="main-wrapper">
+            <main>
+                @yield('content')
+            </main>
+            <aside>
+                @include('components.ads')
+            </aside>
+        </div>
     </div>
-</div>
-<footer>
-    @include('components.footer')
-</footer>
-@include('components.backbutton')
-<script src="{{ asset('js/app.js') }}"></script>
+    <footer>
+        @include('components.footer')
+    </footer>
+    @include('components.backbutton')
+    @include('components.webfont')
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
