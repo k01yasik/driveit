@@ -42,7 +42,9 @@ try {
  * allows your team to easily build robust real-time web applications.
  */
 
-import Echo from "laravel-echo"
+import Echo from "laravel-echo";
+import Chart from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 window.io = require('socket.io-client');
 window.smartcrop = require('smartcrop');

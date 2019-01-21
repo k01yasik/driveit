@@ -7,7 +7,7 @@
             <ul>
                 <li>
                     <a href="{{ route('admin.index') }}" class="breadcrumbs-home-link">
-                        <svg version="1.1" id="home" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
+                        <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
                             <g>
                                 <path d="M3.674,24.876c0,0-0.024,0.604,0.566,0.604c0.734,0,6.811-0.008,6.811-0.008l0.01-5.581
                                 c0,0-0.096-0.92,0.797-0.92h2.826c1.056,0,0.991,0.92,0.991,0.92l-0.012,5.563c0,0,5.762,0,6.667,0
@@ -23,6 +23,7 @@
                 <li><a href="{{ route('admin.comments') }}">{{ __('Comments') }}</a></li>
                 <li><span>/</span></li>
                 <li>{{ __('Unpublished comments') }}</li>
+                <li class="unpublish-comments-counter">{{ $unpublish_comments_count }}</li>
             </ul>
         </div>
         @if($comments->count() > 0)
@@ -42,20 +43,23 @@
                                     </svg>
                                 @else
                                     <svg version="1.1" class="comment-unpublish-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.381 15.381" style="enable-background:new 0 0 15.381 15.381;" xml:space="preserve">
+                                    <g>
                                         <g>
-                                            <g>
-                                                <path d="M12.016,15.381h-8.65c-1.558,0-2.826-1.268-2.826-2.825v-9.73C0.54,1.268,1.808,0,3.366,0h8.65
-                                                c1.558,0,2.825,1.268,2.825,2.826v9.73C14.841,14.114,13.574,15.381,12.016,15.381z M3.366,1.305
-                                                c-0.839,0-1.521,0.683-1.521,1.521v9.73c0,0.838,0.683,1.521,1.521,1.521h8.65c0.839,0,1.521-0.684,1.521-1.521v-9.73
-                                                c0-0.839-0.683-1.521-1.521-1.521C12.016,1.305,3.366,1.305,3.366,1.305z"></path>
-                                            </g>
+                                            <path d="M12.016,15.381h-8.65c-1.558,0-2.826-1.268-2.826-2.825v-9.73C0.54,1.268,1.808,0,3.366,0h8.65
+                                            c1.558,0,2.825,1.268,2.825,2.826v9.73C14.841,14.114,13.574,15.381,12.016,15.381z M3.366,1.305
+                                            c-0.839,0-1.521,0.683-1.521,1.521v9.73c0,0.838,0.683,1.521,1.521,1.521h8.65c0.839,0,1.521-0.684,1.521-1.521v-9.73
+                                            c0-0.839-0.683-1.521-1.521-1.521C12.016,1.305,3.366,1.305,3.366,1.305z"></path>
                                         </g>
-                                    </svg>
+                                    </g>
+                                </svg>
                                 @endif
                             </div>
                         </div>
                         <div class="body">
-                            {!! $comment->message !!}
+                            <p>{{ $comment->message }}</p>
+                        </div>
+                        <div class="comment-footer">
+                            <p>{{ __('Comment on the article') }} <a href="{{ route('posts.show', ['slug' => $comment->post->slug]) }}">{{ $comment->post->name }}</a></p>
                         </div>
                     </div>
                 @endforeach

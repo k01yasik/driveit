@@ -1,6 +1,8 @@
 $().ready(function () {
    $('.unban-user-button').click(function () {
-       let id = $( this ).data('id');
+       let element = $( this );
+       let id = element.data('id');
+       let message = element.data('message');
 
        $.ajax({
            method: "DELETE",
@@ -13,8 +15,8 @@ $().ready(function () {
            }
        }).done( function (result) {
            if (result === 'ok') {
-             $( this ).remove();
-             $('.user-info').append('<div class="button info-button right">Разблокирован</div>');
+             element.remove();
+             $('.user-info').append('<div class="button info-button right">' + message + '</div>');
            }
        });
    });

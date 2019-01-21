@@ -19,7 +19,7 @@ class RipController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'id' => 'required|image'
+            'id' => 'required|string'
         ]);
 
         $id = $data['id'];
@@ -42,6 +42,8 @@ class RipController extends Controller
 
         $rip = Rip::where('user_id', $id)->firstOrFail();
         $rip->delete();
+
+        event('eloquent.deleted: App\Rip', $rip);
 
         return 'ok';
     }

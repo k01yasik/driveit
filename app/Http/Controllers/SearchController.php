@@ -21,7 +21,9 @@ class SearchController extends Controller
 
         $data = $request->validated();
 
-        $searches = Post::search($data['search'])->paginate(10)->load(['user', 'categories', 'user.profile']);
+        $query = clean($data['search']);
+
+        $searches = Post::search($query)->paginate(10)->load(['user', 'categories', 'user.profile']);
 
         return view('search.index', compact('seo', 'searches'));
     }

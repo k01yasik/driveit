@@ -10,6 +10,8 @@ use App\User;
 use App\Comment;
 use App\Rip;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
@@ -24,25 +26,36 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        /*$posts_count = Post::all()->count();
-        $users_count = User::all()->count();
-        $comments_count = Comment::all()->count();
-        $seo_count = Seo::all()->count();*/
+        $posts = Cache::rememberForever('posts_count_cart', function () {
+            return DB::table('posts')
+                ->select(DB::raw('SQL_NO_CACHE YEAR(date_published) year, MONTH(date_published) month, COUNT(1) count'))
+                ->where('is_published', true)
+                ->groupBy(DB::raw('YEAR(date_published), MONTH(date_published)'))
+                ->get();
+        });
 
-        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+        $user_id = Auth::id();
 
-        return view('admin.index', compact('seo', 'user'));
+        $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
+            return User::with('profile')->where('id', $user_id)->firstOrFail();
+        });
+
+        return view('admin.index', compact('seo', 'user', 'posts'));
     }
 
     public function users(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+        $user_id = Auth::id();
 
-        $users = User::with('profile', 'rip')->get();
+        $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
+            return User::with('profile')->where('id', $user_id)->firstOrFail();
+        });
 
-        debug($users);
+        $users = Cache::rememberForever('all-users', function () {
+            return User::with('profile', 'rip')->get();
+        });
 
         return view('admin.users', compact('seo', 'user', 'users'));
     }
@@ -79,7 +92,11 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+        $user_id = Auth::id();
+
+        $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
+            return User::with('profile')->where('id', $user_id)->firstOrFail();
+        });
 
         $posts = Post::orderByDesc('id')->paginate(10);
 
@@ -112,13 +129,17 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $comments = Comment::with(['user', 'user.profile'])->orderByDesc('created_at')->paginate(10);
+        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+
+        $comments = Comment::with(['user', 'user.profile', 'post'])->orderByDesc('created_at')->paginate(10);
+
+        $unpublish_comments_count = Comment::where('is_verified', 0)->count();
 
         $previousNumberPage = $comments->currentPage() - 1;
         $nextNumberPage = $comments->currentPage() + 1;
         $lastNumberPage = $comments->lastPage();
 
-        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
+        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'user', 'unpublish_comments_count'));
     }
 
     public function commentsPaginate(Request $request, $id)
@@ -144,7 +165,11 @@ class AdminController extends Controller
 
         $comments = Comment::with(['user', 'user.profile'])->where('is_verified', 0)->orderByDesc('created_at')->get();
 
-        return view('admin.unpublished', compact('seo', 'comments'));
+        $unpublish_comments_count = Comment::where('is_verified', 0)->count();
+
+        $user = User::with('profile')->where('id', Auth::id())->firstOrFail();
+
+        return view('admin.unpublished', compact('seo', 'comments', 'user', 'unpublish_comments_count'));
     }
 
     public function seo()

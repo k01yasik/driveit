@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Socialite;
 use App\Services\SeoService;
 use Illuminate\Http\Request;
 use App\User;
 use App\Profile;
-use App\Album;
 
 class LoginController extends Controller
 {
@@ -112,5 +112,18 @@ class LoginController extends Controller
         $profile->save();
 
         return $userCreate;
+    }
+
+    public function logout(Request $request)
+    {
+        $user_id = Auth::id();
+
+        Cache::forget('user_with_profile_'.$user_id);
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 }

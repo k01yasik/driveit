@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Post;
 
 class SitemapController extends Controller
@@ -10,7 +11,10 @@ class SitemapController extends Controller
     public function index()
     {
         $data = [];
-        $posts = Post::where('is_published', 1)->orderByDesc('date_published')->get();
+
+        $posts = Cache::rememberForever('posts-for-sitemap', function () {
+            return Post::where('is_published', 1)->orderByDesc('date_published')->get();
+        });
 
         foreach ($posts as $post) {
             array_push($data, [

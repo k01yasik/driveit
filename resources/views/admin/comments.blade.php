@@ -7,7 +7,7 @@
             <ul>
                 <li>
                     <a href="{{ route('admin.index') }}" class="breadcrumbs-home-link">
-                        <svg version="1.1" id="home" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
+                        <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
                             <g>
                                 <path d="M3.674,24.876c0,0-0.024,0.604,0.566,0.604c0.734,0,6.811-0.008,6.811-0.008l0.01-5.581
                                 c0,0-0.096-0.92,0.797-0.92h2.826c1.056,0,0.991,0.92,0.991,0.92l-0.012,5.563c0,0,5.762,0,6.667,0
@@ -21,8 +21,11 @@
                 </li>
                 <li><span>/</span></li>
                 <li>{{ __('Comments') }}</li>
-                <li><span>/</span></li>
-                <li><a href="{{ route('admin.comments.unpublished') }}">{{ __('Unpublished comments') }}</a></li>
+                @if ($unpublish_comments_count > 0)
+                    <li><span>/</span></li>
+                    <li><a href="{{ route('admin.comments.unpublished') }}">{{ __('Unpublished comments') }}</a></li>
+                    <li class="unpublish-comments-counter">{{ $unpublish_comments_count }}</li>
+                @endif
             </ul>
         </div>
         @if ($comments->count() > 0)
@@ -55,7 +58,10 @@
                             </div>
                         </div>
                         <div class="body">
-                            {!! $comment->message !!}
+                            <p>{{ $comment->message }}</p>
+                        </div>
+                        <div class="comment-footer">
+                            <p>{{ __('Comment on the article') }} <a href="{{ route('posts.show', ['slug' => $comment->post->slug]) }}">{{ $comment->post->name }}</a></p>
                         </div>
                     </div>
                 @endforeach

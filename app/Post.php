@@ -42,7 +42,7 @@ class Post extends Model
 
     public function isPublished()
     {
-        return $this->is_published = 1;
+        return $this->is_published == 1;
     }
 
     public function shouldBeSearchable()

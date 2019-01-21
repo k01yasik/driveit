@@ -78,6 +78,8 @@ class ImageUploadController extends Controller
         $profile->avatar = $avatar_url;
         $profile->save();
 
+        event('eloquent.saved: App\Profile', $profile);
+
         return $avatar_url;
     }
 

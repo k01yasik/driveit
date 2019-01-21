@@ -6,6 +6,7 @@ use App\Events\FriendRequest;
 use App\Services\FriendService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Services\SeoService;
 use App\Profile;
 use App\Friend;
@@ -27,7 +28,9 @@ class PublicUsersController extends Controller
         $currentUserId = Auth::id();
         $seo = $this->seoService->getSeoData($request);
 
-        $profiles = Profile::with(['user', 'user.friends'])->where([['public', true], ['user_id', '!=', $currentUserId]] )->get();
+        $profiles = Cache::rememberForever('all-public-users', function () use ($currentUserId) {
+            return Profile::with(['user', 'user.friends'])->where([['public', true], ['user_id', '!=', $currentUserId]] )->get();
+        });
 
         $currentUser = User::with('friends')->find($currentUserId);
 

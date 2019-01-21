@@ -14,7 +14,7 @@ class RatingController extends Controller
         $data = $request->validated();
         $user_id = Auth::id();
 
-        $post = Post::find($data['id'])->rating()->where('user_id', $user_id)->first();
+        $post = Rating::where([['post_id', $data['id']], ['user_id', $user_id]])->first();
 
         if(!$post) {
             $rating = new Rating;
@@ -23,18 +23,20 @@ class RatingController extends Controller
             $rating->rating = 1;
             $rating->save();
         } else {
-            if ($post->rating == 0) {
+            if ($post->rating === 0) {
                 $post->increment('rating');
             } else {
                 $post->decrement('rating');
             }
+
+            event('eloquent.saved: App\Rating', $post);
         }
 
         $i = 0;
         $newRating = Post::find($data['id'])->rating()->get();
 
         foreach ($newRating as $new) {
-            if ($new->rating == 1) {
+            if ($new->rating === 1) {
                 $i+=1;
             }
         }

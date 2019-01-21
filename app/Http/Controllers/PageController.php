@@ -9,6 +9,7 @@ use App\Services\PaginateService;
 use App\Services\PostSortService;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PageController extends Controller
 {
@@ -28,7 +29,31 @@ class PageController extends Controller
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
+
+        $posts = Cache::rememberForever('latest-posts', function (){
+
+            $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
+
+            foreach ($posts as $post) {
+
+                $post->rating_count = 0;
+                $post->comments_count = 0;
+
+                foreach ($post->rating as $r) {
+                    if ($r->rating === 1) {
+                        $post->rating_count = $post->rating_count + 1;
+                    }
+                }
+
+                foreach ($post->comments as $c) {
+                    if ($c->is_verified === 1) {
+                        $post->comments_count = $post->comments_count + 1;
+                    }
+                }
+            }
+
+            return $posts;
+        });
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -37,7 +62,30 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
+        $posts = Cache::rememberForever('paginated-posts', function (){
+
+            $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
+
+            foreach ($posts as $post) {
+
+                $post->rating_count = 0;
+                $post->comments_count = 0;
+
+                foreach ($post->rating as $r) {
+                    if ($r->rating === 1) {
+                        $post->rating_count = $post->rating_count + 1;
+                    }
+                }
+
+                foreach ($post->comments as $c) {
+                    if ($c->is_verified === 1) {
+                        $post->comments_count = $post->comments_count + 1;
+                    }
+                }
+            }
+
+            return $posts;
+        });
 
         $previousNumberPage = $posts->currentPage() - 1;
         $nextNumberPage = $posts->currentPage() + 1;
@@ -156,9 +204,12 @@ class PageController extends Controller
 
     public function show($slug)
     {
+
         $post = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
 
         $post->increment('views');
+
+        event('eloquent.saved: App\Post', $post);
 
         $seo = [
             "title" => $post->title,

@@ -46,7 +46,7 @@
   "Unpublished": "Неопубликовано",
   "Unpublished comments": "Неопубликованные комментарии",
   "There are no unpublished comments": "Нет неопубликованных коментариев",
-  "Dashboard": "Dashbord",
+  "Dashboard": "Админка",
   "User profile is not public": "Профиль пользователя не является публичным",
   "You are not the owner of this profile": "Вы не являетесь владельцем данного профиля",
   "An error has occurred": "Произошла ошибка",
@@ -94,5 +94,9 @@
   "Confirm block": "Подтвердите блокировку",
   "Cancel": "Отмена",
   "Unban a user": "Разблокировать",
-  "Are you sure the page was here?": "Вы уверены, что страница была здесь?"
+  "Are you sure the page was here?": "Вы уверены, что страница была здесь?",
+  "User successfully blocked": "Пользователь успешно заблокирован",
+  "Unlocked": "Разблокирован",
+  "Comment on the article": "Комментарий к статье",
+  "Number of articles published by month and year": "Количество опубликованных статей по месяцам и годам"
 }

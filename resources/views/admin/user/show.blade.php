@@ -18,7 +18,7 @@
                 @endif
                 <a href="{{ route('admin.users') }}" class="button info-button">{{ __('Back') }}</a>
                 @if ($user->rip)
-                    <div class="unban-user-button button info-button right" data-id="{{ $user->id }}">{{ __('Unban a user') }}</div>
+                    <div class="unban-user-button button info-button right" data-id="{{ $user->id }}" data-message="{{ __('Unlocked') }}">{{ __('Unban a user') }}</div>
                 @else
                     <a href="{{ route('admin.user.delete', ['username' => $user->username]) }}" class="button info-button right">{{ __('Block a user') }}</a>
                 @endif

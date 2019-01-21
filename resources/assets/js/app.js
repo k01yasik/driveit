@@ -20,5 +20,6 @@ require('./back-to-top');
 require('./upload-avatar');
 require('./user-ban');
 require('./user-unban');
+require('./post-chart');
 
 import 'social-likes-next';

@@ -87,15 +87,7 @@
                         L21.57,2.049z"></path>
                     </g>
                 </svg>
-                @php
-                $i=0;
-                foreach ($post->rating as $r) {
-                    if ($r->rating == 1) {
-                        $i+=1;
-                    }
-                }
-                @endphp
-                <p>{{ $i }}</p>
+                <p>{{ $post->rating_count }}</p>
             </div>
             <div class="comments-block">
                 <svg version="1.1" class="comments-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
@@ -124,15 +116,7 @@
                         ></path>
                     </g>
                 </svg>
-                @php
-                    $p=0;
-                    foreach ($post->comments as $c) {
-                        if ($c->is_verified == 1) {
-                            $p+=1;
-                        }
-                    }
-                @endphp
-                <p>{{ $p }}</p>
+                <p>{{ $post->comments_count }}</p>
             </div>
         </div>
     </div>

@@ -55,7 +55,5 @@ class SeoTableSeeder extends Seeder
             ['route_name' => 'password.reset', 'title' => 'Сброс пароля', 'description' => 'Сброс пароля', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['route_name' => 'verification.notice', 'title' => 'Подтверждение адреса элекстронной почты', 'description' => 'Подтверждение адреса электронной почты', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
-
-        Cache::flush();
     }
 }

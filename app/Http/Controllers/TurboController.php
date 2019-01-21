@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\Cache;
 
 class TurboController extends Controller
 {
     public function index()
     {
         $data = [];
-        $posts = Post::where('is_published', 1)->orderByDesc('date_published')->get();
+
+        $posts = Cache::rememberForever('posts-for-sitemap', function () {
+            return Post::where('is_published', 1)->orderByDesc('date_published')->get();
+        });
 
         foreach ($posts as $post) {
             array_push($data, [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FavoriteRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Favorite;
 
 class FavoriteController extends Controller
@@ -20,7 +21,11 @@ class FavoriteController extends Controller
 
 
         if ($favorite) {
-            $favorite->delete();
+            try {
+                $favorite->delete();
+            } catch (\Exception $e) {
+
+            }
         } else {
             $favorite_new = new Favorite;
             $favorite_new->user_id = $user_id;

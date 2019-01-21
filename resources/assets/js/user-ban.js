@@ -1,7 +1,10 @@
 $().ready(function () {
    $('.confirm-delete-button').click(function () {
        let id = $( this ).data('id');
+       let message = $( this ).data('message');
+       let button = $( this ).data('button');
 
+       let formData = new FormData();
        formData.append('id', id);
 
        $.ajax({
@@ -10,7 +13,7 @@ $().ready(function () {
            contentType: false,
            processData: false,
            dataType: 'json',
-           date: formData,
+           data: formData,
            headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
            }
@@ -19,8 +22,8 @@ $().ready(function () {
                $('.confirm-delete-button').remove();
                $('.cancel-delete-button').remove();
 
-               $('.main-content-wrapper').append('<p>Пользователь успешно удален</p>' +
-               '<a href="' + result.url + '" class="button confirm-button">Назад</a> ');
+               $('.main-content-wrapper').append('<p>' + message + '</p>' +
+               '<a href="' + result.url + '" class="button confirm-button">' + button + '</a> ');
            }
        });
    });
