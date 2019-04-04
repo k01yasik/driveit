@@ -41,6 +41,9 @@
         <loc>https://driveitwith.me/category/helpful</loc>
     </url>
     <url>
+        <loc>https://driveitwith.me/goods</loc>
+    </url>
+    <url>
         <loc>https://driveitwith.me/best-rated</loc>
     </url>
     <url>
@@ -98,8 +101,16 @@
         <loc>{{ config('app.url') }}/posts/page/12</loc>
     </url>
     @foreach($data as $key => $item)
+        <url>
+            <loc>{{ $item['link'] }}</loc>
+        </url>
+    @endforeach
     <url>
-        <loc>{{ $item['link'] }}</loc>
+        <loc>{{ config('app.url') }}/stores</loc>
     </url>
+    @foreach($store as $key => $item)
+        <url>
+            <loc>{{ config('app.url') }}/stores/{{ $item['name'] }}</loc>
+        </url>
     @endforeach
 </urlset>

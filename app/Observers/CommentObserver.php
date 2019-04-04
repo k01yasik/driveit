@@ -33,6 +33,8 @@ class CommentObserver
     {
         Cache::forget('latest-posts');
         Cache::forget('paginated-posts');
+        Cache::forget('comments_verified');
+        Cache::forget('comments_not_verified');
     }
 
     /**

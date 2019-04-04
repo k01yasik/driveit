@@ -98,5 +98,18 @@
   "User successfully blocked": "Пользователь успешно заблокирован",
   "Unlocked": "Разблокирован",
   "Comment on the article": "Комментарий к статье",
-  "Number of articles published by month and year": "Количество опубликованных статей по месяцам и годам"
+  "Number of articles published by month and year": "Количество опубликованных статей по месяцам и годам",
+  "Total number of comments for all time": "Общее количество комментариев за все время",
+  "The number of users in the last month": "Количество пользователей за последний месяц",
+  "Distribution of users by country in the last month": "Распределение пользователей по странам за последний месяц",
+  "Distribution of users from Russia by city for the last month": "Распределение пользователей из России по городам за последний месяц",
+  "Goods": "Товары",
+  "Catalog": "Каталог товаров",
+  "Online stores": "Интернет-магазины",
+  "Stores": "Магазины",
+  "Category:": "Категория:",
+  "Name:": "Название:",
+  "Vendor:": "Производитель:",
+  "Price:": "Цена:",
+  "Categories": "Категории"
 }

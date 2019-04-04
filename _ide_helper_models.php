@@ -16,16 +16,21 @@ namespace App{
  *
  * @property int $id
  * @property string $name
+ * @property string $path
  * @property string|null $cover
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Image[] $images
  * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Album newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Album newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Album query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Album whereCover($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Album whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Album whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Album whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Album wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Album whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Album whereUserId($value)
  */
@@ -44,6 +49,9 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereDisplayname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereHasChild($value)
@@ -70,6 +78,9 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Post $post
  * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereIsVerified($value)
@@ -90,13 +101,14 @@ namespace App{
  * @property int $id
  * @property int $user_id
  * @property int $image_id
- * @property int $favorite
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Image $image
  * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereFavorite($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereImageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUpdatedAt($value)
@@ -112,13 +124,19 @@ namespace App{
  * @property int $id
  * @property int $user_id
  * @property int $friend_id
+ * @property int $owner
  * @property int $confirmed
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend whereConfirmed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend whereFriendId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend whereOwner($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Friend whereUserId($value)
  */
@@ -140,6 +158,9 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Album $album
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereAlbumId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereId($value)
@@ -151,6 +172,33 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereUrlThumbnail($value)
  */
 	class Image extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Message
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $text
+ * @property int $friend_id
+ * @property int $new
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $friend
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereFriendId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereNew($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUserId($value)
+ */
+	class Message extends \Eloquent {}
 }
 
 namespace App{
@@ -167,14 +215,17 @@ namespace App{
  * @property string $image_path
  * @property int $is_published
  * @property string|null $date_published
- * @property int $user_id
+ * @property int|null $user_id
  * @property int $views
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $categories
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rating[] $rating
- * @property-read \App\User $user
+ * @property-read \App\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereCaption($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereCreatedAt($value)
@@ -204,6 +255,9 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Profile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Profile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Profile query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Profile whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Profile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Profile whereId($value)
@@ -226,6 +280,9 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Post $post
  * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rating newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rating newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rating query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Rating whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Rating whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Rating wherePostId($value)
@@ -238,6 +295,28 @@ namespace App{
 
 namespace App{
 /**
+ * App\Rip
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $rip_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip whereRipDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Rip whereUserId($value)
+ */
+	class Rip extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Seo
  *
  * @property int $id
@@ -246,6 +325,9 @@ namespace App{
  * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seo query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Seo whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Seo whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Seo whereId($value)
@@ -273,13 +355,18 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Album[] $albums
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Friend[] $friends
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $messages
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
  * @property-read \App\Profile $profile
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rating[] $rating
+ * @property-read \App\Rip $rip
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User role($roles)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)

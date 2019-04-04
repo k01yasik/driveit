@@ -27,6 +27,24 @@ class CategoryController extends Controller
 
         $posts = $category->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
 
+        foreach ($posts as $post) {
+
+            $post->rating_count = 0;
+            $post->comments_count = 0;
+
+            foreach ($post->rating as $r) {
+                if ($r->rating === 1) {
+                    $post->rating_count = $post->rating_count + 1;
+                }
+            }
+
+            foreach ($post->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $post->comments_count = $post->comments_count + 1;
+                }
+            }
+        }
+
         $previousNumberPage = $posts->currentPage() - 1;
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
@@ -56,6 +74,24 @@ class CategoryController extends Controller
         ];
 
         $posts = $category->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10, ['*'], 'page', $id);
+
+        foreach ($posts as $post) {
+
+            $post->rating_count = 0;
+            $post->comments_count = 0;
+
+            foreach ($post->rating as $r) {
+                if ($r->rating === 1) {
+                    $post->rating_count = $post->rating_count + 1;
+                }
+            }
+
+            foreach ($post->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $post->comments_count = $post->comments_count + 1;
+                }
+            }
+        }
 
         $previousNumberPage = $posts->currentPage() - 1;
         $nextNumberPage = $posts->currentPage() + 1;

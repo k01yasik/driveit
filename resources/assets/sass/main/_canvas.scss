@@ -1,6 +1,18 @@
-.post-chart {
+.post-chart, .comments-chart, .country-chart {
   background: $white;
   border-radius: 3px;
   width: 100%;
+}
+
+.post-chart, .comments-chart {
   height: 500px;
+}
+
+.country-chart {
+  height: 500px;
+}
+
+.canvas-wrapper {
+  padding: 2em;
+  background: $white;
 }

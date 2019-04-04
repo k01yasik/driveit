@@ -100,6 +100,25 @@ class PageController extends Controller
 
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10, ['*'], 'page', $id);
 
+        foreach ($posts as $post) {
+
+            $post->rating_count = 0;
+            $post->comments_count = 0;
+
+            foreach ($post->rating as $r) {
+                if ($r->rating === 1) {
+                    $post->rating_count = $post->rating_count + 1;
+                }
+            }
+
+            foreach ($post->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $post->comments_count = $post->comments_count + 1;
+                }
+            }
+        }
+
+
         $previousNumberPage = $posts->currentPage() - 1;
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
@@ -112,6 +131,24 @@ class PageController extends Controller
         $name = $request->route()->getName();
 
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+
+        foreach ($posts as $post) {
+
+            $post->rating_count = 0;
+            $post->comments_count = 0;
+
+            foreach ($post->rating as $r) {
+                if ($r->rating === 1) {
+                    $post->rating_count = $post->rating_count + 1;
+                }
+            }
+
+            foreach ($post->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $post->comments_count = $post->comments_count + 1;
+                }
+            }
+        }
 
         $data = $this->paginateService->paginationData(10, 1, url()->current(), $posts->count());
 
@@ -144,6 +181,24 @@ class PageController extends Controller
 
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
 
+        foreach ($posts as $post) {
+
+            $post->rating_count = 0;
+            $post->comments_count = 0;
+
+            foreach ($post->rating as $r) {
+                if ($r->rating === 1) {
+                    $post->rating_count = $post->rating_count + 1;
+                }
+            }
+
+            foreach ($post->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $post->comments_count = $post->comments_count + 1;
+                }
+            }
+        }
+
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
         $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
 
@@ -162,6 +217,24 @@ class PageController extends Controller
 
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
 
+        foreach ($posts as $post) {
+
+            $post->rating_count = 0;
+            $post->comments_count = 0;
+
+            foreach ($post->rating as $r) {
+                if ($r->rating === 1) {
+                    $post->rating_count = $post->rating_count + 1;
+                }
+            }
+
+            foreach ($post->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $post->comments_count = $post->comments_count + 1;
+                }
+            }
+        }
+
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
         $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
 
@@ -179,6 +252,24 @@ class PageController extends Controller
         $seo = $this->seoService->getSeoData($request);
 
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+
+        foreach ($posts as $post) {
+
+            $post->rating_count = 0;
+            $post->comments_count = 0;
+
+            foreach ($post->rating as $r) {
+                if ($r->rating === 1) {
+                    $post->rating_count = $post->rating_count + 1;
+                }
+            }
+
+            foreach ($post->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $post->comments_count = $post->comments_count + 1;
+                }
+            }
+        }
 
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
         $seo['description'] = $seo['description'].'. Страница - '.$id.'.';

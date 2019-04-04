@@ -1,0 +1,139 @@
+.stores-title {
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.stores-item-link {
+  display: block;
+}
+
+.stores-item:hover {
+  .stores-item-link {
+    color: $white;
+  }
+}
+
+.store-logo {
+  vertical-align: middle;
+  height: 3em;
+}
+
+.offer-link {
+  display: block;
+  float: left;
+  width: 100%;
+}
+
+.offer-image-link {
+  margin-bottom: 2em;
+}
+
+.offer-image {
+  vertical-align: middle;
+  border-radius: 3px;
+}
+
+.offer {
+  float: left;
+  background: $white;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.offers-block {
+  float: left;
+  background: $white;
+  border-radius: 3px;
+  overflow: hidden;
+  padding: 2em;
+}
+
+.owl-carousel {
+  .owl-stage {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .owl-item {
+    display: flex;
+
+    img {
+      margin: 0 auto;
+      max-height: 300px;
+    }
+  }
+}
+
+.owl-carousel {
+  .owl-stage-outer {
+    float: left;
+  }
+}
+
+.store-name {
+  float: left;
+  margin-bottom: 2em;
+  padding: .5em 2em;
+  background: $white;
+  width: 100%;
+  border-radius: 3px;
+  text-align: center;
+
+  .store-logo {
+    height: 2em;
+  }
+}
+
+.offer-table {
+  float: left;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.offer-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+}
+
+.offer-cell-header {
+  width: 30%;
+  margin-right: 2%;
+  font-weight: bold;
+}
+
+.offer-cell {
+  width: 68%;
+}
+
+.offer-cell-data {
+  float: left;
+}
+
+.offer-row:last-child {
+  margin-bottom: 0;
+}
+
+.offer-price {
+  float: left;
+  margin-right: .25em;
+}
+
+.ruble-svg {
+  float: left;
+  height: 1em;
+  width: 1em;
+  fill: $grey-0;
+  margin-top: .25em;
+}
+
+.small-badge {
+  font-size: .75rem;
+  margin: 3px 0;
+}

@@ -21,5 +21,7 @@ require('./upload-avatar');
 require('./user-ban');
 require('./user-unban');
 require('./post-chart');
+require('./owl.carousel.min');
+require('./offer-slider');
 
 import 'social-likes-next';

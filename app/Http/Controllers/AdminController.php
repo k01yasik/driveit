@@ -12,6 +12,8 @@ use App\Rip;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Analytics;
+use Spatie\Analytics\Period;
 
 class AdminController extends Controller
 {
@@ -34,13 +36,73 @@ class AdminController extends Controller
                 ->get();
         });
 
+        $commentsVerified = Cache::rememberForever('comments_verified', function () {
+           return Comment::where('is_verified', true)->count();
+        });
+
+        $commentsNotVerified = Cache::rememberForever('comments_not_verified', function () {
+           return Comment::where('is_verified', false)->count();
+        });
+
+        $commentsAll = $commentsVerified + $commentsNotVerified;
+
         $user_id = Auth::id();
+
+        $analyticsData = Analytics::performQuery(Period::create(Carbon::now()->startOfMonth(), Carbon::now()), 'ga:users', [
+           'metrics' => 'ga:users, ga:sessions, ga:hits',
+           'dimensions' => 'ga:date'
+        ]);
+
+        $countryData = Analytics::performQuery(Period::create(Carbon::now()->startOfMonth(), Carbon::now()), 'ga:users', [
+           'metrics' => 'ga:users',
+           'dimensions' => 'ga:country',
+            'sort' => '-ga:users',
+            'max-results' => 10
+        ]);
+
+        $cityRussiaData = Analytics::performQuery(Period::create(Carbon::now()->startOfMonth(), Carbon::now()), 'ga:users', [
+           'metrics' => 'ga:users',
+           'dimensions' => 'ga:city',
+           'sort' => '-ga:users',
+           'segment' => 'users::condition::ga:country==Russia',
+           'max-results' => 10
+        ]);
+
+        $datesQuery = [];
+        $usersQuery = [];
+        $sessionQuery = [];
+        $hitsQuery = [];
+
+        $countryQueryLabels = [];
+        $countryQueryData = [];
+
+        $cityQueryLabels = [];
+        $cityQueryData = [];
+
+        foreach ($analyticsData->rows as $value) {
+            array_push($datesQuery, Carbon::createFromDate(substr($value[0], 0, 4), substr($value[0], 4, 2), substr($value[0], 6, 2))->toFormattedDateString());
+            array_push($usersQuery, $value[1]);
+            array_push($sessionQuery, $value[2]);
+            array_push($hitsQuery, $value[3]);
+        }
+
+        foreach ($countryData->rows as $value) {
+            array_push($countryQueryLabels, $value[0]);
+            array_push($countryQueryData, $value[1]);
+        }
+
+        foreach ($cityRussiaData->rows as $value) {
+            array_push($cityQueryLabels, $value[0]);
+            array_push($cityQueryData, $value[1]);
+        }
 
         $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
             return User::with('profile')->where('id', $user_id)->firstOrFail();
         });
 
-        return view('admin.index', compact('seo', 'user', 'posts'));
+        return view('admin.index', compact('seo', 'user', 'posts', 'commentsVerified', 'commentsNotVerified', 'commentsAll',
+            'datesQuery', 'usersQuery', 'sessionQuery', 'hitsQuery', 'countryQueryData', 'countryQueryLabels',
+            'cityQueryLabels', 'cityQueryData'));
     }
 
     public function users(Request $request)
