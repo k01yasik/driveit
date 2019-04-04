@@ -15,8 +15,8 @@ class CreateSshinaCategoriesTable extends Migration
     {
         Schema::create('sshina_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('category_id');
-            $table->unsignedInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
             $table->string('us_name')->nullable();
             $table->timestamps();

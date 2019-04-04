@@ -19,9 +19,9 @@ class CreateSshinasTable extends Migration
             $table->text('vendor');
             $table->text('offer_id');
             $table->text('url');
-            $table->unsignedInteger('price')->index();
+            $table->unsignedBigInteger('price')->index();
             $table->string('currency_id', 10);
-            $table->unsignedInteger('category_id');
+            $table->unsignedBigInteger('category_id');
             $table->text('picture');
             $table->timestamps();
 
