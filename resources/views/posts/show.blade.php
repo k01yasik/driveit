@@ -38,15 +38,13 @@
     @endauth
     <article class="post full-post" @auth data-id="{{ $post->id }}"@endauth>
         <header>
-            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
-                <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
-            </a>
-            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
-            <div class="right">{{ $post->date_published }}</div>
-        </header>
-
-        <div class="post-wrapper">
-            <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image-show">
+            <div class="header-top">
+                <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
+                    <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
+                </a>
+                <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
+                <div class="right date-published">{{ $post->date_published }}</div>
+            </div>
             <div class="post-header">
                 <div class="post-header-inner-show">
                     <h1 class="post-name">{{ $post->name }}</h1>
@@ -71,12 +69,21 @@
                     </svg>
                         <ul>
                             @foreach($post->categories as $category)
-                                <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a></li>
+                                @if ($loop->last)
+                                    <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a></li>
+                                @else
+                                    <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a>,</li>
+                                @endif
                             @endforeach
                         </ul>
                     </div>
                 </div>
             </div>
+        </header>
+
+        <div class="post-wrapper">
+            <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image-show">
+
         </div>
         <div class="post-buttons-wrapper">
             <div class="post-buttons-changed">

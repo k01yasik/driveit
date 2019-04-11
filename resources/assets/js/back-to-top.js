@@ -15,9 +15,9 @@ $().ready(function () {
        }
 
        if (scrollTop > heightPixels) {
-           if (back.css('opacity') === '0') { back.css('opacity', 1); back.css('z-index', 10); }
+           if (back.css('opacity') === '0') { back.css('opacity', 1); back.css('z-index', 1000); }
        } else {
-           if (back.css('opacity') === '1') { back.css('opacity', 0); back.css('z-index', -10); }
+           if (back.css('opacity') === '1') { back.css('opacity', 0); back.css('z-index', -100); }
        }
    });
 

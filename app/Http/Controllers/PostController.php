@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Post;
 use App\Category;
+use App\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -99,13 +101,47 @@ class PostController extends Controller
         return redirect()->route('admin.posts.show', ['id' => $id]);
     }
 
+    public function updateHtml($id, Request $request)
+    {
+        $data = $request->validate([
+            'html' => 'required|string',
+        ]);
+
+        $post = Post::find($id);
+        $post->body = clean($data['html']);
+        $post->save();
+
+        return redirect()->route('admin.posts.show', ['id' => $id]);
+    }
+
     public function show($id, Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
         $post = Post::with(['user', 'categories', 'user.profile'])->where('id', $id)->firstOrFail();
 
-        return view('admin.posts.show', compact('seo', 'post'));
+        $post->rating_count = 0;
+        $post->comments_count = 0;
+
+        foreach ($post->rating as $r) {
+            if ($r->rating === 1) {
+                $post->rating_count = $post->rating_count + 1;
+            }
+        }
+
+        foreach ($post->comments as $c) {
+            if ($c->is_verified === 1) {
+                $post->comments_count = $post->comments_count + 1;
+            }
+        }
+
+        $user_id = Auth::id();
+
+        $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
+            return User::with('profile')->where('id', $user_id)->firstOrFail();
+        });
+
+        return view('admin.posts.show', compact('seo', 'post', 'user'));
     }
 
     /**
@@ -150,6 +186,12 @@ class PostController extends Controller
 
         $post = Post::where('id', $id)->firstOrFail();
 
-        return view('admin.posts.html', compact('seo', 'post'));
+        $user_id = Auth::id();
+
+        $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
+            return User::with('profile')->where('id', $user_id)->firstOrFail();
+        });
+
+        return view('admin.posts.html', compact('seo', 'post', 'user'));
     }
 }

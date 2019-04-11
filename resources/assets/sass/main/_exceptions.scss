@@ -53,3 +53,22 @@
 .navigation-wrapper-404 {
   margin-top: 3em;
 }
+
+.exception-403 {
+  width: 66%;
+  margin: 10em auto;
+  padding: 2em;
+  background: $white;
+  border-radius: 3px;
+}
+
+.exception-403-caption {
+  background: $primary-1;
+  padding: 2rem;
+  border-radius: 3px;
+}
+
+.exception-403-caption h2 {
+  color: $white;
+  margin: 0;
+}

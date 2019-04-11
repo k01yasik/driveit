@@ -26,7 +26,6 @@
         <link rel="dns-prefetch" href="https://fonts.gstatic.com">
         <link href="{{asset('css/app.css')}}" rel="stylesheet">
         @include('components.google')
-        @include('components.adsense')
         @include('components.yandex')
         <script type="application/ld+json">
             {

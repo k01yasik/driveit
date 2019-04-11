@@ -1,10 +1,8 @@
 @extends('layouts.exception')
 
 @section('content')
-    <div class="exception-wrapper">
-        <div class="big-caption">403</div>
-        <div class="small-caption">{{ __('error') }}</div>
-        <div class="exception-danger">
+    <div class="exception-403">
+        <div class="exception-403-caption">
             <h2>{{ __($exception->getMessage()) }}</h2>
         </div>
     </div>

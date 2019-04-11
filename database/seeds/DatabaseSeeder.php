@@ -13,10 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             //UserTableSeeder::class,
-                UpdateSeoTableSeeder::class,
-                UpdateCategoryTableSeeder::class,
-                SshinaTableSeeder::class,
-                StoresTableSeeder::class,
+                //SshinaTableSeeder::class,
+                //StoresTableSeeder::class,
         ]);
     }
 }

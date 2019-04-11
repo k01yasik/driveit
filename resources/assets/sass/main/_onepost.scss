@@ -236,16 +236,15 @@
   border-radius: 3px;
   padding: 2em;
   margin-bottom: 2em;
-  float: left;
+  display: inline-block;
+  width: 100%;
 
   &:last-child {
     margin-bottom: 0;
   }
 
   header {
-    height: 3em;
-    line-height: 3em;
-    margin-bottom: 1em;
+    float: left;
 
     .user-avatar-link {
       float: left;
@@ -268,12 +267,19 @@
     }
   }
 
+  .header-top {
+    float: left;
+    width: 100%;
+
+    .date-published {
+      margin: .75em 0;
+    }
+  }
+
   .post-header {
     border-radius: 3px;
-    position: absolute;
-    padding: 2em;
+    float: left;
     width: 100%;
-    top: 0;
   }
 
   .post-wrapper {
@@ -289,15 +295,13 @@
   }
 
   .post-header-inner, .post-header-inner-show {
-    background: $secondary-2-1-trans;
-    padding: 1em;
     border-radius: 3px;
+    float: left;
   }
 
   .post-name-link {
     float: left;
     width: 100%;
-    margin-bottom: .5em;
 
     &:hover {
       color: $grey-0;
@@ -309,16 +313,17 @@
   }
 
   .post-name {
-    margin: 0 0 .5em;
+    margin: 0;
     font-size: 1.5em;
-    font-weight: normal;
+    font-weight: bold;
     line-height: 1.5;
-    color: $white;
+    color: $post-name-color;
   }
 
   .post-categories {
-    display: inline-block;
+    float: left;
     width: 100%;
+    line-height: 3em;
 
     ul {
       float: left;
@@ -327,12 +332,7 @@
     li {
       float: left;
       margin-right: 1em;
-      border-radius: 3px;
       transition: all .5s ease-in-out;
-
-      &:hover {
-        background: $primary-1;
-      }
 
       &:last-child {
         margin-right: 0;
@@ -340,29 +340,26 @@
     }
 
     .category-link {
-      color: $white;
-      padding: 0 .5em;
+      color: $post-category-link-color;
 
       &:hover {
-        color: $white;
+        color: $post-name-color;
       }
     }
 
     .tags-svg {
       width: 1em;
-      fill: $white;
+      fill: $post-category-link-color;
       float: left;
-      margin-top: 4px;
+      margin-top: 1em;
       margin-right: 1em;
     }
   }
 }
 
 .post-read-more-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: -6em;
-  position: relative;
+  margin-top: 2em;
+  float: right;
 
   .post-read-more {
     height: 3em;
@@ -371,7 +368,7 @@
     display: inline-block;
     line-height: 3em;
     color: $white;
-    border-radius: 3px 3px 0 0;
+    border-radius: 3px;
   }
 
   .arrow-svg {
@@ -387,6 +384,7 @@
   display: flex;
   justify-content: center;
   position: relative;
+  margin-top: -3em;
 
   .post-buttons, .post-buttons-changed {
     height: 3em;
@@ -405,7 +403,7 @@
   }
 
   .post-buttons-changed {
-    margin-top: -3em;
+    margin-top: 0;
   }
 
   .eye-svg, .star-svg, .comments-svg {
@@ -422,6 +420,7 @@
 
   p {
     margin-bottom: 1em;
+    font-size: 1.125em;
   }
 
   h2, h3 {

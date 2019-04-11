@@ -193,6 +193,10 @@
 
   &:hover {
     background: $gray-0;
+
+    .delete-svg, .checked-item-svg {
+      fill: $grey-00;
+    }
   }
 
   &:last-child {

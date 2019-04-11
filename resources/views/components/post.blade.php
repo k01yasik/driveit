@@ -1,14 +1,12 @@
 <article class="post">
     <header>
-        <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
-            <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
-        </a>
-        <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
-        <div class="right">{{ $post->date_published }}</div>
-    </header>
-
-    <div class="post-wrapper">
-        <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image">
+        <div class="header-top">
+            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
+                <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
+            </a>
+            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
+            <div class="right date-published">{{ $post->date_published }}</div>
+        </div>
         <div class="post-header">
             <div class="post-header-inner">
                 <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-name-link">
@@ -16,7 +14,7 @@
                 </a>
                 <div class="post-categories">
                     <svg version="1.1" class="tags-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 542.183 542.183" style="enable-background:new 0 0 542.183 542.183;"
-                    xml:space="preserve">
+                         xml:space="preserve">
                         <g>
                             <path d="M432.544,310.636c0-9.897-3.521-18.559-10.564-25.984L217.844,80.8c-7.232-7.238-16.939-13.374-29.121-18.416
                             c-12.181-5.043-23.319-7.565-33.407-7.565H36.545c-9.896,0-18.464,3.619-25.694,10.848C3.616,72.9,0,81.466,0,91.365v118.771
@@ -31,33 +29,27 @@
                             c7.046,7.423,10.571,16.084,10.571,25.981c0,10.089-3.525,18.647-10.571,25.693L333.469,470.519
                             c5.718,5.9,10.759,10.182,15.133,12.847c4.38,2.666,9.996,3.998,16.844,3.998c9.903,0,18.565-3.521,25.98-10.564l140.186-140.47
                             c7.046-7.046,10.571-15.604,10.571-25.693C542.179,300.739,538.658,292.078,531.612,284.655z"></path>
-                    </g>
+                        </g>
                     </svg>
                     <ul>
                         @foreach($post->categories as $category)
-                            <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a></li>
+                            @if ($loop->last)
+                                <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a></li>
+                            @else
+                                <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a>,</li>
+                            @endif
                         @endforeach
                     </ul>
                 </div>
             </div>
         </div>
+    </header>
+
+    <div class="post-wrapper">
+        <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image">
+
     </div>
 
-    <div class="post-read-more-wrapper">
-        <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-read-more">{{__('Read more')}}
-            <svg version="1.1" class="arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 444.815 444.815" style="enable-background:new 0 0 444.815 444.815;"
-                                                                                                                    xml:space="preserve">
-            <g>
-                <path d="M421.976,196.712L236.111,10.848C228.884,3.615,220.219,0,210.131,0c-9.9,0-18.464,3.615-25.697,10.848L163.023,32.26
-                c-7.234,6.853-10.85,15.418-10.85,25.697c0,10.277,3.616,18.842,10.85,25.697l83.653,83.937H45.677
-                c-9.895,0-17.937,3.568-24.123,10.707s-9.279,15.752-9.279,25.837v36.546c0,10.088,3.094,18.698,9.279,25.837
-                s14.228,10.704,24.123,10.704h200.995L163.02,360.88c-7.234,7.228-10.85,15.89-10.85,25.981c0,10.089,3.616,18.75,10.85,25.978
-                l21.411,21.412c7.426,7.043,15.99,10.564,25.697,10.564c9.899,0,18.562-3.521,25.981-10.564l185.864-185.864
-                c7.043-7.043,10.567-15.701,10.567-25.981C432.54,211.939,429.016,203.37,421.976,196.712z"></path>
-            </g>
-        </svg>
-        </a>
-    </div>
     <div class="post-buttons-wrapper">
         <div class="post-buttons">
             <div class="eye-block">
@@ -122,5 +114,20 @@
     </div>
     <div class="post-content">
        {!! $post->caption !!}
+    </div>
+    <div class="post-read-more-wrapper">
+        <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="post-read-more">{{__('Read more')}}
+            <svg version="1.1" class="arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 444.815 444.815" style="enable-background:new 0 0 444.815 444.815;"
+                 xml:space="preserve">
+            <g>
+                <path d="M421.976,196.712L236.111,10.848C228.884,3.615,220.219,0,210.131,0c-9.9,0-18.464,3.615-25.697,10.848L163.023,32.26
+                c-7.234,6.853-10.85,15.418-10.85,25.697c0,10.277,3.616,18.842,10.85,25.697l83.653,83.937H45.677
+                c-9.895,0-17.937,3.568-24.123,10.707s-9.279,15.752-9.279,25.837v36.546c0,10.088,3.094,18.698,9.279,25.837
+                s14.228,10.704,24.123,10.704h200.995L163.02,360.88c-7.234,7.228-10.85,15.89-10.85,25.981c0,10.089,3.616,18.75,10.85,25.978
+                l21.411,21.412c7.426,7.043,15.99,10.564,25.697,10.564c9.899,0,18.562-3.521,25.981-10.564l185.864-185.864
+                c7.043-7.043,10.567-15.701,10.567-25.981C432.54,211.939,429.016,203.37,421.976,196.712z"></path>
+            </g>
+        </svg>
+        </a>
     </div>
 </article>
