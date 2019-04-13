@@ -79,7 +79,6 @@ $().ready(function () {
     }
 
     if (post_id) {
-        console.log('laravel-echo broadcasting working');
         window.Echo.join('post.' + post_id)
             .joining((user) => {
                 $('.article-readers-body').append('<div class="post-reader" id="user-' + user.id + '">' +
@@ -105,7 +104,6 @@ $().ready(function () {
                 }
             })
             .leaving((user) => {
-                console.log('working');
                 let id = '#user-' + user.id;
                 $(id).remove();
             });
