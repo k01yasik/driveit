@@ -18,7 +18,13 @@ class CreateSuggestsTable extends Migration
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('suggest');
             $table->timestamps();
+        });
 
+        Schema::table('posts', function (Blueprint $table) {
+            $table->bigInteger('id', true)->change();
+        });
+
+        Schema::table('suggests', function (Blueprint $table) {
             $table->foreign('post_id')->references('id')->on('posts');
             $table->foreign('suggest')->references('id')->on('posts');
         });
