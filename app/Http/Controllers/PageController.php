@@ -10,6 +10,7 @@ use App\Services\PostSortService;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -54,6 +55,7 @@ class PageController extends Controller
 
             return $posts;
         });
+
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -296,7 +298,49 @@ class PageController extends Controller
     public function show($slug)
     {
 
-        $post = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
+        $post = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments', 'suggest'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
+
+        $post->rating_count = 0;
+        $post->comments_count = 0;
+
+        foreach ($post->rating as $r) {
+            if ($r->rating === 1) {
+                $post->rating_count = $post->rating_count + 1;
+            }
+        }
+
+        foreach ($post->comments as $c) {
+            if ($c->is_verified === 1) {
+                $post->comments_count = $post->comments_count + 1;
+            }
+        }
+
+
+        $suggest_ids = [];
+
+        foreach ($post->suggest as $suggest) {
+            array_push($suggest_ids, $suggest->suggest);
+        }
+
+        $suggest_posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->find($suggest_ids);
+
+        foreach ($suggest_posts as $pp) {
+
+            $pp->rating_count = 0;
+            $pp->comments_count = 0;
+
+            foreach ($pp->rating as $r) {
+                if ($r->rating === 1) {
+                    $pp->rating_count = $pp->rating_count + 1;
+                }
+            }
+
+            foreach ($pp->comments as $c) {
+                if ($c->is_verified === 1) {
+                    $pp->comments_count = $pp->comments_count + 1;
+                }
+            }
+        }
 
         $post->increment('views');
 
@@ -312,6 +356,8 @@ class PageController extends Controller
         $authenticated = Auth::check();
         $sortedComments = $this->commentService->sortComments($post->id);
 
-        return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated'));
+        debug($suggest_posts);
+
+        return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggest_posts'));
     }
 }

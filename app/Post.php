@@ -32,6 +32,11 @@ class Post extends Model
         return $this->hasMany('App\Rating');
     }
 
+    public function suggest()
+    {
+        return $this->hasMany('App\Suggest');
+    }
+
     public function getDatePublishedAttribute($value)
     {
         $date = new Carbon($value);

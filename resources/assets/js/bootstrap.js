@@ -51,6 +51,5 @@ window.smartcrop = require('smartcrop');
 
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    //host: window.location.hostname + ':6001'
-    host: { path: '/socket.io' }
+    host: window.location.hostname
 });
