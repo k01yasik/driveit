@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             //UserTableSeeder::class,
                 //SshinaTableSeeder::class,
                 //StoresTableSeeder::class,
-            SuggestTableSeeder::class,
+                //SuggestTableSeeder::class,
         ]);
     }
 }
