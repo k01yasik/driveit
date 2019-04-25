@@ -8,7 +8,18 @@
     width: 100%;
     border-radius: 3px;
     vertical-align: middle;
-    margin-bottom: 1em;
+  }
+
+  a {
+    display: block;
+  }
+}
+
+.advertisement {
+  margin-bottom: 2em;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 

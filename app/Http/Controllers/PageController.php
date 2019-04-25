@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AdvertisementService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Services\CommentService;
@@ -10,7 +11,6 @@ use App\Services\PostSortService;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -18,13 +18,15 @@ class PageController extends Controller
     protected $commentService;
     protected $paginateService;
     protected $postSortService;
+    protected $advertisementService;
 
-    public function __construct(SeoService $seoService, CommentService $commentService, PaginateService $paginateService, PostSortService $postSortService)
+    public function __construct(SeoService $seoService, CommentService $commentService, PaginateService $paginateService, PostSortService $postSortService, AdvertisementService $advertisementService)
     {
         $this->seoService = $seoService;
         $this->commentService = $commentService;
         $this->paginateService = $paginateService;
         $this->postSortService = $postSortService;
+        $this->advertisementService = $advertisementService;
     }
 
     public function home(Request $request)
@@ -56,8 +58,11 @@ class PageController extends Controller
             return $posts;
         });
 
+        $adverts = $this->advertisementService->getAds();
 
-        return view('page.home', compact('seo', 'posts'));
+        debug($adverts);
+
+        return view('page.home', compact('seo', 'posts', 'adverts'));
     }
 
     public function index(Request $request)
@@ -93,7 +98,9 @@ class PageController extends Controller
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
 
-        return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'adverts'));
     }
 
     public function paginate($id, Request $request)
@@ -125,7 +132,9 @@ class PageController extends Controller
         $nextNumberPage = $posts->currentPage() + 1;
         $lastNumberPage = $posts->lastPage();
 
-        return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'adverts'));
     }
 
     public function list(Request $request) {
@@ -174,7 +183,9 @@ class PageController extends Controller
 
         }
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('posts.list', compact('seo', 'posts', 'data', 'adverts'));
     }
 
     public function commentsPaginate($id, Request $request)
@@ -210,7 +221,9 @@ class PageController extends Controller
 
         $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('posts.list', compact('seo', 'posts', 'data', 'adverts'));
     }
 
     public function ratedPaginate($id, Request $request)
@@ -246,7 +259,9 @@ class PageController extends Controller
 
         $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('posts.list', compact('seo', 'posts', 'data', 'adverts'));
     }
 
     public function viewsPaginate($id, Request $request)
@@ -282,17 +297,25 @@ class PageController extends Controller
 
         $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('posts.list', compact('seo', 'posts', 'data', 'adverts'));
     }
 
     public function about(Request $request) {
         $seo = $this->seoService->getSeoData($request);
-        return view('page.about', compact('seo'));
+
+        $adverts = $this->advertisementService->getAds();
+
+        return view('page.about', compact('seo', 'adverts'));
     }
 
     public function rules(Request $request) {
         $seo = $this->seoService->getSeoData($request);
-        return view('page.rules', compact('seo'));
+
+        $adverts = $this->advertisementService->getAds();
+
+        return view('page.rules', compact('seo', 'adverts'));
     }
 
     public function show($slug)
@@ -356,8 +379,8 @@ class PageController extends Controller
         $authenticated = Auth::check();
         $sortedComments = $this->commentService->sortComments($post->id);
 
-        debug($suggest_posts);
+        $adverts = $this->advertisementService->getAds();
 
-        return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggest_posts'));
+        return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggest_posts', 'adverts'));
     }
 }

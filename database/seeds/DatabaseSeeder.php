@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
                 //SshinaTableSeeder::class,
                 //StoresTableSeeder::class,
                 //SuggestTableSeeder::class,
+            AdvertisementTableSeeder::class,
         ]);
     }
 }

@@ -1,4 +1,10 @@
 <div class="leaderboard">
-    <img src="{{ config('filesystems.disks.public.url') }}/Bzdykin/coupon/coupon.jpg" alt="coupon">
-    <div class="leaderboard-text">Место для рекламы</div>
+    <div class="leaderboard-text">{{ __('Advertisement') }}</div>
+    @isset ($adverts)
+        @foreach($adverts as $advert)
+            <div class="advertisement">
+                {!! $advert->ad !!}
+            </div>
+        @endforeach
+    @endisset
 </div>

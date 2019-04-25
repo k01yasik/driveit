@@ -3,9 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Services\AdvertisementService;
 
 class CategoryController extends Controller
 {
+
+    protected $advertisementService;
+
+    public function __construct(AdvertisementService $advertisementService)
+    {
+        $this->advertisementService = $advertisementService;
+    }
+
     public function show($categoryInput) {
 
         $category = Category::where('name', $categoryInput)->firstOrFail();
@@ -51,7 +60,9 @@ class CategoryController extends Controller
 
         $categoryName = $category->name;
 
-        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName', 'adverts'));
     }
 
     public function paginate($categoryInput, $id) {
@@ -99,6 +110,8 @@ class CategoryController extends Controller
 
         $categoryName = $category->name;
 
-        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName'));
+        $adverts = $this->advertisementService->getAds();
+
+        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName', 'adverts'));
     }
 }
