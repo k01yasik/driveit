@@ -158,12 +158,6 @@ Route::post('/rating/post', 'RatingController@update')->name('rating.post');
 
 Route::get('/search', 'SearchController@index')->name('search.index');
 
-Route::get('/stores', 'StoreController@index')->name('store.index');
-
-Route::get('/stores/{store}', 'StoreController@show')->name('store.show');
-
-Route::get('/stores/{store}/category/{id}', 'StoreController@showCategory')->name('store.category');
-
 Route::get('login/facebook', 'Auth\LoginController@redirectToProviderFacebook')->name('login.facebook');
 
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallbackFacebook');

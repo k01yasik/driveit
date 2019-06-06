@@ -67,9 +67,6 @@
                 <li class="menuItem @isset($categoryInput){{$categoryInput === 'helpful' ? 'active' : ''}}@endisset">
                     <a href="{{ route('category.show', ['category' => 'helpful']) }}">Полезное</a>
                 </li>
-                <li class="menuItem @isset($categoryInput){{$categoryInput === 'store' ? 'active' : ''}}@endisset">
-                    <a href="{{ route('store.index') }}">{{ __('Stores') }}</a>
-                </li>
             </ul>
 
             <div class="small-first-level">
@@ -107,12 +104,8 @@
                     <li class="small-deleted-item">
                         <a href="{{ route('category.show', ['category' => 'helpful']) }}">Полезное</a>
                     </li>
-                    <li class="small-deleted-item">
-                        <a href="{{ route('store.index') }}">{{ __('Stores') }}</a>
-                    </li>
                 </ul>
             </div>
-
         </nav>
     </div>
 </div>

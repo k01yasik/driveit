@@ -56,7 +56,7 @@
             "url": "{{ config('app.url') }}/posts/{{ $post->slug }}",
             "headline": "{{ $post->name }}",
             "datePublished": "{{ $post->getOriginal('date_published') }}",
-            "dateModified": "{{ $post->getOriginal('date_published') }}",
+            "dateModified": "{{ $post->getOriginal('date_published') }}"
         }
     </script>
 </head>

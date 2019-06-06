@@ -16,7 +16,7 @@
 
 .store-logo {
   vertical-align: middle;
-  height: 3em;
+  height: 2em;
 }
 
 .offer-link {
@@ -136,4 +136,14 @@
 .small-badge {
   font-size: .75rem;
   margin: 3px 0;
+}
+
+.left-panel {
+  li.stores-item {
+    margin-bottom: 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
