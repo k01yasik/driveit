@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AdvertisementService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Services\CommentService;
@@ -280,7 +279,7 @@ class PageController extends Controller
 
         $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
 
-        return view('posts.list', compact('seo', 'posts', 'data', 'adverts'));
+        return view('posts.list', compact('seo', 'posts', 'data'));
     }
 
     public function about(Request $request) {

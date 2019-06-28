@@ -3,17 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Services\AdvertisementService;
 
 class CategoryController extends Controller
 {
-
-    protected $advertisementService;
-
-    public function __construct(AdvertisementService $advertisementService)
-    {
-        $this->advertisementService = $advertisementService;
-    }
 
     public function show($categoryInput) {
 
@@ -60,9 +52,7 @@ class CategoryController extends Controller
 
         $categoryName = $category->name;
 
-        $adverts = $this->advertisementService->getAds();
-
-        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName', 'adverts'));
+        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName'));
     }
 
     public function paginate($categoryInput, $id) {
@@ -110,8 +100,6 @@ class CategoryController extends Controller
 
         $categoryName = $category->name;
 
-        $adverts = $this->advertisementService->getAds();
-
-        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName', 'adverts'));
+        return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName'));
     }
 }
