@@ -140,6 +140,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/posts/{id}', 'PostController@show')->name('admin.posts.show');
 
+    Route::get('/news/create', 'NewsController@create')->name('news.create');
+
+    Route::post('/news', 'NewsController@store')->name('news.store');
+
+    Route::get('/news/{id}/edit', 'NewsController@edit')->name('news.edit');
+
+    Route::put('/news/{id}', 'NewsController@update')->name('news.update');
+
+    Route::delete('/news/{id}', 'NewsController@delete')->name('news.delete');
+
+    Route::get('/news/{id}/toggle', 'NewsController@publishToggle')->name('news.toggle');
+
 });
 
 Route::get('/amp/{slug}', 'AmpController@show')->name('amp.show');
@@ -157,6 +169,8 @@ Route::get('/posts/{slug}', 'PageController@show')->name('posts.show');
 Route::post('/rating/post', 'RatingController@update')->name('rating.post');
 
 Route::get('/search', 'SearchController@index')->name('search.index');
+
+Route::get('/news', 'NewsController@index')->name('news.index');
 
 Route::get('login/facebook', 'Auth\LoginController@redirectToProviderFacebook')->name('login.facebook');
 
