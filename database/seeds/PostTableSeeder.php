@@ -5,6 +5,7 @@ use App\Post;
 use App\Album;
 use App\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 
 class PostTableSeeder extends Seeder
@@ -18,7 +19,7 @@ class PostTableSeeder extends Seeder
     {
         $album = new Album;
         $album->name = 'default';
-        $album->path = str_random(10);
+        $album->path = Str::random(10);
         $album->user()->associate(User::find(1));
         $album->save();
 

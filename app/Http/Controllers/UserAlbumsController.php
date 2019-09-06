@@ -10,6 +10,7 @@ use App\User;
 use App\Album;
 use App\Image;
 use App\Friend;
+use Illuminate\Support\Str;
 
 class UserAlbumsController extends Controller
 {
@@ -78,7 +79,7 @@ class UserAlbumsController extends Controller
 
         $album = new Album;
         $album->name = $album_name;
-        $album->path = str_random(10);
+        $album->path = Str::random(10);
         $album->user_id = Auth::id();
         $album->save();
 

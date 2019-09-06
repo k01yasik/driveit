@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use App\User;
 use App\Album;
 use App\Profile;
@@ -24,7 +25,7 @@ class UserTableSeeder extends Seeder
 
         $album = new Album;
         $album->name = 'post';
-        $album->path = str_random(10);
+        $album->path = Str::random(10);
         $album->user()->associate($user);
         $album->save();
 
@@ -43,7 +44,7 @@ class UserTableSeeder extends Seeder
 
         $album = new Album;
         $album->name = 'post';
-        $album->path = str_random(10);
+        $album->path = Str::random(10);
         $album->user()->associate($user);
         $album->save();
 
@@ -62,7 +63,7 @@ class UserTableSeeder extends Seeder
 
         $album = new Album;
         $album->name = 'post';
-        $album->path = str_random(10);
+        $album->path = Str::random(10);
         $album->user()->associate($user);
         $album->save();
 
