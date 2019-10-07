@@ -108,9 +108,4 @@
     <url>
         <loc>{{ config('app.url') }}/stores</loc>
     </url>
-    @foreach($store as $key => $item)
-        <url>
-            <loc>{{ config('app.url') }}/stores/{{ $item['name'] }}</loc>
-        </url>
-    @endforeach
 </urlset>
