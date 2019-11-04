@@ -10,6 +10,7 @@ use App\Services\PostSortService;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 
 class PageController extends Controller
 {

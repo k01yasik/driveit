@@ -93,6 +93,8 @@ return [
 
     'fallback_locale' => 'ru',
 
+    'faker_locale' => 'ru_RU',
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -164,6 +166,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

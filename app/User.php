@@ -6,11 +6,67 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Passport\HasApiTokens;
 
+/**
+ * App\User
+ *
+ * @property int $id
+ * @property string $username
+ * @property string $email
+ * @property string|null $email_verified_at
+ * @property string|null $password
+ * @property string|null $provider
+ * @property string|null $provider_id
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Album[] $albums
+ * @property-read int|null $albums_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property-read int|null $clients_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Friend[] $friends
+ * @property-read int|null $friends_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $messages
+ * @property-read int|null $messages_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\News[] $news
+ * @property-read int|null $news_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
+ * @property-read int|null $posts_count
+ * @property-read \App\Profile $profile
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rating[] $rating
+ * @property-read int|null $rating_count
+ * @property-read \App\Rip $rip
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereProvider($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereProviderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUsername($value)
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
-    use HasRoles;
+    use Notifiable, HasApiTokens, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -72,5 +128,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function messages()
     {
         return $this->hasMany('App\Message');
+    }
+
+    public function findForPassport($username)
+    {
+        return $this->where('username', $username)->first();
     }
 }

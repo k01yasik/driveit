@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\News;
 use App\User;
-use Carbon\Carbon;
 
-class NewsTableSeeder extends Seeder
+class GrantAdminPrivilegies extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +12,7 @@ class NewsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\News::class, 100)->create();
+        $user = User::where('username', 'Bzdykin')->firstOrFail();
+        $user->assignRole('admin');
     }
 }

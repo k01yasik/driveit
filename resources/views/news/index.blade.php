@@ -1,5 +1,5 @@
-@extends('Layout_name')
+@extends('layouts.main')
 
-@section('Section_name')
+@section('content')
     
 @endsection

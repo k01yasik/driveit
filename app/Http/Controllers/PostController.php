@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStore;
+use App\Http\Requests\UpdateHtml;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Repositories\Interfaces\PostRepositoryInterface;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Post;
@@ -16,10 +20,16 @@ class PostController extends Controller
 {
     protected $seoService;
     protected $commentService;
+    protected $post;
+    protected $category;
+    protected $categoryService;
 
-    public function __construct(SeoService $seoService)
+    public function __construct(SeoService $seoService, PostRepositoryInterface $post, CategoryRepositoryInterface $category, CategoryService $categoryService)
     {
         $this->seoService = $seoService;
+        $this->post = $post;
+        $this->category = $category;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -29,7 +39,8 @@ class PostController extends Controller
     public function create(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
-        $categories = Category::where('has_child', 0)->get();
+
+        $categories = $this->category->getAllParentCategories();
 
         return view('admin.posts.create', compact('seo', 'categories'));
     }
@@ -42,30 +53,13 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        $post = new Post;
-        $post->slug = $data['slug'];
-        $post->title = $data['title'];
-        $post->description = $data['description'];
-        $post->name = $data['name'];
-        $post->caption = $data['caption'];
-        $post->body = $data['body'];
-        $post->image_path = $data['image'];
-        $post->is_published = 0;
-        $post->user()->associate(Auth::user());
-        $post->views = 0;
-        $post->save();
+        $post = $this->post->store($data);
 
-        $category = Category::find($data['category']);
+        $category = $this->category->getPostCategory($data['category']);
 
-        $arrayCategoryId = [];
+        $postCategoriesId = $this->categoryService->getPostAllCategoriesId($category);
 
-        if ($category->parent_id) {
-            array_push($arrayCategoryId, $category->parent_id);
-        }
-
-        array_push($arrayCategoryId, $category->id);
-
-        $post->categories()->attach($arrayCategoryId);
+        $post->categories()->attach($postCategoriesId);
 
         return redirect()->route('admin.posts');
     }
@@ -74,42 +68,24 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        $post = Post::find($id);
-        $post->title = $data['title'];
-        $post->description = $data['description'];
-        $post->name = $data['name'];
-        $post->caption = $data['caption'];
-        $post->body = $data['body'];
-        $post->image_path = $data['image'];
-        $post->user()->associate(Auth::user());
-        $post->save();
+        $post = $this->post->update($id, $data);
 
-        $category = Category::find($data['category']);
+        $category = $this->category->getPostCategory($data['category']);
 
-        $arrayCategoryId = [];
-
-        if ($category->parent_id) {
-            array_push($arrayCategoryId, $category->parent_id);
-        }
-
-        array_push($arrayCategoryId, $category->id);
+        $postCategoriesId = $this->categoryService->getPostAllCategoriesId($category);
 
         $post->categories()->detach();
 
-        $post->categories()->attach($arrayCategoryId);
+        $post->categories()->attach($postCategoriesId);
 
         return redirect()->route('admin.posts.show', ['id' => $id]);
     }
 
-    public function updateHtml($id, Request $request)
+    public function updateHtml($id, UpdateHtml $request)
     {
-        $data = $request->validate([
-            'html' => 'required|string',
-        ]);
+        $data = $request->validated();
 
-        $post = Post::find($id);
-        $post->body = clean($data['html']);
-        $post->save();
+        $this->post->updateHtml($id, $data);
 
         return redirect()->route('admin.posts.show', ['id' => $id]);
     }
@@ -118,7 +94,7 @@ class PostController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $post = Post::with(['user', 'categories', 'user.profile'])->where('id', $id)->firstOrFail();
+        $post = $this->post->getPostByIdWithUserData($id);
 
         $post->rating_count = 0;
         $post->comments_count = 0;

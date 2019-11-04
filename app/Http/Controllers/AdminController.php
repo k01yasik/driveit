@@ -86,14 +86,18 @@ class AdminController extends Controller
             array_push($hitsQuery, $value[3]);
         }
 
-        foreach ($countryData->rows as $value) {
-            array_push($countryQueryLabels, $value[0]);
-            array_push($countryQueryData, $value[1]);
+        if ($countryData->totalResults > 0) {
+            foreach ($countryData->rows as $value) {
+                array_push($countryQueryLabels, $value[0]);
+                array_push($countryQueryData, $value[1]);
+            }
         }
 
-        foreach ($cityRussiaData->rows as $value) {
-            array_push($cityQueryLabels, $value[0]);
-            array_push($cityQueryData, $value[1]);
+        if ($cityRussiaData->totalResults > 0) {
+            foreach ($cityRussiaData->rows as $value) {
+                array_push($cityQueryLabels, $value[0]);
+                array_push($cityQueryData, $value[1]);
+            }
         }
 
         $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {

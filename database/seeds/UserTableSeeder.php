@@ -34,43 +34,5 @@ class UserTableSeeder extends Seeder
         $profile->avatar = config('app.url').'/storage/Bzdykin/avatars/admin-avatar.jpg';
         $profile->public = true;
         $profile->save();
-
-        $user = new User;
-        $user->username = 'test1';
-        $user->email = 'test1@mail.ru';
-        $user->password = Hash::make('test1');
-        $user->email_verified_at = Carbon::now();
-        $user->save();
-
-        $album = new Album;
-        $album->name = 'post';
-        $album->path = Str::random(10);
-        $album->user()->associate($user);
-        $album->save();
-
-        $profile = new Profile;
-        $profile->user()->associate($user);
-        $profile->avatar = config('app.url').'/storage/avatars/user.svg';
-        $profile->public = true;
-        $profile->save();
-
-        $user = new User;
-        $user->username = 'test2';
-        $user->email = 'test2@mail.ru';
-        $user->password = Hash::make('test2');
-        $user->email_verified_at = Carbon::now();
-        $user->save();
-
-        $album = new Album;
-        $album->name = 'post';
-        $album->path = Str::random(10);
-        $album->user()->associate($user);
-        $album->save();
-
-        $profile = new Profile;
-        $profile->user()->associate($user);
-        $profile->avatar = config('app.url').'/storage/avatars/user.svg';
-        $profile->public = true;
-        $profile->save();
     }
 }
