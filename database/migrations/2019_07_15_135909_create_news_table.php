@@ -24,7 +24,7 @@ class CreateNewsTable extends Migration
             $table->text('image_path');
             $table->boolean('is_published');
             $table->dateTime('date_published')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->integer('views');
             $table->timestamps();
 
