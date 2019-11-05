@@ -27,7 +27,9 @@ class CreateNewsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->integer('views');
             $table->timestamps();
+        });
 
+        Schema::table('news', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
