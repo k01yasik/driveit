@@ -2,10 +2,19 @@
 
 namespace App\Services;
 
+use App\Repositories\CachedPostRepository;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Builder;
 
 class PostService
 {
+
+    protected $cachedPostRepository;
+
+    public function __construct(CachedPostRepository $cachedPostRepository)
+    {
+        $this->cachedPostRepository = $cachedPostRepository;
+    }
 
     /**
      * @param Model $post
@@ -34,6 +43,10 @@ class PostService
                 $post->comments_count = $post->comments_count + 1;
             }
         }
+    }
+
+    public function search(string $query): Builder {
+        return $this->cachedPostRepository->search($query);
     }
 
 }

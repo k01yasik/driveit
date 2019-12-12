@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Builder;
 
 class CachedPostRepository implements PostRepositoryInterface
 {
@@ -169,5 +170,14 @@ class CachedPostRepository implements PostRepositoryInterface
     public function getSuggests(array $ids): Collection
     {
         $this->postRepository->getSuggests($ids);
+    }
+
+    /**
+     * @param string $query
+     * @return Builder
+     */
+    public function search(string $query): Builder
+    {
+        return $this->postRepository->search($query);
     }
 }

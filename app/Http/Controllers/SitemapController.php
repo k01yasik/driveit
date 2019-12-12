@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Post;
-use App\Store;
 
 class SitemapController extends Controller
 {

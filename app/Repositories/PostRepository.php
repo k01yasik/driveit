@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Laravel\Scout\Builder;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -226,5 +227,14 @@ class PostRepository implements PostRepositoryInterface
     public function getSuggests(array $ids): Collection
     {
         return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->find($ids);
+    }
+
+    /**
+     * @param string $query
+     * @return Builder
+     */
+    public function search(string $query): Builder
+    {
+        return Post::search($query)->paginate(10)->load(['user', 'categories', 'user.profile']);
     }
 }

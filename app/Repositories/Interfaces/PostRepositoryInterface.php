@@ -12,6 +12,7 @@ use App\Post;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Collection;
+use Laravel\Scout\Builder;
 
 interface PostRepositoryInterface
 {
@@ -116,4 +117,10 @@ interface PostRepositoryInterface
      * @return Collection
      */
     public function getSuggests(array $ids): Collection;
+
+    /**
+     * @param string $query
+     * @return Builder
+     */
+    public function search(string $query): Builder;
 }

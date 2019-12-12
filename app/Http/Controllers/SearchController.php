@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
 use App\Post;
+use App\Services\PostService;
 use App\Services\SeoService;
 
 class SearchController extends Controller
 {
     protected $seoService;
+    protected $postService;
 
-    public function __construct(SeoService $seoService)
+    public function __construct(SeoService $seoService, PostService $postService)
     {
         $this->seoService = $seoService;
+        $this->postService = $postService;
     }
 
     public function index(SearchRequest $request)
@@ -23,7 +26,7 @@ class SearchController extends Controller
 
         $query = clean($data['search']);
 
-        $searches = Post::search($query)->paginate(10)->load(['user', 'categories', 'user.profile']);
+        $searches = $this->postService->search($query);
 
         return view('search.index', compact('seo', 'searches'));
     }
