@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CachedCommentRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use App\Comment;
 
 class AdminCommentController extends Controller
 {
+    protected $commentRepository;
+
+
+    public function __construct(CachedCommentRepository $commentRepository)
+    {
+        $this->commentRepository = $commentRepository;
+    }
+
     public function edit($id)
     {
         return view('admin.comment.edit');
@@ -17,14 +24,6 @@ class AdminCommentController extends Controller
     {
         $id = $request->id;
 
-        $comment = Comment::find($id);
-
-        if ($comment->is_verified) {
-            $comment->is_verified = 0;
-        } else {
-            $comment->is_verified = 1;
-        }
-
-        $comment->save();
+        $this->commentRepository->publish($id);
     }
 }

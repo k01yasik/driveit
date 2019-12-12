@@ -3,43 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RatingRequest;
+use App\Repositories\Interfaces\RatingRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use App\Post;
-use App\Rating;
+use App\Services\RatingService;
 
 class RatingController extends Controller
 {
+    protected $ratingRepository;
+    protected $ratingService;
+
+    public function __construct(RatingRepositoryInterface $ratingRepository, RatingService $ratingService)
+    {
+        $this->ratingRepository = $ratingRepository;
+        $this->ratingService = $ratingService;
+    }
+
     public function update(RatingRequest $request)
     {
         $data = $request->validated();
         $user_id = Auth::id();
 
-        $post = Rating::where([['post_id', $data['id']], ['user_id', $user_id]])->first();
+        $post = $this->ratingRepository->getUserRatingForPost($data['id'], $user_id);
 
         if(!$post) {
-            $rating = new Rating;
-            $rating->user_id = $user_id;
-            $rating->post_id = $data['id'];
-            $rating->rating = 1;
-            $rating->save();
+            $this->ratingRepository->store($data['id'], $user_id);
         } else {
-            if ($post->rating === 0) {
-                $post->increment('rating');
-            } else {
-                $post->decrement('rating');
-            }
+
+            $this->ratingService->toggleRating($post);
 
             event('eloquent.saved: App\Rating', $post);
         }
 
-        $i = 0;
-        $newRating = Post::find($data['id'])->rating()->get();
-
-        foreach ($newRating as $new) {
-            if ($new->rating === 1) {
-                $i+=1;
-            }
-        }
+        $i = $this->ratingService->calculatePostRating($data['id']);
 
         return $i;
     }

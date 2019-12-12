@@ -8,6 +8,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Database\Eloquent\Model as Model;
 
 interface CategoryRepositoryInterface
 {
@@ -22,4 +23,6 @@ interface CategoryRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function getAllParentCategories();
+
+    public function getCategoryByName(string $name): Model;
 }

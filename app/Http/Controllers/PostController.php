@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStore;
 use App\Http\Requests\UpdateHtml;
+use App\Repositories\CachedUserRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\CategoryService;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Post;
@@ -23,13 +25,19 @@ class PostController extends Controller
     protected $post;
     protected $category;
     protected $categoryService;
+    protected $postService;
+    protected $cachedUser;
 
-    public function __construct(SeoService $seoService, PostRepositoryInterface $post, CategoryRepositoryInterface $category, CategoryService $categoryService)
+    public function __construct(SeoService $seoService, PostRepositoryInterface $post,
+                                CategoryRepositoryInterface $category, CategoryService $categoryService,
+                                PostService $postService, CachedUserRepository $cachedUser)
     {
         $this->seoService = $seoService;
         $this->post = $post;
         $this->category = $category;
         $this->categoryService = $categoryService;
+        $this->postService = $postService;
+        $this->cachedUser = $cachedUser;
     }
 
     /**
@@ -96,26 +104,13 @@ class PostController extends Controller
 
         $post = $this->post->getPostByIdWithUserData($id);
 
-        $post->rating_count = 0;
-        $post->comments_count = 0;
+        $this->postService->countPostRating($post);
 
-        foreach ($post->rating as $r) {
-            if ($r->rating === 1) {
-                $post->rating_count = $post->rating_count + 1;
-            }
-        }
+        $this->postService->countPostComments($post);
 
-        foreach ($post->comments as $c) {
-            if ($c->is_verified === 1) {
-                $post->comments_count = $post->comments_count + 1;
-            }
-        }
+        $auth_id = Auth::id();
 
-        $user_id = Auth::id();
-
-        $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
-            return User::with('profile')->where('id', $user_id)->firstOrFail();
-        });
+        $user = $this->cachedUser->getCurrentUserWithProfile($auth_id);
 
         return view('admin.posts.show', compact('seo', 'post', 'user'));
     }
@@ -127,14 +122,9 @@ class PostController extends Controller
     {
         $id = $request->id;
 
-        $post = Post::find($id);
+        $post = $this->post->getById($id);
 
-        if ($post->is_published) {
-            $post->is_published = 0;
-        } else {
-            $post->is_published = 1;
-            $post->date_published = Carbon::now();
-        }
+        $post = $this->post->togglePublish($post);
 
         $post->save();
     }
@@ -143,15 +133,11 @@ class PostController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $post = Post::with('categories')->where('id', $id)->firstOrFail();
+        $post = $this->post->getPostByIdWithCategories($id);
 
-        $categories = Category::where('has_child', 0)->get();
+        $categories = $this->category->getAllParentCategories();
 
-        $categoryArray = [];
-
-        foreach ($post->categories as $category) {
-            array_push($categoryArray, $category->id);
-        }
+        $categoryArray = $this->categoryService->getPostCategoriesIdByPost($post);
 
         return view('admin.posts.edit', compact('seo', 'post', 'categories', 'categoryArray'));
     }
@@ -160,13 +146,11 @@ class PostController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $post = Post::where('id', $id)->firstOrFail();
+        $post = $this->post->getById($id);
 
-        $user_id = Auth::id();
+        $auth_id = Auth::id();
 
-        $user = Cache::rememberForever('user_with_profile_'.$user_id, function () use ($user_id) {
-            return User::with('profile')->where('id', $user_id)->firstOrFail();
-        });
+        $user = $this->cachedUser->getCurrentUserWithProfile($auth_id);
 
         return view('admin.posts.html', compact('seo', 'post', 'user'));
     }

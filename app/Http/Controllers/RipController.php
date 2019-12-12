@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\RipService;
 use Illuminate\Http\Request;
+use App\Http\Requests\RipRequest;
 use App\Services\SeoService;
-use App\Rip;
-use Carbon\Carbon;
 
 class RipController extends Controller
 {
     protected $seoService;
+    protected $ripService;
 
-    public function __construct(SeoService $seoService)
+    public function __construct(SeoService $seoService, RipService $ripService)
     {
         $this->seoService = $seoService;
+        $this->ripService = $ripService;
     }
 
-    public function store(Request $request)
+    public function store(RipRequest $request)
     {
-        $data = $request->validate([
-            'id' => 'required|string'
-        ]);
+        $data = $request->validated();
 
-        $id = $data['id'];
-
-        $rip = new Rip;
-        $rip->user_id = $id;
-        $rip->rip_date = Carbon::now();
-        $rip->save();
+        $this->ripService->store($data['id']);
 
         return
             [
@@ -40,11 +35,10 @@ class RipController extends Controller
     {
         $id = $request->query('id');
 
-        $rip = Rip::where('user_id', $id)->firstOrFail();
-        $rip->delete();
+        $rip = $this->ripService->delete($id);
 
         event('eloquent.deleted: App\Rip', $rip);
 
-        return 'ok';
+        return response('ok', 200);
     }
 }

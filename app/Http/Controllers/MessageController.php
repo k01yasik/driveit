@@ -3,31 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSaved;
-use App\Message;
-use App\User;
-use Illuminate\Http\Request;
+use App\Repositories\CachedUserRepository;
+use App\Repositories\Interfaces\MessageRepositoryInterface;
+use App\Http\Requests\MessageRequest;
 
 class MessageController extends Controller
 {
-    public function store(Request $request) {
+    protected $userRepository;
+    protected $messageRepository;
 
-        $data = $request->validate([
-            'username' => 'required|string',
-            'friend_id' => 'required|integer',
-            'message' => 'required|string'
-        ]);
+    public function __construct(CachedUserRepository $userRepository, MessageRepositoryInterface $messageRepository)
+    {
+        $this->userRepository = $userRepository;
+        $this->messageRepository = $messageRepository;
+    }
+
+    public function store(MessageRequest $request) {
+
+        $data = $request->validated();
 
         $friend_id = $data['friend_id'];
         $message = clean($data['message']);
         $username = $data['username'];
 
-        $user = User::with('profile')->where('username', $username)->firstOrFail();
+        $user = $this->userRepository->getMessageUser($username);
 
-        $messageEntry = new Message;
-        $messageEntry->user_id = $user->id;
-        $messageEntry->text = $message;
-        $messageEntry->friend_id = $friend_id;
-        $messageEntry->save();
+        $messageEntry = $this->messageRepository->store($user->id, $friend_id, $message);
 
         broadcast(new MessageSaved($messageEntry));
 

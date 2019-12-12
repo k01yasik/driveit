@@ -2,59 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CachedPostRepository;
+use App\Services\PaginatorService;
+use App\Services\PostService;
+use App\Services\SuggestsService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use App\Services\CommentService;
 use App\Services\PaginateService;
 use App\Services\PostSortService;
-use App\Post;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
+use App\Post;
 
 class PageController extends Controller
 {
     protected $seoService;
     protected $commentService;
     protected $paginateService;
+    protected $paginatorService;
     protected $postSortService;
+    protected $postService;
+    protected $postRepository;
+    protected $suggestsService;
 
-    public function __construct(SeoService $seoService, CommentService $commentService, PaginateService $paginateService, PostSortService $postSortService)
+    public function __construct(
+        SeoService $seoService,
+        CommentService $commentService,
+        PaginateService $paginateService,
+        PostSortService $postSortService,
+        PostService $postService,
+        CachedPostRepository $postRepository,
+        PaginatorService $paginatorService,
+        SuggestsService $suggestsService
+    )
     {
         $this->seoService = $seoService;
         $this->commentService = $commentService;
         $this->paginateService = $paginateService;
         $this->postSortService = $postSortService;
+        $this->postService = $postService;
+        $this->postRepository = $postRepository;
+        $this->paginatorService = $paginatorService;
+        $this->suggestsService = $suggestsService;
     }
 
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = Cache::rememberForever('latest-posts', function (){
+        $posts = $this->postRepository->getPaginatedPostsForPages();
 
-            $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->take(10)->get();
-
-            foreach ($posts as $post) {
-
-                $post->rating_count = 0;
-                $post->comments_count = 0;
-
-                foreach ($post->rating as $r) {
-                    if ($r->rating === 1) {
-                        $post->rating_count = $post->rating_count + 1;
-                    }
-                }
-
-                foreach ($post->comments as $c) {
-                    if ($c->is_verified === 1) {
-                        $post->comments_count = $post->comments_count + 1;
-                    }
-                }
-            }
-
-            return $posts;
-        });
+        debug(Post::with('comments')->take(10)->get());
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -63,34 +61,13 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = Cache::rememberForever('paginated-posts', function (){
+        $posts = $this->postRepository->getPaginatedPostsForPages();
 
-            $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
+        $pages = $this->paginatorService->calculatePages($posts);
 
-            foreach ($posts as $post) {
-
-                $post->rating_count = 0;
-                $post->comments_count = 0;
-
-                foreach ($post->rating as $r) {
-                    if ($r->rating === 1) {
-                        $post->rating_count = $post->rating_count + 1;
-                    }
-                }
-
-                foreach ($post->comments as $c) {
-                    if ($c->is_verified === 1) {
-                        $post->comments_count = $post->comments_count + 1;
-                    }
-                }
-            }
-
-            return $posts;
-        });
-
-        $previousNumberPage = $posts->currentPage() - 1;
-        $nextNumberPage = $posts->currentPage() + 1;
-        $lastNumberPage = $posts->lastPage();
+        $previousNumberPage = $pages["previousPage"];
+        $nextNumberPage = $pages["nextPage"];
+        $lastNumberPage = $pages["lastPage"];
 
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
     }
@@ -99,30 +76,20 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10, ['*'], 'page', $id);
+        $posts = $this->postRepository->getPaginatedPostsWithoutCache($id);
 
         foreach ($posts as $post) {
 
-            $post->rating_count = 0;
-            $post->comments_count = 0;
-
-            foreach ($post->rating as $r) {
-                if ($r->rating === 1) {
-                    $post->rating_count = $post->rating_count + 1;
-                }
-            }
-
-            foreach ($post->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $post->comments_count = $post->comments_count + 1;
-                }
-            }
+            $this->postService->countPostRating($post);
+            $this->postService->countPostComments($post);
         }
 
+        $pages = $this->paginatorService->calculatePages($posts);
 
-        $previousNumberPage = $posts->currentPage() - 1;
-        $nextNumberPage = $posts->currentPage() + 1;
-        $lastNumberPage = $posts->lastPage();
+        $previousNumberPage = $pages["previousPage"];
+        $nextNumberPage = $pages["nextPage"];
+        $lastNumberPage = $pages["lastPage"];
+
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
     }
 
@@ -130,47 +97,17 @@ class PageController extends Controller
         $seo = $this->seoService->getSeoData($request);
         $name = $request->route()->getName();
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+        $posts = $this->postRepository->getPostCollection();
 
         foreach ($posts as $post) {
 
-            $post->rating_count = 0;
-            $post->comments_count = 0;
-
-            foreach ($post->rating as $r) {
-                if ($r->rating === 1) {
-                    $post->rating_count = $post->rating_count + 1;
-                }
-            }
-
-            foreach ($post->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $post->comments_count = $post->comments_count + 1;
-                }
-            }
+            $this->postService->countPostRating($post);
+            $this->postService->countPostComments($post);
         }
 
         $data = $this->paginateService->paginationData(10, 1, url()->current(), $posts->count());
 
-        if ($name == 'posts.rated') {
-
-            $posts = $this->postSortService->sortedBy($posts, 'posts.rated');
-
-            $posts = $posts->slice( 0, $data['perPage']);
-
-        } else if ($name == 'posts.views') {
-
-            $posts = $this->postSortService->sortedBy($posts, 'posts.views');
-
-            $posts = $posts->slice(0, $data['perPage']);
-
-        } else {
-
-            $posts = $this->postSortService->sortedBy($posts, 'posts.comments');
-
-            $posts = $posts->slice(0, $data['perPage']);
-
-        }
+        $posts = $this->postSortService->getSlicedData($name, $posts, $data["perPage"]);
 
         return view('posts.list', compact('seo', 'posts', 'data'));
     }
@@ -179,24 +116,12 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+        $posts = $this->postRepository->getPostCollection();
 
         foreach ($posts as $post) {
 
-            $post->rating_count = 0;
-            $post->comments_count = 0;
-
-            foreach ($post->rating as $r) {
-                if ($r->rating === 1) {
-                    $post->rating_count = $post->rating_count + 1;
-                }
-            }
-
-            foreach ($post->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $post->comments_count = $post->comments_count + 1;
-                }
-            }
+            $this->postService->countPostRating($post);
+            $this->postService->countPostComments($post);
         }
 
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
@@ -215,24 +140,12 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+        $posts = $this->postRepository->getPostCollection();
 
         foreach ($posts as $post) {
 
-            $post->rating_count = 0;
-            $post->comments_count = 0;
-
-            foreach ($post->rating as $r) {
-                if ($r->rating === 1) {
-                    $post->rating_count = $post->rating_count + 1;
-                }
-            }
-
-            foreach ($post->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $post->comments_count = $post->comments_count + 1;
-                }
-            }
+            $this->postService->countPostRating($post);
+            $this->postService->countPostComments($post);
         }
 
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
@@ -251,24 +164,12 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+        $posts = $this->postRepository->getPostCollection();
 
         foreach ($posts as $post) {
 
-            $post->rating_count = 0;
-            $post->comments_count = 0;
-
-            foreach ($post->rating as $r) {
-                if ($r->rating === 1) {
-                    $post->rating_count = $post->rating_count + 1;
-                }
-            }
-
-            foreach ($post->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $post->comments_count = $post->comments_count + 1;
-                }
-            }
+            $this->postService->countPostRating($post);
+            $this->postService->countPostComments($post);
         }
 
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
@@ -295,51 +196,27 @@ class PageController extends Controller
         return view('page.rules', compact('seo'));
     }
 
+    /**
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($slug)
     {
 
-        $post = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments', 'suggest'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
+        $post = $this->postRepository->getPostsForShow($slug);
 
-        $post->rating_count = 0;
-        $post->comments_count = 0;
-
-        foreach ($post->rating as $r) {
-            if ($r->rating === 1) {
-                $post->rating_count = $post->rating_count + 1;
-            }
-        }
-
-        foreach ($post->comments as $c) {
-            if ($c->is_verified === 1) {
-                $post->comments_count = $post->comments_count + 1;
-            }
-        }
+        $this->postService->countPostRating($post);
+        $this->postService->countPostComments($post);
 
 
-        $suggest_ids = [];
+        $suggest_ids = $this->suggestsService->getSuggestsIds($post);
 
-        foreach ($post->suggest as $suggest) {
-            array_push($suggest_ids, $suggest->suggest);
-        }
-
-        $suggest_posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->find($suggest_ids);
+        $suggest_posts = $this->postRepository->getSuggests($suggest_ids);
 
         foreach ($suggest_posts as $pp) {
 
-            $pp->rating_count = 0;
-            $pp->comments_count = 0;
-
-            foreach ($pp->rating as $r) {
-                if ($r->rating === 1) {
-                    $pp->rating_count = $pp->rating_count + 1;
-                }
-            }
-
-            foreach ($pp->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $pp->comments_count = $pp->comments_count + 1;
-                }
-            }
+            $this->postService->countPostRating($pp);
+            $this->postService->countPostComments($pp);
         }
 
         $post->increment('views');

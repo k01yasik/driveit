@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Category;
+use Illuminate\Database\Eloquent\Model;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
@@ -28,5 +29,10 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function getAllParentCategories()
     {
         return Category::hasChild()->get();
+    }
+
+    public function getCategoryByName(string $name): Model
+    {
+        return Category::where('name', $name)->firstOrFail();
     }
 }

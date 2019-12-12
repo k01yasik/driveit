@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\CommentService;
-use App\Post;
 
 class AmpController extends Controller
 {
     protected $commentService;
+    protected $postRepository;
 
-    public function __construct(CommentService $commentService)
+    public function __construct(CommentService $commentService, PostRepositoryInterface $postRepository)
     {
         $this->commentService = $commentService;
+        $this->postRepository = $postRepository;
     }
 
     public function show($slug)
     {
-        $post = Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
+        $post = $this->postRepository->getPostBySlugWithUserData($slug);
 
         $seo = [
             "title" => $post->title,

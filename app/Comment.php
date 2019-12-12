@@ -32,6 +32,8 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserId($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment notVerified()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment verified()
  */
 class Comment extends Model
 {
@@ -49,5 +51,15 @@ class Comment extends Model
         Carbon::setLocale('ru');
 
         return $date->diffForHumans(null,  false, false, 1);
+    }
+
+    public function scopeVerified($query)
+    {
+        return $query->where('is_verified', true);
+    }
+
+    public function scopeNotVerified($query)
+    {
+        return $query->where('is_verified', false);
     }
 }

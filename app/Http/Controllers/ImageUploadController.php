@@ -5,22 +5,48 @@ namespace App\Http\Controllers;
 use App\Favorite;
 use App\Http\Requests\BodyImageUpload;
 use App\Http\Requests\PostImageUpload;
+use App\Repositories\Interfaces\AlbumRepositoryInterface;
+use App\Repositories\Interfaces\FavoriteRepositoryInterface;
+use App\Repositories\Interfaces\ImageRepositoryInterface;
+use App\Repositories\Interfaces\ProfileRepositoryInterface;
+use App\Services\ImageService;
+use App\Services\StorageService;
 use App\Services\UploadImageService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image as Thumb;
-use App\Album;
-use App\Image;
-
+use App\Http\Requests\AvatarImage;
+use Illuminate\Http\UploadedFile;
+use App\Services\PathService;
 
 class ImageUploadController extends Controller
 {
     protected $uploadImageService;
+    protected $imageService;
+    protected $storageService;
+    protected $profileRepository;
+    protected $albumRepository;
+    protected $imageRepository;
+    protected $pathService;
+    protected $favoriteRepository;
 
-    public function __construct(UploadImageService $uploadImageService)
+    public function __construct(UploadImageService $uploadImageService,
+                                ImageService $imageService,
+                                StorageService $storageService,
+                                ProfileRepositoryInterface $profileRepository,
+                                AlbumRepositoryInterface $albumRepository,
+                                ImageRepositoryInterface $imageRepository,
+                                PathService $pathService,
+                                FavoriteRepositoryInterface $favoriteRepository)
     {
         $this->uploadImageService = $uploadImageService;
+        $this->imageService = $imageService;
+        $this->storageService = $storageService;
+        $this->profileRepository = $profileRepository;
+        $this->albumRepository = $albumRepository;
+        $this->imageRepository = $imageRepository;
+        $this->pathService = $pathService;
+        $this->favoriteRepository = $favoriteRepository;
     }
 
     public function index(PostImageUpload $request) {
@@ -51,36 +77,34 @@ class ImageUploadController extends Controller
 
     }
 
-    public function avatar(Request $request) {
+    /**
+     * @param AvatarImage $request
+     * @property UploadedFile $image
+     * @return string
+     */
+    public function avatar(AvatarImage $request) {
 
-        $data = $request->validate([
-            'avatar_upload' => 'required|image',
-            'x' => 'required|integer',
-            'y' => 'required|integer',
-            'height' => 'required|integer',
-            'width' => 'required|integer'
-        ]);
+        $data = $request->validated();
 
         $image = $data['avatar_upload'];
+
         $user = Auth::user();
         $username = $user->username;
-        $image_name = $image->getClientOriginalName();
+        $imageName = $image->getClientOriginalName();
+        $avatar = $this->imageService->createThumbnail($image, $data['width'], $data['height'], $data['x'], $data['y']);
 
-        $avatar = Thumb::make($image)->crop($data['width'], $data['height'], $data['x'], $data['y']);
-        $stream = $avatar->stream('jpg', 80);
+        $stream = $this->imageService->createStream($avatar);
 
-        Storage::disk('public')->put($username.'/avatars/'.$image_name, $stream);
+        $this->storageService->storeImage($username, $imageName, $stream);
 
-        $avatar_path = $username.'/avatars/'.$image_name;
-        $avatar_url =  Storage::disk('public')->url($avatar_path);
+        $avatarPath = $this->pathService->createAvatarPath($username, $imageName);
+        $avatarUrl =  $this->storageService->getImageUrl($avatarPath);
 
-        $profile = $user->profile()->firstOrFail();
-        $profile->avatar = $avatar_url;
-        $profile->save();
+        $profile = $this->profileRepository->store($user, $avatarUrl);
 
         event('eloquent.saved: App\Profile', $profile);
 
-        return $avatar_url;
+        return $avatarUrl;
     }
 
     public function image(Request $request) {
@@ -88,36 +112,31 @@ class ImageUploadController extends Controller
         $username = Auth::user()->username;
 
         $images = $request->images_upload;
-        $album_name = $request->album_name;
+        $albumName = $request->album_name;
 
-        $album = Album::where([['user_id', Auth::id()], ['name', $album_name]])->firstOrFail();
-
+        $album = $this->albumRepository->getUserAlbumByName($albumName);
+        $albumPath = $album->path;
         $result = [];
 
         foreach ($images as $image) {
-            $image_name = $image->getClientOriginalName();
+            $imageName = $image->getClientOriginalName();
 
-            $path = $image->storePubliclyAs($username.'/'.$album->path, $image_name, ['disk' => 'public']);
-            $url = Storage::disk('public')->url($path);
+            $path = $this->imageService->storePubliclyImage($image, $album, $username, $imageName);
+            $url = $this->storageService->getImageUrl($path);
 
-            $thumbnail = Thumb::make($image)->fit(270, 360);
+            $thumbnail = $this->imageService->createImageThumbnail($image, 270, 360);
 
-            $stream = $thumbnail->stream('jpg', 80);
-            Storage::disk('public')->put($username.'/'.$album->path.'/thumbnail/'.$image_name, $stream);
+            $stream = $this->imageService->createStream($thumbnail);
 
-            $path_thumbnail = $username.'/'.$album->path.'/thumbnail/'.$image_name;
-            $url_thumbnail = Storage::disk('public')->url($path_thumbnail);
+            $this->storageService->storeThumbnailImage($username, $albumPath, $imageName, $stream);
 
-            $image_table = new Image;
-            $image_table->url = $url;
-            $image_table->path = $path;
-            $image_table->name = $image_name;
-            $image_table->path_thumbnail = $path_thumbnail;
-            $image_table->url_thumbnail = $url_thumbnail;
-            $image_table->album()->associate($album);
-            $image_table->save();
+            $pathThumbnail = $this->pathService->createThumbnailPath($username, $albumPath, $imageName);
 
-            array_push($result, [$image_name, $url_thumbnail, $image_table->id, $username, $album->id]);
+            $urlThumbnail = $this->storageService->getImageUrl($pathThumbnail);
+
+            $imageId = $this->imageRepository->store($url, $path, $imageName, $pathThumbnail, $urlThumbnail, $album);
+
+            array_push($result, [$imageName, $urlThumbnail, $imageId, $username, $album->id]);
         }
 
         return $result;
@@ -126,34 +145,38 @@ class ImageUploadController extends Controller
     public function delete(Request $request) {
 
         $user = Auth::user();
-        $id = $request->query('id');
-        $album_id = $request->query('album');
+        $imageId = $request->query('id');
+        $albumId = $request->query('album');
 
-        $image = $user->albums()->where('id', $album_id)->firstOrFail()->images()->where('id', $id)->firstOrFail();
+        $image = $this->imageRepository->getUserImage($user, $albumId, $imageId);
 
-        Storage::disk('public')->delete($image->path);
+        $this->storageService->deleteImage($image->path);
 
         if ($image->path_thumbnail) {
-            Storage::disk('public')->delete($image->path_thumbnail);
+            $this->storageService->deleteImage($image->path_thumbnail);
         }
 
-        $image->delete();
+        try {
+            $image->delete();
+        } catch (\Exception $e) {
+        }
 
-        Favorite::where('image_id', $id)->delete();
+        $this->favoriteRepository->delete($imageId);
 
-        return 'ok';
+        return response('ok', 200);
     }
 
     public function destroy(Request $request) {
 
         $url = $request->query('url');
+        $user = Auth::user();
 
-        $image = Auth::user()->albums()->where('name', 'posts')->first()->images()->where('url', $url)->first();
+        $image = $this->imageRepository->getPostImage($user, 'posts', $url);
 
         if ($image) {
-            Storage::disk('public')->delete($image->path);
+            $this->storageService->deleteImage($image->path);
         }
 
-        return 'ok';
+        return response('ok', 200);
     }
 }

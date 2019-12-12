@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
-class MakeProvider extends Command
+class MakeRepository extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:repository {repository: Provider name}';
+    protected $signature = 'make:repository {repository : Repository name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new provider';
+    protected $description = 'Create a new repository';
 
     /**
      * Create a new command instance.
@@ -68,14 +68,14 @@ class MakeProvider extends Command
                 $fileRepositoryClass = $argument_repositroy_name.'Repository';
                 $fileRepositoryFullName = $fileRepositoryClass.'.php';
 
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, '<?php');
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, '');
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, 'namespace App\Repositories\Interfaces;');
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, '');
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, 'interface '.$fileInterfaceClass );
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, '{');
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, '');
-                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.$fileInterfaceFullName, '}');
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, '<?php');
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, '');
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, 'namespace App\Repositories\Interfaces;');
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, '');
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, 'interface '.$fileInterfaceClass );
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, '{');
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, '');
+                $instance->append('Repositories'.DIRECTORY_SEPARATOR.'Interfaces'.DIRECTORY_SEPARATOR.$fileInterfaceFullName, '}');
 
                 $instance->append('Repositories'.DIRECTORY_SEPARATOR.$fileRepositoryFullName, '<?php');
                 $instance->append('Repositories'.DIRECTORY_SEPARATOR.$fileRepositoryFullName, '');

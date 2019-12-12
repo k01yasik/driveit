@@ -2,14 +2,12 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Message;
+use Illuminate\Database\Eloquent\Model;
 use App\User;
 
 class MessageSaved implements ShouldBroadcast
@@ -21,7 +19,7 @@ class MessageSaved implements ShouldBroadcast
     public $user_from;
     public $url;
 
-    public function __construct(Message $message)
+    public function __construct(Model $message)
     {
         $this->message = $message;
         $this->user_to = User::find($message->friend_id);

@@ -2,101 +2,85 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Repositories\Interfaces\PostRepositoryInterface;
+use App\Services\CategoryService;
+use App\Services\PaginatorService;
+use App\Services\PostService;
 
 class CategoryController extends Controller
 {
+    protected $categoryRepository;
+    protected $categoryService;
+    protected $postRepository;
+    protected $postService;
+    protected $paginatorService;
 
-    public function show($categoryInput) {
+    public function __construct(CategoryRepositoryInterface $categoryRepository,
+                                CategoryService $categoryService,
+                                PostRepositoryInterface $postRepository,
+                                PostService $postService,
+                                PaginatorService $paginatorService)
+    {
+        $this->categoryRepository = $categoryRepository;
+        $this->categoryService = $categoryService;
+        $this->postRepository = $postRepository;
+        $this->postService = $postService;
+        $this->paginatorService = $paginatorService;
+    }
 
-        $category = Category::where('name', $categoryInput)->firstOrFail();
+    public function show($name) {
 
-        $categories = [];
+        $category = $this->categoryRepository->getCategoryByName($name);
 
-        if ($category->parent_id) {
-            $mainCategory = Category::find($category->parent_id);
-
-            array_push($categories, ['name' => $mainCategory->name, 'displayname' => $mainCategory->displayname]);
-        }
-
-        array_push($categories, ['name' => $category->name, 'displayname' => $category->displayname]);
+        $categories = $this->categoryService->getCategoryNameWithParentName($category);
 
         $seo = [
             "title" => 'Статьи в категории '.$category->displayname,
             "description" => 'Все статьи в категории '.$category->displayname,
         ];
 
-        $posts = $category->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
+        $posts = $this->postRepository->getPaginatedPostsByCategory($category, true);
 
         foreach ($posts as $post) {
-
-            $post->rating_count = 0;
-            $post->comments_count = 0;
-
-            foreach ($post->rating as $r) {
-                if ($r->rating === 1) {
-                    $post->rating_count = $post->rating_count + 1;
-                }
-            }
-
-            foreach ($post->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $post->comments_count = $post->comments_count + 1;
-                }
-            }
+            $this->postService->countPostComments($post);
+            $this->postService->countPostRating($post);
         }
 
-        $previousNumberPage = $posts->currentPage() - 1;
-        $nextNumberPage = $posts->currentPage() + 1;
-        $lastNumberPage = $posts->lastPage();
+        $pages = $this->paginatorService->calculatePages($posts);
+
+        $previousNumberPage = $pages["previousPage"];
+        $nextNumberPage = $pages["nextPage"];
+        $lastNumberPage = $pages["lastPage"];
 
         $categoryName = $category->name;
 
         return view('category.show', compact('seo', 'posts', 'categories', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'categoryName'));
     }
 
-    public function paginate($categoryInput, $id) {
+    public function paginate($name, $id) {
 
-        $category = Category::where('name', $categoryInput)->firstOrFail();
+        $category = $this->categoryRepository->getCategoryByName($name);
 
-        $categories = [];
-
-        if ($category->parent_id) {
-            $mainCategory = Category::find($category->parent_id);
-
-            array_push($categories, ['name' => $mainCategory->name, 'displayname' => $mainCategory->displayname]);
-        }
-
-        array_push($categories, ['name' => $category->name, 'displayname' => $category->displayname]);
+        $categories = $this->categoryService->getCategoryNameWithParentName($category);
 
         $seo = [
             "title" => 'Статьи в категории '.$category->displayname.'. Страница - '.$id.'.',
             "description" => 'Статьи в категории '.$category->displayname.'. Страница - '.$id.'.',
         ];
 
-        $posts = $category->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10, ['*'], 'page', $id);
+        $posts = $this->postRepository->getPaginatedPostsByCategory($category, false, $id);
 
         foreach ($posts as $post) {
-
-            $post->rating_count = 0;
-            $post->comments_count = 0;
-
-            foreach ($post->rating as $r) {
-                if ($r->rating === 1) {
-                    $post->rating_count = $post->rating_count + 1;
-                }
-            }
-
-            foreach ($post->comments as $c) {
-                if ($c->is_verified === 1) {
-                    $post->comments_count = $post->comments_count + 1;
-                }
-            }
+            $this->postService->countPostComments($post);
+            $this->postService->countPostRating($post);
         }
 
-        $previousNumberPage = $posts->currentPage() - 1;
-        $nextNumberPage = $posts->currentPage() + 1;
-        $lastNumberPage = $posts->lastPage();
+        $pages = $this->paginatorService->calculatePages($posts);
+
+        $previousNumberPage = $pages["previousPage"];
+        $nextNumberPage = $pages["nextPage"];
+        $lastNumberPage = $pages["lastPage"];
 
         $categoryName = $category->name;
 

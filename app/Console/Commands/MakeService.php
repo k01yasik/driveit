@@ -51,7 +51,9 @@ class MakeService extends Command
             $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, '');
             $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, 'namespace App\Services;');
             $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, '');
-            $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, 'use App\\' . $modelName . ';');
+            if ($modelName) {
+                $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, 'use App\\' . $modelName . ';');
+            }
             $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, '');
             $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, 'class ' . $fileName);
             $instance->append('Services'.DIRECTORY_SEPARATOR.$fileFullName, '{');

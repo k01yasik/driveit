@@ -3,36 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FavoriteRequest;
+use App\Repositories\Interfaces\FavoriteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Favorite;
 
 class FavoriteController extends Controller
 {
+    protected $favoriteRepository;
+
+    public function __construct(FavoriteRepositoryInterface $favoriteRepository)
+    {
+        $this->favoriteRepository = $favoriteRepository;
+    }
+
     public function vote(FavoriteRequest $request) {
         $data = $request->validated();
 
-        $id = $data['id'];
-        $username = $data['username'];
+        $imageId = $data['id'];
 
-        $user_id = Auth::id();
-
-        $favorite = Favorite::where([['user_id', $user_id], ['image_id', $id]])->first();
-
-
-        if ($favorite) {
-            try {
-                $favorite->delete();
-            } catch (\Exception $e) {
-
-            }
-        } else {
-            $favorite_new = new Favorite;
-            $favorite_new->user_id = $user_id;
-            $favorite_new->image_id = $id;
-            $favorite_new->save();
-        }
-
-        return Favorite::where('image_id', $id)->get()->count();
+        return $this->favoriteRepository->vote($imageId);
     }
 }

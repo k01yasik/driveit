@@ -45,7 +45,7 @@
         }
     </script>
 </head>
-    <body>
+<body>
     <header>
         @include('components.sitetop')
     </header>

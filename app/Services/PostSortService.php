@@ -46,4 +46,29 @@ class PostSortService
 
         return $collection;
     }
+
+    public function getSlicedData(string $name, Collection $posts, int $count)
+    {
+        if ($name == 'posts.rated') {
+
+            $posts = $this->sortedBy($posts, 'posts.rated');
+
+            $posts = $posts->slice( 0, $count);
+
+        } else if ($name == 'posts.views') {
+
+            $posts = $this->sortedBy($posts, 'posts.views');
+
+            $posts = $posts->slice(0, $count);
+
+        } else {
+
+            $posts = $this->sortedBy($posts, 'posts.comments');
+
+            $posts = $posts->slice(0, $count);
+
+        }
+
+        return $posts;
+    }
 }
