@@ -84,4 +84,13 @@ final class CachedUserRepository implements UserRepositoryInterface
     {
         return $this->user->getUsersWithFriends($id);
     }
+
+    /**
+     * @param string $username
+     * @return Model
+     */
+    public function getUserForAlbums(string $username): Model
+    {
+        return $this->user->getUserForAlbums($username);
+    }
 }

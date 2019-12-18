@@ -15,4 +15,10 @@ interface FriendRepositoryInterface
      * @param string $friend
      */
     public function store(int $authUser, string $friend): void;
+
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function getFriendsCountToUserAlbums(int $id): int;
 }

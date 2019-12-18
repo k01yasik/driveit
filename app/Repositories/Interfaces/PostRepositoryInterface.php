@@ -123,4 +123,9 @@ interface PostRepositoryInterface
      * @return Builder
      */
     public function search(string $query): Builder;
+
+    /**
+     * @return Collection
+     */
+    public function getPostsForSitemap(): Collection;
 }

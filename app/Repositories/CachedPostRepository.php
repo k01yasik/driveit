@@ -180,4 +180,14 @@ class CachedPostRepository implements PostRepositoryInterface
     {
         return $this->postRepository->search($query);
     }
+
+    /**
+     * @return Collection
+     */
+    public function getPostsForSitemap(): Collection
+    {
+        return Cache::rememberForever('posts-for-sitemap', function () {
+            return $this->postRepository->getPostsForSitemap();
+        });
+    }
 }

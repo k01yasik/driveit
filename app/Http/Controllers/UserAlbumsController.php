@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewAlbumRequest;
+use App\Repositories\CachedUserRepository;
+use App\Repositories\FriendRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\SeoService;
@@ -15,10 +17,14 @@ use Illuminate\Support\Str;
 class UserAlbumsController extends Controller
 {
     protected $seoService;
+    protected $userRepository;
+    protected $friendRepository;
 
-    public function __construct(SeoService $seoService)
+    public function __construct(SeoService $seoService, CachedUserRepository $userRepository, FriendRepository $friendRepository)
     {
         $this->seoService = $seoService;
+        $this->userRepository = $userRepository;
+        $this->friendRepository = $friendRepository;
     }
 
     public function index(Request $request, $username) {
@@ -27,26 +33,27 @@ class UserAlbumsController extends Controller
         $seo['title'] = $seo['title'].' '.$username;
         $seo['description'] = $seo['description'].' '.$username;
 
-        $user = User::with('profile', 'albums', 'albums.images')->where('username', $username)->firstOrFail();
+        $user = $this->userRepository->getUserForAlbums($username);
 
         $currentUserId = Auth::id();
 
         $currentUserProfile = $user->id === $currentUserId;
 
-        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($currentUserId);
 
         return view('user.albums.index', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
 
     public function create(Request $request, $username) {
         $seo = $this->seoService->getSeoData($request);
-        $user = User::with('profile')->where('username', $username)->firstOrFail();
 
-        $currentUserId = Auth::id();
+        $user = $this->userRepository->getMessageUser($username);
 
-        $currentUserProfile = $user->id === $currentUserId;
+        $id = Auth::id();
 
-        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+        $currentUserProfile = $user->id === $id;
+
+        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($id);
 
         return view('user.albums.create', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
@@ -63,11 +70,11 @@ class UserAlbumsController extends Controller
 
         $user = User::with('profile', 'albums')->where('username', $username)->firstOrFail();
 
-        $currentUserId = Auth::id();
+        $id = Auth::id();
 
-        $currentUserProfile = $user->id === $currentUserId;
+        $currentUserProfile = $user->id === $id;
 
-        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($id);
 
         return view('user.albums.show', compact('seo', 'user', 'currentUserProfile', 'images', 'album', 'friendRequestCount'));
     }

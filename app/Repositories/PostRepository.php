@@ -237,4 +237,12 @@ class PostRepository implements PostRepositoryInterface
     {
         return Post::search($query)->paginate(10)->load(['user', 'categories', 'user.profile']);
     }
+
+    /**
+     * @return Collection
+     */
+    public function getPostsForSitemap(): Collection
+    {
+        return Post::where('is_published', 1)->orderByDesc('date_published')->get();
+    }
 }

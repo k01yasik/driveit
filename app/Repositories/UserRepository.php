@@ -66,4 +66,13 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::with('friends')->find($id);
     }
+
+    /**
+     * @param string $username
+     * @return Model
+     */
+    public function getUserForAlbums(string $username): Model
+    {
+        return User::with('profile', 'albums', 'albums.images')->where('username', $username)->firstOrFail();
+    }
 }

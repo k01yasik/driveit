@@ -14,7 +14,7 @@ class FriendRepository implements FriendRepositoryInterface
      */
     public function getFriendsCount(int $id): int
     {
-        return Friend::where([['friend_id', $id], ['confirmed', 0], ['owner', 1]])->get()->count();
+        return Friend::where([['friend_id', $id], ['confirmed', 0], ['owner', 1]])->count();
     }
 
     /**
@@ -34,5 +34,14 @@ class FriendRepository implements FriendRepositoryInterface
         $friend_db->friend_id = $authUser;
         $friend_db->owner = false;
         $friend_db->save();
+    }
+
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function getFriendsCountToUserAlbums(int $id): int
+    {
+        return Friend::where([['friend_id', $id], ['confirmed', 0]])->count();
     }
 }

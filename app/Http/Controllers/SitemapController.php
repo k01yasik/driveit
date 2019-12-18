@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Cache;
-use App\Post;
+use App\Repositories\CachedPostRepository;
 
 class SitemapController extends Controller
 {
+    protected $postRepository;
+
+    public function __construct(CachedPostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     public function index()
     {
         $data = [];
-        $store = [];
 
-        $posts = Cache::rememberForever('posts-for-sitemap', function () {
-            return Post::where('is_published', 1)->orderByDesc('date_published')->get();
-        });
+        $posts = $this->postRepository->getPostsForSitemap();
 
         foreach ($posts as $post) {
             array_push($data, [
-                'link' => 'https://driveitwith.me/posts/'.$post->slug,
+                'link' => 'https://web-rookie.ru/posts/'.$post->slug,
             ]);
         }
 

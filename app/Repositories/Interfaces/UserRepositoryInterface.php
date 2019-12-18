@@ -46,4 +46,10 @@ interface UserRepositoryInterface
      * @return Model
      */
     public function getUsersWithFriends(int $id): Model;
+
+    /**
+     * @param string $username
+     * @return Model
+     */
+    public function getUserForAlbums(string $username): Model;
 }
