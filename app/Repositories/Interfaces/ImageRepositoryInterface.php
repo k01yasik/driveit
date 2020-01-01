@@ -3,6 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Collection;
 use App\User as User;
 
 interface ImageRepositoryInterface
@@ -12,4 +13,6 @@ interface ImageRepositoryInterface
     public function getUserImage(User $user, int $albumId, int $imageId): Model;
 
     public function getPostImage(User $user, string $albumName, string $imageUrl): Model;
+
+    public function getAllAlbumImages(int $album_id): Collection;
 }

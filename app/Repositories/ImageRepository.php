@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Image;
 
@@ -53,5 +54,10 @@ class ImageRepository implements ImageRepositoryInterface
     public function getPostImage(User $user, string $albumName, string $imageUrl): Model
     {
         return $user->albums()->where('name', $albumName)->firstOrFail()->images()->where('url', $imageUrl)->firstOrFail();
+    }
+
+    public function getAllAlbumImages(int $album_id): Collection
+    {
+        return Image::with('favorites')->where('album_id', $album_id)->orderByDesc('created_at')->get();
     }
 }

@@ -52,8 +52,6 @@ class PageController extends Controller
 
         $posts = $this->postRepository->getPaginatedPostsForPages();
 
-        debug(Post::with('comments')->take(10)->get());
-
         return view('page.home', compact('seo', 'posts'));
     }
 

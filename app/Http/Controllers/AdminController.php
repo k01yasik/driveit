@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Repositories\CachedCommentRepository;
 use App\Repositories\CachedPostDashboardRepository;
 use App\Repositories\CachedUserRepository;
-use App\Repositories\Interfaces\PostRepositoryInterface;
+use App\Repositories\CachedPostRepository;
 use App\Services\GoogleAnalyticsService;
 use App\Services\PaginatorService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
-use App\Post;
 use App\Comment;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +28,7 @@ class AdminController extends Controller
                                 CachedPostDashboardRepository $postDashboardRepository,
                                 CachedCommentRepository $commentRepository,
                                 GoogleAnalyticsService $googleAnalyticsService,
-                                PostRepositoryInterface $postRepository,
+                                CachedPostRepository $postRepository,
                                 PaginatorService $paginatorService)
     {
         $this->seoService = $seoService;

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewAlbumRequest;
+use App\Repositories\AlbumRepository;
 use App\Repositories\CachedUserRepository;
 use App\Repositories\FriendRepository;
+use App\Repositories\ImageRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\SeoService;
@@ -19,12 +21,20 @@ class UserAlbumsController extends Controller
     protected $seoService;
     protected $userRepository;
     protected $friendRepository;
+    protected $albumRepository;
+    protected $imageRepository;
 
-    public function __construct(SeoService $seoService, CachedUserRepository $userRepository, FriendRepository $friendRepository)
+    public function __construct(SeoService $seoService,
+                                CachedUserRepository $userRepository,
+                                FriendRepository $friendRepository,
+                                AlbumRepository $albumRepository,
+                                ImageRepository $imageRepository)
     {
         $this->seoService = $seoService;
         $this->userRepository = $userRepository;
         $this->friendRepository = $friendRepository;
+        $this->albumRepository = $albumRepository;
+        $this->imageRepository = $imageRepository;
     }
 
     public function index(Request $request, $username) {
@@ -62,8 +72,8 @@ class UserAlbumsController extends Controller
         $seo = $this->seoService->getSeoData($request);
 
 
-        $album = Album::where([['name', $albumname], ['user_id', Auth::id()]])->firstOrFail();
-        $images = Image::with('favorites')->where('album_id', $album->id)->orderByDesc('created_at')->get();
+        $album = $this->albumRepository->getUserAlbumByName($albumname);
+        $images = $this->imageRepository->getAllAlbumImages($album->id);
 
         $seo['title'] = $seo['title'].' '.$album->name;
         $seo['description'] = $seo['description'].' '.$album->name;
