@@ -12,9 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\SeoService;
 use App\User;
 use App\Album;
-use App\Image;
 use App\Friend;
-use Illuminate\Support\Str;
+
 
 class UserAlbumsController extends Controller
 {
@@ -78,7 +77,7 @@ class UserAlbumsController extends Controller
         $seo['title'] = $seo['title'].' '.$album->name;
         $seo['description'] = $seo['description'].' '.$album->name;
 
-        $user = User::with('profile', 'albums')->where('username', $username)->firstOrFail();
+        $user = $this->userRepository->getUserForAlbums($username);
 
         $id = Auth::id();
 
@@ -94,11 +93,9 @@ class UserAlbumsController extends Controller
 
         $album_name = $data['name'];
 
-        $album = new Album;
-        $album->name = $album_name;
-        $album->path = Str::random(10);
-        $album->user_id = Auth::id();
-        $album->save();
+        $album_name = clean($album_name);
+
+        $this->albumRepository->store($album_name);
 
         return redirect()->route('user.albums.index', ['username' => $username]);
     }
@@ -106,14 +103,15 @@ class UserAlbumsController extends Controller
     public function edit(Request $request, $username, $albumname) {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = User::with('profile')->where('username', $username)->firstOrFail();
-        $album = Album::where([['user_id', Auth::id()], ['name', $albumname]])->firstOrFail();
+        $user = $this->userRepository->getMessageUser($username);
+
+        $album = $this->albumRepository->getUserAlbumByName($albumname);
 
         $currentUserId = Auth::id();
 
         $currentUserProfile = $user->id === $currentUserId;
 
-        $friendRequestCount = Friend::where([['friend_id', $currentUserId], ['confirmed', 0]])->get()->count();
+        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($currentUserId);
 
         return view('user.albums.edit', compact('seo', 'user', 'currentUserProfile', 'album', 'friendRequestCount'));
     }
@@ -123,9 +121,12 @@ class UserAlbumsController extends Controller
 
         $album_name = $data['name'];
 
-        $album = Auth::user()->albums()->where('name', $albumname)->firstOrFail();
+        $album_name = clean($album_name);
+
+        $album = $this->albumRepository->getUserAlbumByName($album_name);
 
         $album->name = $album_name;
+
         $album->save();
 
         return redirect()->route('user.albums.index', ['username' => $username]);

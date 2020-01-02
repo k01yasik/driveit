@@ -9,13 +9,6 @@ use Laravel\Scout\Builder;
 class PostService
 {
 
-    protected $cachedPostRepository;
-
-    public function __construct(CachedPostRepository $cachedPostRepository)
-    {
-        $this->cachedPostRepository = $cachedPostRepository;
-    }
-
     /**
      * @param Model $post
      */
@@ -44,9 +37,4 @@ class PostService
             }
         }
     }
-
-    public function search(string $query): Builder {
-        return $this->cachedPostRepository->search($query);
-    }
-
 }

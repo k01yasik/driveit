@@ -12,7 +12,6 @@ use App\Services\CommentService;
 use App\Services\PaginateService;
 use App\Services\PostSortService;
 use Illuminate\Support\Facades\Auth;
-use App\Post;
 
 class PageController extends Controller
 {

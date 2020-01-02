@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model as Model;
 interface AlbumRepositoryInterface
 {
     public function getUserAlbumByName(string $albumName): Model;
+
+    public function store($album_name): void;
 }

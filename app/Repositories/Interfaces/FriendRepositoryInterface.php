@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Database\Eloquent\Collection;
+
 interface FriendRepositoryInterface
 {
     /**
@@ -21,4 +23,10 @@ interface FriendRepositoryInterface
      * @return int
      */
     public function getFriendsCountToUserAlbums(int $id): int;
+
+    public function getFriendsRequests(int $friend_id): Collection;
+
+    public function getFriendsList(int $friend_id): Collection;
+
+    public function confirmUsers(int $id, int $current_id): void;
 }
