@@ -2,7 +2,7 @@
 <script>
     WebFont.load({
         google: {
-            families: ['Roboto:400,700:latin,cyrillic']
+            families: ['Roboto:400,700:latin,cyrillic&display=swap']
         }
     });
 </script>
