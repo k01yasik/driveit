@@ -1,6 +1,6 @@
 <div class="sitetop-row">
     <div class="sitetop-wrapper">
-        <div class="logo"><a href="{{url('/')}}">Web-rookie.<span>ru</span></a></div>
+        <div class="logo"><a href="{{url('/')}}">web-rookie.<span>ru</span></a></div>
         <div class="sitetop-middle">
             <div class="search-block">
                 <form method="GET" action="{{ route('search.index') }}" class="search-form" role="search">

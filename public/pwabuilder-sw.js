@@ -3,12 +3,8 @@ const CACHE = "pwabuilder-offline-page";
 const offlineFallbackPage = "offline.html";
 
 self.addEventListener("install", function (event) {
-    console.log("[PWA Builder] Install Event processing");
-
     event.waitUntil(
         caches.open(CACHE).then(function (cache) {
-            console.log("[PWA Builder] Cached offline page during install");
-
             return cache.add(offlineFallbackPage);
         })
     );
@@ -17,17 +13,21 @@ self.addEventListener("install", function (event) {
 self.addEventListener("fetch", function (event) {
     if (event.request.method !== "GET") return;
 
+    if ( event.request.url.indexOf( '/socket.io/' ) !== -1 ) {
+        return false;
+    }
+
+    if ( event.request.url.indexOf( 'http' ) !== -1 ) {
+        return false;
+    }
+
     event.respondWith(
         fetch(event.request)
             .then(function (response) {
-                console.log("[PWA Builder] add page to offline cache: " + response.url);
-
                 event.waitUntil(updateCache(event.request, response.clone()));
-
                 return response;
             })
             .catch(function (error) {
-                console.log("[PWA Builder] Network request Failed. Serving content from cache: " + error);
                 return fromCache(event.request);
             })
     );
