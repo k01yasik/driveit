@@ -72,6 +72,7 @@
         let cityQueryLabels = {!! json_encode($cityQueryLabels, JSON_HEX_TAG) !!};
         let cityQueryData = {!! json_encode($cityQueryData, JSON_HEX_TAG) !!}
     </script>
+    @include('components.pwa')
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

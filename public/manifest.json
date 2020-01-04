@@ -1,5 +1,6 @@
 {
  "name": "Web rookie",
+ "short_name": "WebRookie",
  "description": "Web development site: Laravel, Html, Css, Seo",
  "icons": [
   {
@@ -40,7 +41,7 @@
   }
  ],
   "start_url": "/",
- "display": "fullscreen",
+  "display": "fullscreen",
   "theme_color": "#ef4747",
   "background_color": "#f5f5f5"
 }
