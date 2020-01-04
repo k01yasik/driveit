@@ -17,9 +17,7 @@ self.addEventListener("fetch", function (event) {
         return false;
     }
 
-    if ( event.request.url.indexOf( 'http' ) !== -1 ) {
-        return false;
-    }
+    console.log(event.request.url);
 
     event.respondWith(
         fetch(event.request)
