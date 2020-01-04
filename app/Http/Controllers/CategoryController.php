@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CachedPostRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\CategoryService;
 use App\Services\PaginatorService;
 use App\Services\PostService;
@@ -18,7 +18,7 @@ class CategoryController extends Controller
 
     public function __construct(CategoryRepositoryInterface $categoryRepository,
                                 CategoryService $categoryService,
-                                PostRepositoryInterface $postRepository,
+                                CachedPostRepository $postRepository,
                                 PostService $postService,
                                 PaginatorService $paginatorService)
     {

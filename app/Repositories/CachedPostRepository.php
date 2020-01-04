@@ -169,7 +169,7 @@ class CachedPostRepository implements PostRepositoryInterface
      */
     public function getSuggests(array $ids): Collection
     {
-        $this->postRepository->getSuggests($ids);
+        return $this->postRepository->getSuggests($ids);
     }
 
     /**

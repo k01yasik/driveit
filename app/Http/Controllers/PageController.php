@@ -205,7 +205,6 @@ class PageController extends Controller
         $this->postService->countPostRating($post);
         $this->postService->countPostComments($post);
 
-
         $suggest_ids = $this->suggestsService->getSuggestsIds($post);
 
         $suggest_posts = $this->postRepository->getSuggests($suggest_ids);
@@ -229,6 +228,8 @@ class PageController extends Controller
 
         $authenticated = Auth::check();
         $sortedComments = $this->commentService->sortComments($post->id);
+
+        debug($sortedComments);
 
         return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggest_posts'));
     }

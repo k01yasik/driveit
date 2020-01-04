@@ -1,5 +1,6 @@
 {
- "name": "App",
+ "name": "Web rookie",
+ "description": "Web development site: Laravel, Html, Css, Seo",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
@@ -37,5 +38,9 @@
    "type": "image\/png",
    "density": "4.0"
   }
- ]
+ ],
+  "start_url": "/",
+ "display": "fullscreen",
+  "theme_color": "#ef4747",
+  "background_color": "#f5f5f5"
 }

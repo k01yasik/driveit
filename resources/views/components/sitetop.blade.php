@@ -1,12 +1,13 @@
 <div class="sitetop-row">
     <div class="sitetop-wrapper">
-        <div class="logo"><a href="{{url('/')}}">Driveitwith.<span>me</span></a></div>
+        <div class="logo"><a href="{{url('/')}}">Web-rookie.<span>ru</span></a></div>
         <div class="sitetop-middle">
             <div class="search-block">
                 <form method="GET" action="{{ route('search.index') }}" class="search-form" role="search">
                     @csrf
-                    <input name="search" type="text" class="inputSearch" autocomplete="off">
-                    <button type="submit">
+                    <label for="search" class="no-label">Поиск...</label>
+                    <input name="search" id="search" type="text" class="inputSearch" autocomplete="off">
+                    <button type="submit" role="search" aria-label="search">
                         <svg version="1.1" id="magnifying" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 30.239 30.239" style="enable-background:new 0 0 30.239 30.239;"
                         xml:space="preserve">
                             <g>
@@ -21,7 +22,7 @@
                 </form>
             </div>
             <ul class="social-button">
-                <li><a href="https://vk.com/driveitwithme" target="_blank" rel="nofollow">
+                <li><a href="https://vk.com/driveitwithme" target="_blank" rel="noopener noreferrer nofollow">
                         <svg version="1.1" id="vk" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 14.171 14.171" style="enable-background:new 0 0 14.171 14.171;" xml:space="preserve">
                             <g>
                                 <path d="M13.268,0H0.905C0.405,0,0,0.405,0,0.904v12.363c0,0.499,0.405,0.904,0.905,0.904h12.362
@@ -36,7 +37,7 @@
                         </svg>
                     </a>
                 </li>
-                <li><a href="https://www.facebook.com/groups/745210485639351/" target="_blank" rel="nofollow">
+                <li><a href="https://www.facebook.com/groups/745210485639351/" target="_blank" rel="noopener noreferrer nofollow">
                         <svg version="1.1" id="facebook" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 90 90" style="enable-background:new 0 0 90 90;" xml:space="preserve">
                             <g>
                                 <path d="M90,15.001C90,7.119,82.884,0,75,0H15C7.116,0,0,7.119,0,15.001v59.998
@@ -46,7 +47,7 @@
                         </svg>
                     </a>
                 </li>
-                <li><a href="https://twitter.com/driveitwithme" target="_blank" rel="nofollow">
+                <li><a href="https://twitter.com/driveitwithme" target="_blank" rel="noopener noreferrer nofollow">
                         <svg version="1.1" id="twitter" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 486.392 486.392" style="enable-background:new 0 0 486.392 486.392;" xml:space="preserve">
                             <g>
                                 <path d="M395.193,0H91.198C40.826,0,0,40.826,0,91.198v303.995c0,50.372,40.826,91.198,91.198,91.198
