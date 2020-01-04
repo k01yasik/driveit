@@ -1,6 +1,6 @@
 const CACHE = "pwabuilder-offline-page";
 
-const offlineFallbackPage = "offline.html";
+const offlineFallbackPage = "/offline.html";
 
 self.addEventListener("install", function (event) {
     console.log("[PWA Builder] Install Event processing");
@@ -9,7 +9,7 @@ self.addEventListener("install", function (event) {
         caches.open(CACHE).then(function (cache) {
             console.log("[PWA Builder] Cached offline page during install");
 
-            if (offlineFallbackPage === "offline.html") {
+            if (offlineFallbackPage === "/offline.html") {
                 return cache.add(new Response("You are in offline mode"));
             }
 
