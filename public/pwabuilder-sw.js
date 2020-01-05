@@ -1,4 +1,4 @@
-const CACHE = "pwabuilder-offline-page";
+const CACHE = "web-rookie-cache";
 
 const offlineFallbackPage = "offline.html";
 
@@ -10,6 +10,20 @@ self.addEventListener("install", function (event) {
     );
 });
 
+self.addEventListener("activate", function(event) {
+    event.waitUntil(
+        caches.keys().then(function(cacheNames) {
+            return Promise.all(
+                cacheNames.map(function(cacheName) {
+                    if (CACHE !== cacheName) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
+});
+
 self.addEventListener("fetch", function (event) {
     if (event.request.method !== "GET") return;
 
@@ -17,7 +31,20 @@ self.addEventListener("fetch", function (event) {
         return false;
     }
 
-    console.log(event.request.url);
+    if ( event.request.url.indexOf( 'chrome-extension' ) !== -1 ) {
+        return false;
+    }
+
+    if ( event.request.url.indexOf( 'googletagmanager' ) !== -1 ) {
+        return false;
+    }
+    if ( event.request.url.indexOf( 'metrika' ) !== -1 ) {
+        return false;
+    }
+    if ( event.request.url.indexOf( 'google-analytics' ) !== -1 ) {
+        return false;
+    }
+
 
     event.respondWith(
         fetch(event.request)
