@@ -81,7 +81,7 @@ $().ready(function () {
     if (post_id) {
         window.Echo.join('post.' + post_id)
             .joining((user) => {
-                $('.article-readers-body').append('<div class="post-reader" id="user-' + user.id + '">' +
+                $('.article-readers-body').append('<div class="post-reader flex flex-v-center" id="user-' + user.id + '">' +
                     '<a href="' + user.url + '" class="user-avatar-link">' +
                     '<img src="' + user.avatar + '" class="user-avatar" alt="' + user.username + '">' +
                     '</a>' +
@@ -94,9 +94,9 @@ $().ready(function () {
 
                 if (children_length === 0) {
                     users.forEach(function (user) {
-                        article_body.append('<div class="post-reader" id="user-' + user.id + '">' +
+                        article_body.append('<div class="post-reader flex flex-v-center" id="user-' + user.id + '">' +
                             '<a href="' + user.url + '" class="user-avatar-link">' +
-                            '<img src="' + user.avatar + '" class="user-avatar" alt="' + user.username + '">' +
+                            '<img src="' + user.avatar + '" class="user-avatar circle" alt="' + user.username + '">' +
                             '</a>' +
                             '<a href="' + user.url + '" class="post-author">' + user.username + '</a>' +
                             '</div>');

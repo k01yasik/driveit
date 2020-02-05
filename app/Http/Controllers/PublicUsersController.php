@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\FriendRequest;
+use App\Http\Requests\ConfirmRequest;
 use App\Repositories\CachedUserRepository;
 use App\Repositories\Interfaces\FriendRepositoryInterface;
 use App\Services\FriendService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use App\Services\SeoService;
-use App\Profile;
-use App\Friend;
 use App\User;
 
 class PublicUsersController extends Controller
@@ -52,7 +50,7 @@ class PublicUsersController extends Controller
         return view('user.public', compact('seo', 'profiles', 'currentUser', 'confirmedFriends', 'requestedFriends', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
 
-    public function store(FriendRequest $request)
+    public function store(ConfirmRequest $request)
     {
         $data = $request->validated();
 

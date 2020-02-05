@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="breadcrumbs">
-        <ul>
-            <li>
+    <div class="breadcrumbs flex-v-center">
+        <ul class="flex flex-v-center">
+            <li class="flex flex-v-center">
                 <a href="{{ route('page.home') }}" class="breadcrumbs-home-link">
                     <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
                             <g>
@@ -17,8 +17,8 @@
                         </svg>
                 </a>
             </li>
-            <li><span>/</span></li>
-            <li class="breadcrumbs-bold-item">{{ __('All posts') }}</li>
+            <li class="flex flex-v-center"><span>/</span></li>
+            <li class="breadcrumbs-bold-item flex flex-v-center">{{ __('All posts') }}</li>
         </ul>
     </div>
     @each('components.post', $posts, 'post')

@@ -16,7 +16,7 @@ interface FriendRepositoryInterface
      * @param int $authUser
      * @param string $friend
      */
-    public function store(int $authUser, string $friend): void;
+    public function store(int $authUser, int $friend): void;
 
     /**
      * @param int $id

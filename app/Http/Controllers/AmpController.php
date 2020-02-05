@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Interfaces\PostRepositoryInterface;
+use App\Repositories\CachedPostRepository;
 use App\Services\CommentService;
 
 class AmpController extends Controller
@@ -10,7 +10,7 @@ class AmpController extends Controller
     protected $commentService;
     protected $postRepository;
 
-    public function __construct(CommentService $commentService, PostRepositoryInterface $postRepository)
+    public function __construct(CommentService $commentService, CachedPostRepository $postRepository)
     {
         $this->commentService = $commentService;
         $this->postRepository = $postRepository;

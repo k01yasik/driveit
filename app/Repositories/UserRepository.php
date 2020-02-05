@@ -55,7 +55,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getAllPublicUsers(int $id): Collection
     {
-        return Profile::with(['user', 'user.friends'])->where([['public', true], ['user_id', '!=', $id]] )->get();
+        return Profile::with(['user', 'user.friends'])->where([['public', true], ['user_id', '<>', $id]] )->get();
     }
 
     /**

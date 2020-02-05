@@ -8,7 +8,6 @@
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <link rel="canonical" href="{{ route('posts.show', ['slug' => $post->slug]) }}">
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-    @include('components.verification')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('seo.index')
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
@@ -25,25 +24,12 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic">
-    <script type="application/ld+json">
-        {
-            "@context" : "http://schema.org",
-            "@type" : "Organization",
-            "name" : "Driveitwith.me",
-            "url" : "https://driveitwith.me",
-            "sameAs" : [
-                "https://vk.com/driveitwithme",
-                "https://www.facebook.com/driveitwithme/",
-                "https://www.facebook.com/groups/745210485639351/",
-                "https://twitter.com/driveitwithme",
-                "https://plus.google.com/u/0/communities/103637419906040787158",
-                "https://plus.google.com/111603036897334855307"
-            ],
-            "logo" : "{{ config('app.url') }}/public/android-icon-192x192.png"
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    <link rel="preconnect" href="https://ajax.googleapis.com">
+    <link rel="preconnect" href="https://mc.yandex.ru/">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic&display=swap">
     <script type="application/ld+json">
         {
             "@context": "http://schema.org",

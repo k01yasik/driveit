@@ -3,9 +3,9 @@
 @section('content')
     @include('admin.components.panel')
     <div class="right-panel">
-        <div class="breadcrumbs">
-            <ul>
-                <li>
+        <div class="breadcrumbs flex flex-v-center">
+            <ul class="flex flex-v-center">
+                <li class="flex flex-v-center">
                     <a href="{{ route('admin.index') }}" class="breadcrumbs-home-link">
                         <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
                             <g>
@@ -19,11 +19,11 @@
                         </svg>
                     </a>
                 </li>
-                <li><span>/</span></li>
-                <li><a href="{{ route('admin.comments') }}">{{ __('Comments') }}</a></li>
-                <li><span>/</span></li>
-                <li>{{ __('Unpublished comments') }}</li>
-                <li class="unpublish-comments-counter">{{ $unpublish_comments_count }}</li>
+                <li class="flex flex-v-center"><span>/</span></li>
+                <li class="flex flex-v-center"><a href="{{ route('admin.comments') }}">{{ __('Comments') }}</a></li>
+                <li class="flex flex-v-center"><span>/</span></li>
+                <li class="flex flex-v-center">{{ __('Unpublished comments') }}</li>
+                <li class="unpublish-comments-counter flex-v-center">{{ $unpublish_comments_count }}</li>
             </ul>
         </div>
         @if($comments->count() > 0)

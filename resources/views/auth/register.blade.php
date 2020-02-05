@@ -1,8 +1,8 @@
 @extends('layouts.register')
 
 @section('content')
-    <div class="login-wrapper">
-        <div class="form-caption">
+    <div class="login-wrapper rounded">
+        <div class="form-caption flex flex-h-center-all height-3">
             <h2>{{ __('Register') }}</h2>
         </div>
         <div class="form-body">

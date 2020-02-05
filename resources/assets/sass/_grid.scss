@@ -1,0 +1,141 @@
+@mixin grid-classes($size, $i, $perc) {
+  &.offset-#{$size}#{$i} {
+    margin-left: $perc;
+  }
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+
+@media only screen and (min-width: 601px) {
+  .container {
+    width: 85%;
+    max-width: 1200px;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 80%;
+    max-width: 1200px;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .container {
+    width: 75%;
+    max-width: 1200px;
+  }
+}
+
+.row {
+  float: left;
+  width: 100%;
+  margin-bottom: 2em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .col {
+    float: left;
+    min-height: 1px;
+
+    $i: 1;
+    $columns: 12;
+    $margin-r: 2;
+    $block-w: (100 - ($columns - 1) * $margin-r) / $columns;
+
+    @while $i <= $columns {
+      $w-perc: unquote(($block-w * $i + $margin-r * ($i - 1)) + "%");
+      $margin-perc: unquote(($margin-r) + "%");
+
+      &.s#{$i} {
+        width: $w-perc;
+        @if $i < $columns { margin-right: $margin-perc; }
+        @if $i == $columns { margin-right: 0; }
+      }
+
+      $i: $i + 1;
+    }
+
+    $i: 1;
+
+    @while $i <= $columns {
+      $w-perc: unquote((($block-w + $margin-r) * $i) + "%");
+      @include grid-classes("s", $i, $w-perc);
+      $i: $i + 1;
+    }
+
+    @media only screen and (min-width: 601px) {
+      $i: 1;
+      $columns: 12;
+      $margin-r: 2;
+      $block-w: (100 - ($columns - 1) * $margin-r) / $columns;
+
+      @while $i <= $columns {
+        $w-perc: unquote(($block-w * $i + $margin-r * ($i - 1)) + "%");
+        $margin-perc: unquote(($margin-r) + "%");
+
+        &.m#{$i} {
+          width: $w-perc;
+          @if $i < $columns { margin-right: $margin-perc; }
+          @if $i == $columns { margin-right: 0; }
+        }
+
+        $i: $i + 1;
+      }
+    }
+
+    @media only screen and (min-width: 601px) and (max-width: 992px) {
+      $i: 1;
+
+      @while $i <= $columns {
+        $w-perc: unquote((($block-w + $margin-r) * $i) + "%");
+        @include grid-classes("m", $i, $w-perc);
+        $i: $i + 1;
+      }
+    }
+
+    @media only screen and (min-width: 993px) {
+      $i: 1;
+      $columns: 12;
+      $margin-r: 2;
+      $block-w: (100 - ($columns - 1) * $margin-r) / $columns;
+
+      @while $i <= $columns {
+        $w-perc: unquote(($block-w * $i + $margin-r * ($i - 1)) + "%");
+        $margin-perc: unquote(($margin-r) + "%");
+
+        &.l#{$i} {
+          width: $w-perc;
+          @if $i < $columns { margin-right: $margin-perc; }
+          @if $i == $columns { margin-right: 0; }
+        }
+
+        $i: $i + 1;
+      }
+
+      $i: 1;
+
+      @while $i <= $columns {
+        $w-perc: unquote((($block-w + $margin-r) * $i) + "%");
+        @include grid-classes("l", $i, $w-perc);
+        $i: $i + 1;
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

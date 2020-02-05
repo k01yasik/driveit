@@ -1,11 +1,11 @@
 @extends('layouts.empty')
 
 @section('content')
-    <div class="login-wrapper">
-        <div class="form-caption">
+    <div class="login-wrapper rounded">
+        <div class="form-caption flex flex-h-center-all height-3">
             <h2>{{ __('Login') }}</h2>
         </div>
-        <div class="form-body">
+        <div class="form-body margin-bottom-2">
             <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
                 @csrf
 
@@ -31,7 +31,7 @@
 
                 <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
-                <label for="remember">{{ __('Remember Me') }}</label>
+                <label for="remember" class="remember">{{ __('Remember Me') }}</label>
 
                 <button type="submit" class="submit-form button">{{ __('Login') }}</button>
             </form>
@@ -70,7 +70,7 @@
                 <div class="right-block">Войти через Google</div>
             </a>
             <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
-            <a href="{{ route('register') }}" class="link-right">{{ __('Registration') }}</a>
+            <a href="{{ route('register') }}" class="right">{{ __('Registration') }}</a>
         </div>
     </div>
 @endsection

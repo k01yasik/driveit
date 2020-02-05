@@ -1,7 +1,7 @@
 @extends('layouts.empty')
 
 @section('content')
-    <div class="login-wrapper">
+    <div class="login-wrapper rounded">
         <div class="form-caption">
             <h2>{{ __('Reset Password') }}</h2>
         </div>

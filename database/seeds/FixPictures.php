@@ -13,11 +13,8 @@ class FixPictures extends Seeder
      */
     public function run()
     {
-        $posts = Post::all();
-
-        foreach ($posts as $post) {
-            $post->image_path = substr($post->image_path,  0, -5);
-            $post->save();
-        }
+        $post = Post::find(92);
+        $post->image_path = substr($post->image_path,  0, -1);
+        $post->save();
     }
 }

@@ -1,11 +1,11 @@
 <article class="post">
     <header>
-        <div class="header-top">
+        <div class="header-top v-h-3 flex flex-v-center">
             <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
                 <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
             </a>
-            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
-            <div class="right date-published">{{ $post->date_published }}</div>
+            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="margin-h-1 post-author flex flex-v-center">{{ $post->user->username }}</a>
+            <div class="date-published margin-left-auto flex flex-v-center">{{ $post->date_published }}</div>
         </div>
         <div class="post-header">
             <div class="post-header-inner">
@@ -113,7 +113,7 @@
             </div>
         </div>
     </div>
-    <div class="post-content">
+    <div class="post-content margin-top-2">
        {!! $post->caption !!}
     </div>
     <div class="post-read-more-wrapper">

@@ -6,10 +6,8 @@
     <meta name="theme-color" content="#ffffff">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @include('components.verification')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('seo.index')
-    <link rel="amphtml" href="{{ route('amp.show', ['slug' => $post->slug]) }}">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -50,50 +48,27 @@
         });
     </script>
     @include('components.schema')
-    <script type="application/ld+json">
-        {
-            "@context": "http://schema.org",
-            "@type": "Article",
-            "author": "{{ $post->user->username }}",
-            "name": "{{ $post->name }}",
-            "description": "{{ $post->description }}",
-            "image": "{{ $post->image_path }}",
-            "url": "{{ config('app.url') }}/posts/{{ $post->slug }}",
-            "headline": "{{ $post->name }}",
-            "datePublished": "{{ $post->getOriginal('date_published') }}",
-            "dateModified": "{{ $post->getOriginal('date_published') }}"
-        }
-    </script>
 </head>
 <body>
-    <noscript><div><img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <header>
-        @include('components.sitetop')
-        @include('components.carousel')
-        @include('components.navigation')
-    </header>
-    <div class="main">
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m12 l9">
-                    <main>
-                        @yield('content')
-                    </main>
-                </div>
-                <div class="col s12 m12 l3">
-                    <aside>
-                        @include('components.ads')
-                    </aside>
-                </div>
-            </div>
+<noscript><div><img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<header>
+    @include('components.sitetop')
+</header>
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <main class="col s12 m12 l12">
+                @yield('content')
+            </main>
         </div>
     </div>
-    <footer>
-        @include('components.footer')
-    </footer>
-    @include('components.backbutton')
-    @include('components.webfont')
-    @include('components.pwa')
-    <script src="{{ asset('js/app.js') }}"></script>
+</div>
+<footer>
+    @include('components.footer')
+</footer>
+@include('components.backbutton')
+@include('components.webfont')
+@include('components.pwa')
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

@@ -1,9 +1,0 @@
-.loading {
-  @include animation(fadeIn 1s ease-in);
-  margin-bottom: 2em;
-  min-height: 45em;
-  padding: 2em;
-  background: white;
-  width: 48%;
-  border-radius: $base-border-radius;  
-}

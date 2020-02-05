@@ -4,33 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStore;
 use App\Http\Requests\UpdateHtml;
+use App\Repositories\CachedPostRepository;
 use App\Repositories\CachedUserRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\CategoryService;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
-use App\Post;
-use App\Category;
-use App\User;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class PostController extends Controller
 {
     protected $seoService;
-    protected $commentService;
     protected $post;
     protected $category;
     protected $categoryService;
     protected $postService;
     protected $cachedUser;
 
-    public function __construct(SeoService $seoService, PostRepositoryInterface $post,
-                                CategoryRepositoryInterface $category, CategoryService $categoryService,
-                                PostService $postService, CachedUserRepository $cachedUser)
+    public function __construct(SeoService $seoService,
+                                CachedPostRepository $post,
+                                CategoryRepositoryInterface $category,
+                                CategoryService $categoryService,
+                                PostService $postService,
+                                CachedUserRepository $cachedUser)
     {
         $this->seoService = $seoService;
         $this->post = $post;

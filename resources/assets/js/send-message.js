@@ -25,9 +25,11 @@ $().ready(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             }).done(function (result) {
+                let el_chat = $('.welcome-chat');
+                if (el_chat.css('display') === 'block') el_chat.fadeOut(200);
                 let data = '<div class="message-wrapper">' +
                     '<div class="message-header">' +
-                    '<a href="'+ result.url +'" class="message-header-link"><img src="'+ result.avatar +'" class="message-header-avatar"></a>' +
+                    '<a href="'+ result.url +'" class="message-header-link"><img src="'+ result.avatar +'" class="message-header-avatar circle"></a>' +
                     '</div>' +
                     '<div class="message-body">' +
                     '<div class="message-body-header">' +

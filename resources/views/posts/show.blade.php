@@ -1,9 +1,9 @@
 @extends('layouts.post')
 
 @section('content')
-    <div class="breadcrumbs">
-        <ul>
-            <li>
+    <div class="breadcrumbs flex flex-v-center">
+        <ul class="flex flex-v-center">
+            <li class="flex flex-v-center">
                 <a href="{{ route('page.home') }}" class="breadcrumbs-home-link">
                     <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
                         <g>
@@ -17,19 +17,19 @@
                     </svg>
                 </a>
             </li>
-            <li><span>/</span></li>
-            <li><a href="{{ route('posts.index') }}">{{ __('Posts') }}</a></li>
-            <li><span>/</span></li>
+            <li class="flex flex-v-center"><span>/</span></li>
+            <li class="flex flex-v-center"><a href="{{ route('posts.index') }}">{{ __('Posts') }}</a></li>
+            <li class="flex flex-v-center"><span>/</span></li>
             @foreach($post->categories as $category)
-                <li><a href="{{ route('category.show', ['category' => $category->name]) }}">{{mb_strtoupper(mb_substr($category->displayname, 0, 1)) . mb_substr($category->displayname, 1)}}</a></li>
+                <li class="flex flex-v-center"><a href="{{ route('category.show', ['category' => $category->name]) }}">{{mb_strtoupper(mb_substr($category->displayname, 0, 1)) . mb_substr($category->displayname, 1)}}</a></li>
                 @if (!($loop->last))
-                    <li><span>/</span></li>
+                    <li class="flex flex-v-center"><span>/</span></li>
                 @endif
             @endforeach
         </ul>
     </div>
     @auth
-        <div class="article-readers">
+        <div class="article-readers rounded">
             <div class="article-readers-caption">{{ __('This article is also read by users') }}</div>
             <div class="article-readers-body">
 
@@ -38,12 +38,12 @@
     @endauth
     <article class="post full-post" @auth data-id="{{ $post->id }}"@endauth>
         <header>
-            <div class="header-top">
+            <div class="header-top v-h-3 flex flex-v-center">
                 <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
                     <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
                 </a>
-                <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author">{{ $post->user->username }}</a>
-                <div class="right date-published">{{ $post->date_published }}</div>
+                <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="post-author margin-h-1 flex flex-v-center">{{ $post->user->username }}</a>
+                <div class="date-published margin-left-auto flex flex-v-center">{{ $post->date_published }}</div>
             </div>
             <div class="post-header">
                 <div class="post-header-inner-show">
@@ -82,8 +82,10 @@
         </header>
 
         <div class="post-wrapper">
-            <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="post-image-show">
-
+            <picture>
+                <source media="(max-width: 375px)" srcset="{{ $post->image_path }}-300w.webp">
+                <img src="{{ $post->image_path }}.webp" alt="{{ $post->name }}" class="post-image">
+            </picture>
         </div>
         <div class="post-buttons-wrapper">
             <div class="post-buttons-changed">
@@ -147,15 +149,13 @@
                 </div>
             </div>
         </div>
-        <div class="post-content">
+        <div class="post-content margin-top-2">
             {!! $post->body !!}
         </div>
-        <div class="social-likes">
+        <div class="social-likes margin-top-2">
             <div data-service="vkontakte" title="Share link on Vkontakte">Vkontakte</div>
             <div data-service="facebook" title="Share link on Facebook">Facebook</div>
-            <div data-service="odnoklassniki" title="Share link on Odnoklassniki">Odnoklassniki</div>
             <div data-service="twitter" title="Share link on Twitter">Twitter</div>
-            <div data-service="plusone" title="Share link on Google+">Google+</div>
         </div>
     </article>
     @if ($suggest_posts)

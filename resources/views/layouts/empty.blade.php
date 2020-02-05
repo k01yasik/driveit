@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#ffffff">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @include('components.verification')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('seo.index')
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
@@ -23,35 +22,45 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    <link rel="preconnect" href="https://ajax.googleapis.com">
+    <link rel="preconnect" href="https://mc.yandex.ru/">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
-    @include('components.google')
-    @include('components.yandex')
-    <script type="application/ld+json">
-        {
-            "@context" : "http://schema.org",
-            "@type" : "Organization",
-            "name" : "Driveitwith.me",
-            "url" : "https://driveitwith.me",
-            "sameAs" : [
-                "https://vk.com/driveitwithme",
-                "https://www.facebook.com/driveitwithme/",
-                "https://www.facebook.com/groups/745210485639351/",
-                "https://twitter.com/driveitwithme",
-                "https://plus.google.com/u/0/communities/103637419906040787158",
-                "https://plus.google.com/111603036897334855307"
-            ],
-            "logo" : "{{ config('app.url') }}/public/android-icon-192x192.png"
-        }
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149570604-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-149570604-1');
     </script>
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(55662706, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    @include('components.schema')
 </head>
 <body>
+    <noscript><div><img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <header>
         @include('components.sitetop')
     </header>
-    <div class="main-row">
-        <div class="main-wrapper">
-            @yield('content')
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <main class="col s12 m12 l6 offset-l3">
+                    @yield('content')
+                </main>
+            </div>
         </div>
     </div>
     <footer>

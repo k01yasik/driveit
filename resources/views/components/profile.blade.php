@@ -1,6 +1,6 @@
 <div class="user-profile">
     <div class="avatar">
-        <div class="avatar-inner">
+        <div class="avatar-inner circle">
             <img src="{{ $user->profile->avatar }}">
             @if ($currentUserProfile)
                 <div class="change-avatar">

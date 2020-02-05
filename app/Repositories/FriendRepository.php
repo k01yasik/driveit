@@ -22,7 +22,7 @@ class FriendRepository implements FriendRepositoryInterface
      * @param int $authUser
      * @param string $friend
      */
-    public function store(int $authUser, string $friend): void
+    public function store(int $authUser, int $friend): void
     {
         $friend_db = new Friend;
         $friend_db->user_id = $authUser;

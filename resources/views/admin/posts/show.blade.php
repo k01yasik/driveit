@@ -3,9 +3,9 @@
 @section('content')
     @include('admin.components.panel')
     <div class="right-panel">
-        <div class="breadcrumbs">
-            <ul>
-                <li>
+        <div class="breadcrumbs flex flex-v-center">
+            <ul class="flex flex-v-center">
+                <li class="flex flex-v-center">
                     <a href="{{ route('page.home') }}" class="breadcrumbs-home-link">
                         <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
                         <g>
@@ -19,18 +19,17 @@
                     </svg>
                     </a>
                 </li>
-                <li><span>/</span></li>
-                <li><a href="{{ route('posts.index') }}">{{ __('Posts') }}</a></li>
-                <li><span>/</span></li>
+                <li class="flex flex-v-center"><span>/</span></li>
+                <li class="flex flex-v-center"><a href="{{ route('posts.index') }}">{{ __('Posts') }}</a></li>
+                <li class="flex flex-v-center"><span>/</span></li>
                 @foreach($post->categories as $category)
-                    <li><a href="{{ route('category.show', ['category' => $category->name]) }}">{{mb_strtoupper(mb_substr($category->displayname, 0, 1)) . mb_substr($category->displayname, 1)}}</a></li>
+                    <li class="flex flex-v-center"><a href="{{ route('category.show', ['category' => $category->name]) }}">{{mb_strtoupper(mb_substr($category->displayname, 0, 1)) . mb_substr($category->displayname, 1)}}</a></li>
                     @if (!($loop->last))
-                        <li><span>/</span></li>
+                        <li class="flex flex-v-center"><span>/</span></li>
                     @endif
                 @endforeach
             </ul>
         </div>
-
         <article class="post">
             <header>
                 <div class="header-top">

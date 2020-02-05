@@ -1,8 +1,8 @@
 @extends('layouts.empty')
 
 @section('content')
-    <div class="login-wrapper">
-        <div class="form-caption">
+    <div class="login-wrapper rounded">
+        <div class="form-caption flex flex-h-center-all height-3">
             <h2>{{ __('Reset Password') }}</h2>
         </div>
 
@@ -10,10 +10,7 @@
             <form method="POST" action="{{ route('password.request') }}" aria-label="{{ __('Reset Password') }}">
                 @csrf
 
-                <input type="hidden" name="token" value="{{ $token }}">
-
-
-                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                <label for="email">{{ __('E-Mail Address') }}</label>
 
                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
 
@@ -38,7 +35,7 @@
                 <input id="password-confirm" type="password" name="password_confirmation" required>
 
                 <button type="submit" class="button submit-form margin-top-3">
-                    {{ __('Reset Password') }}
+                    {{__('Reset Password')}}
                 </button>
             </form>
         </div>

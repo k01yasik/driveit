@@ -1,17 +1,17 @@
 <div class="caption-block">
     <div class="caption-block-text">{{ __('Featured articles') }}</div>
 </div>
-<div class="suggest-wrapper">
+<div class="suggest-wrapper row">
     @foreach($suggest_posts as $post)
-        <div class="suggest-block">
-            <div class="suggest-top">
+        <div class="suggest-block col s12 m6 offset-m3 l4">
+            <div class="suggest-top v-h-3 flex flex-v-center">
                 <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="suggest-avatar-link">
                     <img src="{{ $post->user->profile->avatar }}" class="suggest-avatar" alt="{{ $post->user->username }}" />
                 </a>
                 <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="suggest-post-author">{{ $post->user->username }}</a>
             </div>
             <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="suggest-post-name-link">
-                <h2 class="suggest-post-name">{{ $post->name }}</h2>
+                <h2 class="suggest-post-name v-h-3 flex flex-v-center">{{ $post->name }}</h2>
             </a>
             <div class="suggest-category">
                 <svg version="1.1" class="tags-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 542.183 542.183" style="enable-background:new 0 0 542.183 542.183;"
@@ -43,7 +43,10 @@
                 </ul>
             </div>
             <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="suggest-image-link">
-                <img src="{{ $post->image_path }}" alt="{{ $post->name }}" class="suggest-post-image">
+                <picture>
+                    <source media="(max-width: 375px)" srcset="{{ $post->image_path }}-300w.webp">
+                    <img src="{{ $post->image_path }}.webp" alt="{{ $post->name }}" class="suggest-post-image">
+                </picture>
             </a>
             <div class="suggest-footer-block">
                 <div class="suggest-buttons">
