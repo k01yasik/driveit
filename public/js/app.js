@@ -40066,6 +40066,7 @@ __webpack_require__(241);
 __webpack_require__(242);
 __webpack_require__(243);
 __webpack_require__(244);
+__webpack_require__(263);
 
 
 
@@ -79173,6 +79174,22 @@ exports.default = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */
+/***/ (function(module, exports) {
+
+$().ready(function () {
+   $('.image-block').click(function () {
+      var url = $("img", this).data('url');
+      $("main").append("<div class='fullpage-block'><img class='fullpage-image' src='" + url + "' /><div class='fullpage-messges'></div></div>");
+   });
+});
 
 /***/ })
 /******/ ]);

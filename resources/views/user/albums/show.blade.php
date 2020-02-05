@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                <img src="{{$image->url_thumbnail}}" />
+                                <img src="{{$image->url_thumbnail}}" data-url="{{$image->url}}" />
                                 <div class="image-block-footer">
                                     <div class="image-block-footer-counter">{{ $image->favorites->count() }}</div>
                                     <div class="image-block-footer-wrapper">
