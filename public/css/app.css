@@ -3081,6 +3081,10 @@ a.friend-requests:hover {
   transition: all .5s ease-in-out;
 }
 
+.edit-album:hover {
+  background: #adadad;
+}
+
 .add-image {
   display: inline-block;
   width: 100%;
@@ -3143,6 +3147,100 @@ main {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.create-album {
+  height: 2em;
+  width: 2em;
+  margin: .5em 0;
+  background: #c1c1c1;
+  border-radius: 3px;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.create-album:hover {
+  background: #adadad;
+}
+
+.create-album-form {
+  background: #fff;
+  padding: 2em;
+  border-radius: 3px;
+  float: left;
+  width: 100%;
+}
+
+.navigation-wrapper-404 .margin-top-minus-3-m {
+  margin-top: 0;
+}
+
+.exception-wrapper {
+  background-image: url(https://web-rookie.ru/storage/Bzdykin/default/repair-of-car-dents.webp);
+  border-radius: 0 0 3px 3px;
+  padding: 2em;
+  background-repeat: no-repeat;
+  background-position: 100% 100%, 0 0;
+  background-size: cover;
+  height: 799.2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  float: left;
+  width: 100%;
+}
+
+.big-caption-404 {
+  font-size: 3rem;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 3px;
+  opacity: .8;
+}
+
+.exception-403 {
+  margin: 10em auto;
+  padding: 2em;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.exception-403-caption {
+  background: #EF4747;
+  padding: 2rem;
+  border-radius: 3px;
+}
+
+.exception-403-caption h2 {
+  color: #fff;
+  margin: 0;
+}
+
+.public-user {
+  height: 2em;
+  width: 2em;
+  margin: .5em 0;
+  border-radius: 3px;
+  background: #c1c1c1;
+  float: left;
+  margin-right: 2em;
+  cursor: pointer;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.public-user:hover {
+  background: #adadad;
+}
+
+.profile-block-content-label {
+  line-height: 3em;
 }
 
 #upload_image_form,

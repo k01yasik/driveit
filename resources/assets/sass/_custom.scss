@@ -1774,6 +1774,10 @@ a {
   background: $dark-gray-bottom;
   margin: .5em 0;
   transition: all .5s ease-in-out;
+
+  &:hover {
+    background: $gray-12;
+  }
 }
 
 .add-image {
@@ -1834,6 +1838,94 @@ main {
   border-radius: 3px 0 0 3px;
   height: 100%;
   object-fit: cover;
+}
+
+.create-album {
+  height: 2em;
+  width: 2em;
+  margin: .5em 0;
+  background: $dark-gray-bottom;
+  border-radius: 3px;
+  transition: all .5s ease-in-out;
+
+  &:hover {
+    background: $gray-12;
+  }
+}
+
+.create-album-form {
+  background: $white;
+  padding: 2em;
+  border-radius: 3px;
+  float: left;
+  width: 100%;
+}
+
+.navigation-wrapper-404 {
+  .margin-top-minus-3-m {
+    margin-top: 0;
+  }
+}
+
+.exception-wrapper {
+  background-image: url(https://web-rookie.ru/storage/Bzdykin/default/repair-of-car-dents.webp);
+  border-radius: 0 0 3px 3px;
+  padding: 2em;
+  background-repeat: no-repeat;
+  background-position: 100% 100%, 0 0;
+  background-size: cover;
+  height: 799.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  width: 100%;
+}
+
+.big-caption-404 {
+  font-size: 3rem;
+  padding: 2rem;
+  background: $white;
+  border-radius: 3px;
+  opacity: .8;
+}
+
+.exception-403 {
+  margin: 10em auto;
+  padding: 2em;
+  background: $white;
+  border-radius: 3px;
+}
+
+.exception-403-caption {
+  background: $primary-1;
+  padding: 2rem;
+  border-radius: 3px;
+
+  h2 {
+    color: $white;
+    margin: 0;
+  }
+}
+
+.public-user {
+  height: 2em;
+  width: 2em;
+  margin: .5em 0;
+  border-radius: 3px;
+  background: $dark-gray-bottom;
+  float: left;
+  margin-right: 2em;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+
+  &:hover {
+    background: $gray-12;
+  }
+}
+
+.profile-block-content-label {
+  line-height: 3em;
 }
 
 #upload_image_form, #change-avatar-form, .hidden-element, #upload_image_to_album {

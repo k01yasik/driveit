@@ -231,4 +231,9 @@ class PageController extends Controller
 
         return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggest_posts'));
     }
+
+    public function notFound(Request $request)
+    {
+        return view('errors.404');
+    }
 }

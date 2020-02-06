@@ -40032,7 +40032,7 @@ return function deepmerge(target, src) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(168);
-module.exports = __webpack_require__(257);
+module.exports = __webpack_require__(258);
 
 
 /***/ }),
@@ -40041,7 +40041,7 @@ module.exports = __webpack_require__(257);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_social_likes_next__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_social_likes_next__ = __webpack_require__(246);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_social_likes_next___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_social_likes_next__);
 __webpack_require__(169);
 __webpack_require__(223);
@@ -40066,7 +40066,7 @@ __webpack_require__(241);
 __webpack_require__(242);
 __webpack_require__(243);
 __webpack_require__(244);
-__webpack_require__(263);
+__webpack_require__(245);
 
 
 
@@ -78546,6 +78546,17 @@ $().ready(function () {
 
 /***/ }),
 /* 245 */
+/***/ (function(module, exports) {
+
+$().ready(function () {
+   $('.image-block').click(function () {
+      var url = $("img", this).data('url');
+      $("main").append("<div class='fullpage-block'><img class='fullpage-image' src='" + url + "' /><div class='fullpage-messges'></div></div>");
+   });
+});
+
+/***/ }),
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78561,7 +78572,7 @@ var _config = __webpack_require__(8);
 
 var _util = __webpack_require__(15);
 
-var _socialLikes = __webpack_require__(246);
+var _socialLikes = __webpack_require__(247);
 
 var _socialLikes2 = _interopRequireDefault(_socialLikes);
 
@@ -78612,7 +78623,7 @@ function autoInit() {
 autoInit(true);
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78628,7 +78639,7 @@ var _deepmerge = __webpack_require__(166);
 
 var _deepmerge2 = _interopRequireDefault(_deepmerge);
 
-var _button = __webpack_require__(247);
+var _button = __webpack_require__(248);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -78699,7 +78710,7 @@ var SocialLikes = function () {
 exports.default = SocialLikes;
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78719,7 +78730,7 @@ var _config = __webpack_require__(8);
 
 var _util = __webpack_require__(15);
 
-var _services = __webpack_require__(248);
+var _services = __webpack_require__(249);
 
 var baseServices = _interopRequireWildcard(_services);
 
@@ -78928,7 +78939,7 @@ var Button = function () {
 exports.default = Button;
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78938,7 +78949,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _facebook = __webpack_require__(249);
+var _facebook = __webpack_require__(250);
 
 Object.defineProperty(exports, 'facebook', {
   enumerable: true,
@@ -78947,7 +78958,7 @@ Object.defineProperty(exports, 'facebook', {
   }
 });
 
-var _odnoklassniki = __webpack_require__(250);
+var _odnoklassniki = __webpack_require__(251);
 
 Object.defineProperty(exports, 'odnoklassniki', {
   enumerable: true,
@@ -78956,7 +78967,7 @@ Object.defineProperty(exports, 'odnoklassniki', {
   }
 });
 
-var _pinterest = __webpack_require__(251);
+var _pinterest = __webpack_require__(252);
 
 Object.defineProperty(exports, 'pinterest', {
   enumerable: true,
@@ -78965,7 +78976,7 @@ Object.defineProperty(exports, 'pinterest', {
   }
 });
 
-var _plusone = __webpack_require__(252);
+var _plusone = __webpack_require__(253);
 
 Object.defineProperty(exports, 'plusone', {
   enumerable: true,
@@ -78974,7 +78985,7 @@ Object.defineProperty(exports, 'plusone', {
   }
 });
 
-var _twitter = __webpack_require__(253);
+var _twitter = __webpack_require__(254);
 
 Object.defineProperty(exports, 'twitter', {
   enumerable: true,
@@ -78983,7 +78994,7 @@ Object.defineProperty(exports, 'twitter', {
   }
 });
 
-var _vkontakte = __webpack_require__(254);
+var _vkontakte = __webpack_require__(255);
 
 Object.defineProperty(exports, 'vkontakte', {
   enumerable: true,
@@ -78992,7 +79003,7 @@ Object.defineProperty(exports, 'vkontakte', {
   }
 });
 
-var _telegram = __webpack_require__(255);
+var _telegram = __webpack_require__(256);
 
 Object.defineProperty(exports, 'telegram', {
   enumerable: true,
@@ -79001,7 +79012,7 @@ Object.defineProperty(exports, 'telegram', {
   }
 });
 
-var _linkedin = __webpack_require__(256);
+var _linkedin = __webpack_require__(257);
 
 Object.defineProperty(exports, 'linkedin', {
   enumerable: true,
@@ -79013,7 +79024,7 @@ Object.defineProperty(exports, 'linkedin', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 249 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79030,7 +79041,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 250 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79049,7 +79060,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79068,7 +79079,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79087,7 +79098,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79113,7 +79124,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79132,7 +79143,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79151,7 +79162,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79170,26 +79181,10 @@ exports.default = {
 };
 
 /***/ }),
-/* 257 */
+/* 258 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 258 */,
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */
-/***/ (function(module, exports) {
-
-$().ready(function () {
-   $('.image-block').click(function () {
-      var url = $("img", this).data('url');
-      $("main").append("<div class='fullpage-block'><img class='fullpage-image' src='" + url + "' /><div class='fullpage-messges'></div></div>");
-   });
-});
 
 /***/ })
 /******/ ]);

@@ -186,4 +186,6 @@ Route::get('sitemap.xml', 'SitemapController@index');
 
 Auth::routes(['verify' => true]);
 
+Route::fallback('PageController@notFound');
+
 //Broadcast::routes();

@@ -123,7 +123,7 @@ class UserAlbumsController extends Controller
 
         $album_name = clean($album_name);
 
-        $album = $this->albumRepository->getUserAlbumByName($album_name);
+        $album = $this->albumRepository->getUserAlbumByName($albumname);
 
         $album->name = $album_name;
 
