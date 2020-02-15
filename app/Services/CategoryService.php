@@ -33,7 +33,6 @@ class CategoryService
         return $postCategoriesId;
     }
 
-
     /**
      * @param Post $post
      * @return array

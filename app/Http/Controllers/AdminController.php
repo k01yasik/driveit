@@ -160,7 +160,7 @@ class AdminController extends Controller
 
         $comments = $this->commentRepository->getPaginatedComments(true);
 
-        $unpublish_comments_count = $this->commentRepository->getCommentsVerifiedCount();
+        $unpublish_comments_count = $this->commentRepository->getCommentsNotVerifiedCount();
 
         $pages = $this->paginatorService->calculatePages($comments);
 
@@ -205,6 +205,8 @@ class AdminController extends Controller
 
     public function seo()
     {
-        return view('admin.seo');
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        return view('admin.seo', compact('user'));
     }
 }

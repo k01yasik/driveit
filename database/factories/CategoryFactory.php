@@ -1,8 +1,11 @@
 <?php
 
-use Faker\Generator as Faker;
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-$factory->define(App\Category::class, function (Faker $faker) {
+use Faker\Generator as Faker;
+use App\Category;
+
+$factory->define(Category::class, function (Faker $faker) {
     return [
         'name' => $faker->slug,
         'displayname' => $faker->sentence(2),

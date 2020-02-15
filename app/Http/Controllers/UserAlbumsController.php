@@ -48,7 +48,7 @@ class UserAlbumsController extends Controller
 
         $currentUserProfile = $user->id === $currentUserId;
 
-        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($currentUserId);
+        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
 
         return view('user.albums.index', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
@@ -62,7 +62,7 @@ class UserAlbumsController extends Controller
 
         $currentUserProfile = $user->id === $id;
 
-        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($id);
+        $friendRequestCount = $this->friendRepository->getFriendsCount($id);
 
         return view('user.albums.create', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
@@ -83,7 +83,7 @@ class UserAlbumsController extends Controller
 
         $currentUserProfile = $user->id === $id;
 
-        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($id);
+        $friendRequestCount = $this->friendRepository->getFriendsCount($id);
 
         return view('user.albums.show', compact('seo', 'user', 'currentUserProfile', 'images', 'album', 'friendRequestCount'));
     }
@@ -111,7 +111,7 @@ class UserAlbumsController extends Controller
 
         $currentUserProfile = $user->id === $currentUserId;
 
-        $friendRequestCount = $this->friendRepository->getFriendsCountToUserAlbums($currentUserId);
+        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
 
         return view('user.albums.edit', compact('seo', 'user', 'currentUserProfile', 'album', 'friendRequestCount'));
     }

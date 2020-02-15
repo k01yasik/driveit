@@ -39,7 +39,6 @@
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
         ym(55662706, "init", {
             clickmap:true,
             trackLinks:true,
@@ -50,25 +49,25 @@
     @include('components.schema')
 </head>
 <body>
-<noscript><div><img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<header>
-    @include('components.sitetop')
-</header>
-<div class="main">
-    <div class="container">
-        <div class="row">
-            <main class="col s12 m12 l12">
-                @yield('content')
-            </main>
+    <noscript><div><img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <header>
+        @include('components.sitetop')
+    </header>
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <main class="col s12 m12 l12">
+                    @yield('content')
+                </main>
+            </div>
         </div>
     </div>
-</div>
-<footer>
-    @include('components.footer')
-</footer>
-@include('components.backbutton')
-@include('components.webfont')
-@include('components.pwa')
-<script src="{{ asset('js/app.js') }}"></script>
+    <footer>
+        @include('components.footer')
+    </footer>
+    @include('components.backbutton')
+    @include('components.webfont')
+    @include('components.pwa')
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

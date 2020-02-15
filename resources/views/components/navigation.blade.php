@@ -27,7 +27,6 @@
                             </svg>
                         </div>
                     </div>
-
                     <ul class="first-level">
                         <li class="menuItem {{isset($categoryInput) ? '' : 'active'}}">
                             <a href="{{ route('page.home') }}">Главная</a>

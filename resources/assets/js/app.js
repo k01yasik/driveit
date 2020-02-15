@@ -5,7 +5,6 @@ require('./post-upload-image');
 require('./editor');
 require('./publish-post');
 require('./small-menu');
-require('./remove-hashtags');
 require('./rating');
 require('./add-comment');
 require('./publish-comment');

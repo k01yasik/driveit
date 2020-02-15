@@ -112,7 +112,8 @@
   "Vendor:": "Производитель:",
   "Price:": "Цена:",
   "Categories": "Категории",
-  "Edit a html body post": "Редактировать html статьи",
+  "Edit a html body post": "Редактировать html код статьи",
   "Featured articles": "Рекомендуемые статьи",
-  "Advertisement": "Реклама"
+  "Advertisement": "Реклама",
+  "Post html code": "Html код статьи"
 }

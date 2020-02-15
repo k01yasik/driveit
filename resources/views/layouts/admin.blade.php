@@ -39,7 +39,6 @@
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
         ym(55662706, "init", {
             clickmap:true,
             trackLinks:true,
@@ -66,6 +65,7 @@
     </footer>
     @include('components.backbutton')
     @include('components.webfont')
+    @include('components.pwa')
     <script>
         let posts = {!! json_encode($posts->toArray(), JSON_HEX_TAG) !!};
         let commentsVerified = {!! $commentsVerified !!};
@@ -79,7 +79,6 @@
         let cityQueryLabels = {!! json_encode($cityQueryLabels, JSON_HEX_TAG) !!};
         let cityQueryData = {!! json_encode($cityQueryData, JSON_HEX_TAG) !!}
     </script>
-    @include('components.pwa')
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

@@ -21,6 +21,7 @@ class PostController extends Controller
     protected $categoryService;
     protected $postService;
     protected $cachedUser;
+    protected $userRepository;
 
     public function __construct(SeoService $seoService,
                                 CachedPostRepository $post,
@@ -35,6 +36,7 @@ class PostController extends Controller
         $this->categoryService = $categoryService;
         $this->postService = $postService;
         $this->cachedUser = $cachedUser;
+        $this->userRepository = $cachedUser;
     }
 
     /**
@@ -47,7 +49,11 @@ class PostController extends Controller
 
         $categories = $this->category->getAllParentCategories();
 
-        return view('admin.posts.create', compact('seo', 'categories'));
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        $create = true;
+
+        return view('admin.posts.create', compact('seo', 'categories', 'user', 'create'));
     }
 
     /**
@@ -136,7 +142,9 @@ class PostController extends Controller
 
         $categoryArray = $this->categoryService->getPostCategoriesIdByPost($post);
 
-        return view('admin.posts.edit', compact('seo', 'post', 'categories', 'categoryArray'));
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        return view('admin.posts.edit', compact('seo', 'post', 'categories', 'categoryArray', 'user'));
     }
 
     public function editHtml($id, Request $request)

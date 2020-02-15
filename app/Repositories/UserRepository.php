@@ -27,7 +27,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getAllUsers(): Collection
     {
-        return User::with('profile', 'rip')->get();
+        return User::with('profile', 'rip')->orderBy('id')->get();
     }
 
     /**

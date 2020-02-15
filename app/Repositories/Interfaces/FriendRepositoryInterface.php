@@ -18,12 +18,6 @@ interface FriendRepositoryInterface
      */
     public function store(int $authUser, int $friend): void;
 
-    /**
-     * @param int $id
-     * @return int
-     */
-    public function getFriendsCountToUserAlbums(int $id): int;
-
     public function getFriendsRequests(int $friend_id): Collection;
 
     public function getFriendsList(int $friend_id): Collection;
