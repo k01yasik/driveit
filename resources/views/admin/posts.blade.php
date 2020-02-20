@@ -7,8 +7,27 @@
         </div>
         <div class="col s12 m12 l9">
             <div class="right-panel">
-                <div class="main-content-wrapper">
-                    <h2>{{ __('All posts') }}</h2>
+                <div class="breadcrumbs flex flex-v-center">
+                    <ul class="flex flex-v-center">
+                        <li class="flex flex-v-center">
+                            <a href="{{ route('admin.index') }}" class="breadcrumbs-home-link">
+                                <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
+                                    <g>
+                                        <path d="M3.674,24.876c0,0-0.024,0.604,0.566,0.604c0.734,0,6.811-0.008,6.811-0.008l0.01-5.581
+                                        c0,0-0.096-0.92,0.797-0.92h2.826c1.056,0,0.991,0.92,0.991,0.92l-0.012,5.563c0,0,5.762,0,6.667,0
+                                        c0.749,0,0.715-0.752,0.715-0.752V14.413l-9.396-8.358l-9.975,8.358C3.674,14.413,3.674,24.876,3.674,24.876z"></path>
+                                        <path d="M0,13.635c0,0,0.847,1.561,2.694,0l11.038-9.338l10.349,9.28c2.138,1.542,2.939,0,2.939,0
+                                        L13.732,1.54L0,13.635z"></path>
+                                        <polygon points="23.83,4.275 21.168,4.275 21.179,7.503 23.83,9.752 	"></polygon>
+                                    </g>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="flex flex-v-center"><span>/</span></li>
+                        <li class="flex flex-v-center">{{ __('Posts') }}</li>
+                    </ul>
+                </div>
+                <div class="main-content-wrapper margin-bottom-2">
                     @foreach($posts as $post)
                         <div class="post-block flex flex-v-center">
                             <div class="post-block-link">
@@ -64,19 +83,51 @@
                     @endforeach
                 </div>
                 @if ($posts->hasPages())
-                    <div class="pagination-wrapper">
+                    <div class="pagination-wrapper flex flex-h-center-all">
                         <ul class="pagination">
                             @if ($posts->onFirstPage())
                                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                                    <span class="page-link" aria-hidden="true">&lsaquo;</span>
+                                    <span class="page-link" aria-hidden="true">
+                                        <svg version="1.1" class="chevron-left" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="444.531px" height="444.531px" viewBox="0 0 444.531 444.531" style="enable-background:new 0 0 444.531 444.531;"
+                                        xml:space="preserve">
+                                            <g>
+                                                <path d="M213.13,222.409L351.88,83.653c7.05-7.043,10.567-15.657,10.567-25.841c0-10.183-3.518-18.793-10.567-25.835
+                                                l-21.409-21.416C323.432,3.521,314.817,0,304.637,0s-18.791,3.521-25.841,10.561L92.649,196.425
+                                                c-7.044,7.043-10.566,15.656-10.566,25.841s3.521,18.791,10.566,25.837l186.146,185.864c7.05,7.043,15.66,10.564,25.841,10.564
+                                                s18.795-3.521,25.834-10.564l21.409-21.412c7.05-7.039,10.567-15.604,10.567-25.697c0-10.085-3.518-18.746-10.567-25.978
+                                                L213.13,222.409z"/>
+                                            </g>
+                                        </svg>
+                                    </span>
                                 </li>
                             @else
                                 <li class="page-item">
-                                    <a class="page-link" href="{{ config('app.url').'/admin/posts/page/'. $previousNumberPage }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                                    <a class="page-link" href="{{ config('app.url').'/admin/posts/page/'. $previousNumberPage }}" rel="prev" aria-label="@lang('pagination.previous')">
+                                        <svg version="1.1" class="chevron-left" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                             width="444.531px" height="444.531px" viewBox="0 0 444.531 444.531" style="enable-background:new 0 0 444.531 444.531;"
+                                             xml:space="preserve">
+                                            <g>
+                                                <path d="M213.13,222.409L351.88,83.653c7.05-7.043,10.567-15.657,10.567-25.841c0-10.183-3.518-18.793-10.567-25.835
+                                                l-21.409-21.416C323.432,3.521,314.817,0,304.637,0s-18.791,3.521-25.841,10.561L92.649,196.425
+                                                c-7.044,7.043-10.566,15.656-10.566,25.841s3.521,18.791,10.566,25.837l186.146,185.864c7.05,7.043,15.66,10.564,25.841,10.564
+                                                s18.795-3.521,25.834-10.564l21.409-21.412c7.05-7.039,10.567-15.604,10.567-25.697c0-10.085-3.518-18.746-10.567-25.978
+                                                L213.13,222.409z"/>
+                                            </g>
+                                        </svg>
+                                    </a>
                                 </li>
                             @endif
 
-                            @for ($i = 1; $i <= $lastNumberPage; $i++)
+                            @if ($posts->currentPage() - 2 >= 2)
+                                <li class="page-item">
+                                    <span class="page-link">
+                                        <svg class="elepsis-svg" enable-background="new 0 0 515.555 515.555" height="512" viewBox="0 0 515.555 515.555" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m496.679 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0"/><path d="m303.347 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0"/><path d="m110.014 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0"/></svg>
+                                    </span>
+                                </li>
+                            @endif
+
+                            @for ($i = $posts->currentPage() - 2; $i <= $posts->currentPage() + 2; $i++)
                                 @if ($i == $posts->currentPage())
                                     <li class="page-item active" aria-current="page"><span class="page-link">{{ $i }}</span></li>
                                 @else
@@ -87,13 +138,46 @@
                                     @endif
                                 @endif
                             @endfor
+
+                            @if ($posts->currentPage() + 2 <= $lastNumberPage - 1)
+                                <li class="page-item">
+                                <span class="page-link">
+                                    <svg class="elepsis-svg" enable-background="new 0 0 515.555 515.555" height="512" viewBox="0 0 515.555 515.555" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m496.679 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0"/><path d="m303.347 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0"/><path d="m110.014 212.208c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138 65.971-25.167 91.138 0"/></svg>
+                                </span>
+                                </li>
+                            @endif
+
                             @if ($posts->hasMorePages())
                                 <li class="page-item">
-                                    <a class="page-link" href="{{ config('app.url').'/admin/posts/page/'. $nextNumberPage }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                                    <a class="page-link" href="{{ config('app.url').'/admin/posts/page/'. $nextNumberPage }}" rel="next" aria-label="@lang('pagination.next')">
+                                        <svg version="1.1" class="chevron-right" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="444.819px" height="444.819px" viewBox="0 0 444.819 444.819" style="enable-background:new 0 0 444.819 444.819;"
+                                        xml:space="preserve">
+                                            <g>
+                                                <path d="M352.025,196.712L165.884,10.848C159.029,3.615,150.469,0,140.187,0c-10.282,0-18.842,3.619-25.697,10.848L92.792,32.264
+                                                c-7.044,7.043-10.566,15.604-10.566,25.692c0,9.897,3.521,18.56,10.566,25.981l138.753,138.473L92.786,361.168
+                                                c-7.042,7.043-10.564,15.604-10.564,25.693c0,9.896,3.521,18.562,10.564,25.98l21.7,21.413
+                                                c7.043,7.043,15.612,10.564,25.697,10.564c10.089,0,18.656-3.521,25.697-10.564l186.145-185.864
+                                                c7.046-7.423,10.571-16.084,10.571-25.981C362.597,212.321,359.071,203.755,352.025,196.712z"/>
+                                            </g>
+                                        </svg>
+                                    </a>
                                 </li>
                             @else
                                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                                    <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                                    <span class="page-link" aria-hidden="true">
+                                        <svg version="1.1" class="chevron-right" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                             width="444.819px" height="444.819px" viewBox="0 0 444.819 444.819" style="enable-background:new 0 0 444.819 444.819;"
+                                             xml:space="preserve">
+                                            <g>
+                                                <path d="M352.025,196.712L165.884,10.848C159.029,3.615,150.469,0,140.187,0c-10.282,0-18.842,3.619-25.697,10.848L92.792,32.264
+                                                c-7.044,7.043-10.566,15.604-10.566,25.692c0,9.897,3.521,18.56,10.566,25.981l138.753,138.473L92.786,361.168
+                                                c-7.042,7.043-10.564,15.604-10.564,25.693c0,9.896,3.521,18.562,10.564,25.98l21.7,21.413
+                                                c7.043,7.043,15.612,10.564,25.697,10.564c10.089,0,18.656-3.521,25.697-10.564l186.145-185.864
+                                                c7.046-7.423,10.571-16.084,10.571-25.981C362.597,212.321,359.071,203.755,352.025,196.712z"/>
+                                            </g>
+                                        </svg>
+                                    </span>
                                 </li>
                             @endif
                         </ul>

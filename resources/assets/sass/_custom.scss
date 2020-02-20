@@ -41,6 +41,23 @@ button {
   padding: 0;
 }
 
+.padding-2 {
+  padding: 2em;
+}
+
+.margin-bottom-1 {
+  margin-bottom: 1em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.primary-border {
+  border: 1px solid $gray-5;
+  border-radius: 3px;
+}
+
 svg:not(:root) {
   overflow: hidden;
 }
@@ -48,6 +65,12 @@ svg:not(:root) {
 input, label, select {
   display: block;
   font-size: 1em;
+}
+
+input[type=text] {
+  &:disabled {
+    background: $gray-6;
+  }
 }
 
 label {
@@ -408,6 +431,10 @@ nav {
       border-right: 1px solid $secondary-2-1;
 
       &:hover {
+        background: $primary-1;
+        border-right: 1px solid $primary-1;
+        border-left: 1px solid $primary-1;
+
         &>a {
           color: $white;
         }
@@ -465,6 +492,12 @@ nav {
       border-left: 1px solid $primary-1;
       border-right: 1px solid $primary-1;
     }
+  }
+}
+
+.active + .menuItem {
+  &:hover {
+    border-left: 1px solid $white!important;
   }
 }
 
@@ -754,6 +787,12 @@ nav {
   }
 }
 
+.btn-seo-update {
+  margin-top: 2em;
+  line-height: 3em;
+  float: right;
+}
+
 .post-read-more-wrapper {
   margin-top: 2em;
   float: right;
@@ -1028,6 +1067,8 @@ footer {
   height: 3em;
   border-radius: 3px;
   padding: 0 2em;
+  float: left;
+  width: 100%;
 }
 
 .page-item {
@@ -1045,6 +1086,14 @@ footer {
 
     a {
       color: $white;
+    }
+
+    .page-link {
+      color: $white;
+    }
+
+    .chevron-left, .elepsis-svg, .chevron-right {
+      fill: $white;
     }
   }
 
@@ -1066,6 +1115,8 @@ footer {
 
 .page-link {
   display: block;
+  float: left;
+  width: 100%;
 }
 
 .back-to-top-arrow {
@@ -2018,7 +2069,8 @@ main {
   background: $white;
   padding: 2em;
   border-radius: 3px;
-  margin-bottom: 2em;
+  float: left;
+  width: 100%;
 
   h2 {
     margin: 0 0 1em;
@@ -2029,12 +2081,25 @@ main {
     clear: both;
     display: table;
   }
+
+  p {
+    margin: 0 0 1em;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
 }
 
-.post-block {
+.lockout-message {
+  float: left;
+  line-height: 3em;
+}
+
+.post-block, .item-block {
   min-height: 3em;
   margin-bottom: 1em;
-  background: $gray-6;
+  border: 1px solid $gray-5;
   padding: 0 2em;
   border-radius: 3px;
   line-height: 3em;
@@ -2051,21 +2116,61 @@ main {
   }
 }
 
-.edit-post, .publish {
+.edit-post, .publish, .edit-button, .delete-button {
   display: inline-block;
   line-height: 2em;
   width: 2em;
   border-radius: 3px;
   background: $dark-gray-bottom;
   transition: all .5s ease-in-out;
-  cursor: pointer;
 
   &:hover {
     background: $gray-12;
   }
 }
 
-.edit-post {
+.edit-post, .publish, .edit-button {
+  cursor: pointer;
+}
+
+.delete-button {
+  .delete-svg {
+    fill: $white;
+  }
+
+  button {
+    float: left;
+    background: $dark-gray-bottom;
+    border-radius: 3px;
+    transition: all .5s ease-in-out;
+
+    &:hover {
+      background: $gray-12;
+    }
+  }
+}
+
+.alert {
+  line-height: 3em;
+  padding: 0 2em;
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.alert-success {
+  background: $complement-3;
+  color: $white;
+}
+
+.alert-error {
+  background: $primary-1;
+  color: $white;
+}
+
+.edit-post, .edit-button {
   margin-left: auto;
   margin-right: 1em;
 }
@@ -2448,6 +2553,15 @@ main {
   padding: 0 2em;
 }
 
+.chevron-left, .elepsis-svg, .chevron-right {
+  width: .5em;
+  height: .5em;
+  fill: $gray-2;
+  margin: .75em;
+  float: left;
+  transition: all .5s ease-in-out;
+}
+
 .comment-publish-svg, .comment-unpublish-svg {
   height: 1em;
   width: 1em;
@@ -2633,6 +2747,44 @@ main {
   width: 1em;
   fill: $primary-1;
   transition: all .5s ease-in-out;
+}
+
+.item-header, .item-data {
+  width: 50%;
+}
+
+.item-title {
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.item-header {
+  font-weight: bold;
+}
+
+.item-button-delete, .item-button-edit, .item-button-back {
+  width: 30%;
+  background: $primary-1;
+  line-height: 3em;
+  border-radius: 3px;
+  color: $white;
+  text-align: center;
+
+  a {
+    color: $white;
+    display: block;
+  }
+}
+
+.item-button-delete {
+  button {
+    float: left;
+    width: 100%;
+    background: $primary-1;
+    border-radius: 3px;
+  }
 }
 
 .reorder-svg {

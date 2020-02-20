@@ -89,32 +89,32 @@ class AdminController extends Controller
 
     public function show(Request $request, $username)
     {
-        $user = $this->userRepository->getUserByUsername($username);
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        $data = $this->userRepository->getUserByUsername($username);
 
         $seo = [
             'title' => 'Информация о пользователе '.$user->username,
             'description' => 'Информация о пользователе '.$user->username
         ];
 
-        return view('admin.user.show', compact('seo', 'user'));
+        return view('admin.user.show', compact('seo', 'user', 'data'));
     }
 
     public function delete(Request $request, $username)
     {
-        $user = $this->userRepository->getUserByUsername($username);
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        $data = $this->userRepository->getUserByUsername($username);
 
         $seo = [
             'title' => 'Удаление пользователя '.$user->username,
             'description' => 'Удаление пользователя '.$user->username
         ];
 
-        return view('admin.user.delete', compact('seo', 'user'));
+        return view('admin.user.delete', compact('seo', 'user', 'data'));
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function posts(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
@@ -201,12 +201,5 @@ class AdminController extends Controller
         $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
 
         return view('admin.unpublished', compact('seo', 'comments', 'user', 'unpublish_comments_count'));
-    }
-
-    public function seo()
-    {
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
-
-        return view('admin.seo', compact('user'));
     }
 }

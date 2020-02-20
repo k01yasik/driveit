@@ -17,7 +17,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Builder;
 
-class CachedPostRepository implements PostRepositoryInterface
+final class CachedPostRepository implements PostRepositoryInterface
 {
     protected $postRepository;
 

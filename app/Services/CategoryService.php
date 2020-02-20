@@ -16,28 +16,28 @@ class CategoryService
         $this->categoryRepository = $categoryRepository;
     }
 
-    /**
-     * @param Category $category
-     * @return array
-     */
-    public function getPostAllCategoriesId($category)
+    public function getParentCategoryId(Category $category): ?int
+    {
+        if ($category->parent_id) return $category->parent_id;
+
+        return null;
+    }
+
+    public function getPostAllCategoriesId(Category $category): array
     {
         $postCategoriesId = [];
 
-        if ($category->parent_id) {
-            array_push($postCategoriesId, $category->parent_id);
-        }
+        $parentId = $this->getParentCategoryId($category);
+
+        if (!is_null($parentId)) array_push($postCategoriesId, $parentId);
 
         array_push($postCategoriesId, $category->id);
 
         return $postCategoriesId;
     }
 
-    /**
-     * @param Post $post
-     * @return array
-     */
-    public function getPostCategoriesIdByPost(Post $post)
+
+    public function getPostCategoriesIdByPost(Post $post): array
     {
         $categoryArray = [];
 
@@ -52,9 +52,10 @@ class CategoryService
     {
         $categories = [];
 
-        if ($category->parent_id) {
-            $mainCategory = $this->categoryRepository->getPostCategory($category->parent_id);
+        $parentId = $this->getParentCategoryId($category);
 
+        if (!is_null($parentId)) {
+            $mainCategory = $this->categoryRepository->getPostCategory($parentId);
             array_push($categories, ['name' => $mainCategory->name, 'displayname' => $mainCategory->displayname]);
         }
 

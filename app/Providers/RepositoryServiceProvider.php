@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Repositories\CachedPostDashboardRepository;
 use App\Repositories\CachedPostRepository;
+use App\Repositories\CachedSeoRepository;
 use App\Repositories\CachedUserRepository;
 use App\Repositories\CachedCommentRepository;
 use App\Repositories\CategoryRepository;
@@ -21,6 +22,7 @@ use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\ProfileRepositoryInterface;
 use App\Repositories\Interfaces\RatingRepositoryInterface;
 use App\Repositories\Interfaces\RipRepositoryInterface;
+use App\Repositories\Interfaces\SeoRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\AlbumRepositoryInterface;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
@@ -31,6 +33,7 @@ use App\Repositories\PostRepository;
 use App\Repositories\ProfileRepository;
 use App\Repositories\RatingRepository;
 use App\Repositories\RipRepository;
+use App\Repositories\SeoRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\AlbumRepository;
@@ -70,6 +73,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->when(CachedPostDashboardRepository::class)
             ->needs(PostDashboardRepositoryInterface::class)
             ->give(PostDashboardRepository::class);
+
+        $this->app->when(CachedSeoRepository::class)
+            ->needs(SeoRepositoryInterface::class)
+            ->give(SeoRepository::class);
 
         $this->app->bind(
             FavoriteRepositoryInterface::class,

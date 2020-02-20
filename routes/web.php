@@ -114,13 +114,19 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/comments/unpublished', 'AdminController@unpublished')->name('admin.comments.unpublished');
 
-    Route::get('/seo', 'AdminController@seo')->name('admin.seo');
+    Route::get('/seo', 'SeoController@index')->name('admin.seo');
+
+    Route::post('/seo', 'SeoController@store')->name('seo.store');
 
     Route::get('/seo/create', 'SeoController@create')->name('seo.create');
 
     Route::get('/seo/{id}', 'SeoController@show')->name('seo.show');
 
     Route::get('/seo/{id}/edit', 'SeoController@edit')->name('seo.edit');
+
+    Route::put('/seo/{id}', 'SeoController@update')->name('seo.update');
+
+    Route::delete('/seo/{id}', 'SeoController@destroy')->name('seo.destroy');
 
     Route::get('/comments/{id}/edit', 'AdminCommentController@edit')->name('admin.comment.edit');
 

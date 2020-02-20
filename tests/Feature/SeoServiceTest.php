@@ -16,7 +16,9 @@ class SeoServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->seo = factory(Seo::class)->create();
+        $this->seo = factory(Seo::class)->create([
+            'route_name' => 'page.home',
+        ]);
     }
 
     public function testAddTitleToPage()

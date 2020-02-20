@@ -19,10 +19,10 @@ $().ready(function () {
            }
        }).done( function (result) {
            if (result.status === 'ok') {
-               $('.confirm-delete-button').remove();
-               $('.cancel-delete-button').remove();
+               $('.confirm-delete-button').fadeOut(3000);
+               $('.cancel-delete-button').fadeOut(3000);
 
-               $('.main-content-wrapper').append('<p>' + message + '</p>' +
+               $('.main-content-wrapper .flex').append('<p class="lockout-message">' + message + '</p>' +
                '<a href="' + result.url + '" class="button confirm-button">' + button + '</a> ');
            }
        });

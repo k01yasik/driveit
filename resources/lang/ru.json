@@ -13,6 +13,7 @@
   "Waiting for confirmation.": "Ожидание подтверждения.",
   "Posts": "Статьи",
   "Users": "Пользователи",
+  "User lockout": "Блокировка пользователя",
   "Comments": "Комментарии",
   "Seo": "Seo",
   "All posts": "Все статьи",
@@ -115,5 +116,15 @@
   "Edit a html body post": "Редактировать html код статьи",
   "Featured articles": "Рекомендуемые статьи",
   "Advertisement": "Реклама",
-  "Post html code": "Html код статьи"
+  "Post html code": "Html код статьи",
+  "Editing": "Редактирование",
+  "Edit": "Редактировать",
+  "Delete": "Удалить",
+  "View record": "Просмотр записи",
+  "Route name:": "Название роута:",
+  "Header title:": "Название title:",
+  "Header description:": "Заголовок description:",
+  "Update seo": "Обновить запись",
+  "Creating seo": "Создание записи",
+  "Seo entry successfully added": "Сео запись добавлена"
 }
