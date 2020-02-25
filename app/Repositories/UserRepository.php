@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Rip;
 use App\User;
 use App\Profile;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -28,6 +30,29 @@ class UserRepository implements UserRepositoryInterface
     public function getAllUsers(): Collection
     {
         return User::with('profile', 'rip')->orderBy('id')->get();
+    }
+
+    public function getVerifiedUsers(): Collection
+    {
+        return User::with('profile', 'rip')->whereNotNull('email_verified_at')->get();
+    }
+
+    public function getUnverifiedUsers(): Collection
+    {
+        return User::with('profile', 'rip')->whereNull('email_verified_at')->get();
+    }
+
+    public function getBannedUsers(): Collection
+    {
+        $rips_ids = [];
+
+        $rips = Rip::all();
+
+        foreach ($rips as $r) {
+            array_push($rips_ids, $r->user_id);
+        }
+
+        return User::with('profile', 'rip')->whereIn('id', $rips_ids)->get();
     }
 
     /**

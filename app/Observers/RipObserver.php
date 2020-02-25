@@ -16,6 +16,10 @@ class RipObserver
     public function created(Rip $rip)
     {
         Cache::forget('all-users');
+        Cache::forget('unbanned-users');
+        Cache::forget('verified-users');
+        Cache::forget('unverified-users');
+        Cache::forget('banned-users');
     }
 
     /**
@@ -26,7 +30,7 @@ class RipObserver
      */
     public function updated(Rip $rip)
     {
-        //
+
     }
 
     /**
@@ -38,6 +42,10 @@ class RipObserver
     public function deleted(Rip $rip)
     {
         Cache::forget('all-users');
+        Cache::forget('unbanned-users');
+        Cache::forget('verified-users');
+        Cache::forget('unverified-users');
+        Cache::forget('banned-users');
     }
 
     /**

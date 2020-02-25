@@ -1081,6 +1081,14 @@ footer {
   border-radius: 3px;
   transition: all .5s ease-in-out;
 
+  &.disabled {
+    &:hover {
+      .chevron-left, .chevron-right {
+        fill: $gray-2;
+      }
+    }
+  }
+
   &:hover {
     background: $primary-1;
 
@@ -1092,7 +1100,7 @@ footer {
       color: $white;
     }
 
-    .chevron-left, .elepsis-svg, .chevron-right {
+    .chevron-left, .elepsis-svg, .chevron-right, .chevron-left-double, .chevron-right-double {
       fill: $white;
     }
   }
@@ -2089,11 +2097,12 @@ main {
       margin: 0;
     }
   }
-}
 
-.lockout-message {
-  float: left;
-  line-height: 3em;
+  .lockout-message {
+    float: left;
+    line-height: 3em;
+    margin: 0;
+  }
 }
 
 .post-block, .item-block {
@@ -2108,7 +2117,27 @@ main {
   justify-content: space-between;
 
   &:hover {
-    background: $gray-5;
+    border: 1px solid $secondary-2-1;
+    background: $secondary-2-1;
+    box-shadow: $primary-box-shadow;
+
+    a {
+      color: $white;
+    }
+
+    .edit-button, .delete-button, .publish, .edit-post {
+      background: $white;
+    }
+
+    .delete-button {
+      button {
+        background: $white;
+      }
+    }
+
+    .delete-svg, .edit-svg, .publish-svg, .unpublish-svg {
+      fill: $gray-2;
+    }
   }
 
   &:last-child {
@@ -2309,11 +2338,12 @@ main {
 
 .left-panel {
   float: left;
+  width: 100%;
   background: $white;
   border-radius: 3px;
   padding: 2em;
 
-  ul {
+  .panel-menu {
     margin-top: 2em;
   }
 
@@ -2322,6 +2352,21 @@ main {
 
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+}
+
+.sub-level {
+  margin-left: 1em;
+  margin-top: .5em;
+  display: none;
+
+  a {
+    color: $gray-11;
+    transition: all .5s ease-in-out;
+
+    &:hover {
+      color: $primary-1;
     }
   }
 }
@@ -2426,14 +2471,28 @@ main {
   float: left;
   line-height: 3em;
   width: 100%;
-  background: $gray-5;
+  border: 1px solid $gray-5;
   margin-bottom: 1em;
   border-radius: 3px;
   padding: 0 2em;
   transition: all .5s ease-in-out;
 
   &:hover {
-    background: $gray-10;
+    background: $secondary-2-1;
+    box-shadow: $primary-box-shadow;
+    border: 1px solid $secondary-2-1;
+
+    .user-block-username-link {
+      color: $white;
+    }
+
+    .user-block-ban-button, .user-block-checked-button, .user-block-delete-button, .user-block-show-button {
+      background: $white;
+    }
+
+    .ban-button-svg, .checked-button-svg, .delete-button-svg, .eye-button-svg, .unchecked-button-svg {
+      fill: $gray-2;
+    }
   }
 
   &:last-child {
@@ -2553,7 +2612,16 @@ main {
   padding: 0 2em;
 }
 
-.chevron-left, .elepsis-svg, .chevron-right {
+.expanded-item {
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+
+  &:hover {
+    color: $primary-1;
+  }
+}
+
+.chevron-left, .elepsis-svg, .chevron-right, .chevron-left-double, .chevron-right-double {
   width: .5em;
   height: .5em;
   fill: $gray-2;
@@ -2572,6 +2640,7 @@ main {
 .ban-button-svg, .checked-button-svg, .delete-button-svg, .eye-button-svg, .unchecked-button-svg {
   float: left;
   fill: $white;
+  transition: all .5s ease-in-out;
 }
 
 .choose-landscape, .heading_2-svg, .heading_3-svg {
@@ -2610,6 +2679,10 @@ main {
   margin: .5em;
   fill: $white;
   float: left;
+}
+
+.edit-svg, .delete-svg, .publish-svg, .unpublish-svg {
+  transition: all .5s ease-in-out;
 }
 
 .image-block-button-svg {

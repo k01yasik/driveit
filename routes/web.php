@@ -90,6 +90,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
     Route::get('/users', 'AdminController@users')->name('admin.users');
 
+    Route::get('/users/verified', 'AdminController@verified')->name('admin.verified');
+
+    Route::get('/users/unverified', 'AdminController@unverified')->name('admin.unverified');
+
+    Route::get('/users/banned', 'AdminController@banned')->name('admin.banned');
+
     Route::get('/user/{username}', 'AdminController@show')->name('admin.user.show');
 
     Route::get('/user/{username}/delete', 'AdminController@delete')->name('admin.user.delete');

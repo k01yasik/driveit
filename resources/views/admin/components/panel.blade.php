@@ -7,7 +7,7 @@
     <div class="user-profile-username">
         <a href="{{ route('user.profile', ['username' => $user->username]) }}">{{ $user->username }}</a>
     </div>
-    <ul>
+    <ul class="panel-menu">
         <li><a href="{{ route('admin.index') }}">{{ __('Dashboard') }}</a></li>
         <li class="create-post-li">
             <a href="{{ route('admin.posts') }}">{{ __('Posts') }}</a>
@@ -25,7 +25,15 @@
                 </a>
             @endif
         </li>
-        <li><a href="{{ route('admin.users') }}">{{ __('Users') }}</a></li>
+        <li>
+            <div class="expanded-item">{{ __('Users') }}</div>
+            <ul class="sub-level">
+                <li><a href="{{ route('admin.users') }}">{{ __('All users') }}</a></li>
+                <li><a href="{{ route('admin.verified') }}">{{ __('Verified') }}</a></li>
+                <li><a href="{{ route('admin.unverified') }}">{{ __('Unverified') }}</a></li>
+                <li><a href="{{ route('admin.banned') }}">{{ __('Banned') }}</a></li>
+            </ul>
+        </li>
         <li><a href="{{ route('admin.comments') }}">{{ __('Comments') }}</a></li>
         <li class="create-post-li">
             <a href="{{ route('admin.seo') }}">{{ __('Seo') }}</a>

@@ -40067,6 +40067,7 @@ __webpack_require__(242);
 __webpack_require__(243);
 __webpack_require__(244);
 __webpack_require__(245);
+__webpack_require__(264);
 
 
 
@@ -78303,10 +78304,9 @@ $().ready(function () {
             }
         }).done(function (result) {
             if (result.status === 'ok') {
-                $('.confirm-delete-button').fadeOut(3000);
-                $('.cancel-delete-button').fadeOut(3000);
+                $('.main-content-wrapper .flex').hide();
 
-                $('.main-content-wrapper .flex').append('<p class="lockout-message">' + message + '</p>' + '<a href="' + result.url + '" class="button confirm-button">' + button + '</a> ');
+                $('.main-content-wrapper').append('<div class="flex flex-justify-space"><p class="lockout-message">' + message + '</p>' + '<a href="' + result.url + '" class="button confirm-button">' + button + '</a></div>');
             }
         });
     });
@@ -79171,6 +79171,21 @@ exports.default = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */
+/***/ (function(module, exports) {
+
+$().ready(function () {
+   $('.expanded-item').click(function () {
+      $(this).next().toggle();
+   });
+});
 
 /***/ })
 /******/ ]);

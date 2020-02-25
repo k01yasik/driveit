@@ -19,11 +19,10 @@ $().ready(function () {
            }
        }).done( function (result) {
            if (result.status === 'ok') {
-               $('.confirm-delete-button').fadeOut(3000);
-               $('.cancel-delete-button').fadeOut(3000);
+               $('.main-content-wrapper .flex').hide();
 
-               $('.main-content-wrapper .flex').append('<p class="lockout-message">' + message + '</p>' +
-               '<a href="' + result.url + '" class="button confirm-button">' + button + '</a> ');
+               $('.main-content-wrapper').append('<div class="flex flex-justify-space"><p class="lockout-message">' + message + '</p>' +
+               '<a href="' + result.url + '" class="button confirm-button">' + button + '</a></div>');
            }
        });
    });

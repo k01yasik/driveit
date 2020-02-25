@@ -126,5 +126,9 @@
   "Header description:": "Заголовок description:",
   "Update seo": "Обновить запись",
   "Creating seo": "Создание записи",
-  "Seo entry successfully added": "Сео запись добавлена"
+  "Seo entry successfully added": "Сео запись добавлена",
+  "Verified": "Подтвержденные",
+  "Unverified": "Неподтвержденные",
+  "Banned": "Забанненые",
+  "All users": "Все пользователи"
 }

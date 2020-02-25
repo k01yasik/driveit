@@ -21,6 +21,12 @@ interface UserRepositoryInterface
      */
     public function getAllUsers(): Collection;
 
+    public function getVerifiedUsers(): Collection;
+
+    public function getUnverifiedUsers(): Collection;
+
+    public function getBannedUsers(): Collection;
+
 
     /**
      * @param string $username

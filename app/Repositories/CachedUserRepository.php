@@ -47,6 +47,34 @@ final class CachedUserRepository implements UserRepositoryInterface
         });
     }
 
+    public function getAllUnbannedUsers(): Collection
+    {
+        return Cache::rememberForever('unbanned-users', function () {
+           return $this->user->getAllUnbannedUsers();
+        });
+    }
+
+    public function getVerifiedUsers(): Collection
+    {
+        return Cache::rememberForever('verified-users', function () {
+           return $this->user->getVerifiedUsers();
+        });
+    }
+
+    public function getUnverifiedUsers(): Collection
+    {
+        return Cache::rememberForever('unverified-users', function () {
+            return $this->user->getUnverifiedUsers();
+        });
+    }
+
+    public function getBannedUsers(): Collection
+    {
+        return Cache::rememberForever('banned-users', function () {
+            return $this->user->getBannedUsers();
+        });
+    }
+
     /**
      * @param string $username
      * @return Model

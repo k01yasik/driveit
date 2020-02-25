@@ -22,5 +22,6 @@ require('./user-unban');
 require('./post-chart');
 require('./fullpage-image');
 require('./flash-messages');
+require('./click-menu');
 
 import 'social-likes-next';

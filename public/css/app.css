@@ -2361,6 +2361,11 @@ footer ul li:last-child {
   transition: all .5s ease-in-out;
 }
 
+.page-item.disabled:hover .chevron-left,
+.page-item.disabled:hover .chevron-right {
+  fill: #3a3a3a;
+}
+
 .page-item:hover {
   background: #EF4747;
 }
@@ -2375,7 +2380,9 @@ footer ul li:last-child {
 
 .page-item:hover .chevron-left,
 .page-item:hover .elepsis-svg,
-.page-item:hover .chevron-right {
+.page-item:hover .chevron-right,
+.page-item:hover .chevron-left-double,
+.page-item:hover .chevron-right-double {
   fill: #fff;
 }
 
@@ -3405,9 +3412,10 @@ main {
   margin: 0;
 }
 
-.lockout-message {
+.main-content-wrapper .lockout-message {
   float: left;
   line-height: 3em;
+  margin: 0;
 }
 
 .post-block,
@@ -3428,7 +3436,42 @@ main {
 
 .post-block:hover,
 .item-block:hover {
-  background: #ececec;
+  border: 1px solid #573EA4;
+  background: #573EA4;
+  -webkit-box-shadow: 0 0 3px 0 #ececec;
+          box-shadow: 0 0 3px 0 #ececec;
+}
+
+.post-block:hover a,
+.item-block:hover a {
+  color: #fff;
+}
+
+.post-block:hover .edit-button,
+.post-block:hover .delete-button,
+.post-block:hover .publish,
+.post-block:hover .edit-post,
+.item-block:hover .edit-button,
+.item-block:hover .delete-button,
+.item-block:hover .publish,
+.item-block:hover .edit-post {
+  background: #fff;
+}
+
+.post-block:hover .delete-button button,
+.item-block:hover .delete-button button {
+  background: #fff;
+}
+
+.post-block:hover .delete-svg,
+.post-block:hover .edit-svg,
+.post-block:hover .publish-svg,
+.post-block:hover .unpublish-svg,
+.item-block:hover .delete-svg,
+.item-block:hover .edit-svg,
+.item-block:hover .publish-svg,
+.item-block:hover .unpublish-svg {
+  fill: #3a3a3a;
 }
 
 .post-block:last-child,
@@ -3662,12 +3705,13 @@ main {
 
 .left-panel {
   float: left;
+  width: 100%;
   background: #fff;
   border-radius: 3px;
   padding: 2em;
 }
 
-.left-panel ul {
+.left-panel .panel-menu {
   margin-top: 2em;
 }
 
@@ -3677,6 +3721,22 @@ main {
 
 .left-panel li:last-child {
   margin-bottom: 0;
+}
+
+.sub-level {
+  margin-left: 1em;
+  margin-top: .5em;
+  display: none;
+}
+
+.sub-level a {
+  color: #8c8c8c;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.sub-level a:hover {
+  color: #EF4747;
 }
 
 .canvas-wrapper,
@@ -3791,7 +3851,7 @@ main {
   float: left;
   line-height: 3em;
   width: 100%;
-  background: #ececec;
+  border: 1px solid #ececec;
   margin-bottom: 1em;
   border-radius: 3px;
   padding: 0 2em;
@@ -3800,7 +3860,29 @@ main {
 }
 
 .user-block:hover {
-  background: #dedede;
+  background: #573EA4;
+  -webkit-box-shadow: 0 0 3px 0 #ececec;
+          box-shadow: 0 0 3px 0 #ececec;
+  border: 1px solid #573EA4;
+}
+
+.user-block:hover .user-block-username-link {
+  color: #fff;
+}
+
+.user-block:hover .user-block-ban-button,
+.user-block:hover .user-block-checked-button,
+.user-block:hover .user-block-delete-button,
+.user-block:hover .user-block-show-button {
+  background: #fff;
+}
+
+.user-block:hover .ban-button-svg,
+.user-block:hover .checked-button-svg,
+.user-block:hover .delete-button-svg,
+.user-block:hover .eye-button-svg,
+.user-block:hover .unchecked-button-svg {
+  fill: #3a3a3a;
 }
 
 .user-block:last-child {
@@ -3928,9 +4010,21 @@ main {
   padding: 0 2em;
 }
 
+.expanded-item {
+  cursor: pointer;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.expanded-item:hover {
+  color: #EF4747;
+}
+
 .chevron-left,
 .elepsis-svg,
-.chevron-right {
+.chevron-right,
+.chevron-left-double,
+.chevron-right-double {
   width: .5em;
   height: .5em;
   fill: #3a3a3a;
@@ -3955,6 +4049,8 @@ main {
 .unchecked-button-svg {
   float: left;
   fill: #fff;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .choose-landscape,
@@ -3998,6 +4094,14 @@ main {
   margin: .5em;
   fill: #fff;
   float: left;
+}
+
+.edit-svg,
+.delete-svg,
+.publish-svg,
+.unpublish-svg {
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .image-block-button-svg {

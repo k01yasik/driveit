@@ -87,6 +87,39 @@ class AdminController extends Controller
         return view('admin.users', compact('seo', 'user', 'users'));
     }
 
+    public function verified(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        $users = $this->userRepository->getVerifiedUsers();
+
+        return view('admin.users', compact('seo', 'user', 'users'));
+    }
+
+    public function unverified(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        $users = $this->userRepository->getUnverifiedUsers();
+
+        return view('admin.users', compact('seo', 'user', 'users'));
+    }
+
+    public function banned(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+
+        $users = $this->userRepository->getBannedUsers();
+
+        return view('admin.users', compact('seo', 'user', 'users'));
+    }
+
     public function show(Request $request, $username)
     {
         $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
@@ -129,7 +162,11 @@ class AdminController extends Controller
         $nextNumberPage = $pages["nextPage"];
         $lastNumberPage = $pages["lastPage"];
 
-        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
+        $items = $posts;
+        $items_to_display = 3;
+        $paginated_route = '/admin/posts';
+
+        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'items', 'paginated_route', 'items_to_display'));
     }
 
     public function paginate(Request $request, $id)
@@ -149,7 +186,11 @@ class AdminController extends Controller
         $nextNumberPage = $pages["nextPage"];
         $lastNumberPage = $pages["lastPage"];
 
-        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
+        $items = $posts;
+        $items_to_display = 3;
+        $paginated_route = '/admin/posts';
+
+        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'items', 'paginated_route', 'items_to_display'));
     }
 
     public function comments(Request $request)
