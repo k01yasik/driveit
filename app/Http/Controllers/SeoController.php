@@ -28,7 +28,9 @@ class SeoController extends Controller
 
         $allSeo = $this->seoService->getAllData();
 
-        return view('admin.seo', compact('user', 'seo', 'allSeo'));
+        $activeItem = $this->seoService->getRouteName($request);
+
+        return view('admin.seo', compact('user', 'seo', 'allSeo', 'activeItem'));
     }
 
     public function create(Request $request)

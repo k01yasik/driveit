@@ -71,9 +71,11 @@ class AdminController extends Controller
 
         $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
 
+        $activeItem = $this->seoService->getRouteName($request);
+
         return view('admin.index', compact('seo', 'user', 'posts', 'commentsVerified',
             'commentsNotVerified', 'commentsAll', 'datesQuery', 'usersQuery', 'sessionQuery', 'hitsQuery',
-            'countryQueryData', 'countryQueryLabels', 'cityQueryLabels', 'cityQueryData'));
+            'countryQueryData', 'countryQueryLabels', 'cityQueryLabels', 'cityQueryData', 'activeItem'));
     }
 
     public function users(Request $request)
@@ -84,7 +86,9 @@ class AdminController extends Controller
 
         $users = $this->userRepository->getAllUsers();
 
-        return view('admin.users', compact('seo', 'user', 'users'));
+        $activeItem = $this->seoService->getRouteName($request);
+
+        return view('admin.users', compact('seo', 'user', 'users', 'activeItem'));
     }
 
     public function verified(Request $request)
@@ -95,7 +99,9 @@ class AdminController extends Controller
 
         $users = $this->userRepository->getVerifiedUsers();
 
-        return view('admin.users', compact('seo', 'user', 'users'));
+        $activeItem = $this->seoService->getRouteName($request);
+
+        return view('admin.users', compact('seo', 'user', 'users', 'activeItem'));
     }
 
     public function unverified(Request $request)
@@ -106,7 +112,9 @@ class AdminController extends Controller
 
         $users = $this->userRepository->getUnverifiedUsers();
 
-        return view('admin.users', compact('seo', 'user', 'users'));
+        $activeItem = $this->seoService->getRouteName($request);
+
+        return view('admin.users', compact('seo', 'user', 'users', 'activeItem'));
     }
 
     public function banned(Request $request)
@@ -117,7 +125,9 @@ class AdminController extends Controller
 
         $users = $this->userRepository->getBannedUsers();
 
-        return view('admin.users', compact('seo', 'user', 'users'));
+        $activeItem = $this->seoService->getRouteName($request);
+
+        return view('admin.users', compact('seo', 'user', 'users', 'activeItem'));
     }
 
     public function show(Request $request, $username)
@@ -166,7 +176,10 @@ class AdminController extends Controller
         $items_to_display = 3;
         $paginated_route = '/admin/posts';
 
-        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'items', 'paginated_route', 'items_to_display'));
+        $activeItem = $this->seoService->getRouteName($request);
+
+        return view('admin.posts', compact('seo', 'user', 'posts', 'previousNumberPage',
+            'nextNumberPage', 'lastNumberPage', 'items', 'paginated_route', 'items_to_display', 'activeItem'));
     }
 
     public function paginate(Request $request, $id)
@@ -209,7 +222,15 @@ class AdminController extends Controller
         $nextNumberPage = $pages["nextPage"];
         $lastNumberPage = $pages["lastPage"];
 
-        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage', 'user', 'unpublish_comments_count'));
+        $items = $comments;
+        $items_to_display = 3;
+        $paginated_route = '/comments/page';
+
+        $activeItem = $this->seoService->getRouteName($request);
+
+        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage',
+            'nextNumberPage', 'lastNumberPage', 'user', 'unpublish_comments_count',
+        'items', 'items_to_display', 'paginated_route', 'activeItem'));
     }
 
     public function commentsPaginate(Request $request, $id)
@@ -228,7 +249,13 @@ class AdminController extends Controller
         $nextNumberPage = $pages["nextPage"];
         $lastNumberPage = $pages["lastPage"];
 
-        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage'));
+        $items = $comments;
+        $items_to_display = 3;
+        $paginated_route = '/comments/page';
+
+        return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage',
+            'items', 'items_to_display', 'paginated_route'
+        ));
     }
 
     public function unpublished(Request $request)

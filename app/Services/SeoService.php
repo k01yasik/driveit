@@ -18,7 +18,7 @@ class SeoService
 
     public function getSeoData(Request $request)
     {
-        $name = $request->route()->getName();
+        $name = $this->getRouteName($request);
 
         $seoData = $this->seoRepository->getSeoData($name);
 
@@ -38,5 +38,10 @@ class SeoService
     public function store(array $data): bool
     {
         return $this->seoRepository->store($data);
+    }
+
+    public function getRouteName(Request $request): string
+    {
+        return $request->route()->getName();
     }
 }
