@@ -2364,12 +2364,15 @@ main {
 
     &.active-item {
       margin-left: 0;
-      padding-left: 0;
     }
 
     &:hover {
       background: $gray-5;
     }
+  }
+
+  > .expanded-li {
+    padding-left: 0;
   }
 
   > .active-item {
@@ -2379,8 +2382,18 @@ main {
   }
 }
 
+.expanded-li {
+  .expanded-item {
+    padding-left: 1em;
+    margin-left: 4px;
+  }
+
+  .sub-level {
+    margin-left: 4px;
+  }
+}
+
 .sub-level {
-  margin-left: 4px;
   font-weight: normal;
 
   a {
@@ -2393,7 +2406,7 @@ main {
   }
 
   li {
-    padding-left: 2em;
+    padding-left: 1em;
     transition: all .5s ease-in-out;
     margin-bottom: 0;
 
@@ -2500,8 +2513,6 @@ main {
   display: flex;
   align-items: center;
   line-height: 2em;
-  padding-left: 1em;
-  margin-left: 4px;
 
   &:hover {
     background: $gray-5;

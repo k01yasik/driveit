@@ -25,7 +25,7 @@
                 </a>
             @endif
         </li>
-        <li class="@isset($activeItem){{ in_array($activeItem, ['admin.users', 'admin.verified', 'admin.unverified', 'admin.banned']) ? 'active-item' : '' }}@endisset">
+        <li class="expanded-li @isset($activeItem){{ in_array($activeItem, ['admin.users', 'admin.verified', 'admin.unverified', 'admin.banned']) ? 'active-item' : '' }}@endisset">
             <div class="expanded-item">
                 <span>{{ __('Users') }}</span>
                 <svg version="1.1" class="caret-down @isset($activeItem){{ in_array($activeItem, ['admin.users', 'admin.verified', 'admin.unverified', 'admin.banned']) ? 'rotate-svg' : '' }}@endisset" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

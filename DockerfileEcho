@@ -1,0 +1,15 @@
+FROM node:10-alpine
+
+COPY package*.json laravel-echo-server.json /app/
+
+WORKDIR /app
+
+RUN apk add --update \
+    nodejs \
+    npm
+
+RUN npm install
+
+EXPOSE 6001
+
+CMD ["npm", "run", "echo"]

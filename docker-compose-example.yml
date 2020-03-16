@@ -1,0 +1,191 @@
+version: '3.7'
+services:
+  
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - app-network
+
+  mail:
+    image: tvial/docker-mailserver:latest
+    hostname: mail
+    domainname: ******
+    container_name: mail
+    restart: unless-stopped
+    ports:
+      - "25:25"
+      - "465:465"
+      - "993:993"
+    volumes:
+      - maildata:/var/mail
+      - mailstate:/var/mail-state
+      - maillogs:/var/log/mail
+      - ./mail/:/tmp/docker-mailserver/
+      - ./data/certbot/conf:/etc/letsencrypt:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    environment:
+      - ENABLE_SPAMASSASSIN=1
+      - ENABLE_CLAMAV=0
+      - ENABLE_FAIL2BAN=1
+      - ENABLE_POSTGREY=1
+      - ENABLE_POP3=1
+      - DMS_DEBUG=0
+      - SSL_TYPE=letsencrypt
+      - SPOOF_PROTECTION=1
+      - PERMIT_DOCKER=connected-networks
+      - VIRUS_DELETE_DELAY=1
+      - POSTFIX_MESSAGE_SIZE_LIMIT=104857600
+      - POSTMASTER_ADDRESS=******
+      - ENABLE_FETCHMAIL=0
+    cap_add:
+      - NET_ADMIN
+      - SYS_PTRACE
+    networks:
+      - app-network
+
+  #Echo Srvice
+  echo:
+    build:
+      context: .
+      dockerfile: DockerfileEcho
+    container_name: echo
+    restart: unless-stopped
+    tty: true
+    working_dir: /app
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - app-network
+
+  #Fail2ban Service
+  fail2ban:
+    image: crazymax/fail2ban:latest
+    container_name: fail2ban
+    restart: unless-stopped
+    tty: true
+    environment:
+      - TZ=Europe/Moscow
+      - F2B_LOG_TARGET=STDOUT
+      - F2B_LOG_LEVEL=INFO
+      - F2B_DB_PURGE_AGE=1d
+      - F2B_IPTABLES_CHAIN=DOCKER-USER
+      - SSMTP_HOST=mail.*****
+      - SSMTP_PORT=465
+      - SSMTP_HOSTNAME=******
+      - SSMTP_USER=******
+      - SSMTP_PASSWORD=******
+      - SSMTP_TLS=YES
+    volumes:
+      - ./fail2ban:/data
+      - /var/log:/var/log:ro
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    networks:
+      - app-network
+
+  #Certbot Service
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  #MySQL Service
+  db:
+    image: 'bitnami/mariadb:latest'
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_DATABASE: ******
+      MARIADB_ROOT_PASSWORD: ******
+      MARIADB_USER: ******
+      MARIADB_PASSWORD: ******
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/bitnami/mariadb
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - app-network
+  
+  #Redis Service
+  redis:
+    image: 'bitnami/redis:latest'
+    container_name: redis
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: ******
+    volumes:
+      - ./redis/data:/bitnami/redis/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
+    external: true
+  maildata:
+    driver: local
+  mailstate:
+    driver: local
+  maillogs:
+    driver: local
