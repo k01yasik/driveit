@@ -2385,7 +2385,6 @@ main {
 .expanded-li {
   .expanded-item {
     padding-left: 1em;
-    margin-left: 4px;
   }
 
   .sub-level {
@@ -2406,7 +2405,7 @@ main {
   }
 
   li {
-    padding-left: 1em;
+    padding-left: calc(1rem - 4px);
     transition: all .5s ease-in-out;
     margin-bottom: 0;
 

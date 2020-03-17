@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Airlock\HasApiTokens;
 
 /**
  * App\User
@@ -23,8 +23,6 @@ use Laravel\Passport\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Album[] $albums
  * @property-read int|null $albums_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
- * @property-read int|null $clients_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Friend[] $friends
@@ -45,8 +43,6 @@ use Laravel\Passport\HasApiTokens;
  * @property-read \App\Rip $rip
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
- * @property-read int|null $tokens_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User permission($permissions)
@@ -66,7 +62,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasApiTokens, HasRoles;
+    use Notifiable, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -128,10 +124,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function messages()
     {
         return $this->hasMany('App\Message');
-    }
-
-    public function findForPassport($username)
-    {
-        return $this->where('username', $username)->first();
     }
 }

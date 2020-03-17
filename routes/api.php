@@ -14,5 +14,3 @@ use App\Post;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::get('/post2', 'ApiController@post2');

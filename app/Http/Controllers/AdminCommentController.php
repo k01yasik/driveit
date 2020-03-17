@@ -9,7 +9,6 @@ class AdminCommentController extends Controller
 {
     protected $commentRepository;
 
-
     public function __construct(CachedCommentRepository $commentRepository)
     {
         $this->commentRepository = $commentRepository;
