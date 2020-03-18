@@ -51,10 +51,8 @@
         @include('components.sitetop')
     </header>
     <div class="main">
-        <div class="container">
-            <div class="row">
-                @yield('content')
-            </div>
+        <div class="container">            
+            @yield('content')            
         </div>
     </div>
     <footer>

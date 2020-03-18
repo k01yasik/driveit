@@ -87,6 +87,8 @@ Route::post('/comment/store', 'CommentController@store')->name('comment.store');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
 
+    Route::post('/token/create', 'AdminAirlockController@create')->name('admin.token.create');
+
     Route::get('/', 'AdminController@index')->name('admin.index');
 
     Route::get('/users', 'AdminController@users')->name('admin.users');

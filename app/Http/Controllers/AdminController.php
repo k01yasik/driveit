@@ -137,8 +137,8 @@ class AdminController extends Controller
         $data = $this->userRepository->getUserByUsername($username);
 
         $seo = [
-            'title' => 'Информация о пользователе '.$user->username,
-            'description' => 'Информация о пользователе '.$user->username
+            'title' => 'Информация о пользователе '.$data->username,
+            'description' => 'Информация о пользователе '.$data->username
         ];
 
         return view('admin.user.show', compact('seo', 'user', 'data'));
@@ -151,8 +151,8 @@ class AdminController extends Controller
         $data = $this->userRepository->getUserByUsername($username);
 
         $seo = [
-            'title' => 'Удаление пользователя '.$user->username,
-            'description' => 'Удаление пользователя '.$user->username
+            'title' => 'Удаление пользователя '.$data->username,
+            'description' => 'Удаление пользователя '.$data->username
         ];
 
         return view('admin.user.delete', compact('seo', 'user', 'data'));

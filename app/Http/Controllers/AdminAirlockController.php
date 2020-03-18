@@ -20,6 +20,6 @@ class AdminAirlockController extends Controller
 
         $this->airlockService->createTokenForUser($user_id);
 
-        return redirect()->route('');
+        return redirect()->route('admin.users');
     }
 }
