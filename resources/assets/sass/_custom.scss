@@ -2422,6 +2422,13 @@ main {
   }
 }
 
+.test-airlock {
+  float: left;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2em;
+}
+
 .canvas-wrapper, .offline-mode {
   padding: 2em;
   background: $white;
