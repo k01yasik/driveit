@@ -23,5 +23,6 @@ require('./post-chart');
 require('./fullpage-image');
 require('./flash-messages');
 require('./click-menu');
+require('./test-airlock');
 
 import 'social-likes-next';

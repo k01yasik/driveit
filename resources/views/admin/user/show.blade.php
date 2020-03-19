@@ -41,11 +41,6 @@
                         @else
                             <div class="user-info-date-verified"><span>{{ __('Verified:') }}</span> {{ __('User not verified email') }}</div>
                         @endif
-                        <form method="POST" action="{{ route('admin.token.create')}}">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $data->id }}">
-                            <button type="submit" class="button info-button">{{ __('Create a token')}}</button>
-                        </form>
                         <div class="info-button-block flex flex-justify-space">
                             <a href="{{ route('admin.users') }}" class="button info-button">{{ __('Back') }}</a>
                             @if ($data->rip)
