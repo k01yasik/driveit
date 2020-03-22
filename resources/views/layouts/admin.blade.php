@@ -50,11 +50,11 @@
     <header>
         @include('components.sitetop')
     </header>
-    <div class="main">
-        <div class="container">            
+    <main class="main">
+        <div class="container-full">
             @yield('content')            
         </div>
-    </div>
+    </main>
     <footer>
         @include('components.footer')
     </footer>

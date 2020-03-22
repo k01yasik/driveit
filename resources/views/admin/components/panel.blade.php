@@ -12,7 +12,7 @@
         <li class="create-post-li @isset($activeItem){{ $activeItem == 'admin.posts' ? 'active-item' : '' }}@endisset">
             <a href="{{ route('admin.posts') }}">{{ __('Posts') }}</a>
             @if (!isset($create))
-                <a href="{{ route('admin.posts.create') }}" class="create-post">
+                <a href="{{ route('admin.posts.create') }}" data-tippy-content="Создать статью" class="create-post">
                     <svg version="1.1" class="create-post-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 533.333 533.333" style="enable-background:new 0 0 533.333 533.333;"
                     xml:space="preserve">
                         <g>

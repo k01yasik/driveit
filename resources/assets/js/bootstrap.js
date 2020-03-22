@@ -47,6 +47,17 @@ if (token) {
 import Echo from "laravel-echo";
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import tippy, {roundArrow} from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/dist/svg-arrow.css';
+import 'tippy.js/themes/material.css';
+
+tippy('[data-tipppy-content]', {
+    theme: 'material',
+    arrow: roundArrow,
+    duration: 500,
+    placement: 'right'
+});
 
 window.io = require('socket.io-client');
 window.smartcrop = require('smartcrop');

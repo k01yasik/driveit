@@ -883,9 +883,10 @@ footer {
   height: 3em;
   line-height: 3em;
   cursor: pointer;
-  display: inline-block;
+  display: block;
   margin-bottom: 1em;
   width: 70%;
+  max-width: 250px;
 
   &:hover {
     background: $primary-1;
@@ -1661,9 +1662,16 @@ input[type=checkbox], input[type=radio] {
 
 .user-profile-username {
   margin-top: 2em;
+  margin-bottom: 2em;
   text-transform: uppercase;
   text-align: center;
   font-weight: 700;
+}
+
+.avatar {
+  max-width: 200px;
+  max-height: 200px;
+  margin: 0 auto;
 }
 
 .friend-requests, .messages-count {
@@ -2335,14 +2343,16 @@ main {
 }
 
 .left-panel {
-  float: left;
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   background: $white;
   border-radius: 3px;
-  padding: 2em;
+  padding: 2em 0;
+  max-width: 340px;
 
   .panel-menu {
-    margin-top: 2em;
+    max-width: 300px;
+    margin: 0 auto;
   }
 }
 
@@ -2386,6 +2396,7 @@ main {
 
 .sub-level {
   font-weight: normal;
+  overflow: hidden;
 
   a {
     color: $gray-11;
@@ -2573,7 +2584,7 @@ main {
   border: 1px solid $gray-5;
   margin-bottom: 1em;
   border-radius: 3px;
-  padding: 0 2em;
+  padding: 0 1em;
   transition: all .5s ease-in-out;
 
   &:hover {

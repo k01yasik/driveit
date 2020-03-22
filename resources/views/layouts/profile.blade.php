@@ -53,7 +53,7 @@
     <div class="main">
         <div class="container">
             <div class="row">
-                <main class="col s12 m12 l12">
+                <main class="col s12">
                     @yield('content')
                 </main>
             </div>

@@ -26,6 +26,7 @@
         "normalize-scss": "^7.0.1",
         "smartcrop": "^2.0.3",
         "social-likes-next": "^1.1.0",
-        "socket.io-client": "^2.3.0"
+        "socket.io-client": "^2.3.0",
+        "tippy.js": "^6.1.0"
     }
 }

@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
+        <div class="col s12 m4 l3 sm-margin-bottom-2">
             @include('admin.components.panel')
         </div>
-        <div class="col s12 m12 l9">
+        <div class="col s12 m8 l9">
             <div class="right-panel">
                 <div class="canvas-wrapper">
                     <canvas id="postChart" class="post-chart"></canvas>
