@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\DraftService;
 use App\Http\Requests\DraftRequest;
 
 class DraftController extends Controller
@@ -23,9 +24,9 @@ class DraftController extends Controller
 
     public function store(DraftRequest $draftRequest)
     {
-        $data = $draftService.validated();
+        $data = $draftRequest.validated();
 
-
+        $this->draftService->store($data);
 
         return redirect()->route('draft.index');
     }

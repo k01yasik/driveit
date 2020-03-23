@@ -15,6 +15,6 @@ use App\Post;
 |
 */
 
-Route::middleware('auth:airlock')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json(Post::find(1));
 });

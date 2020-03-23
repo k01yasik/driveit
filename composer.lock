@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "171a33eac85bd35db99e3931860484e3",
+    "content-hash": "c7b88094f7a58d25818bd9646c5c6d4a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2079,67 +2079,6 @@
             "time": "2019-09-25T14:49:45+00:00"
         },
         {
-            "name": "laravel/airlock",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/airlock.git",
-                "reference": "9a66e767e203bbee83cd5fcda7ce265835468f84"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/airlock/zipball/9a66e767e203bbee83cd5fcda7ce265835468f84",
-                "reference": "9a66e767e203bbee83cd5fcda7ce265835468f84",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "illuminate/contracts": "^6.9|^7.0",
-                "illuminate/database": "^6.9|^7.0",
-                "illuminate/support": "^6.9|^7.0",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.0|^5.0",
-                "phpunit/phpunit": "^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Laravel\\Airlock\\AirlockServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laravel\\Airlock\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "Laravel Airlock provides a featherweight authentication system for SPAs and simple APIs.",
-            "keywords": [
-                "airlock",
-                "auth",
-                "laravel"
-            ],
-            "abandoned": "laravel/sanctum",
-            "time": "2020-03-12T13:34:05+00:00"
-        },
-        {
             "name": "laravel/framework",
             "version": "v7.2.2",
             "source": {
@@ -2342,6 +2281,66 @@
                 "laravel"
             ],
             "time": "2020-03-03T13:52:16+00:00"
+        },
+        {
+            "name": "laravel/sanctum",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sanctum.git",
+                "reference": "32d5d784da70d64f6ff13d7e57c6e5ca16cc7f67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/32d5d784da70d64f6ff13d7e57c6e5ca16cc7f67",
+                "reference": "32d5d784da70d64f6ff13d7e57c6e5ca16cc7f67",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/contracts": "^6.9|^7.0",
+                "illuminate/database": "^6.9|^7.0",
+                "illuminate/support": "^6.9|^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^4.0|^5.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Sanctum\\SanctumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Sanctum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel Sanctum provides a featherweight authentication system for SPAs and simple APIs.",
+            "keywords": [
+                "auth",
+                "laravel",
+                "sanctum"
+            ],
+            "time": "2020-03-20T19:43:39+00:00"
         },
         {
             "name": "laravel/scout",
@@ -3601,20 +3600,20 @@
         },
         {
             "name": "phpoption/phpoption",
-            "version": "1.7.2",
+            "version": "1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
-                "reference": "77f7c4d2e65413aff5b5a8cc8b3caf7a28d81959"
+                "reference": "4acfd6a4b33a509d8c88f50e5222f734b6aeebae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/77f7c4d2e65413aff5b5a8cc8b3caf7a28d81959",
-                "reference": "77f7c4d2e65413aff5b5a8cc8b3caf7a28d81959",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/4acfd6a4b33a509d8c88f50e5222f734b6aeebae",
+                "reference": "4acfd6a4b33a509d8c88f50e5222f734b6aeebae",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9 || ^7.0"
+                "php": "^5.5.9 || ^7.0 || ^8.0"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.3",
@@ -3652,20 +3651,20 @@
                 "php",
                 "type"
             ],
-            "time": "2019-12-15T19:35:24+00:00"
+            "time": "2020-03-21T18:07:53+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.25",
+            "version": "2.0.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0"
+                "reference": "09655fcc1f8bab65727be036b28f6f20311c126c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
-                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/09655fcc1f8bab65727be036b28f6f20311c126c",
+                "reference": "09655fcc1f8bab65727be036b28f6f20311c126c",
                 "shasum": ""
             },
             "require": {
@@ -3744,7 +3743,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2020-02-25T04:16:50+00:00"
+            "time": "2020-03-13T04:15:39+00:00"
         },
         {
             "name": "predis/predis",
@@ -7269,16 +7268,16 @@
         },
         {
             "name": "nunomaduro/larastan",
-            "version": "v0.5.2",
+            "version": "v0.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/larastan.git",
-                "reference": "a4cc1d5861123ea4c6b5c966a092063fb70a144b"
+                "reference": "d5ef8812cefb4ef951f18f27e70e5fd8a81cd2bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/a4cc1d5861123ea4c6b5c966a092063fb70a144b",
-                "reference": "a4cc1d5861123ea4c6b5c966a092063fb70a144b",
+                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/d5ef8812cefb4ef951f18f27e70e5fd8a81cd2bf",
+                "reference": "d5ef8812cefb4ef951f18f27e70e5fd8a81cd2bf",
                 "shasum": ""
             },
             "require": {
@@ -7337,7 +7336,7 @@
                 "php",
                 "static analysis"
             ],
-            "time": "2020-02-10T12:49:03+00:00"
+            "time": "2020-03-22T21:22:21+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -7657,16 +7656,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.17",
+            "version": "0.12.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b2c37bda79fdb11d801ce208ce391cffc0f572e6"
+                "reference": "1ce27fe29c8660a27926127d350d53d80c4d4286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b2c37bda79fdb11d801ce208ce391cffc0f572e6",
-                "reference": "b2c37bda79fdb11d801ce208ce391cffc0f572e6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1ce27fe29c8660a27926127d350d53d80c4d4286",
+                "reference": "1ce27fe29c8660a27926127d350d53d80c4d4286",
                 "shasum": ""
             },
             "require": {
@@ -7692,7 +7691,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2020-03-17T15:39:11+00:00"
+            "time": "2020-03-22T16:51:47+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

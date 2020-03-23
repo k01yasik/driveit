@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use Laravel\Airlock\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * App\User
@@ -59,6 +59,10 @@ use Laravel\Airlock\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUsername($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Draft[] $drafts
+ * @property-read int|null $drafts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
