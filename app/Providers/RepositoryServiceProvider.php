@@ -26,6 +26,7 @@ use App\Repositories\Interfaces\SeoRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\AlbumRepositoryInterface;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
+use App\Repositories\Interfaces\DraftRepositoryInterface;
 use App\Repositories\MessageRepository;
 use App\Repositories\NewsRepository;
 use App\Repositories\PostDashboardRepository;
@@ -37,6 +38,7 @@ use App\Repositories\SeoRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\AlbumRepository;
+use App\Repositories\DraftRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -116,6 +118,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             RipRepositoryInterface::class,
             RipRepository::class
+        );
+
+        $this->app->bind(
+            DraftRepositoryInterface::class,
+            DraftRepository::class
         );
     }
 
