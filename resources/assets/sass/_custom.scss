@@ -1700,6 +1700,67 @@ a {
   background: $white;
   border-radius: 3px;
   padding: 2em;
+  font-size: 18px;
+  line-height: 1.5em;
+
+  h1 {
+    font-size: 1.44444444em;
+    line-height: 1.03846154em;
+    margin-top: 1.03846154em;
+    margin-bottom: 2.07692308em;
+  }
+  h2 {
+    font-size: 1.27777778em;
+    line-height: 1.17391304em;
+    margin-top: 1.17391304em;
+    margin-bottom: 1.17391304em;
+  }
+  h3 {
+    font-size: 1.11111111em;
+    line-height: 1.35em;
+    margin-top: 1.35em;
+    margin-bottom: 0;
+  }
+  h4 {
+    font-size: 1em;
+    line-height: 1.5em;
+    margin-top: 1.5em;
+    margin-bottom: 0;
+  }
+  h5 {
+    font-size: 1em;
+    line-height: 1.5em;
+    margin-top: 1.5em;
+    margin-bottom: 0;
+  }
+  p, ul, ol, pre, table, blockquote {
+    margin-top: 0;
+    margin-bottom: 1.5em;
+  }
+  ul ul, ol ol, ul ol, ol ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* Let's make sure all's aligned */
+  hr, .hr {
+    border: 1px solid;
+    margin: -1px 0;
+  }
+  a, b, i, strong, em, small, code {
+    line-height: 0;
+  }
+  sub, sup {
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sup {
+    top: -0.5em;
+  }
+  sub {
+    bottom: -0.25em;
+  }
 }
 
 .album-breadcrumbs {
