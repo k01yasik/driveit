@@ -41,6 +41,7 @@
         </li>
         @if($currentUserProfile)
             <li><a href="{{ route('users', ['username' => $user->username]) }}">{{ __('Find friends') }}</a></li>
+            <li><a href="{{ route('draft.index', ['username' => $user->username]) }}">{{ __('Drafts') }}</a></li>            
             <li>
                 <a href="{{ route('user.messages', ['username' => $user->username]) }}">{{ __('Messages') }}</a>
                 <div class="messages-count right" style="display:none;">0</div>

@@ -63,6 +63,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::put('/{username}/albums/{albumname}', 'UserAlbumsController@update')->name('user.albums.update');
 
+        Route::get('/{username}/drafts', 'DraftController@index')->name('draft.index');
+
     });
 
 });
@@ -199,6 +201,6 @@ Route::get('sitemap.xml', 'SitemapController@index');
 
 Auth::routes(['verify' => true]);
 
-Route::fallback('PageController@notFound');
-
 //Broadcast::routes();
+
+Route::fallback('PageController@notFound');

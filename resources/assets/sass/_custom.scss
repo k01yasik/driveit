@@ -1630,6 +1630,8 @@ input[type=checkbox], input[type=radio] {
 .avatar-inner {
   overflow: hidden;
   margin: 0 auto;
+  width: 200px;
+  height: 200px;
 
   &:hover {
     .change-avatar {
