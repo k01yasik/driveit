@@ -24,7 +24,13 @@ class DraftRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'slug' => 'required|unique:posts|unique:drafts|max:191',
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'name' => 'nullable|string|max:255',
+            'caption' => 'nullable|string',
+            'body' => 'nullable|string',
+            'image' => 'nullable|string'
         ];
     }
 }

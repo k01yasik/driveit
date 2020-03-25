@@ -15,7 +15,7 @@ class CreateDraftsTable extends Migration
     {
         Schema::create('drafts', function (Blueprint $table) {
             $table->id();
-            $table->string('slug', 191)->unique();
+            $table->string('slug', 191)->unique()->index();
             $table->string('title', 255)->nullable();
             $table->text('description')->nullable();
             $table->string('name', 255)->nullable();
@@ -24,7 +24,7 @@ class CreateDraftsTable extends Migration
             $table->text('image_path')->nullable();
             $table->boolean('is_published')->default(false);
             $table->dateTime('date_published')->nullable();
-            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('user_id');
             $table->integer('views')->default(0);
             $table->timestamps();
 
