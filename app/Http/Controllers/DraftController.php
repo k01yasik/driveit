@@ -51,8 +51,12 @@ class DraftController extends Controller
     {
         $data = $draftRequest.validated();
 
-        $this->draftService->store($data);
+        $result = $this->draftService->store($data);
 
-        return redirect()->route('draft.index');
+        if ($result) {
+            return redirect()->route('draft.index');
+        }
+        
+        return redirect()->back();
     }
 }

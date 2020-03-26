@@ -6,7 +6,7 @@
             @include('components.profile')
         </div>
         <div class="col s12 m12 l9">
-            <div class="user-profile-content">
+            <div class="user-profile-content">   
                 <h1>Tortor dui sapien vel sollicitudin lacinia vestibulum arcu.</h1>
                 <p>
                     Tortor dui sapien vel sollicitudin lacinia vestibulum arcu. Eu aliquam, pellentesque commodo? Montes turpis fusce risus libero viverra netus facilisis neque sapien. Porta habitant imperdiet vitae penatibus. Eu placerat aliquet suscipit dictum natoque amet, gravida nec turpis litora. Justo aptent viverra eu tincidunt? Pharetra dictum fermentum sociosqu vivamus taciti turpis. Risus habitant rhoncus placerat dis tempor sodales metus natoque accumsan dictum? Tristique proin dui, euismod ultrices elit parturient leo posuere. Curabitur elit cum mollis ridiculus augue egestas nascetur phasellus est! Cursus platea, non magna! Purus pellentesque dapibus aliquet curabitur torquent! Volutpat dui.

@@ -52,7 +52,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/dist/svg-arrow.css';
 import 'tippy.js/themes/material.css';
 
-tippy('[data-tipppy-content]', {
+tippy('.tippy', {
     theme: 'material',
     arrow: roundArrow,
     duration: 500,

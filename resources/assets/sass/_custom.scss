@@ -4,10 +4,10 @@
 
 html {
   font-family: 'Roboto', sans-serif;
-  font-size: 16px;
   color: $gray-2;
-  line-height: 1.5;
   background: $gray-9;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 a {
@@ -1612,6 +1612,8 @@ input[type=checkbox], input[type=radio] {
   background: $white;
   border-radius: 3px;
   padding: 2em 0;
+  max-width: 250px;
+  margin: 0 auto;
 
   ul {
     margin-top: 2em;
@@ -1701,43 +1703,47 @@ a {
   border-radius: 3px;
   padding: 2em;
   font-size: calc(12px + .3125vw);
-  line-height: calc(12px + .78125vw);
-
+  line-height: calc(12px + .78125vw); 
+  
   h1 {
     font-size: calc(12px + .9190625vw);
     line-height: calc(12px + 1.227875vw);
     margin: calc(12px + 1.227875vw) 0;
   }
-
+  
   h2 {
     font-size: calc(12px + .8178125vw);
     line-height: calc(12px + 1.106375vw);
     margin: calc(12px + 1.106375vw) 0;
   }
-
+  
   h3 {
     font-size: calc(12px + .756875vw);
     line-height: calc(12px + 1.03325vw);
     margin: calc(12px + 1.03325vw) 0;
   }
-
+  
   h4 {
     font-size: calc(12px + .6509375vw);
     line-height: calc(12px + .906125vw);
     margin: calc(12px + .906125vw) 0;
   }
-
+  
   h5 {
     font-size: calc(12px + .5675vw);
     line-height: calc(12px + .806vw);
     margin: calc(12px + .806vw) 0;
   }
-
+  
   h6 {
     font-size: calc(12px + .516875vw);
     line-height: calc(12px + .74525vw);
     margin: calc(12px + .74525vw) 0;
   }
+}
+
+.profile-block {
+  background: $white;
 }
 
 .album-breadcrumbs {
