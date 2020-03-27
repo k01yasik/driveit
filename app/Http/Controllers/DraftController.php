@@ -59,4 +59,19 @@ class DraftController extends Controller
         
         return redirect()->back();
     }
+
+    public function show(Request $request, App\Draft $draft)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $user = $this->userRepository->getMessageUser($username);
+
+        $currentUserId = Auth::id();
+
+        $currentUserProfile = $user->id === $currentUserId;
+
+        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
+
+        return view('draft.show', compact('seo', 'draft', 'user', 'currentUserProfile', 'friendRequestCount'));
+    }
 }

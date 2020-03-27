@@ -65,6 +65,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::get('/{username}/drafts', 'DraftController@index')->name('draft.index');
 
+        Route::get('/{username}/drafts/{draft:slug}', 'DraftController@show')->name('draft.show');
+
     });
 
 });
