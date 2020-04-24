@@ -36,69 +36,38 @@ class UserPageController extends Controller
         $seo['title'] = $seo['title'].' '.$username;
         $seo['description'] = $seo['description'].' '.$username;
 
-        $user = $this->userRepository->getMessageUser($username);
-
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        return view('user.profile', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
+        return view('user.profile', compact('seo'));
     }
 
     public function requests(Request $request, $username) {
 
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getMessageUser($username);
+        $friendRequest = $this->friendRepository->getFriendsRequests(Auth::id());
 
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequest = $this->friendRepository->getFriendsRequests($currentUserId);
-
-        $friendRequestCount = $friendRequest->count();
-
-        return view('user.requests', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount', 'friendRequest'));
+        return view('user.requests', compact('seo', 'friendRequest'));
     }
 
-    public function settings(Request $request, $username) {
+    public function settings(Request $request, $username)
+    {
 
         $seo = $this->seoService->getSeoData($request);
 
         $seo['title'] = $seo['title'].' '.$username;
         $seo['description'] = $seo['description'].' '.$username;
 
-        $user = $this->userRepository->getMessageUser($username);
-
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        return view('user.settings', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
+        return view('user.settings', compact('seo'));
     }
 
     public function friends(Request $request, $username) {
         $seo = $this->seoService->getSeoData($request);
 
         $seo['title'] = $seo['title'].' '.$username;
-        $seo['description'] = $seo['description'].' '.$username;
+        $seo['description'] = $seo['description'].' '.$username;;
 
-        $user = $this->userRepository->getMessageUser($username);
+        $friendList = $this->friendRepository->getFriendsList(Auth::id());
 
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        $friendList = $this->friendRepository->getFriendsList($currentUserId);
-
-        return view('user.friends', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount', 'friendList'));
+        return view('user.friends', compact('seo', 'friendList'));
     }
 
     public function messages(Request $request, $username) {
@@ -107,17 +76,9 @@ class UserPageController extends Controller
         $seo['title'] = $seo['title'].' '.$username;
         $seo['description'] = $seo['description'].' '.$username;
 
-        $user = $this->userRepository->getMessageUser($username);
+        $friendList = $this->friendRepository->getFriendsList(Auth::id());
 
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        $friendList = $this->friendRepository->getFriendsList($currentUserId);
-
-        return view('user.messages', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount', 'friendList'));
+        return view('user.messages', compact('seo', 'friendList'));
     }
 
     public function update(Request $request) {
@@ -145,20 +106,12 @@ class UserPageController extends Controller
         $seo['title'] = $seo['title'].' '.$friend;
         $seo['description'] = $seo['description'].' '.$friend;
 
-        $user = $this->userRepository->getMessageUser($username);
-
         $friend = $this->userRepository->getMessageUser($friend);
-
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
 
         $type = 'post';
 
-        $messages = $this->messageRepository->getMessages($currentUserId, $friend->id);
+        $messages = $this->messageRepository->getMessages(Auth::id(), $friend->id);
 
-        return view('user.friendmessages', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount', 'friend', 'type', 'messages'));
+        return view('user.friendmessages', compact('seo', 'friend', 'type', 'messages'));
     }
 }

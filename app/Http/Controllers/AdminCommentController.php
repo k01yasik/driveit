@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\CachedCommentRepository;
+use App\Services\AdminCommentService;
 use Illuminate\Http\Request;
 
 class AdminCommentController extends Controller
 {
-    protected $commentRepository;
+    protected $commentService;
 
-    public function __construct(CachedCommentRepository $commentRepository)
+    public function __construct(AdminCommentService $commentService)
     {
-        $this->commentRepository = $commentRepository;
+        $this->commentService = $commentService;
     }
 
     public function edit($id)
@@ -23,6 +23,6 @@ class AdminCommentController extends Controller
     {
         $id = $request->id;
 
-        $this->commentRepository->publish($id);
+        $this->commentService->publish($id);
     }
 }

@@ -15,6 +15,7 @@ class DraftController extends Controller
     protected $draftService;
     protected $seoService;
     protected $userRepository;
+    protected $friendRepository;
 
     public function __construct(DraftService $draftService, 
                                 SeoService $seoService,
@@ -36,15 +37,7 @@ class DraftController extends Controller
         $seo['title'] = $seo['title'].' '.$username;
         $seo['description'] = $seo['description'].' '.$username;
 
-        $user = $this->userRepository->getMessageUser($username);
-
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        return view('draft.index', compact('drafts', 'seo', 'user', 'currentUserProfile', 'friendRequestCount'));
+        return view('draft.index', compact('drafts', 'seo'));
     }
 
     public function store(DraftRequest $draftRequest)
@@ -60,18 +53,10 @@ class DraftController extends Controller
         return redirect()->back();
     }
 
-    public function show(Request $request, App\Draft $draft)
+    public function show(Request $request, $username, App\Draft $draft)
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getMessageUser($username);
-
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        return view('draft.show', compact('seo', 'draft', 'user', 'currentUserProfile', 'friendRequestCount'));
+        return view('draft.show', compact('seo', 'draft'));
     }
 }

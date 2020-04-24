@@ -41,13 +41,7 @@ class PublicUsersController extends Controller
 
         $requestedFriends = $this->friendService->getRequestedFriends($currentUser->friends);
 
-        $user = $this->userRepository->getMessageUser($username);
-
-        $currentUserProfile = $user->id === $id;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($id);
-
-        return view('user.public', compact('seo', 'profiles', 'currentUser', 'confirmedFriends', 'requestedFriends', 'user', 'currentUserProfile', 'friendRequestCount'));
+        return view('user.public', compact('seo', 'profiles', 'currentUser', 'confirmedFriends', 'requestedFriends'));
     }
 
     public function store(ConfirmRequest $request)

@@ -67,6 +67,11 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::get('/{username}/drafts/{draft:slug}', 'DraftController@show')->name('draft.show');
 
+        Route::get('/{username}/drafts/{draft:slug}/edit', 'DraftController@edit')->name('draft.edit');
+
+        Route::put('/drafts/{draft:slug}', 'DraftController@update')->name('draft.update');
+
+        Route::delete('/drafts/{draft:slug}', 'DraftController@destroy')->name('draft.destroy');
     });
 
 });

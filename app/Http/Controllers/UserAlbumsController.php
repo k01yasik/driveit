@@ -42,29 +42,13 @@ class UserAlbumsController extends Controller
         $seo['title'] = $seo['title'].' '.$username;
         $seo['description'] = $seo['description'].' '.$username;
 
-        $user = $this->userRepository->getUserForAlbums($username);
-
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        return view('user.albums.index', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
+        return view('user.albums.index', compact('seo'));
     }
 
     public function create(Request $request, $username) {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getMessageUser($username);
-
-        $id = Auth::id();
-
-        $currentUserProfile = $user->id === $id;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($id);
-
-        return view('user.albums.create', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
+        return view('user.albums.create', compact('seo'));
     }
 
     public function show(Request $request, $username, $albumname) {
@@ -77,15 +61,7 @@ class UserAlbumsController extends Controller
         $seo['title'] = $seo['title'].' '.$album->name;
         $seo['description'] = $seo['description'].' '.$album->name;
 
-        $user = $this->userRepository->getUserForAlbums($username);
-
-        $id = Auth::id();
-
-        $currentUserProfile = $user->id === $id;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($id);
-
-        return view('user.albums.show', compact('seo', 'user', 'currentUserProfile', 'images', 'album', 'friendRequestCount'));
+        return view('user.albums.show', compact('seo',  'images', 'album'));
     }
 
     public function store(NewAlbumRequest $request, $username) {
@@ -103,17 +79,9 @@ class UserAlbumsController extends Controller
     public function edit(Request $request, $username, $albumname) {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getMessageUser($username);
-
         $album = $this->albumRepository->getUserAlbumByName($albumname);
 
-        $currentUserId = Auth::id();
-
-        $currentUserProfile = $user->id === $currentUserId;
-
-        $friendRequestCount = $this->friendRepository->getFriendsCount($currentUserId);
-
-        return view('user.albums.edit', compact('seo', 'user', 'currentUserProfile', 'album', 'friendRequestCount'));
+        return view('user.albums.edit', compact('seo', 'album'));
     }
 
     public function update(NewAlbumRequest $request, $username, $albumname) {
