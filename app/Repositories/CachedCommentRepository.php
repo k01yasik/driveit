@@ -11,6 +11,7 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
 final class CachedCommentRepository implements CommentRepositoryInterface
@@ -57,5 +58,10 @@ final class CachedCommentRepository implements CommentRepositoryInterface
     public function store(array $data): array
     {
         return $this->commentRepository->store($data);
+    }
+
+    public function getUnpublishedComments(): Collection
+    {
+        return $this->commentRepository->getUnpublishedComments();
     }
 }

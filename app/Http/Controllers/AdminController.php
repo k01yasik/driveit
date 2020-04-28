@@ -4,37 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Repositories\CachedCommentRepository;
 use App\Repositories\CachedPostDashboardRepository;
-use App\Repositories\CachedUserRepository;
 use App\Repositories\CachedPostRepository;
+use App\Services\CommentService;
 use App\Services\GoogleAnalyticsService;
 use App\Services\PaginatorService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
-use App\Comment;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     protected $seoService;
-    protected $userRepository;
+    protected $userService;
     protected $postDashboardRepository;
-    protected $commentRepository;
+    protected $commentService;
     protected $googleAnalyticsService;
     protected $postRepository;
     protected $paginatorService;
 
     public function __construct(SeoService $seoService,
-                                CachedUserRepository $userRepository,
+                                UserService $userService,
                                 CachedPostDashboardRepository $postDashboardRepository,
-                                CachedCommentRepository $commentRepository,
+                                CommentService $commentService,
                                 GoogleAnalyticsService $googleAnalyticsService,
                                 CachedPostRepository $postRepository,
                                 PaginatorService $paginatorService)
     {
         $this->seoService = $seoService;
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
         $this->postDashboardRepository = $postDashboardRepository;
-        $this->commentRepository = $commentRepository;
+        $this->commentService = $commentService;
         $this->googleAnalyticsService = $googleAnalyticsService;
         $this->postRepository = $postRepository;
         $this->paginatorService = $paginatorService;
@@ -46,9 +46,9 @@ class AdminController extends Controller
 
         $posts = $this->postDashboardRepository->getPostDashboard();
 
-        $commentsVerified = $this->commentRepository->getCommentsVerifiedCount();
+        $commentsVerified = $this->commentService->getCommentsVerifiedCount();
 
-        $commentsNotVerified = $this->commentRepository->getCommentsNotVerifiedCount();
+        $commentsNotVerified = $this->commentService->getCommentsNotVerifiedCount();
 
         $commentsAll = $commentsVerified + $commentsNotVerified;
 
@@ -69,7 +69,7 @@ class AdminController extends Controller
         $cityQueryLabels = $cityData[0];
         $cityQueryData = $cityData[1];
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         $activeItem = $this->seoService->getRouteName($request);
 
@@ -82,9 +82,9 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $users = $this->userRepository->getAllUsers();
+        $users = $this->userService->getAllUsers();
 
         $activeItem = $this->seoService->getRouteName($request);
 
@@ -95,9 +95,9 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $users = $this->userRepository->getVerifiedUsers();
+        $users = $this->userService->getVerifiedUsers();
 
         $activeItem = $this->seoService->getRouteName($request);
 
@@ -108,9 +108,9 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $users = $this->userRepository->getUnverifiedUsers();
+        $users = $this->userService->getUnverifiedUsers();
 
         $activeItem = $this->seoService->getRouteName($request);
 
@@ -121,9 +121,9 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $users = $this->userRepository->getBannedUsers();
+        $users = $this->userService->getBannedUsers();
 
         $activeItem = $this->seoService->getRouteName($request);
 
@@ -132,9 +132,9 @@ class AdminController extends Controller
 
     public function show(Request $request, $username)
     {
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $data = $this->userRepository->getUserByUsername($username);
+        $data = $this->userService->getUserByUsername($username);
 
         $seo = [
             'title' => 'Информация о пользователе '.$data->username,
@@ -146,9 +146,9 @@ class AdminController extends Controller
 
     public function delete(Request $request, $username)
     {
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $data = $this->userRepository->getUserByUsername($username);
+        $data = $this->userService->getUserByUsername($username);
 
         $seo = [
             'title' => 'Удаление пользователя '.$data->username,
@@ -162,7 +162,7 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         $posts = $this->postRepository->getPaginatedPostsOrderedById(true);
 
@@ -189,7 +189,7 @@ class AdminController extends Controller
             "description" => "Все статьи. Страница - ".$id.".",
         ];
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         $posts = $posts = $this->postRepository->getPaginatedPostsOrderedById(false, $id);
 
@@ -210,11 +210,11 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $comments = $this->commentRepository->getPaginatedComments(true);
+        $comments = $this->commentService->getPaginatedComments(true);
 
-        $unpublish_comments_count = $this->commentRepository->getCommentsNotVerifiedCount();
+        $unpublish_comments_count = $this->commentService->getCommentsNotVerifiedCount();
 
         $pages = $this->paginatorService->calculatePages($comments);
 
@@ -241,7 +241,7 @@ class AdminController extends Controller
             "description" => "Все комментарии. Страница - ".$id.".",
         ];
 
-        $comments = $this->commentRepository->getPaginatedComments(false, $id);
+        $comments = $this->commentService->getPaginatedComments(false, $id);
 
         $pages = $this->paginatorService->calculatePages($comments);
 
@@ -262,11 +262,11 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $comments = Comment::with(['user', 'user.profile'])->where('is_verified', 0)->orderByDesc('created_at')->get();
+        $comments = $this->commentService->getUnpublishedComments();
 
-        $unpublish_comments_count = $this->commentRepository->getCommentsNotVerifiedCount();
+        $unpublish_comments_count = $this->commentService->getCommentsNotVerifiedCount();
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         return view('admin.unpublished', compact('seo', 'comments', 'user', 'unpublish_comments_count'));
     }

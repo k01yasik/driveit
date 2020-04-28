@@ -26,7 +26,10 @@ class CommentObserver
      */
     public function updated(Comment $comment)
     {
-
+        Cache::forget('latest-posts');
+        Cache::forget('paginated-posts');
+        Cache::forget('comments_verified');
+        Cache::forget('comments_not_verified');
     }
 
     public function saved(Comment $comment)

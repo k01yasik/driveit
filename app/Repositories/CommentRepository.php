@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Comment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 
 class CommentRepository implements CommentRepositoryInterface
@@ -74,5 +75,10 @@ class CommentRepository implements CommentRepositoryInterface
             'created_at' => $comment->created_at,
             'message' => __('Comment was sent for moderation.'),
         ];
+    }
+
+    public function getUnpublishedComments(): Collection
+    {
+        return Comment::with(['user', 'user.profile'])->where('is_verified', 0)->orderByDesc('created_at')->get();
     }
 }

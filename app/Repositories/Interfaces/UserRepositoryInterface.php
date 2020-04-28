@@ -48,6 +48,11 @@ interface UserRepositoryInterface
     public function getAllPublicUsers(int $id): Collection;
 
     /**
+     * @return Collection
+     */
+    public function getAllUnbannedUsers(): Collection;
+
+    /**
      * @param int $id
      * @return Model
      */

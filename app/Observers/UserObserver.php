@@ -15,13 +15,22 @@ class UserObserver
      */
     public function created(User $user)
     {
+        Cache::forget('all-public-users');
         Cache::forget('all-users');
+        Cache::forget('unbanned-users');
+        Cache::forget('banned-users');
+        Cache::forget('verified-users');
+        Cache::forget('unverified-users');
     }
 
     public function saved(User $user)
     {
         Cache::forget('all-public-users');
         Cache::forget('all-users');
+        Cache::forget('unbanned-users');
+        Cache::forget('banned-users');
+        Cache::forget('verified-users');
+        Cache::forget('unverified-users');
     }
 
     /**

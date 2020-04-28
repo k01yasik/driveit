@@ -8,7 +8,6 @@ use App\User;
 use App\Profile;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -99,5 +98,21 @@ class UserRepository implements UserRepositoryInterface
     public function getUserForAlbums(string $username): Model
     {
         return User::with('profile', 'albums', 'albums.images')->where('username', $username)->firstOrFail();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllUnbannedUsers(): Collection
+    {
+        $rips_ids = [];
+
+        $rips = Rip::all();
+
+        foreach ($rips as $r) {
+            array_push($rips_ids, $r->user_id);
+        }
+
+        return User::with('profile')->whereNotIn('id', $rips_ids)->get();
     }
 }
