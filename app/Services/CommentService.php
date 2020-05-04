@@ -38,7 +38,7 @@ class CommentService
      * @param $element
      * @return array
      */
-    protected function addCommentToArray(array $comments, $element): array
+    protected function addComment(array $comments, $element): array
     {
         return $comments[] = $element;
     }
@@ -61,23 +61,23 @@ class CommentService
         $comments = $this->getCommentsByPost($id);
 
         foreach ($comments as $comment) {
-            $sortedComments = $this->addCommentToArray($sortedComments, $comment);
+            $sortedComments = $this->addComment($sortedComments, $comment);
 
             foreach ($comments as $comment_1) {
                 if ($this->isChild($comment, $comment_1, 1)) {
-                    $sortedComments = $this->addCommentToArray($sortedComments, $comment_1);
+                    $sortedComments = $this->addComment($sortedComments, $comment_1);
 
                     foreach ($comments as $comment_2) {
                         if ($this->isChild($comment_1, $comment_2, 2)) {
-                            $sortedComments = $this->addCommentToArray($sortedComments, $comment_2);
+                            $sortedComments = $this->addComment($sortedComments, $comment_2);
 
                             foreach ($comments as $comment_3) {
                                 if ($this->isChild($comment_2, $comment_3, 3)) {
-                                    $sortedComments = $this->addCommentToArray($sortedComments, $comment_3);
+                                    $sortedComments = $this->addComment($sortedComments, $comment_3);
 
                                     foreach ($comments as $comment_4) {
                                         if ($this->isChild($comment_3, $comment_4, 4)) {
-                                            $sortedComments = $this->addCommentToArray($sortedComments, $comment_4);
+                                            $sortedComments = $this->addComment($sortedComments, $comment_4);
                                         }
                                     }
                                 }
