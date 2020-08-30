@@ -16,6 +16,21 @@ class AdminCommentService
 
     public function publish($id): void
     {
-        $this->commentRepository->publish($id);
+        $comment = $this->commentRepository->getById($id);
+
+        $comment = $this->changeVerifyComment($comment);
+
+        $this->commentRepository->update($comment);
+    }
+
+    private function changeVerifyComment(array $comment)
+    {
+        if ($comment['is_verified']) {
+            $comment['is_verified'] = 0;
+        } else {
+            $comment['is_verified'] = 1;
+        }
+
+        return $comment;
     }
 }

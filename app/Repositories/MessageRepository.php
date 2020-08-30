@@ -4,29 +4,28 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\MessageRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use App\Message;
+use App\Entities\Message as MessageEntity;
 
 class MessageRepository implements MessageRepositoryInterface
 {
 
-    public function store(int $userId, int $friendId, string $message): Model
+    public function add(MessageEntity $messageEntity): void
     {
-        $messageEntry = new Message;
-        $messageEntry->user_id = $userId;
-        $messageEntry->text = $message;
-        $messageEntry->friend_id = $friendId;
-        $messageEntry->save();
-
-        return $messageEntry;
+        $message = new Message;
+        $message->user_id = $messageEntity->getUserId();
+        $message->text = $messageEntity->getMessageText();
+        $message->friend_id = $messageEntity->getFriendId();
+        $message->created_at = $messageEntity->getCreatedAt();
+        $message->save();
     }
 
-    public function getMessages(int $current_id, int $friend_id): Collection
+    public function getMessages(int $currentId, int $friendId): array
     {
         return Message::with(['user', 'user.profile', 'friend', 'friend.profile'])
-            ->where([['user_id', $current_id], ['friend_id', $friend_id]])
-            ->orWhere([['user_id', $friend_id], ['friend_id', $current_id]])
+            ->where([['user_id', $currentId], ['friend_id', $friendId]])
+            ->orWhere([['user_id', $friendId], ['friend_id', $currentId]])
             ->orderBy('created_at')
-            ->get();
+            ->get()->toArray();
     }
 }

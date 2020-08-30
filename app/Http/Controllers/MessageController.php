@@ -4,40 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageSaved;
 use App\Repositories\CachedUserRepository;
-use App\Repositories\Interfaces\MessageRepositoryInterface;
 use App\Http\Requests\MessageRequest;
+use App\Services\MessageService;
 
 class MessageController extends Controller
 {
-    protected $userRepository;
-    protected $messageRepository;
+    protected CachedUserRepository $userRepository;
+    protected MessageService $messageService;
 
-    public function __construct(CachedUserRepository $userRepository, MessageRepositoryInterface $messageRepository)
+    public function __construct(CachedUserRepository $userRepository, MessageService $messageService)
     {
         $this->userRepository = $userRepository;
-        $this->messageRepository = $messageRepository;
+        $this->messageService = $messageService;
     }
 
     public function store(MessageRequest $request) {
 
         $data = $request->validated();
 
-        $friend_id = $data['friend_id'];
-        $message = clean($data['message']);
+        $friendId = $data['friend_id'];
+        $messageText = clean($data['message']);
         $username = $data['username'];
 
         $user = $this->userRepository->getMessageUser($username);
 
-        $messageEntry = $this->messageRepository->store($user->id, $friend_id, $message);
+        $message = $this->messageService->create($user->id, $friendId, $messageText);
 
-        broadcast(new MessageSaved($messageEntry));
+        $this->messageService->add($message);
 
-        return [
+        broadcast(new MessageSaved($message));
+
+        return array(
             'username' => $username,
-            'url' => route('user.profile', ['username' => $username]),
+            'url' => route('user.profile', array('username' => $username)),
             'avatar' => $user->profile->avatar,
-            'time' => $messageEntry->created_at,
-            'text' => $messageEntry->text
-        ];
+            'time' => $message->getCreatedAt(),
+            'text' => $message->getMessageText()
+        );
     }
 }

@@ -8,14 +8,13 @@
 
 namespace App\Repositories;
 
-
 use App\Post;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Builder;
+use Illuminate\Database\Query\Builder;
 
 final class CachedPostRepository implements PostRepositoryInterface
 {
@@ -115,15 +114,9 @@ final class CachedPostRepository implements PostRepositoryInterface
         return $this->postRepository->getPaginatedPostsOrderedById($isStart, $id);
     }
 
-    /**
-     * @param Model $model
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
-    public function getPaginatedPostsByCategory(Model $model, bool $isStart, int $id = null): Paginator
+    public function getPaginatedPostsByCategory(array $comment): Builder
     {
-        return $this->postRepository->getPaginatedPostsByCategory($model, $isStart, $id);
+        return $this->postRepository->getPaginatedPostsByCategory($comment);
     }
 
 

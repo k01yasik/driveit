@@ -8,18 +8,18 @@ $().ready(function () {
                 let dataElement = $('.profile-block-content');
                 let friend_id = dataElement.data('friend');
 
-                if (friend_id === e.user_from.id) {
+                if (friend_id === e.userFrom.id) {
                     dataElement.append('<div class="message-wrapper">' +
                         '<div class="message-header">' +
-                        '<a href="'+ e.url +'" class="message-header-link"><img src="'+ e.user_from.profile.avatar +'" class="message-header-avatar"></a>' +
+                        '<a href="'+ e.url +'" class="message-header-link"><img src="'+ e.userFrom.profile.avatar +'" class="message-header-avatar"></a>' +
                         '</div>' +
                         '<div class="message-body">' +
                         '<div class="message-body-header">' +
-                        '<a href="'+ e.url +'" class="message-header-name">'+ e.user_from.username +'</a>' +
-                        '<div class="message-body-header-time">'+ e.message.created_at +'</div>' +
+                        '<a href="'+ e.url +'" class="message-header-name">'+ e.userFrom.username +'</a>' +
+                        '<div class="message-body-header-time">'+ e.createdAt +'</div>' +
                         '</div>' +
                         '<div class="message-body-content">' +
-                        e.message.text +
+                        e.text +
                         '</div>' +
                         '</div>' +
                         '</div>');

@@ -2,11 +2,9 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Model as Model;
-
 interface AlbumRepositoryInterface
 {
-    public function getUserAlbumByName(string $albumName): Model;
+    public function getUserAlbumByName(string $albumName, int $id): array;
 
-    public function store($album_name): void;
+    public function save($album_name, int $id): void;
 }

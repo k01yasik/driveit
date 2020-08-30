@@ -9,6 +9,7 @@ use App\Services\SeoService;
 use App\Repositories\CachedUserRepository;
 use App\Repositories\Interfaces\FriendRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Dto\Draft;
 
 class DraftController extends Controller
 {
@@ -30,7 +31,7 @@ class DraftController extends Controller
 
     public function index(Request $request, $username)
     {
-        $drafts = $this->draftService->getUserDrafts();
+        $drafts = $this->draftService->getUserDrafts(Auth::id());
 
         $seo = $this->seoService->getSeoData($request);
 
@@ -44,7 +45,16 @@ class DraftController extends Controller
     {
         $data = $draftRequest.validated();
 
-        $result = $this->draftService->store($data);
+        $draft = new Draft();
+        $draft->slug = $data["slug"];
+        $draft->title = $data["title"];
+        $draft->description = $data["description"];
+        $draft->name = $data["name"];
+        $draft->caption = $data["caption"];
+        $draft->body = $data["body"];
+        $draft->image = $data["image"];
+
+        $result = $this->draftService->save($draft);
 
         if ($result) {
             return redirect()->route('draft.index');

@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Category;
 use App\Post;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use Illuminate\Database\Eloquent\Model as Model;
 
 class CategoryService
 {
@@ -16,14 +15,14 @@ class CategoryService
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function getParentCategoryId(Category $category): ?int
+    public function getParentCategoryId(array $category): ?int
     {
-        if ($category->parent_id) return $category->parent_id;
+        if ($category['parent_id']) return $category['parent_id'];
 
         return null;
     }
 
-    public function getPostAllCategoriesId(Category $category): array
+    public function getPostAllCategoriesId(array $category): array
     {
         $postCategoriesId = [];
 
@@ -31,11 +30,15 @@ class CategoryService
 
         if (!is_null($parentId)) array_push($postCategoriesId, $parentId);
 
-        array_push($postCategoriesId, $category->id);
+        array_push($postCategoriesId, $category['id']);
 
         return $postCategoriesId;
     }
 
+    public function getCategoryByName(string $name): array
+    {
+        return $this->categoryRepository->getCategoryByName($name);
+    }
 
     public function getPostCategoriesIdByPost(Post $post): array
     {
@@ -48,7 +51,7 @@ class CategoryService
         return $categoryArray;
     }
 
-    public function getCategoryNameWithParentName(Model $category): array
+    public function getCategoryNameWithParentName(array $category): array
     {
         $categories = [];
 
@@ -56,11 +59,16 @@ class CategoryService
 
         if (!is_null($parentId)) {
             $mainCategory = $this->categoryRepository->getPostCategory($parentId);
-            array_push($categories, ['name' => $mainCategory->name, 'displayname' => $mainCategory->displayname]);
+            $categories[] = $this->makeCategoryResponse($mainCategory);
         }
 
-        array_push($categories, ['name' => $category->name, 'displayname' => $category->displayname]);
+        $categories[] = $this->makeCategoryResponse($category);
 
         return $categories;
+    }
+
+    protected function makeCategoryResponse(array $category)
+    {
+        return ['name' => $category['name'], 'displayname' => $category['displayname']];
     }
 }

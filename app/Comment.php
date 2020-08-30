@@ -52,14 +52,4 @@ class Comment extends Model
 
         return $date->diffForHumans(null,  false, false, 1);
     }
-
-    public function scopeVerified($query)
-    {
-        return $query->where('is_verified', true);
-    }
-
-    public function scopeNotVerified($query)
-    {
-        return $query->where('is_verified', false);
-    }
 }

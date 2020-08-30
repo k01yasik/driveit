@@ -43,7 +43,7 @@
                             @if ($image->url_thumbnail)
                                 @if ($currentUserProfile)
                                     <div class="image-block-top">
-                                        <div class="image-block-top-button" data-id="{{ $image->id }}" data-username="{{ $user->username }}" data-album="{{ $album->id }}">
+                                        <div class="image-block-top-button" data-id="{{ $image->id }}" data-path="{{ $image->path }}" data-thumbnail="{{ $image->path_thumbnail }}" data-username="{{ $user->username }}" data-album="{{ $album->id }}">
                                             <svg version="1.1" class="image-block-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
                                             xml:space="preserve">
                                                 <g>
@@ -74,7 +74,7 @@
                             @else
                                 @if($currentUserProfile)
                                     <div class="image-block-top">
-                                        <div class="image-block-top-button" data-id="{{ $image->id }}" data-username="{{ $user->username }}"  data-album="{{ $album->id }}">
+                                        <div class="image-block-top-button" data-id="{{ $image->id }}" data-path="{{ $image->path }}" data-thumbnail="{{ $image->path_thumbnail }}" data-username="{{ $user->username }}"  data-album="{{ $album->id }}">
                                             <svg version="1.1" class="image-block-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
                                                  xml:space="preserve">
                                                 <g>

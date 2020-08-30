@@ -3,25 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FavoriteRequest;
-use App\Repositories\Interfaces\FavoriteRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use App\Favorite;
+use App\Services\FavoriteService;
 
 class FavoriteController extends Controller
 {
-    protected $favoriteRepository;
 
-    public function __construct(FavoriteRepositoryInterface $favoriteRepository)
+    /**
+     * @var FavoriteService
+     */
+    private $favoriteService;
+
+    public function __construct(FavoriteService $favoriteService)
     {
-        $this->favoriteRepository = $favoriteRepository;
+        $this->favoriteService = $favoriteService;
     }
 
-    public function vote(FavoriteRequest $request) {
-        $data = $request->validated();
+    public function vote(FavoriteRequest $request)
+    {
+        $imageId = $request->validated()['id'];
 
-        $imageId = $data['id'];
+        $userId = Auth::id();
 
-        return $this->favoriteRepository->vote($imageId);
+        $this->favoriteService->vote($userId, $imageId);
+
+        return $this->favoriteService->getFavCountForImage($imageId);
+    }
+
+    public function unvote(FavoriteService $request)
+    {
+        $imageId = $request->validated()['id'];
+
+        $userId = Auth::id();
+
+        $this->favoriteService->removeVote($userId, $imageId);
+
+        return $this->favoriteService->getFavCountForImage($imageId);
     }
 }

@@ -8,31 +8,66 @@
 
 namespace App\Services;
 
+use App\Repositories\Interfaces\FriendRepositoryInterface;
 
 class FriendService
 {
+    private $friendRepository;
+
+    public function __construct(FriendRepositoryInterface $friendRepository)
+    {
+        $this->friendRepository = $friendRepository;
+    }
+
     public function getConfirmedFriends($friends)
     {
-        $friendsArray = [];
+        $friendsId = [];
 
         foreach ($friends as $friend) {
             if ($friend->confirmed) {
-                array_push($friendsArray, $friend->friend_id);
+                array_push($friendsId, $friend->friend_id);
             }
         }
 
-        return $friendsArray;
+        return $friendsId;
     }
 
     public function getRequestedFriends($friends)
     {
-        $friendsArray = [];
+        $friendsId = [];
 
         foreach ($friends as $friend)
         {
-            array_push($friendsArray, $friend->friend_id);
+            array_push($friendsId, $friend->friend_id);
         }
 
-        return $friendsArray;
+        return $friendsId;
+    }
+
+    public function getFriendsCount(int $id): int
+    {
+        return $this->friendRepository->getFriendsCount($id);
+    }
+
+    public function addFriend(int $authUserId, int $friend): void
+    {
+        $this->friendRepository->add($authUserId, $friend, true);
+        $this->friendRepository->add($friend, $authUserId, false);
+    }
+
+    public function getFriendsRequests(int $friendId): array
+    {
+        return $this->friendRepository->getFriendsRequests($friendId);
+    }
+
+    public function getFriendsList(int $friendId): array
+    {
+        return $this->friendRepository->getFriendsList($friendId);
+    }
+
+    public function confirmUsers(int $id, int $currentUserId): void
+    {
+        $this->friendRepository->confirmUsers($id, $currentUserId);
+        $this->friendRepository->confirmUsers($currentUserId, $id);
     }
 }

@@ -8,32 +8,32 @@ use App\Favorite;
 
 class FavoriteRepository implements FavoriteRepositoryInterface
 {
-
-    public function vote(int $imageId): int
-    {
-        $userId = Auth::id();
-
-        $favorite = Favorite::where([['user_id', $userId], ['image_id', $imageId]])->first();
-
-
-        if ($favorite) {
-            try {
-                $favorite->delete();
-            } catch (\Exception $e) {
-
-            }
-        } else {
-            $favorite_new = new Favorite;
-            $favorite_new->user_id = $userId;
-            $favorite_new->image_id = $imageId;
-            $favorite_new->save();
-        }
-
-        return Favorite::where('image_id', $imageId)->get()->count();
-    }
-
     public function delete(int $imageId): void
     {
-        Favorite::where('image_id', $imageId)->delete();
+        try {
+            Favorite::where('image_id', $imageId)->delete();
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function getFavCountForImage(int $imageId): int
+    {
+        return Favorite::where('image_id', $imageId)->count();
+    }
+
+    public function removeVote(int $userId, int $imageId): void
+    {
+        try {
+            Favorite::where([['user_id', $userId], ['image_id', $imageId]])->first()->delete();
+        } catch (\Exception $e) {
+        }
+    }
+
+    public function add(int $userId, int $imageId): void
+    {
+        $favorite = new Favorite;
+        $favorite->user_id = $userId;
+        $favorite->image_id = $imageId;
+        $favorite->save();
     }
 }

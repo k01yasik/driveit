@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Album;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
-use App\User;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use App\Image;
 
 class ImageRepository implements ImageRepositoryInterface
@@ -17,10 +17,10 @@ class ImageRepository implements ImageRepositoryInterface
      * @param string $imageName
      * @param string $pathThumbnail
      * @param string $urlThumbnail
-     * @param Model $model
-     * @return int
+     * @param int $albumId
+     * @return void
      */
-    public function store(string $url, string $path, string $imageName, string $pathThumbnail, string $urlThumbnail, Model $model): int
+    public function add(string $url, string $path, string $imageName, string $pathThumbnail, string $urlThumbnail, int $albumId): void
     {
         $imageTable = new Image;
         $imageTable->url = $url;
@@ -28,36 +28,39 @@ class ImageRepository implements ImageRepositoryInterface
         $imageTable->name = $imageName;
         $imageTable->path_thumbnail = $pathThumbnail;
         $imageTable->url_thumbnail = $urlThumbnail;
-        $imageTable->album()->associate($model);
+        $imageTable->album_id = $albumId;
         $imageTable->save();
+    }
 
-        return $imageTable->id;
+    public function getByPath(string $path): array
+    {
+        return Image::where('path', $path)->first()->toArray();
     }
 
     /**
-     * @param User $user
+     * @param int $userId
      * @param int $albumId
      * @param int $imageId
-     * @return Model
+     * @throws Exception
      */
-    public function getUserImage(User $user, int $albumId, int $imageId): Model
+    public function deleteImage(int $userId, int $albumId, int $imageId): void
     {
-        return $user->albums()->where('id', $albumId)->firstOrFail()->images()->where('id', $imageId)->firstOrFail();
+        Album::where([['id', $albumId], ['user_id', $userId]])->images()->where('id', $imageId)->first()->delete();
     }
 
     /**
-     * @param User $user
+     * @param int $userId
      * @param string $albumName
-     * @param string $imageUrl
-     * @return Model
+     * @param string $url
+     * @throws Exception
      */
-    public function getPostImage(User $user, string $albumName, string $imageUrl): Model
+    public function deletePostImageByUrl(int $userId, string $albumName, string $url): void
     {
-        return $user->albums()->where('name', $albumName)->firstOrFail()->images()->where('url', $imageUrl)->firstOrFail();
+        Album::where([['user_id', $userId], ['name', $albumName]])->images()->where('url', $url)->first()->delete();
     }
 
-    public function getAllAlbumImages(int $album_id): Collection
+    public function getAllAlbumImages(int $albumId): array
     {
-        return Image::with('favorites')->where('album_id', $album_id)->orderByDesc('created_at')->get();
+        return Image::with('favorites')->where('album_id', $albumId)->orderByDesc('created_at')->get()->toArray();
     }
 }

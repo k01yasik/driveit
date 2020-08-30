@@ -7,23 +7,19 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface CommentRepositoryInterface
 {
-    /**
-     * @param int $id
-     */
-    public function publish(int $id): void;
+    public function getById(int $id): array;
 
-    public function store(array $data): array;
+    public function update(array $comment): bool;
+
+    public function save(array $comment): array;
 
     public function getCommentsVerifiedCount(): int;
 
     public function getCommentsNotVerifiedCount(): int;
 
-    /**
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
+    public function getCommentsByPost(int $id): array;
+
     public function getPaginatedComments(bool $isStart, int $id = null): Paginator;
 
-    public function getUnpublishedComments(): Collection;
+    public function getUnpublishedComments(): array;
 }

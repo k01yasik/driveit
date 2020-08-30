@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Favorite;
 use App\Http\Requests\BodyImageUpload;
 use App\Http\Requests\PostImageUpload;
 use App\Repositories\Interfaces\AlbumRepositoryInterface;
-use App\Repositories\Interfaces\FavoriteRepositoryInterface;
-use App\Repositories\Interfaces\ImageRepositoryInterface;
 use App\Repositories\Interfaces\ProfileRepositoryInterface;
+use App\Services\FavoriteService;
 use App\Services\ImageService;
 use App\Services\StorageService;
 use App\Services\UploadImageService;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\AvatarImage;
@@ -26,27 +23,24 @@ class ImageUploadController extends Controller
     protected $storageService;
     protected $profileRepository;
     protected $albumRepository;
-    protected $imageRepository;
     protected $pathService;
-    protected $favoriteRepository;
+    protected $favoriteService;
 
     public function __construct(UploadImageService $uploadImageService,
                                 ImageService $imageService,
                                 StorageService $storageService,
                                 ProfileRepositoryInterface $profileRepository,
                                 AlbumRepositoryInterface $albumRepository,
-                                ImageRepositoryInterface $imageRepository,
                                 PathService $pathService,
-                                FavoriteRepositoryInterface $favoriteRepository)
+                                FavoriteService $favoriteService)
     {
         $this->uploadImageService = $uploadImageService;
         $this->imageService = $imageService;
         $this->storageService = $storageService;
         $this->profileRepository = $profileRepository;
         $this->albumRepository = $albumRepository;
-        $this->imageRepository = $imageRepository;
         $this->pathService = $pathService;
-        $this->favoriteRepository = $favoriteRepository;
+        $this->favoriteService = $favoriteService;
     }
 
     public function index(PostImageUpload $request) {
@@ -58,8 +52,10 @@ class ImageUploadController extends Controller
 
         $this->uploadImageService->saveToImageTable($image_item);
 
-        return $image_item['url'];
-
+        return [
+            'url' => $image_item['url'],
+            'path' => $image_item['path']
+        ];
     }
 
     public function upload(BodyImageUpload $request) {
@@ -114,8 +110,9 @@ class ImageUploadController extends Controller
         $images = $request->images_upload;
         $albumName = $request->album_name;
 
-        $album = $this->albumRepository->getUserAlbumByName($albumName);
-        $albumPath = $album->path;
+        $album = $this->albumRepository->getUserAlbumByName($albumName, Auth::id());
+        $albumPath = $album['path'];
+        $albumId = $album['id'];
         $result = [];
 
         foreach ($images as $image) {
@@ -134,9 +131,9 @@ class ImageUploadController extends Controller
 
             $urlThumbnail = $this->storageService->getImageUrl($pathThumbnail);
 
-            $imageId = $this->imageRepository->store($url, $path, $imageName, $pathThumbnail, $urlThumbnail, $album);
+            $imageId = $this->imageService->add($url, $path, $imageName, $pathThumbnail, $urlThumbnail, $albumId);
 
-            array_push($result, [$imageName, $urlThumbnail, $imageId, $username, $album->id]);
+            array_push($result, [$imageName, $urlThumbnail, $imageId, $username, $albumId]);
         }
 
         return $result;
@@ -144,24 +141,21 @@ class ImageUploadController extends Controller
 
     public function delete(Request $request) {
 
-        $user = Auth::user();
+        $userId = Auth::id();
         $imageId = $request->query('id');
         $albumId = $request->query('album');
+        $imagePath = $request->query('path');
+        $thumbnail = $request->query('thumbnail');
 
-        $image = $this->imageRepository->getUserImage($user, $albumId, $imageId);
+        $this->imageService->deleteImage($userId, $albumId, $imageId);
 
-        $this->storageService->deleteImage($image->path);
+        $this->storageService->deleteImage($imagePath);
 
-        if ($image->path_thumbnail) {
-            $this->storageService->deleteImage($image->path_thumbnail);
+        if ($thumbnail) {
+            $this->storageService->deleteImage($thumbnail);
         }
 
-        try {
-            $image->delete();
-        } catch (\Exception $e) {
-        }
-
-        $this->favoriteRepository->delete($imageId);
+        $this->favoriteService->delete($imageId);
 
         return response('ok', 200);
     }
@@ -169,13 +163,12 @@ class ImageUploadController extends Controller
     public function destroy(Request $request) {
 
         $url = $request->query('url');
-        $user = Auth::user();
+        $path = $request->query('path');
+        $userId = Auth::id();
 
-        $image = $this->imageRepository->getPostImage($user, 'posts', $url);
+        $this->imageService->deletePostImageByUrl($userId, 'posts', $url);
 
-        if ($image) {
-            $this->storageService->deleteImage($image->path);
-        }
+        $this->storageService->deleteImage($path);
 
         return response('ok', 200);
     }

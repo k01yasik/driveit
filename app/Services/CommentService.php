@@ -6,6 +6,7 @@ use App\Comment;
 use App\Repositories\CachedCommentRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class CommentService
@@ -21,16 +22,9 @@ class CommentService
         $this->commentRepository = $commentRepository;
     }
 
-    /**
-     * @param int $id
-     * @return Collection
-     */
-    protected function getCommentsByPost(int $id): Collection
+    protected function getCommentsByPost(int $id): array
     {
-        return Comment::with(['user', 'user.profile'])
-            ->where('post_id', $id)
-            ->orderBy('created_at')
-            ->get();
+        return $this->commentRepository->getCommentsByPost($id);
     }
 
     /**
@@ -40,7 +34,9 @@ class CommentService
      */
     protected function addComment(array $comments, $element): array
     {
-        return $comments[] = $element;
+        array_push($comments, $element);
+
+        return $comments;
     }
 
     /**
@@ -109,5 +105,33 @@ class CommentService
     public function getPaginatedComments(bool $isStart, int $id = null): Paginator
     {
         return $this->commentRepository->getPaginatedComments($isStart, $id);
+    }
+
+    public function store(array $data): array
+    {
+        $user = Auth::user();
+
+        $comment['user_id'] = $user->id;
+        $comment['post_id'] = $data['post'];
+        $comment['message'] = clean($data['message']);
+        $comment['is_verified'] = 0;
+        $comment['level'] = $data['level'];
+
+        if ($data['parent'] > 0) {
+            $comment['parent_id']= $data['parent'];
+        }
+
+        if ($savedComment = $this->commentRepository->save($comment)) {
+            return [
+                'level' => $savedComment['level'],
+                'username' => $user->username,
+                'avatar' => $user->profile()->first()->avatar,
+                'url' => route('user.profile', ['username' => $user->username]),
+                'created_at' => $savedComment['created_at'],
+                'message' => __('Comment was sent for moderation.'),
+            ];
+        };
+
+        return [];
     }
 }

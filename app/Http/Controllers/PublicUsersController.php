@@ -17,14 +17,12 @@ class PublicUsersController extends Controller
     protected $seoService;
     protected $friendService;
     protected $userRepository;
-    protected $friendRepository;
 
-    public function __construct(SeoService $seoService, FriendService $friendService, CachedUserRepository $userRepository, FriendRepositoryInterface $friendRepository)
+    public function __construct(SeoService $seoService, FriendService $friendService, CachedUserRepository $userRepository)
     {
         $this->seoService = $seoService;
         $this->friendService = $friendService;
         $this->userRepository = $userRepository;
-        $this->friendRepository = $friendRepository;
     }
 
     public function index(Request $request, $username) {
@@ -46,13 +44,13 @@ class PublicUsersController extends Controller
 
     public function store(ConfirmRequest $request)
     {
-        $data = $request->validated();
+        $friend = $request->validated()['friend'];
 
-        $id = Auth::id();
+        $authUserId = Auth::id();
 
-        $this->friendRepository->store($id, $data['friend']);
+        $this->friendService->addFriend($authUserId, $friend);
 
-        broadcast(new FriendRequest(Auth::user(), User::find($data['friend'])));
+        broadcast(new FriendRequest(Auth::user(), User::find($friend)));
 
         return response('ok', 200);
     }

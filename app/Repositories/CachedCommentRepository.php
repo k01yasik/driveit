@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bzdykin
- * Date: 13.11.2019
- * Time: 21:13
- */
 
 namespace App\Repositories;
 
@@ -23,12 +17,30 @@ final class CachedCommentRepository implements CommentRepositoryInterface
         $this->commentRepository = $commentRepository;
     }
 
+    public function update(array $comment): bool
+    {
+        return $this->commentRepository->update($comment);
+    }
+
+    public function save(array $comment): array
+    {
+        return $this->commentRepository->save($comment);
+    }
+
+    public function getCommentsByPost(int $id): array
+    {
+        return $this->commentRepository->getCommentsByPost($id);
+    }
+
     /**
      * @param int $id
+     * @return array
      */
-    public function publish(int $id): void
+    public function getById(int $id): array
     {
-        $this->commentRepository->publish($id);
+        return Cache::rememberForever('comment_'.$id, function () use ($id) {
+            return $this->commentRepository->getById($id);
+        });
     }
 
     public function getCommentsVerifiedCount(): int
@@ -55,12 +67,7 @@ final class CachedCommentRepository implements CommentRepositoryInterface
         return $this->commentRepository->getPaginatedComments($isStart, $id);
     }
 
-    public function store(array $data): array
-    {
-        return $this->commentRepository->store($data);
-    }
-
-    public function getUnpublishedComments(): Collection
+    public function getUnpublishedComments(): array
     {
         return $this->commentRepository->getUnpublishedComments();
     }

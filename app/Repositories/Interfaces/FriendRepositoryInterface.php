@@ -13,14 +13,15 @@ interface FriendRepositoryInterface
     public function getFriendsCount(int $id): int;
 
     /**
-     * @param int $authUser
-     * @param string $friend
+     * @param int $authUserId
+     * @param int $friend
+     * @param bool $owner
      */
-    public function store(int $authUser, int $friend): void;
+    public function add(int $authUserId, int $friend, bool $owner): void;
 
-    public function getFriendsRequests(int $friend_id): Collection;
+    public function getFriendsRequests(int $friendId): array;
 
-    public function getFriendsList(int $friend_id): Collection;
+    public function getFriendsList(int $friendId): array;
 
-    public function confirmUsers(int $id, int $current_id): void;
+    public function confirmUsers(int $id, int $currentUserId): void;
 }

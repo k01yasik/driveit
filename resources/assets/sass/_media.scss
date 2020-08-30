@@ -55,53 +55,13 @@
     display: block;
     margin: 0 auto;
   }
-}
 
-@media only screen and (min-width: 601px) and (max-width: 992px) {
-  .row {
-    .col {
-      &.col-last-m {
-        margin-right: 0;
-      }
-    }
-  }
-
-  aside {
-    margin-top: 2em;
-  }
-
-  .login-wrapper {
-    width: 80%;
-  }
-
-  .user-profile {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .avatar {
-    max-width: 130px;
-    max-height: 130px;
-  }
-
-  .avatar-inner {
-    width: 130px;
-    height: 130px;
-  }
-
-  .sub-level {
-    a {
-      padding-left: 1rem;
-    }
+  .flex-j-end-s {
+    justify-content: flex-end;
   }
 }
 
 @media only screen and (min-width: 601px) {
-  .social-button {
-    li {
-      margin-right: .5em;
-    }
-  }
 
   .flex-j-end-m {
     justify-content: flex-end;
@@ -127,10 +87,10 @@
 
   .menu-back {
     background: $secondary-2-1;
-    border-radius: 0;
     position: relative;
     z-index: 1000;
-    float: left;
+    height: 3em;
+    border-radius: 3px 3px 0 0;
   }
 
   .user-block {
@@ -140,6 +100,47 @@
   .left-panel {
     width: 100%;
     padding: 2em 1em;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 992px) {
+  .row {
+    .col {
+      &.col-last-m {
+        margin-right: 0;
+      }
+    }
+  }
+
+  aside {
+    margin-top: 2em;
+  }
+
+  .login-wrapper {
+    width: 80%;
+  }
+
+  .user-profile {
+    margin: 0;
+  }
+
+  .sub-level {
+    a {
+      padding-left: 1rem;
+    }
+  }
+
+  .flex-h-center-medium {
+    justify-content: center;
+  };
+
+  .search {
+    max-width: 340px;
+  }
+
+  .signin-block {
+    float: inherit;
+    max-width: 340px;
   }
 }
 
@@ -171,6 +172,10 @@
   }
 
   .outer-container {
+    width: 100%;
+  }
+
+  .user-profile-left-panel, .user-profile-right-panel {
     width: 100%;
   }
 }
@@ -248,5 +253,11 @@
 
   .tags-svg {
     margin-right: .5em;
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .user-profile-left-panel, .user-profile-right-panel {
+    width: 100%;
   }
 }

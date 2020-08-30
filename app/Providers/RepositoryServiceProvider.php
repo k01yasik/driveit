@@ -61,7 +61,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(
             CategoryRepositoryInterface::class,
-            CategoryRepository::class
+            CategoryRepositoryInterface::class
         );
 
         $this->app->when(CachedUserRepository::class)
@@ -70,7 +70,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->when(CachedCommentRepository::class)
             ->needs(CommentRepositoryInterface::class)
-            ->give(CommentRepository::class);
+            ->give(CommentRepositoryInterface::class);
 
         $this->app->when(CachedPostDashboardRepository::class)
             ->needs(PostDashboardRepositoryInterface::class)
@@ -123,6 +123,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             DraftRepositoryInterface::class,
             DraftRepository::class
+        );
+
+        $this->app->bind(
+            FavoriteRepositoryInterface::class,
+            FavoriteRepository::class
         );
     }
 

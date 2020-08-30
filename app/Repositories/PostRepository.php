@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bzdykin
- * Date: 28.10.2019
- * Time: 20:43
- */
 
 namespace App\Repositories;
 
-
+use App\Category;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Post;
 use App\Services\PostService;
@@ -17,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Laravel\Scout\Builder;
+use Illuminate\Database\Query\Builder;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -158,35 +152,16 @@ class PostRepository implements PostRepositoryInterface
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function getPostBySlugWithUserData(string $slug): Model
+    public function getPostBySlugWithUserData(string $slug): Post
     {
-        $post = Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
-
-        return $post;
+        return Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
     }
 
-
-    /**
-     * @param Model $model
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
-    public function getPaginatedPostsByCategory(Model $model, bool $isStart, int $id = null): Paginator
+    public function getPaginatedPostsByCategory(array $category): Builder
     {
-        $posts = $model->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published');
-
-        if ($isStart) {
-            return $posts->paginate(10);
-        }
-
-        return $posts->paginate(10, ['*'], 'page', $id);
+        return Category::find($category['id'])->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published');
     }
 
-
-    /**
-     * @return Paginator
-     */
     public function getPaginatedPostsForPages(): Paginator
     {
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);

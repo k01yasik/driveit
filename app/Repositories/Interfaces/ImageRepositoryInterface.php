@@ -2,17 +2,15 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Model as Model;
-use Illuminate\Database\Eloquent\Collection;
-use App\User as User;
-
 interface ImageRepositoryInterface
 {
-    public function store(string $url, string $path, string $imageName, string $pathThumbnail, string $urlThumbnail, Model $model): int;
+    public function add(string $url, string $path, string $imageName, string $pathThumbnail, string $urlThumbnail, int $albumId): void;
 
-    public function getUserImage(User $user, int $albumId, int $imageId): Model;
+    public function getByPath(string $path): array;
 
-    public function getPostImage(User $user, string $albumName, string $imageUrl): Model;
+    public function deleteImage(int $userId, int $albumId, int $imageId): void;
 
-    public function getAllAlbumImages(int $album_id): Collection;
+    public function deletePostImageByUrl(int $userId, string $albumName, string $url): void;
+
+    public function getAllAlbumImages(int $album_id): array;
 }

@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
+use App\Dto\Draft;
 use App\Repositories\Interfaces\DraftRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use App\User;
 
 class DraftService
 {
@@ -14,13 +15,13 @@ class DraftService
         $this->draftRepository = $draftRepository;
     }
 
-    public function getUserDrafts(): Collection
+    public function getUserDrafts(int $id): array
     {
-        return $this->draftRepository->getUserDrafts();
+        return $this->draftRepository->getUserDrafts($id);
     }
 
-    public function store(Array $data): bool
+    public function save(Draft $draft, User $user): bool
     {
-        return $this->draftRepository->store($data);
+        return $this->draftRepository->save($draft, $user);
     }
 }

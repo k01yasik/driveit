@@ -3,33 +3,33 @@
 
 namespace App\Http\View\Composers;
 
-use App\Repositories\CachedUserRepository;
-use App\Repositories\Interfaces\FriendRepositoryInterface;
+use App\Services\FriendService;
+use App\Services\UserService;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileComposer
 {
-    protected $userRepository;
-    protected $friendRepository;
+    protected $userService;
+    protected $friendService;
 
-    public function __construct(CachedUserRepository $userRepository,
-                                FriendRepositoryInterface $friendRepository)
+    public function __construct(UserService $userService,
+                                FriendService $friendService)
     {
-        $this->userRepository = $userRepository;
-        $this->friendRepository = $friendRepository;
+        $this->userService = $userService;
+        $this->friendService = $friendService;
     }
 
     public function compose(View $view)
     {
-        $user = $this->userRepository
+        $user = $this->userService
             ->getMessageUser(request()->route()->parameter('username'));
 
         $currentUserId = Auth::id();
 
         $currentUserProfile = $user->id === $currentUserId;
 
-        $friendRequestCount = $this->friendRepository
+        $friendRequestCount = $this->friendService
             ->getFriendsCount($currentUserId);
         $view->with('user', $user)
             ->with('currentUserProfile', $currentUserProfile)

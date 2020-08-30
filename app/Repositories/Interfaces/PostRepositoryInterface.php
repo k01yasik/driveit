@@ -12,7 +12,7 @@ use App\Post;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Collection;
-use Laravel\Scout\Builder;
+use Illuminate\Database\Query\Builder;
 
 interface PostRepositoryInterface
 {
@@ -65,40 +65,14 @@ interface PostRepositoryInterface
      */
     public function getById(int $id);
 
-    /**
-     * @param Post $post
-     * @return Post
-     */
     public function togglePublish(Post $post);
 
-
-    /**
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
     public function getPaginatedPostsOrderedById(bool $isStart, int $id = null): Paginator;
 
+    public function getPaginatedPostsByCategory(array $category): Builder;
 
-    /**
-     * @param Model $model
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
-    public function getPaginatedPostsByCategory(Model $model, bool $isStart, int $id = null): Paginator;
-
-
-    /**
-     * @return Paginator
-     */
     public function getPaginatedPostsForPages(): Paginator;
 
-
-    /**
-     * @param int $id
-     * @return Paginator
-     */
     public function getPaginatedPostsWithoutCache(int $id): Paginator;
 
     /**

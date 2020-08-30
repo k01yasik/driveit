@@ -2,11 +2,12 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Collection;
+use App\Dto\Draft;
+use App\User;
 
 interface DraftRepositoryInterface
 {
-    public function getUserDrafts(): Collection;
+    public function getUserDrafts(int $id): array;
 
-    public function store(Array $data): bool;
+    public function save(Draft $draft, User $user): bool;
 }

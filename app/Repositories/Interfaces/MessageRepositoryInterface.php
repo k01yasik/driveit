@@ -2,13 +2,11 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
-
+use App\Entities\Message;
 
 interface MessageRepositoryInterface
 {
-    public function store(int $userId, int $friendId, string $message): Model;
+    public function add(Message $message): void;
 
-    public function getMessages(int $current_id, int $friend_id): Collection;
+    public function getMessages(int $current_id, int $friendId): array;
 }

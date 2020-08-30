@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
 use App\Http\Requests\CommentStoreRequest;
-use App\Repositories\CachedCommentRepository;
-use Illuminate\Support\Facades\Auth;
+use App\Services\CommentService;
 
 
 class CommentController extends Controller
 {
-    protected $commentRepository;
+    protected $commentService;
 
-    public function __construct(CachedCommentRepository $commentRepository)
+    public function __construct(CommentService $commentService)
     {
-        $this->commentRepository = $commentRepository;
+        $this->commentService = $commentService;
     }
 
     public function edit($username, $id){
@@ -25,6 +23,6 @@ class CommentController extends Controller
     {
         $data = $request->validated();
 
-        return $this->commentRepository->store($data);
+        return $this->commentService->store($data);
     }
 }

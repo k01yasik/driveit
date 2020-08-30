@@ -11,12 +11,13 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\NewsRepositoryInterface;
 use App\News;
+use Illuminate\Database\Eloquent\Collection;
 
 class NewsRepository implements NewsRepositoryInterface
 {
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     * @return Collection|\Illuminate\Support\Collection|static[]
      */
     public function getLastNews()
     {

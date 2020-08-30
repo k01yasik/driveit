@@ -19,41 +19,32 @@ class FriendRepository implements FriendRepositoryInterface
     }
 
     /**
-     * @param int $authUser
-     * @param string $friend
+     * @param int $authUserId
+     * @param int $friend
+     * @param bool $owner
      */
-    public function store(int $authUser, int $friend): void
+    public function add(int $authUserId, int $friend, bool $owner): void
     {
         $friend_db = new Friend;
-        $friend_db->user_id = $authUser;
+        $friend_db->user_id = $authUserId;
         $friend_db->friend_id = $friend;
-        $friend_db->owner = true;
-        $friend_db->save();
-
-        $friend_db = new Friend;
-        $friend_db->user_id = $friend;
-        $friend_db->friend_id = $authUser;
-        $friend_db->owner = false;
+        $friend_db->owner = $owner;
         $friend_db->save();
     }
 
-    public function getFriendsRequests(int $friend_id): Collection
+    public function getFriendsRequests(int $friendId): array
     {
-        return Friend::with(['user', 'user.profile'])->where([['friend_id', $friend_id], ['confirmed', 0], ['owner', 1]])->get();
+        return Friend::with(['user', 'user.profile'])->where([['friend_id', $friendId], ['confirmed', 0], ['owner', 1]])->get()->toArray();
     }
 
-    public function getFriendsList(int $friend_id): Collection
+    public function getFriendsList(int $friendId): array
     {
-        return Friend::with(['user', 'user.profile'])->where([['friend_id', $friend_id], ['confirmed', 1]])->get();
+        return Friend::with(['user', 'user.profile'])->where([['friend_id', $friendId], ['confirmed', 1]])->get()->toArray();
     }
 
-    public function confirmUsers(int $id, int $current_id): void
+    public function confirmUsers(int $id, int $currentUserId): void
     {
-        $friend = Friend::where([['user_id', $id], ['friend_id', $current_id]])->firstOrFail();
-        $friend->confirmed = true;
-        $friend->save();
-
-        $friend = Friend::where([['user_id', $current_id], ['friend_id', $id]])->firstOrFail();
+        $friend = Friend::where([['user_id', $id], ['friend_id', $currentUserId]])->first();
         $friend->confirmed = true;
         $friend->save();
     }

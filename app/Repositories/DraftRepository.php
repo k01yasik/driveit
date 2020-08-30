@@ -3,30 +3,31 @@
 namespace App\Repositories;
 
 use App\Draft;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Interfaces\DraftRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use App\Dto\Draft as DraftDto;
 
 class DraftRepository implements DraftRepositoryInterface
 {
-    public function getUserDrafts(): Collection
+    public function getUserDrafts(int $id): array
     {
-        return Draft::where('user_id', Auth::id())->get();
+        return Draft::where('user_id', $id)->get()->toArray();
     }
 
 
-    public function store(array $data): bool
+    public function save(DraftDto $draft, User $user): bool
     {
-        $draft = new Draft;
-        if (isset($data['slug'])) $draft->slug = $data['slug'];
-        if (isset($data['title'])) $draft->title = $data['title'];
-        if (isset($data['description'])) $draft->description = $data['description'];
-        if (isset($data['name'])) $draft->name = $data['name'];
-        if (isset($data['caption'])) $draft->caption = $data['caption'];
-        if (isset($data['body'])) $draft->body = $data['body'];
-        if (isset($data['image'])) $draft->image = $data['image'];
-        $draft->user()->associate(Auth::user());
-        $draft->save();
+        $model = new Draft;
+        $model->slug = $draft->slug;
+        $model->title = $draft->title;
+        $model->description = $draft->description;
+        $model->name = $draft->name;
+        $model->caption = $draft->caption;
+        $model->body = $draft->body;
+        $model->image = $draft->image;
+        $model->user()->associate($user);
+        $model->save();
 
         return true;
     }

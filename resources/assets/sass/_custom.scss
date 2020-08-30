@@ -251,7 +251,9 @@ ol {
     border: none;
     border-radius: 0 3px 3px 0;
     color: $gray-4;
-    padding: 0 .5em;
+    width: 2em;
+    justify-content: center;
+    align-items: center;
     transition: all .5s ease-in-out;
 
     &:hover {
@@ -1612,11 +1614,11 @@ input[type=checkbox], input[type=radio] {
   background: $white;
   border-radius: 3px;
   padding: 2em 0;
-  max-width: 250px;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
 
   ul {
-    margin-top: 2em;
     padding: 0 2em;
 
     li {
@@ -1629,15 +1631,27 @@ input[type=checkbox], input[type=radio] {
   }
 }
 
+.user-profile-left-panel, .user-profile-right-panel {
+  width: 50%;
+}
+
+.user-profile-right-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .avatar-inner {
   overflow: hidden;
   margin: 0 auto;
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: auto;
+  position: relative;
 
   &:hover {
     .change-avatar {
       margin-top: -3em;
+      opacity: 1;
     }
   }
 }
@@ -1653,8 +1667,10 @@ input[type=checkbox], input[type=radio] {
   height: 3em;
   transition: all .5s ease-in-out;
   z-index: 10;
-  position: relative;
+  position: absolute;
+  width: 100%;
   padding: .5em 0;
+  opacity: 0;
 }
 
 .upload-button {
@@ -1676,6 +1692,7 @@ input[type=checkbox], input[type=radio] {
   max-width: 200px;
   max-height: 200px;
   margin: 0 auto;
+  width: 90%;
 }
 
 .friend-requests, .messages-count {
@@ -1702,48 +1719,6 @@ a {
   background: $white;
   border-radius: 3px;
   padding: 2em;
-  font-size: calc(12px + .3125vw);
-  line-height: calc(12px + .78125vw); 
-  
-  h1 {
-    font-size: calc(12px + .9190625vw);
-    line-height: calc(12px + 1.227875vw);
-    margin: calc(12px + 1.227875vw) 0;
-  }
-  
-  h2 {
-    font-size: calc(12px + .8178125vw);
-    line-height: calc(12px + 1.106375vw);
-    margin: calc(12px + 1.106375vw) 0;
-  }
-  
-  h3 {
-    font-size: calc(12px + .756875vw);
-    line-height: calc(12px + 1.03325vw);
-    margin: calc(12px + 1.03325vw) 0;
-  }
-  
-  h4 {
-    font-size: calc(12px + .6509375vw);
-    line-height: calc(12px + .906125vw);
-    margin: calc(12px + .906125vw) 0;
-  }
-  
-  h5 {
-    font-size: calc(12px + .5675vw);
-    line-height: calc(12px + .806vw);
-    margin: calc(12px + .806vw) 0;
-  }
-  
-  h6 {
-    font-size: calc(12px + .516875vw);
-    line-height: calc(12px + .74525vw);
-    margin: calc(12px + .74525vw) 0;
-  }
-}
-
-.profile-block {
-  background: $white;
 }
 
 .album-breadcrumbs {
@@ -3029,9 +3004,4 @@ main {
 .svg-vk, .svg-fb, .svg-twitter {
   float: left;
   fill: $white;
-  transition: all .5s ease-in-out;
-
-  &:hover {
-    fill: $primary-1;
-  }
 }

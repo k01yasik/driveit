@@ -17,12 +17,13 @@ $().ready(function () {
     $('#post_upload_image_input').change(function () {
 
         let url = $('#image').val();
+        let path = localStorage.getItem('title-post-image-path');
 
         if (url !== '') {
 
             $.ajax({
                 method: "DELETE",
-                url: "/admin/posts/image-destroy" + '?' + $.param({url: url}),
+                url: "/admin/posts/image-destroy" + '?' + $.param({url: url, path: path}),
                 contentType: false,
                 processData: false,
                 dataType: 'text',
@@ -58,8 +59,8 @@ $().ready(function () {
 
                         $('#image').val(result);
 
-                        localStorage.setItem('title-post-image-url', result);
-
+                        localStorage.setItem('title-post-image-url', result['url']);
+                        localStorage.setItem('title-post-image-path', result['path']);
                     });
 
                 }

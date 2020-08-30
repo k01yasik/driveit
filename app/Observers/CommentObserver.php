@@ -30,6 +30,7 @@ class CommentObserver
         Cache::forget('paginated-posts');
         Cache::forget('comments_verified');
         Cache::forget('comments_not_verified');
+        Cache::forget('comment_'.$comment->id);
     }
 
     public function saved(Comment $comment)
@@ -38,6 +39,7 @@ class CommentObserver
         Cache::forget('paginated-posts');
         Cache::forget('comments_verified');
         Cache::forget('comments_not_verified');
+        Cache::forget('comment_'.$comment->id);
     }
 
     /**
@@ -48,7 +50,7 @@ class CommentObserver
      */
     public function deleted(Comment $comment)
     {
-        //
+        Cache::forget('comment_'.$comment->id);
     }
 
     /**
