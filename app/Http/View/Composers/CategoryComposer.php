@@ -48,8 +48,8 @@ class CategoryComposer
 
 
         foreach ($posts as $post) {
-            $this->postService->countPostComments($post);
-            $this->postService->countPostRating($post);
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
         }
 
         $pages = $this->paginatorService->calculatePages($posts);

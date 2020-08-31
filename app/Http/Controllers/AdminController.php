@@ -8,6 +8,7 @@ use App\Repositories\CachedPostRepository;
 use App\Services\CommentService;
 use App\Services\GoogleAnalyticsService;
 use App\Services\PaginatorService;
+use App\Services\PostDashboardService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
@@ -17,7 +18,7 @@ class AdminController extends Controller
 {
     protected $seoService;
     protected $userService;
-    protected $postDashboardRepository;
+    protected PostDashboardService $postDashboardService;
     protected $commentService;
     protected $googleAnalyticsService;
     protected $postRepository;
@@ -25,7 +26,7 @@ class AdminController extends Controller
 
     public function __construct(SeoService $seoService,
                                 UserService $userService,
-                                CachedPostDashboardRepository $postDashboardRepository,
+                                PostDashboardService $postDashboardService,
                                 CommentService $commentService,
                                 GoogleAnalyticsService $googleAnalyticsService,
                                 CachedPostRepository $postRepository,
@@ -33,7 +34,7 @@ class AdminController extends Controller
     {
         $this->seoService = $seoService;
         $this->userService = $userService;
-        $this->postDashboardRepository = $postDashboardRepository;
+        $this->postDashboardService = $postDashboardService;
         $this->commentService = $commentService;
         $this->googleAnalyticsService = $googleAnalyticsService;
         $this->postRepository = $postRepository;
@@ -44,7 +45,7 @@ class AdminController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = $this->postDashboardRepository->getPostDashboard();
+        $posts = $this->postDashboardService->getPostDashboard();
 
         $commentsVerified = $this->commentService->getCommentsVerifiedCount();
 

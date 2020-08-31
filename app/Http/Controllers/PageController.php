@@ -77,8 +77,8 @@ class PageController extends Controller
 
         foreach ($posts as $post) {
 
-            $this->postService->countPostRating($post);
-            $this->postService->countPostComments($post);
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
         $pages = $this->paginatorService->calculatePages($posts);
@@ -98,8 +98,8 @@ class PageController extends Controller
 
         foreach ($posts as $post) {
 
-            $this->postService->countPostRating($post);
-            $this->postService->countPostComments($post);
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
         $data = $this->paginateService->paginationData(10, 1, url()->current(), $posts->count());
@@ -117,8 +117,8 @@ class PageController extends Controller
 
         foreach ($posts as $post) {
 
-            $this->postService->countPostRating($post);
-            $this->postService->countPostComments($post);
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
@@ -141,8 +141,8 @@ class PageController extends Controller
 
         foreach ($posts as $post) {
 
-            $this->postService->countPostRating($post);
-            $this->postService->countPostComments($post);
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
@@ -165,8 +165,8 @@ class PageController extends Controller
 
         foreach ($posts as $post) {
 
-            $this->postService->countPostRating($post);
-            $this->postService->countPostComments($post);
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
         $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
@@ -202,8 +202,8 @@ class PageController extends Controller
 
         $post = $this->postRepository->getPostsForShow($slug);
 
-        $this->postService->countPostRating($post);
-        $this->postService->countPostComments($post);
+        $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+        $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
 
         $suggest_ids = $this->suggestsService->getSuggestsIds($post);
 
@@ -211,8 +211,8 @@ class PageController extends Controller
 
         foreach ($suggest_posts as $pp) {
 
-            $this->postService->countPostRating($pp);
-            $this->postService->countPostComments($pp);
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
         $post->increment('views');

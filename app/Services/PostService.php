@@ -16,30 +16,30 @@ class PostService
         $this->postRepository = $postRepository;
     }
 
-    /**
-     * @param Model $post
-     */
-    public function countPostRating(Model $post): void
+    public function countPostRating(array $rating): int
     {
-        $post->rating_count = 0;
+        $count = 0;
 
-        foreach ($post->rating as $r) {
+        foreach ($rating as $r) {
             if ($r->rating === 1) {
-                $post->rating_count = $post->rating_count + 1;
+                $count += $count + 1;
             }
         }
+
+        return $count;
     }
 
     /**
-     * @param Model $post
+     * @param array $comments
+     * @return int
      */
-    public function countPostComments(Model $post): void
+    public function countPostComments(array $comments): int
     {
-        $post->comments_count = 0;
+        $count = 0;
 
-        foreach ($post->comments as $c) {
+        foreach ($comments as $c) {
             if ($c->is_verified === 1) {
-                $post->comments_count = $post->comments_count + 1;
+                $count += $count + 1;
             }
         }
     }

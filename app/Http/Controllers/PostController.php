@@ -107,9 +107,9 @@ class PostController extends Controller
 
         $post = $this->post->getPostByIdWithUserData($id);
 
-        $this->postService->countPostRating($post);
+        $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
 
-        $this->postService->countPostComments($post);
+        $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
 
         $auth_id = Auth::id();
 

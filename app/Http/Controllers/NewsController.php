@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Interfaces\NewsRepositoryInterface;
+use App\Services\NewsService;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    protected $news;
+    protected NewsService $newsService;
 
-    /**
-     * NewsController constructor.
-     * @param $news
-     */
-    public function __construct(NewsRepositoryInterface $news)
+    public function __construct(NewsService $newsService)
     {
-        $this->news = $news;
+        $this->newsService = $newsService;
     }
 
 
     public function index() {
-        $news = $this->news->getLastNews();
+        $news = $this->newsService->getLastNews();
 
         return view('news.index', compact('news'));
     }

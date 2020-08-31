@@ -141,10 +141,7 @@ class PostRepository implements PostRepositoryInterface
         }
 
         return $posts->paginate(10, ['*'], 'page', $id);
-
     }
-
-
 
     /**
      * @param string $slug
@@ -167,16 +164,13 @@ class PostRepository implements PostRepositoryInterface
         $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
 
         foreach ($posts as $post) {
-            $this->postService->countPostRating($post);
-            $this->postService->countPostComments($post);
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
         return $posts;
     }
 
-    /**
-     * @return Paginator
-     */
     public function getPaginatedPostsWithoutCache(int $id): Paginator
     {
         return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10, ['*'], 'page', $id);

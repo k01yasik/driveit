@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bzdykin
- * Date: 14.11.2019
- * Time: 0:08
- */
 
 namespace App\Repositories;
 
@@ -16,14 +10,14 @@ use App\Repositories\Interfaces\PostDashboardRepositoryInterface;
 final class CachedPostDashboardRepository implements PostDashboardRepositoryInterface
 {
 
-    private $cachedPostDashboard;
+    private PostDashboardRepositoryInterface $cachedPostDashboard;
 
     public function __construct(PostDashboardRepositoryInterface $cachedPostDashboard)
     {
         $this->cachedPostDashboard = $cachedPostDashboard;
     }
 
-    public function getPostDashboard(): Collection
+    public function getPostDashboard(): array
     {
         return Cache::rememberForever('posts_count_cart', function () {
             return $this->cachedPostDashboard->getPostDashboard();
