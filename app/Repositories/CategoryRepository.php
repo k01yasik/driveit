@@ -7,7 +7,7 @@ use App\Category;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function getPostCategory($id): array
+    public function getPostCategory(int $id): array
     {
         return Category::find($id)->toArray();
     }

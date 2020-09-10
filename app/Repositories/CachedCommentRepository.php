@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 
 final class CachedCommentRepository implements CommentRepositoryInterface
 {
-    private $commentRepository;
+    private CommentRepositoryInterface $commentRepository;
 
     public function __construct(CommentRepositoryInterface $commentRepository)
     {

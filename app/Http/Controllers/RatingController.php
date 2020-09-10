@@ -3,39 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RatingRequest;
-use App\Repositories\Interfaces\RatingRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use App\Services\RatingService;
 
 class RatingController extends Controller
 {
-    protected $ratingRepository;
-    protected $ratingService;
+    protected RatingService $ratingService;
 
-    public function __construct(RatingRepositoryInterface $ratingRepository, RatingService $ratingService)
+    public function __construct(RatingService $ratingService)
     {
-        $this->ratingRepository = $ratingRepository;
         $this->ratingService = $ratingService;
     }
 
     public function update(RatingRequest $request)
     {
-        $data = $request->validated();
-        $user_id = Auth::id();
+        $postId = $request->validated()['id'];
+        $userId = Auth::id();
 
-        $post = $this->ratingRepository->getUserRatingForPost($data['id'], $user_id);
+        $post = $this->ratingService->getPostRatingByUser($postId, $userId);
 
         if(!$post) {
-            $this->ratingRepository->store($data['id'], $user_id);
+            $this->ratingService->store($postId, $userId);
         } else {
-
             $this->ratingService->toggleRating($post);
-
-            event('eloquent.saved: App\Rating', $post);
         }
 
-        $i = $this->ratingService->calculatePostRating($data['id']);
-
-        return $i;
+        return $this->ratingService->calculatePostRating($postId);
     }
 }

@@ -11,32 +11,42 @@ use Illuminate\Support\Facades\Cache;
 
 final class CachedSeoRepository implements SeoRepositoryInterface
 {
-    protected $seo;
+    protected SeoRepositoryInterface $seoRepository;
 
-    public function __construct(SeoRepositoryInterface $seo)
+    public function __construct(SeoRepositoryInterface $seoRepository)
     {
-        $this->seo = $seo;
+        $this->seoRepository = $seoRepository;
     }
 
-    public function getSeoData(string $name): Model
+    public function getSeoData(string $name): array
     {
         return Cache::rememberForever($name, function () use ($name) {
-            return $this->seo->getSeoData($name);
+            return $this->seoRepository->getSeoData($name);
         });
     }
 
-    public function getAllData(): Collection
+    public function getAllData(): array
     {
-        return $this->seo->getAllData();
+        return $this->seoRepository->getAllData();
     }
 
-    public function getSeoById(int $id): Model
+    public function getSeoById(int $id): array
     {
-        return $this->seo->getSeoById($id);
+        return $this->seoRepository->getSeoById($id);
     }
 
-    public function store(array $data): bool
+    public function store(string $route, string $title, string $description): bool
     {
-        return $this->seo->store($data);
+        return $this->seoRepository->store($route, $title, $description);
+    }
+
+    public function update(int $seoId, string $title, string $description): bool
+    {
+        return $this->seoRepository->update($seoId, $title, $description);
+    }
+
+    public function delete(int $id): void
+    {
+        $this->seoRepository->delete($id);
     }
 }

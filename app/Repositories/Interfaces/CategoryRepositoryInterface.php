@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 
 interface CategoryRepositoryInterface
 {
-    public function getPostCategory($id): array;
+    public function getPostCategory(int $id): array;
 
     public function getAllParentCategories(): array;
 

@@ -4,92 +4,86 @@ namespace App\Services;
 
 
 use App\Repositories\CachedUserRepository;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use App\Repositories\Interfaces\RipRepositoryInterface;
 
 class UserService
 {
-    private $userRepository;
+    private CachedUserRepository $userRepository;
+    private RipRepositoryInterface $ripRepository;
 
-    public function __construct(CachedUserRepository $userRepository)
+    public function __construct(CachedUserRepository $userRepository, RipRepositoryInterface $ripRepository)
     {
         $this->userRepository = $userRepository;
+        $this->ripRepository = $ripRepository;
     }
 
-    public function getCurrentUserWithProfile(int $id)
+    public function getCurrentUserWithProfile(int $id): array
     {
         return $this->userRepository->getCurrentUserWithProfile($id);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getAllUsers(): Collection
+    public function getAllUsers(): array
     {
         return $this->userRepository->getAllUsers();
     }
 
-    public function getAllUnbannedUsers(): Collection
+    public function getAllUnbannedUsers(): array
     {
-        return $this->userRepository->getAllUnbannedUsers();
+        $ripIds = [];
+
+        $rips = $this->ripRepository->getAll();
+
+        foreach ($rips as $rip) {
+            $ripIds[] = $rip['user_id'];
+        }
+
+        return $this->userRepository->getAllUnbannedUsers($ripIds);
     }
 
-    public function getVerifiedUsers(): Collection
+    public function getVerifiedUsers(): array
     {
         return $this->userRepository->getVerifiedUsers();
     }
 
-    public function getUnverifiedUsers(): Collection
+    public function getUnverifiedUsers(): array
     {
         return $this->userRepository->getUnverifiedUsers();
     }
 
-    public function getBannedUsers(): Collection
+    public function getBannedUsers(): array
     {
-        return $this->userRepository->getBannedUsers();
+        $ripIds = [];
+
+        $rips = $this->ripRepository->getAll();
+
+        foreach ($rips as $rip) {
+            $ripIds[] = $rip['user_id'];
+        }
+
+        return $this->userRepository->getBannedUsers($ripIds);
     }
 
-    /**
-     * @param string $username
-     * @return Model
-     */
-    public function getUserByUsername(string $username): Model
+    public function getUserByUsername(string $username): array
     {
         return $this->userRepository->getUserByUsername($username);
     }
 
-    /**
-     * @param string $username
-     * @return Model
-     */
-    public function getMessageUser(string $username): Model
+    public function getMessageUser(string $username): array
     {
         return $this->userRepository->getMessageUser($username);
     }
 
-    /**
-     * @param int $id
-     * @return Collection
-     */
-    public function getAllPublicUsers(int $id): Collection
+    public function getAllPublicUsers(int $id): array
     {
         return $this->userRepository->getAllPublicUsers($id);
     }
 
-    /**
-     * @param int $id
-     * @return Model
-     */
-    public function getUsersWithFriends(int $id): Model
+    public function getUsersWithFriends(int $id): array
     {
         return $this->userRepository->getUsersWithFriends($id);
     }
 
-    /**
-     * @param string $username
-     * @return Model
-     */
-    public function getUserForAlbums(string $username): Model
+    public function getUserForAlbums(string $username): array
     {
         return $this->userRepository->getUserForAlbums($username);
     }

@@ -8,9 +8,9 @@ use App\Services\PostService;
 
 class CategoryController extends Controller
 {
-    protected $categoryService;
-    protected $postService;
-    protected $paginatorService;
+    protected CategoryService $categoryService;
+    protected PostService $postService;
+    protected PaginatorService $paginatorService;
 
     public function __construct(CategoryService $categoryService,
                                 PostService $postService,

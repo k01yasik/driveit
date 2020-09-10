@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BodyImageUpload;
 use App\Http\Requests\PostImageUpload;
-use App\Repositories\Interfaces\AlbumRepositoryInterface;
-use App\Repositories\Interfaces\ProfileRepositoryInterface;
+use App\Services\AlbumService;
 use App\Services\FavoriteService;
 use App\Services\ImageService;
+use App\Services\ProfileService;
 use App\Services\StorageService;
 use App\Services\UploadImageService;
 use Illuminate\Support\Facades\Auth;
@@ -18,27 +18,27 @@ use App\Services\PathService;
 
 class ImageUploadController extends Controller
 {
-    protected $uploadImageService;
-    protected $imageService;
-    protected $storageService;
-    protected $profileRepository;
-    protected $albumRepository;
-    protected $pathService;
-    protected $favoriteService;
+    protected UploadImageService $uploadImageService;
+    protected ImageService $imageService;
+    protected StorageService $storageService;
+    protected ProfileService $profileService;
+    protected AlbumService $albumService;
+    protected PathService $pathService;
+    protected FavoriteService $favoriteService;
 
     public function __construct(UploadImageService $uploadImageService,
                                 ImageService $imageService,
                                 StorageService $storageService,
-                                ProfileRepositoryInterface $profileRepository,
-                                AlbumRepositoryInterface $albumRepository,
+                                ProfileService $profileService,
+                                AlbumService $albumService,
                                 PathService $pathService,
                                 FavoriteService $favoriteService)
     {
         $this->uploadImageService = $uploadImageService;
         $this->imageService = $imageService;
         $this->storageService = $storageService;
-        $this->profileRepository = $profileRepository;
-        $this->albumRepository = $albumRepository;
+        $this->profileService = $profileService;
+        $this->albumService = $albumService;
         $this->pathService = $pathService;
         $this->favoriteService = $favoriteService;
     }
@@ -85,6 +85,7 @@ class ImageUploadController extends Controller
         $image = $data['avatar_upload'];
 
         $user = Auth::user();
+        $userId = $user->id;
         $username = $user->username;
         $imageName = $image->getClientOriginalName();
         $avatar = $this->imageService->createThumbnail($image, $data['width'], $data['height'], $data['x'], $data['y']);
@@ -96,9 +97,7 @@ class ImageUploadController extends Controller
         $avatarPath = $this->pathService->createAvatarPath($username, $imageName);
         $avatarUrl =  $this->storageService->getImageUrl($avatarPath);
 
-        $profile = $this->profileRepository->store($user, $avatarUrl);
-
-        event('eloquent.saved: App\Profile', $profile);
+        $this->profileService->addUserAvatar($userId, $avatarUrl);
 
         return $avatarUrl;
     }
@@ -110,7 +109,7 @@ class ImageUploadController extends Controller
         $images = $request->images_upload;
         $albumName = $request->album_name;
 
-        $album = $this->albumRepository->getUserAlbumByName($albumName, Auth::id());
+        $album = $this->albumService->getUserAlbumByName($albumName, Auth::id());
         $albumPath = $album['path'];
         $albumId = $album['id'];
         $result = [];

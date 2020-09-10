@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FavoriteRequest;
 use App\Services\FavoriteService;
+use Illuminate\Support\Facades\Auth;
+
 
 class FavoriteController extends Controller
 {
@@ -11,7 +13,7 @@ class FavoriteController extends Controller
     /**
      * @var FavoriteService
      */
-    private $favoriteService;
+    private FavoriteService $favoriteService;
 
     public function __construct(FavoriteService $favoriteService)
     {
@@ -29,7 +31,7 @@ class FavoriteController extends Controller
         return $this->favoriteService->getFavCountForImage($imageId);
     }
 
-    public function unvote(FavoriteService $request)
+    public function unvote(FavoriteRequest $request)
     {
         $imageId = $request->validated()['id'];
 

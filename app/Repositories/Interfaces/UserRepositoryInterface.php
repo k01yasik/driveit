@@ -2,65 +2,27 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Collection as Collection;
-use Illuminate\Database\Eloquent\Model as Model;
-
 interface UserRepositoryInterface
 {
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Database\Eloquent\Model|static
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getCurrentUserWithProfile(int $id);
+    public function getCurrentUserWithProfile(int $id): array;
 
-    /**
-     * @return Collection
-     */
-    public function getAllUsers(): Collection;
+    public function getAllUsers(): array;
 
-    public function getVerifiedUsers(): Collection;
+    public function getVerifiedUsers(): array;
 
-    public function getUnverifiedUsers(): Collection;
+    public function getUnverifiedUsers(): array;
 
-    public function getBannedUsers(): Collection;
+    public function getBannedUsers(array $ripIds): array;
 
+    public function getUserByUsername(string $username): array;
 
-    /**
-     * @param string $username
-     * @return Model
-     */
-    public function getUserByUsername(string $username): Model;
+    public function getMessageUser(string $username): array;
 
-    /**
-     * @param string $username
-     * @return Model
-     */
-    public function getMessageUser(string $username): Model;
+    public function getAllPublicUsers(int $id): array;
 
+    public function getAllUnbannedUsers(array $ripIds): array;
 
-    /**
-     * @param int $id
-     * @return Collection
-     */
-    public function getAllPublicUsers(int $id): Collection;
+    public function getUsersWithFriends(int $id): array;
 
-    /**
-     * @return Collection
-     */
-    public function getAllUnbannedUsers(): Collection;
-
-    /**
-     * @param int $id
-     * @return Model
-     */
-    public function getUsersWithFriends(int $id): Model;
-
-    /**
-     * @param string $username
-     * @return Model
-     */
-    public function getUserForAlbums(string $username): Model;
+    public function getUserForAlbums(string $username): array;
 }

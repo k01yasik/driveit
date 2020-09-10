@@ -3,100 +3,68 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStore;
-use App\Http\Requests\UpdateHtml;
-use App\Repositories\CachedPostRepository;
-use App\Repositories\CachedUserRepository;
-use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Services\CategoryService;
 use App\Services\PostService;
+use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    protected $seoService;
-    protected $post;
-    protected $category;
-    protected $categoryService;
-    protected $postService;
-    protected $cachedUser;
-    protected $userRepository;
+    protected SeoService $seoService;
+    protected CategoryService $categoryService;
+    protected PostService $postService;
+    protected UserService $userService;
 
     public function __construct(SeoService $seoService,
-                                CachedPostRepository $post,
-                                CategoryRepositoryInterface $category,
                                 CategoryService $categoryService,
                                 PostService $postService,
-                                CachedUserRepository $cachedUser)
+                                UserService $userService)
     {
         $this->seoService = $seoService;
-        $this->post = $post;
-        $this->category = $category;
         $this->categoryService = $categoryService;
         $this->postService = $postService;
-        $this->cachedUser = $cachedUser;
-        $this->userRepository = $cachedUser;
+        $this->userService = $userService;
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function create(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $categories = $this->category->getAllParentCategories();
+        $categories = $this->categoryService->getAllParentCategories();
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         $create = true;
 
         return view('admin.posts.create', compact('seo', 'categories', 'user', 'create'));
     }
 
-    /**
-     * @param PostStore $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(PostStore $request)
     {
-        $data = $request->validated();
+        list($postEntity, $postCategoriesId) = $this->handler($request);
 
-        $post = $this->post->store($data);
-
-        $category = $this->category->getPostCategory($data['category']);
-
-        $postCategoriesId = $this->categoryService->getPostAllCategoriesId($category);
-
-        $post->categories()->attach($postCategoriesId);
+        $this->postService->store($postEntity, Auth::id(), $postCategoriesId);
 
         return redirect()->route('admin.posts');
     }
 
     public function update($id, PostStore $request)
     {
-        $data = $request->validated();
+        list($postEntity, $postCategoriesId) = $this->handler($request);
 
-        $post = $this->post->update($id, $data);
-
-        $category = $this->category->getPostCategory($data['category']);
-
-        $postCategoriesId = $this->categoryService->getPostAllCategoriesId($category);
-
-        $post->categories()->detach();
-
-        $post->categories()->attach($postCategoriesId);
+        $this->postService->update($postEntity, Auth::id(), $id, $postCategoriesId);
 
         return redirect()->route('admin.posts.show', ['id' => $id]);
     }
 
-    public function updateHtml($id, UpdateHtml $request)
+    public function updateHtml($id, PostStore $request)
     {
-        $data = $request->validated();
+        list($postEntity, ) = $this->handler($request);
 
-        $this->post->updateHtml($id, $data);
+        $this->postService->updateHtml($postEntity, $id);
 
         return redirect()->route('admin.posts.show', ['id' => $id]);
     }
@@ -105,44 +73,56 @@ class PostController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $post = $this->post->getPostByIdWithUserData($id);
+        $post = $this->postService->getPostByIdWithUserData($id);
 
-        $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+        $post->rating_count = $this->postService->countPostRating($post['rating']);
 
-        $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
+        $post->comments_count = $this->postService->countPostComments($post['comments']);
 
-        $auth_id = Auth::id();
-
-        $user = $this->cachedUser->getCurrentUserWithProfile($auth_id);
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         return view('admin.posts.show', compact('seo', 'post', 'user'));
     }
 
-    /**
-     * @param Request $request
-     */
     public function publish(Request $request)
     {
-        $id = $request->id;
+        $post = $this->postService->getById($request->id);
 
-        $post = $this->post->getById($id);
+        if ($post['is_published']) {
+            $post['is_published'] = 0;
+        } else {
+            $post['is_published'] = 1;
+            $post['data_published'] = Carbon::now();
+        }
 
-        $post = $this->post->togglePublish($post);
+        $postEntity = $this->postService->restorePost(
+            $post['id'],
+            $post['slug'],
+            $post['title'],
+            $post['description'],
+            $post['name'],
+            $post['caption'],
+            $post['body'],
+            $post['imagePath'],
+            $post['is_published'],
+            $post['views'],
+            $post['data_published']
+        );
 
-        $post->save();
+        $this->postService->changePublishStatus($postEntity);
     }
 
     public function edit($id, Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $post = $this->post->getPostByIdWithCategories($id);
+        $post = $this->postService->getPostByIdWithCategories($id);
 
-        $categories = $this->category->getAllParentCategories();
+        $categories = $this->categoryService->getAllParentCategories();
 
         $categoryArray = $this->categoryService->getPostCategoriesIdByPost($post);
 
-        $user = $this->userRepository->getCurrentUserWithProfile(Auth::id());
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         return view('admin.posts.edit', compact('seo', 'post', 'categories', 'categoryArray', 'user'));
     }
@@ -151,12 +131,37 @@ class PostController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $post = $this->post->getById($id);
+        $post = $this->postService->getById($id);
 
-        $auth_id = Auth::id();
-
-        $user = $this->cachedUser->getCurrentUserWithProfile($auth_id);
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         return view('admin.posts.html', compact('seo', 'post', 'user'));
+    }
+
+    /**
+     * @param PostStore $request
+     * @return array
+     */
+    protected function handler(PostStore $request): array
+    {
+        $data = $request->validated();
+
+        $postEntity = $this->postService->createPost(
+            $data['slug'],
+            $data['title'],
+            $data['description'],
+            $data['name'],
+            $data['caption'],
+            $data['body'],
+            $data['image']
+        );
+
+        $categoryId = $data['category'];
+
+        $category = $this->categoryService->getPostCategory($categoryId);
+
+        $postCategoriesId = $this->categoryService->getPostAllCategoriesId($category);
+
+        return array($postEntity, $postCategoriesId);
     }
 }

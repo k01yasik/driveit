@@ -6,5 +6,5 @@ use App\Profile;
 
 interface ProfileRepositoryInterface
 {
-    public function store(User $user, string $url): Profile;
+    public function add(int $userId, string $avatarUrl): void;
 }

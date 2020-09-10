@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 use App\Post;
+use App\Entities\Post as PostEntity;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use App\Repositories\Interfaces\PostRepositoryInterface;
@@ -18,169 +19,99 @@ use Illuminate\Database\Query\Builder;
 
 final class CachedPostRepository implements PostRepositoryInterface
 {
-    protected $postRepository;
+    protected PostRepositoryInterface $postRepository;
 
     public function __construct(PostRepositoryInterface $postRepository)
     {
         $this->postRepository = $postRepository;
     }
 
-    /**
-     * @param array $data
-     * @return Post $post
-     */
-    public function store(Array $data)
+    public function store(PostEntity $post, int $userId, array $postCategoriesId): void
     {
-        return $this->postRepository->store($data);
+        $this->postRepository->store($post, $userId, $postCategoriesId);
     }
 
-    /**
-     * @param mixed $id
-     * @param array $data
-     * @return Post $post
-     */
-    public function update($id, Array $data): Post
+    public function update(PostEntity $post, int $userId, int $postId, array $postCategoriesId): void
     {
-        return $this->postRepository->update($id, $data);
+        $this->postRepository->update($post, $userId, $postId, $postCategoriesId);
     }
 
-    /**
-     * @param mixed $id
-     * @param array $data
-     */
-    public function updateHtml($id, Array $data): void
+    public function updateHtml(PostEntity $postEntity, int $postId): void
     {
-        $this->postRepository->updateHtml($id, $data);
+        $this->postRepository->updateHtml($postEntity, $postId);
     }
 
-    /**
-     * @param $id
-     * @return Post $post;
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostByIdWithUserData($id): Post
+    public function getPostByIdWithUserData(int $postId): array
     {
-        return $this->postRepository->getPostByIdWithUserData($id);
+        return $this->postRepository->getPostByIdWithUserData($postId);
     }
 
-    /**
-     * @param $id
-     * @return Post $post;
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostByIdWithCategories($id)
+    public function getPostByIdWithCategories(int $postId): array
     {
-        return $this->postRepository->getPostByIdWithCategories($id);
+        return $this->postRepository->getPostByIdWithCategories($postId);
     }
 
-    /**
-     * @param string $slug
-     * @return Model
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostBySlugWithUserData(string $slug): Model
+    public function getPostBySlugWithUserData(string $slug): array
     {
         return $this->postRepository->getPostBySlugWithUserData($slug);
     }
 
-    /**
-     * @param int $id
-     * @return Post
-     */
-    public function getById(int $id)
+    public function getById(int $postId): array
     {
-        return $this->postRepository->getById($id);
+        return $this->postRepository->getById($postId);
     }
 
-    /**
-     * @param Post $post
-     * @return Post
-     */
-    public function togglePublish(Post $post)
+    public function updateStatus(PostEntity $postEntity): void
     {
-        return $this->postRepository->togglePublish($post);
+        $this->postRepository->updateStatus($postEntity);
     }
 
-    /**
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
-    public function getPaginatedPostsOrderedById(bool $isStart, int $id = null): Paginator
+    public function getPaginatedPostsOrderedById(bool $isStart, int $id = null): array
     {
         return $this->postRepository->getPaginatedPostsOrderedById($isStart, $id);
     }
 
-    public function getPaginatedPostsByCategory(array $comment): Builder
+    public function getPaginatedPostsByCategory(array $category): array
     {
-        return $this->postRepository->getPaginatedPostsByCategory($comment);
+        return $this->postRepository->getPaginatedPostsByCategory($category);
     }
 
-
-    /**
-     * @return Paginator
-     */
-    public function getPaginatedPostsForPages(): Paginator
+    public function getAllPublishedPosts(): array
     {
         return Cache::rememberForever('latest-posts', function () {
-            return $this->postRepository->getPaginatedPostsForPages();
+            return $this->postRepository->getAllPublishedPosts();
         });
     }
 
-    /**
-     * @param int $id
-     * @return Paginator
-     */
-    public function getPaginatedPostsWithoutCache(int $id): Paginator
+    public function getPaginatedPostsWithoutCache(): array
     {
-        return $this->postRepository->getPaginatedPostsWithoutCache($id);
+        return $this->postRepository->getPaginatedPostsWithoutCache();
     }
 
-    /**
-     * @return Collection
-     */
-    public function getPostCollection(): Collection
-    {
-        return $this->postRepository->getPostCollection();
-    }
-
-    /**
-     * @param string $slug
-     * @return Model
-     */
-    public function getPostsForShow(string $slug): Model
+    public function getPostsForShow(string $slug): array
     {
         return $this->postRepository->getPostsForShow($slug);
     }
 
-    /**
-     * @param array $ids
-     * @return Collection
-     */
-    public function getSuggests(array $ids): Collection
+    public function getSuggests(array $ids): array
     {
         return $this->postRepository->getSuggests($ids);
     }
 
-    /**
-     * @param string $query
-     * @return Builder
-     */
-    public function search(string $query): Builder
+    public function search(string $query): array
     {
         return $this->postRepository->search($query);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getPostsForSitemap(): Collection
+    public function getPostsForSitemap(): array
     {
         return Cache::rememberForever('posts-for-sitemap', function () {
             return $this->postRepository->getPostsForSitemap();
         });
+    }
+
+    public function incrementViews(int $postId): void
+    {
+        $this->postRepository->incrementViews($postId);
     }
 }

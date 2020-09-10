@@ -9,5 +9,5 @@ interface DraftRepositoryInterface
 {
     public function getUserDrafts(int $id): array;
 
-    public function save(Draft $draft, User $user): bool;
+    public function save(Draft $draft, int $userId): void;
 }

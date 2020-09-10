@@ -9,18 +9,20 @@ use App\Rip;
 
 class RipService
 {
-    protected $ripRepository;
+    protected RipRepositoryInterface $ripRepository;
 
     public function __construct(RipRepositoryInterface $ripRepository)
     {
         $this->ripRepository = $ripRepository;
     }
 
-    public function store(int $id): void {
-        $this->ripRepository->store($id);
+    public function store(int $userId): void
+    {
+        $this->ripRepository->store($userId);
     }
 
-    public function delete(int $id): Model {
-        return $this->ripRepository->delete($id);
+    public function delete(int $userId): void
+    {
+        $this->ripRepository->delete($userId);
     }
 }

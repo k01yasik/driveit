@@ -1,124 +1,105 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bzdykin
- * Date: 05.11.2019
- * Time: 23:49
- */
 
 namespace App\Repositories;
 
-
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 final class CachedUserRepository implements UserRepositoryInterface
 {
-    private $user;
+    private UserRepositoryInterface $userRepository;
 
-    public function __construct(UserRepositoryInterface $user)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->user = $user;
+        $this->userRepository = $userRepository;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return \Illuminate\Database\Eloquent\Model|static
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getCurrentUserWithProfile(int $id)
+    public function getCurrentUserWithProfile(int $id): array
     {
         return Cache::rememberForever('user_with_profile_'.$id, function () use ($id) {
-            return $this->user->getCurrentUserWithProfile($id);
+            return $this->userRepository->getCurrentUserWithProfile($id);
         });
     }
 
-    /**
-     * @return Collection
-     */
-    public function getAllUsers(): Collection
+    public function getAllUsers(): array
     {
         return Cache::rememberForever('all-users', function () {
-            return $this->user->getAllUsers();
+            return $this->userRepository->getAllUsers();
         });
     }
 
-    public function getAllUnbannedUsers(): Collection
+    public function getAllUnbannedUsers(array $ripIds): array
     {
         return Cache::rememberForever('unbanned-users', function () {
-           return $this->user->getAllUnbannedUsers();
+           return $this->userRepository->getAllUnbannedUsers();
         });
     }
 
-    public function getVerifiedUsers(): Collection
+    public function getVerifiedUsers(): array
     {
         return Cache::rememberForever('verified-users', function () {
-           return $this->user->getVerifiedUsers();
+           return $this->userRepository->getVerifiedUsers();
         });
     }
 
-    public function getUnverifiedUsers(): Collection
+    public function getUnverifiedUsers(): array
     {
         return Cache::rememberForever('unverified-users', function () {
-            return $this->user->getUnverifiedUsers();
+            return $this->userRepository->getUnverifiedUsers();
         });
     }
 
-    public function getBannedUsers(): Collection
+    public function getBannedUsers(array $ripIds): array
     {
         return Cache::rememberForever('banned-users', function () {
-            return $this->user->getBannedUsers();
+            return $this->userRepository->getBannedUsers();
         });
     }
 
     /**
      * @param string $username
-     * @return Model
+     * @return array
      */
-    public function getUserByUsername(string $username): Model
+    public function getUserByUsername(string $username): array
     {
-        return $this->user->getUserByUsername($username);
+        return $this->userRepository->getUserByUsername($username);
     }
 
     /**
      * @param string $username
-     * @return Model
+     * @return array
      */
-    public function getMessageUser(string $username): Model
+    public function getMessageUser(string $username): array
     {
-        return $this->user->getMessageUser($username);
+        return $this->userRepository->getMessageUser($username);
     }
 
     /**
      * @param int $id
-     * @return Collection
+     * @return array
      */
-    public function getAllPublicUsers(int $id): Collection
+    public function getAllPublicUsers(int $id): array
     {
         return Cache::rememberForever('all-public-users', function () use ($id) {
-            return $this->user->getAllPublicUsers($id);
+            return $this->userRepository->getAllPublicUsers($id);
         });
     }
 
     /**
      * @param int $id
-     * @return Model
+     * @return array
      */
-    public function getUsersWithFriends(int $id): Model
+    public function getUsersWithFriends(int $id): array
     {
-        return $this->user->getUsersWithFriends($id);
+        return $this->userRepository->getUsersWithFriends($id);
     }
 
     /**
      * @param string $username
-     * @return Model
+     * @return array
      */
-    public function getUserForAlbums(string $username): Model
+    public function getUserForAlbums(string $username): array
     {
-        return $this->user->getUserForAlbums($username);
+        return $this->userRepository->getUserForAlbums($username);
     }
 }

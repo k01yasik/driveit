@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bzdykin
- * Date: 28.10.2019
- * Time: 20:43
- */
 
 namespace App\Repositories\Interfaces;
 
 use App\Post;
+use App\Entities\Post as PostEntity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,90 +11,37 @@ use Illuminate\Database\Query\Builder;
 
 interface PostRepositoryInterface
 {
-    /**
-     * @param array $data
-     * @return Post $post
-     */
-    public function store(Array $data);
+    public function store(PostEntity $post, int $userId, array $postCategoriesId): void;
 
-    /**
-     * @param mixed $id
-     * @param array $data
-     * @return Post $post
-     */
-    public function update($id, Array $data): Post;
+    public function update(PostEntity $post, int $userId, int $postId, array $postCategoriesId): void;
 
-    /**
-     * @param mixed $id
-     * @param array $data
-     */
-    public function updateHtml($id, Array $data): void;
+    public function updateHtml(PostEntity $postEntity, int $postId): void;
 
-    /**
-     * @param $id
-     * @return Post $post;
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostByIdWithUserData($id): Post;
+    public function getPostByIdWithUserData(int $postId): array;
 
-    /**
-     * @param $id
-     * @return Post $post;
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostByIdWithCategories($id);
+    public function getPostByIdWithCategories(int $postId): array;
 
-    /**
-     * @param string $slug
-     * @return Model
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostBySlugWithUserData(string $slug): Model;
+    public function getPostBySlugWithUserData(string $slug): array;
 
-    /**
-     * @param int $id
-     * @return Post
-     */
-    public function getById(int $id);
+    public function getById(int $postId): array;
 
-    public function togglePublish(Post $post);
+    public function updateStatus(PostEntity $postEntity): void;
 
-    public function getPaginatedPostsOrderedById(bool $isStart, int $id = null): Paginator;
+    public function getPaginatedPostsOrderedById(bool $isStart, int $id = null): array;
 
-    public function getPaginatedPostsByCategory(array $category): Builder;
+    public function getPaginatedPostsByCategory(array $category): array;
 
-    public function getPaginatedPostsForPages(): Paginator;
+    public function getAllPublishedPosts(): array;
 
-    public function getPaginatedPostsWithoutCache(int $id): Paginator;
+    public function getPaginatedPostsWithoutCache(): array;
 
-    /**
-     * @return Collection
-     */
-    public function getPostCollection(): Collection;
+    public function getPostsForShow(string $slug): array;
 
-    /**
-     * @param string $slug
-     * @return Model
-     */
-    public function getPostsForShow(string $slug): Model;
+    public function getSuggests(array $ids): array;
 
-    /**
-     * @param array $ids
-     * @return Collection
-     */
-    public function getSuggests(array $ids): Collection;
+    public function search(string $query): array;
 
-    /**
-     * @param string $query
-     * @return Builder
-     */
-    public function search(string $query): Builder;
+    public function getPostsForSitemap(): array;
 
-    /**
-     * @return Collection
-     */
-    public function getPostsForSitemap(): Collection;
+    public function incrementViews(int $postId): void;
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AdminCommentController extends Controller
 {
-    protected $commentService;
+    protected AdminCommentService $commentService;
 
     public function __construct(AdminCommentService $commentService)
     {

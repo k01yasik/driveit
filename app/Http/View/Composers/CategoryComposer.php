@@ -23,7 +23,6 @@ class CategoryComposer
 
     public function compose(View $view)
     {
-
         $category = $this->categoryService->getCategoryByName(request()->route()->parameter('category'));
 
         $categories = $this->categoryService->getCategoryNameWithParentName($category);
@@ -45,7 +44,6 @@ class CategoryComposer
                 "description" => 'Все статьи в категории '.$category['displayname'],
             ];
         }
-
 
         foreach ($posts as $post) {
             $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;

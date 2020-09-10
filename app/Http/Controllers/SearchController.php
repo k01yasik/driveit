@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
-use App\Post;
-use App\Repositories\CachedPostRepository;
 use App\Services\PostService;
 use App\Services\SeoService;
 
 class SearchController extends Controller
 {
-    protected $seoService;
-    protected $postRepository;
+    protected SeoService $seoService;
+    protected PostService $postService;
 
-    public function __construct(SeoService $seoService, CachedPostRepository $postRepository)
+    public function __construct(SeoService $seoService, PostService $postService)
     {
         $this->seoService = $seoService;
-        $this->postRepository = $postRepository;
+        $this->postService = $postService;
     }
 
     public function index(SearchRequest $request)
@@ -27,7 +25,7 @@ class SearchController extends Controller
 
         $query = clean($data['search']);
 
-        $searches = $this->postRepository->search($query);
+        $searches = $this->postService->search($query);
 
         return view('search.index', compact('seo', 'searches'));
     }

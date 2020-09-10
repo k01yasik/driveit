@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\CachedCommentRepository;
-use App\Repositories\CachedPostDashboardRepository;
-use App\Repositories\CachedPostRepository;
 use App\Services\CommentService;
 use App\Services\GoogleAnalyticsService;
 use App\Services\PaginatorService;
 use App\Services\PostDashboardService;
+use App\Services\PostService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
@@ -16,20 +14,20 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    protected $seoService;
-    protected $userService;
+    protected SeoService $seoService;
+    protected UserService $userService;
     protected PostDashboardService $postDashboardService;
-    protected $commentService;
-    protected $googleAnalyticsService;
-    protected $postRepository;
-    protected $paginatorService;
+    protected CommentService $commentService;
+    protected GoogleAnalyticsService $googleAnalyticsService;
+    protected PostService $postService;
+    protected PaginatorService $paginatorService;
 
     public function __construct(SeoService $seoService,
                                 UserService $userService,
                                 PostDashboardService $postDashboardService,
                                 CommentService $commentService,
                                 GoogleAnalyticsService $googleAnalyticsService,
-                                CachedPostRepository $postRepository,
+                                PostService $postService,
                                 PaginatorService $paginatorService)
     {
         $this->seoService = $seoService;
@@ -37,7 +35,7 @@ class AdminController extends Controller
         $this->postDashboardService = $postDashboardService;
         $this->commentService = $commentService;
         $this->googleAnalyticsService = $googleAnalyticsService;
-        $this->postRepository = $postRepository;
+        $this->postService = $postService;
         $this->paginatorService = $paginatorService;
     }
 
@@ -138,8 +136,8 @@ class AdminController extends Controller
         $data = $this->userService->getUserByUsername($username);
 
         $seo = [
-            'title' => 'Информация о пользователе '.$data->username,
-            'description' => 'Информация о пользователе '.$data->username
+            'title' => 'Информация о пользователе '.$data['username'],
+            'description' => 'Информация о пользователе '.$data['username']
         ];
 
         return view('admin.user.show', compact('seo', 'user', 'data'));
@@ -152,8 +150,8 @@ class AdminController extends Controller
         $data = $this->userService->getUserByUsername($username);
 
         $seo = [
-            'title' => 'Удаление пользователя '.$data->username,
-            'description' => 'Удаление пользователя '.$data->username
+            'title' => 'Удаление пользователя '.$data['username'],
+            'description' => 'Удаление пользователя '.$data['username']
         ];
 
         return view('admin.user.delete', compact('seo', 'user', 'data'));
@@ -165,7 +163,7 @@ class AdminController extends Controller
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $posts = $this->postRepository->getPaginatedPostsOrderedById(true);
+        $posts = $this->postService->getPaginatedPostsOrderedById(true);
 
         $pages = $this->paginatorService->calculatePages($posts);
 
@@ -192,7 +190,7 @@ class AdminController extends Controller
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $posts = $posts = $this->postRepository->getPaginatedPostsOrderedById(false, $id);
+        $posts = $posts = $this->postService->getPaginatedPostsOrderedById(false, $id);
 
         $pages = $this->paginatorService->calculatePages($posts);
 
@@ -236,7 +234,6 @@ class AdminController extends Controller
 
     public function commentsPaginate(Request $request, $id)
     {
-
         $seo = [
             "title" => "Все комментарии. Страница - ".$id.".",
             "description" => "Все комментарии. Страница - ".$id.".",

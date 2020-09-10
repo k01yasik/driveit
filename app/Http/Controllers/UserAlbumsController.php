@@ -7,7 +7,10 @@ use App\Repositories\AlbumRepository;
 use App\Repositories\CachedUserRepository;
 use App\Repositories\FriendRepository;
 use App\Repositories\ImageRepository;
+use App\Services\AlbumService;
+use App\Services\FriendService;
 use App\Services\ImageService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\SeoService;
@@ -18,22 +21,22 @@ use App\Friend;
 
 class UserAlbumsController extends Controller
 {
-    protected $seoService;
-    protected $userRepository;
-    protected $friendRepository;
-    protected $albumRepository;
-    protected $imageService;
+    protected SeoService $seoService;
+    protected UserService $userService;
+    protected FriendService $friendService;
+    protected AlbumService $albumService;
+    protected ImageService $imageService;
 
     public function __construct(SeoService $seoService,
-                                CachedUserRepository $userRepository,
-                                FriendRepository $friendRepository,
-                                AlbumRepository $albumRepository,
+                                UserService $userService,
+                                FriendService $friendService,
+                                AlbumService $albumService,
                                 ImageService $imageService)
     {
         $this->seoService = $seoService;
-        $this->userRepository = $userRepository;
-        $this->friendRepository = $friendRepository;
-        $this->albumRepository = $albumRepository;
+        $this->userService = $userService;
+        $this->friendService = $friendService;
+        $this->albumService = $albumService;
         $this->imageService = $imageService;
     }
 
@@ -56,7 +59,7 @@ class UserAlbumsController extends Controller
         $seo = $this->seoService->getSeoData($request);
 
 
-        $album = $this->albumRepository->getUserAlbumByName($albumname, Auth::id());
+        $album = $this->albumService->getUserAlbumByName($albumname, Auth::id());
         $images = $this->imageService->getAllAlbumImages($album['id']);
 
         $seo['title'] = $seo['title'].' '.$album['name'];
@@ -66,13 +69,11 @@ class UserAlbumsController extends Controller
     }
 
     public function store(NewAlbumRequest $request, $username) {
-        $data = $request->validated();
+        $albumName = $request->validated()['name'];
 
-        $album_name = $data['name'];
+        $cleanAlbumName = clean($albumName);
 
-        $album_name = clean($album_name);
-
-        $this->albumRepository->save($album_name, Auth::id());
+        $this->albumService->save($cleanAlbumName, Auth::id());
 
         return redirect()->route('user.albums.index', ['username' => $username]);
     }
@@ -80,23 +81,17 @@ class UserAlbumsController extends Controller
     public function edit(Request $request, $username, $albumname) {
         $seo = $this->seoService->getSeoData($request);
 
-        $album = $this->albumRepository->getUserAlbumByName($albumname, Auth::id());
+        $album = $this->albumService->getUserAlbumByName($albumname, Auth::id());
 
         return view('user.albums.edit', compact('seo', 'album'));
     }
 
     public function update(NewAlbumRequest $request, $username, $albumname) {
-        $data = $request->validated();
+        $albumName = $request->validated()['name'];
 
-        $album_name = $data['name'];
+        $cleanAlbumName = clean($albumName);
 
-        $album_name = clean($album_name);
-
-        $album = $this->albumRepository->getUserAlbumByName($albumname, Auth::id());
-
-        $album->name = $album_name;
-
-        $album->save();
+        $this->albumService->updateName($albumname, $cleanAlbumName, Auth::id());
 
         return redirect()->route('user.albums.index', ['username' => $username]);
     }

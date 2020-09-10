@@ -15,25 +15,25 @@ class NewsController extends Controller
     }
 
 
-    public function index() {
+    public function index(Request $request) {
         $news = $this->newsService->getLastNews();
 
         return view('news.index', compact('news'));
     }
 
-    public function store() {
+    public function store(Request $request) {
 
     }
 
-    public function update($id) {
+    public function update(Request $request, $id) {
 
     }
 
-    public function delete($id) {
+    public function delete(Request $request, $id) {
 
     }
 
-    public function publishToggle($id) {
+    public function publishToggle(Request $request, $id) {
 
     }
 }

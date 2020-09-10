@@ -13,8 +13,8 @@
                     <form method="POST" action="{{ route('admin.posts.html.update', ['id' => $post->id]) }}">
                         @csrf
                         @method('PUT')
-                        <label for="html" class="required">{{ __('Post html code')}}</label>
-                        <textarea name="html" id="html" type="text" rows="20" required>{!! $post->body !!}</textarea>
+                        <label for="body" class="required">{{ __('Post html code')}}</label>
+                        <textarea name="body" id="body" type="text" rows="20" required>{!! $post->body !!}</textarea>
                         <button type="submit" class="button btn-post-height">{{ __('Update a post') }}</button>
                     </form>
                 </div>

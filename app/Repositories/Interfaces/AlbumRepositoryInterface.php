@@ -6,5 +6,7 @@ interface AlbumRepositoryInterface
 {
     public function getUserAlbumByName(string $albumName, int $id): array;
 
-    public function save($album_name, int $id): void;
+    public function save(string $albumName, int $userId): void;
+
+    public function updateName(string $oldAlbumName, string $newAlbumName, int $userId): void;
 }

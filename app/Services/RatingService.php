@@ -8,33 +8,42 @@ use App\Post;
 
 class RatingService
 {
-    protected $ratingRepository;
+    protected RatingRepositoryInterface $ratingRepository;
 
     public function __construct(RatingRepositoryInterface $ratingRepository)
     {
         $this->ratingRepository = $ratingRepository;
     }
 
-    public function toggleRating(Model $post): void {
-        if ($post->rating === 0) {
-            $post->increment('rating');
+    public function toggleRating(array $post): void {
+        if ($post['rating'] === 0) {
+            $this->ratingRepository->increaseRating($post['id']);
         } else {
-            $post->decrement('rating');
+            $this->ratingRepository->decreaseRating($post['id']);
         }
     }
 
     public function calculatePostRating(int $post_id): int {
-
         $i = 0;
 
-        $newRating = $this->ratingRepository->getRatingCollectionForPost($post_id);
+        $ratings = $this->ratingRepository->getAllRatingsForPost($post_id);
 
-        foreach ($newRating as $new) {
-            if ($new->rating === 1) {
+        foreach ($ratings as $rating) {
+            if ($rating->rating === 1) {
                 $i+=1;
             }
         }
 
         return $i;
+    }
+
+    public function getPostRatingByUser(int $postId, int $userId): array
+    {
+        return $this->getPostRatingByUser($postId, $userId);
+    }
+
+    public function store(int $postId, int $userId): void
+    {
+        $this->ratingRepository->store($postId, $userId);
     }
 }

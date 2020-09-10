@@ -16,7 +16,7 @@ class DraftRepository implements DraftRepositoryInterface
     }
 
 
-    public function save(DraftDto $draft, User $user): bool
+    public function save(DraftDto $draft, int $userId): void
     {
         $model = new Draft;
         $model->slug = $draft->slug;
@@ -26,9 +26,7 @@ class DraftRepository implements DraftRepositoryInterface
         $model->caption = $draft->caption;
         $model->body = $draft->body;
         $model->image = $draft->image;
-        $model->user()->associate($user);
+        $model->user_id = $userId;
         $model->save();
-
-        return true;
     }
 }

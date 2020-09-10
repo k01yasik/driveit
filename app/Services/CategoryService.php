@@ -40,12 +40,12 @@ class CategoryService
         return $this->categoryRepository->getCategoryByName($name);
     }
 
-    public function getPostCategoriesIdByPost(Post $post): array
+    public function getPostCategoriesIdByPost(array $post): array
     {
         $categoryArray = [];
 
-        foreach ($post->categories as $category) {
-            array_push($categoryArray, $category->id);
+        foreach ($post['categories'] as $category) {
+            array_push($categoryArray, $category['id']);
         }
 
         return $categoryArray;
@@ -65,6 +65,16 @@ class CategoryService
         $categories[] = $this->makeCategoryResponse($category);
 
         return $categories;
+    }
+
+    public function getAllParentCategories(): array
+    {
+        return $this->categoryRepository->getAllParentCategories();
+    }
+
+    public function getPostCategory(int $categoryId): array
+    {
+        return $this->categoryRepository->getPostCategory($categoryId);
     }
 
     protected function makeCategoryResponse(array $category)

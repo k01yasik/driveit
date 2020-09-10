@@ -9,12 +9,10 @@ use App\User;
 class ProfileRepository implements ProfileRepositoryInterface
 {
 
-    public function store(User $user, string $url): Profile
+    public function add(int $userId, string $avatarUrl): void
     {
-        $profile = $user->profile()->firstOrFail();
-        $profile->avatar = $url;
+        $profile = User::find($userId)->profile()->firstOrFail();
+        $profile->avatar = $avatarUrl;
         $profile->save();
-
-        return $profile;
     }
 }

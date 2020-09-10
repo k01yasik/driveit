@@ -7,8 +7,8 @@ use App\Services\CommentService;
 
 class AmpController extends Controller
 {
-    protected $commentService;
-    protected $postRepository;
+    protected CommentService $commentService;
+    protected CachedPostRepository $postRepository;
 
     public function __construct(CommentService $commentService, CachedPostRepository $postRepository)
     {
@@ -21,11 +21,11 @@ class AmpController extends Controller
         $post = $this->postRepository->getPostBySlugWithUserData($slug);
 
         $seo = [
-            "title" => $post->title,
-            "description" => $post->description,
+            "title" => $post['title'],
+            "description" => $post['description'],
         ];
 
-        $sortedComments = $this->commentService->sortComments($post->id);
+        $sortedComments = $this->commentService->sortComments($post['id']);
 
         return view('amp.show', compact('seo', 'post', 'sortedComments'));
     }

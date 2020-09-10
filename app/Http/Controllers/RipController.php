@@ -9,8 +9,8 @@ use App\Services\SeoService;
 
 class RipController extends Controller
 {
-    protected $seoService;
-    protected $ripService;
+    protected SeoService $seoService;
+    protected RipService $ripService;
 
     public function __construct(SeoService $seoService, RipService $ripService)
     {
@@ -20,9 +20,9 @@ class RipController extends Controller
 
     public function store(RipRequest $request)
     {
-        $data = $request->validated();
+        $userId = $request->validated()['id'];
 
-        $this->ripService->store($data['id']);
+        $this->ripService->store($userId);
 
         return
             [
@@ -35,9 +35,7 @@ class RipController extends Controller
     {
         $id = $request->query('id');
 
-        $rip = $this->ripService->delete($id);
-
-        event('eloquent.deleted: App\Rip', $rip);
+        $this->ripService->delete($id);
 
         return response('ok', 200);
     }

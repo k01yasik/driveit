@@ -2,11 +2,11 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Model;
-
 interface RipRepositoryInterface
 {
-    public function store(int $id): void;
+    public function store(int $userId): void;
 
-    public function delete(int $id): Model;
+    public function delete(int $userId): void;
+
+    public function getAll(): array;
 }

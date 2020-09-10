@@ -14,12 +14,17 @@ class AlbumRepository implements AlbumRepositoryInterface
         return Album::where([['user_id', $id], ['name', $albumName]])->first()->toArray();
     }
 
-    public function save($album_name, int $id): void
+    public function save(string $albumName, int $userId): void
     {
         $album = new Album;
         $album->name = $album_name;
         $album->path = Str::random(10);
         $album->user_id = $id;
         $album->save();
+    }
+
+    public function updateName(string $oldAlbumName, string $newAlbumName, int $userId): void
+    {
+        Album::where([['name', $oldAlbumName], ['user_id', $userId]])->update(['name' => $newAlbumName]);
     }
 }

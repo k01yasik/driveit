@@ -5,213 +5,140 @@ namespace App\Repositories;
 use App\Category;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Post;
-use App\Services\PostService;
+use App\Entities\Post as PostEntity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 
 class PostRepository implements PostRepositoryInterface
 {
-    protected $postService;
-
-    public function __construct(PostService $postService)
-    {
-        $this->postService = $postService;
-    }
-
-    /**
-     * @param array $data
-     * @return Post
-     */
-    public function store(Array $data)
+    public function store(PostEntity $postEntity, int $userId, array $postCategoriesId): void
     {
         $post = new Post;
-        $post->slug = $data['slug'];
-        $post->title = $data['title'];
-        $post->description = $data['description'];
-        $post->name = $data['name'];
-        $post->caption = $data['caption'];
-        $post->body = $data['body'];
-        $post->image_path = $data['image'];
-        $post->is_published = 0;
-        $post->user()->associate(Auth::user());
-        $post->views = 0;
+        $post->slug = $postEntity->getSlug();
+        $post->title = $postEntity->getTitle();
+        $post->description = $postEntity->getDescription();
+        $post->name = $postEntity->getName();
+        $post->caption = $postEntity->getCaption();
+        $post->body = $postEntity->getBody();
+        $post->image_path = $postEntity->getImagePath();
+        $post->is_published = $postEntity->isPublished();
+        $post->user_id = $userId;
+        $post->views = $postEntity->getViews();
         $post->save();
 
-        return $post;
+        $post->categories()->attach($postCategoriesId);
     }
 
-    /**
-     * @param mixed $id
-     * @param array $data
-     * @return Post $post
-     */
-    public function update($id, Array $data): Post
+    public function update(PostEntity $postEntity, int $userId, int $postId, array $postCategoriesId): void
     {
-        $post = Post::find($id);
-        $post->title = $data['title'];
-        $post->description = $data['description'];
-        $post->name = $data['name'];
-        $post->caption = $data['caption'];
-        $post->body = $data['body'];
-        $post->image_path = $data['image'];
-        $post->user()->associate(Auth::user());
+        $post = Post::find($postId);
+        $post->title = $postEntity->getTitle();
+        $post->description = $postEntity->getDescription();
+        $post->name = $postEntity->getName();
+        $post->caption = $postEntity->getCaption();
+        $post->body = $postEntity->getBody();
+        $post->image_path = $postEntity->getImagePath();
+        $post->user_id = $userId;
         $post->save();
 
-        return $post;
+        $post->categories()->detach();
+
+        $post->categories()->attach($postCategoriesId);
     }
 
-    /**
-     * @param mixed $id
-     * @param array $data
-     */
-    public function updateHtml($id, Array $data): void
+    public function updateStatus(PostEntity $postEntity): void
     {
-        $post = Post::find($id);
-        $post->body = clean($data['html']);
+        $post = Post::find($postEntity->getId());
+        $post->is_published = $postEntity->isPublished();
+
+        if ($date = $postEntity->getDatePublished()) {
+            $post->date_published = $date;
+        }
+
         $post->save();
     }
 
-    /**
-     * @param $id
-     * @return Post $post;
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostByIdWithUserData($id): Post
+    public function updateHtml(PostEntity $postEntity, int $postId): void
     {
-        $post = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('id', $id)->firstOrFail();
-
-        return $post;
+        $post = Post::find($postId);
+        $post->body = clean($postEntity->getBody());
+        $post->save();
     }
 
-    /**
-     * @param $id
-     * @return Post $post;
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostByIdWithCategories($id)
+    public function getPostByIdWithUserData($postId): array
     {
-        $post = Post::with('categories')->where('id', $id)->firstOrFail();
-
-        return $post;
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('id', $postId)->first()->toArray();
     }
 
-    /**
-     * @param int $id
-     * @return Post
-     */
-    public function getById(int $id)
+    public function getPostByIdWithCategories(int $postId): array
     {
-        return Post::find($id);
+        return Post::with('categories')->where('id', $postId)->first()->toArray();
     }
 
-    /**
-     * @param Post $post
-     * @return Post
-     */
-    public function togglePublish(Post $post)
+    public function getById(int $postId): array
     {
-        if ($post->is_published) {
-            $post->is_published = 0;
-        } else {
-            $post->is_published = 1;
-            $post->date_published = Carbon::now();
-        }
-
-        return $post;
+        return Post::find($postId)->toArray();
     }
 
-
-    /**
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
-    public function getPaginatedPostsOrderedById(bool $isStart, int $id =  null): Paginator
+    public function changePublishStatus(int $postId)
     {
-        $posts = Post::orderByDesc('id');
 
-        if ($isStart) {
-            return $posts->paginate(10);
-        }
-
-        return $posts->paginate(10, ['*'], 'page', $id);
     }
 
-    /**
-     * @param string $slug
-     * @return Model
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getPostBySlugWithUserData(string $slug): Post
+    public function getPaginatedPostsOrderedById(bool $isStart, int $id =  null): array
     {
-        return Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail();
+        return Post::orderByDesc('id')->get()->toArray();
     }
 
-    public function getPaginatedPostsByCategory(array $category): Builder
+    public function getPostBySlugWithUserData(string $slug): array
     {
-        return Category::find($category['id'])->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published');
+        return Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail()->toArray();
     }
 
-    public function getPaginatedPostsForPages(): Paginator
+    public function getPaginatedPostsByCategory(array $category): array
     {
-        $posts = Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10);
-
-        foreach ($posts as $post) {
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-        }
-
-        return $posts;
+        return Category::find($category[0]['id'])->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
     }
 
-    public function getPaginatedPostsWithoutCache(int $id): Paginator
+    public function getAllPublishedPosts(): array
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->paginate(10, ['*'], 'page', $id);
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
     }
 
-    /**
-     * @return Collection
-     */
-    public function getPostCollection(): Collection
+    public function getPaginatedPostsWithoutCache(): array
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->get();
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
     }
 
-    public function getPostsForShow(string $slug): Model
+    public function getPostsForShow(string $slug): array
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments', 'suggest'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail();
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments', 'suggest'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail()->toArray();
     }
 
-    /**
-     * @param array $ids
-     * @return Collection
-     */
-    public function getSuggests(array $ids): Collection
+    public function getSuggests(array $ids): array
     {
         return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->find($ids);
     }
 
-    /**
-     * @param string $query
-     * @return Builder
-     */
-    public function search(string $query): Builder
+    public function search(string $query): array
     {
-        return Post::search($query)->paginate(10)->load(['user', 'categories', 'user.profile']);
+        return Post::search($query)->get()->load(['user', 'categories', 'user.profile'])->toArray();
     }
 
-    /**
-     * @return Collection
-     */
-    public function getPostsForSitemap(): Collection
+    public function getPostsForSitemap(): array
     {
-        return Post::where('is_published', 1)->orderByDesc('date_published')->get();
+        return Post::where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
+    }
+
+    public function incrementViews(int $postId): void
+    {
+        $post = Post::find($postId);
+
+        if ($post instanceof Model) {
+            $post->views += $post->views;
+            $post->save();
+        }
     }
 }

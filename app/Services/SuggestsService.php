@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class SuggestsService
 {
-    public function getSuggestsIds(Model $post)
+    public function getSuggestsIds(array $post)
     {
-        $suggest_ids = [];
+        $suggestIds = [];
 
-        foreach ($post->suggest as $suggest) {
-            array_push($suggest_ids, $suggest->suggest);
+        foreach ($post['suggest'] as $suggest) {
+            array_push($suggestIds, $suggest->suggest);
         }
 
-        return $suggest_ids;
+        return $suggestIds;
     }
 }

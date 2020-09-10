@@ -6,27 +6,20 @@ use Illuminate\Http\Request;
 use App\Services\DraftService;
 use App\Http\Requests\DraftRequest;
 use App\Services\SeoService;
-use App\Repositories\CachedUserRepository;
-use App\Repositories\Interfaces\FriendRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use App\Dto\Draft;
+use App\Dto\Draft as DraftDto;
+use App\Draft;
 
 class DraftController extends Controller
 {
-    protected $draftService;
-    protected $seoService;
-    protected $userRepository;
-    protected $friendRepository;
+    protected DraftService $draftService;
+    protected SeoService $seoService;
 
     public function __construct(DraftService $draftService, 
-                                SeoService $seoService,
-                                CachedUserRepository $userRepository,
-                                FriendRepositoryInterface $friendRepository)
+                                SeoService $seoService)
     {
         $this->draftService = $draftService;
         $this->seoService = $seoService;
-        $this->userRepository = $userRepository;
-        $this->friendRepository = $friendRepository;
     }
 
     public function index(Request $request, $username)
@@ -43,9 +36,9 @@ class DraftController extends Controller
 
     public function store(DraftRequest $draftRequest)
     {
-        $data = $draftRequest.validated();
+        $data = $draftRequest->validated();
 
-        $draft = new Draft();
+        $draft = new DraftDto();
         $draft->slug = $data["slug"];
         $draft->title = $data["title"];
         $draft->description = $data["description"];
@@ -54,16 +47,12 @@ class DraftController extends Controller
         $draft->body = $data["body"];
         $draft->image = $data["image"];
 
-        $result = $this->draftService->save($draft);
+        $this->draftService->save($draft, Auth::id());
 
-        if ($result) {
-            return redirect()->route('draft.index');
-        }
-        
-        return redirect()->back();
+        return redirect()->route('draft.index');
     }
 
-    public function show(Request $request, $username, App\Draft $draft)
+    public function show(Request $request, $username, Draft $draft)
     {
         $seo = $this->seoService->getSeoData($request);
 

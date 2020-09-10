@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\CachedPostRepository;
 use App\Services\PaginatorService;
 use App\Services\PostService;
 use App\Services\SuggestsService;
@@ -15,14 +14,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
-    protected $seoService;
-    protected $commentService;
-    protected $paginateService;
-    protected $paginatorService;
-    protected $postSortService;
-    protected $postService;
-    protected $postRepository;
-    protected $suggestsService;
+    protected SeoService $seoService;
+    protected CommentService $commentService;
+    protected PaginateService $paginateService;
+    protected PaginatorService $paginatorService;
+    protected PostSortService $postSortService;
+    protected PostService $postService;
+    protected SuggestsService $suggestsService;
 
     public function __construct(
         SeoService $seoService,
@@ -30,7 +28,6 @@ class PageController extends Controller
         PaginateService $paginateService,
         PostSortService $postSortService,
         PostService $postService,
-        CachedPostRepository $postRepository,
         PaginatorService $paginatorService,
         SuggestsService $suggestsService
     )
@@ -40,7 +37,6 @@ class PageController extends Controller
         $this->paginateService = $paginateService;
         $this->postSortService = $postSortService;
         $this->postService = $postService;
-        $this->postRepository = $postRepository;
         $this->paginatorService = $paginatorService;
         $this->suggestsService = $suggestsService;
     }
@@ -49,7 +45,7 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = $this->postRepository->getPaginatedPostsForPages();
+        $posts = $this->postService->getAllPublishedPosts();
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -58,7 +54,7 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = $this->postRepository->getPaginatedPostsForPages();
+        $posts = $this->postService->getAllPublishedPosts();
 
         $pages = $this->paginatorService->calculatePages($posts);
 
@@ -73,7 +69,7 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = $this->postRepository->getPaginatedPostsWithoutCache($id);
+        $posts = $this->postService->getPaginatedPostsWithoutCache($id);
 
         foreach ($posts as $post) {
 
@@ -94,7 +90,7 @@ class PageController extends Controller
         $seo = $this->seoService->getSeoData($request);
         $name = $request->route()->getName();
 
-        $posts = $this->postRepository->getPostCollection();
+        $posts = $this->postService->getAllPosts();
 
         foreach ($posts as $post) {
 
@@ -102,7 +98,7 @@ class PageController extends Controller
             $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
         }
 
-        $data = $this->paginateService->paginationData(10, 1, url()->current(), $posts->count());
+        $data = $this->paginateService->paginationData(10, 1, url()->current(), count($posts));
 
         $posts = $this->postSortService->getSlicedData($name, $posts, $data["perPage"]);
 
@@ -111,18 +107,7 @@ class PageController extends Controller
 
     public function commentsPaginate($id, Request $request)
     {
-        $seo = $this->seoService->getSeoData($request);
-
-        $posts = $this->postRepository->getPostCollection();
-
-        foreach ($posts as $post) {
-
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-        }
-
-        $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
-        $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
+        list($seo, $posts) = $this->handler($request, $id);
 
         $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-comments', $posts->count());
 
@@ -135,18 +120,7 @@ class PageController extends Controller
 
     public function ratedPaginate($id, Request $request)
     {
-        $seo = $this->seoService->getSeoData($request);
-
-        $posts = $this->postRepository->getPostCollection();
-
-        foreach ($posts as $post) {
-
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-        }
-
-        $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
-        $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
+        list($seo, $posts) = $this->handler($request, $id);
 
         $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-rated', $posts->count());
 
@@ -159,18 +133,7 @@ class PageController extends Controller
 
     public function viewsPaginate($id, Request $request)
     {
-        $seo = $this->seoService->getSeoData($request);
-
-        $posts = $this->postRepository->getPostCollection();
-
-        foreach ($posts as $post) {
-
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-        }
-
-        $seo['title'] = $seo['title'].'. Страница - '.$id.'.';
-        $seo['description'] = $seo['description'].'. Страница - '.$id.'.';
+        list($seo, $posts) = $this->handler($request, $id);
 
         $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-views', $posts->count());
 
@@ -193,47 +156,62 @@ class PageController extends Controller
         return view('page.rules', compact('seo'));
     }
 
-    /**
-     * @param $slug
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function show($slug)
     {
 
-        $post = $this->postRepository->getPostsForShow($slug);
+        $post = $this->postService->getPostsForShow($slug);
 
-        $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-        $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
+        $post->rating_count = $this->postService->countPostRating($post['rating']->toArray());
+        $post->comments_count = $this->postService->countPostComments($post['comments']->toArray());;
 
-        $suggest_ids = $this->suggestsService->getSuggestsIds($post);
+        $suggestIds = $this->suggestsService->getSuggestsIds($post);
 
-        $suggest_posts = $this->postRepository->getSuggests($suggest_ids);
+        $suggestPosts = $this->postService->getSuggests($suggestIds);
 
-        foreach ($suggest_posts as $pp) {
+        foreach ($suggestPosts as $pp) {
 
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
+            $post->rating_count = $this->postService->countPostRating($post['rating']->toArray());
+            $post->comments_count = $this->postService->countPostComments($post['comments']->toArray());;
         }
 
-        $post->increment('views');
-
-        event('eloquent.saved: App\Post', $post);
+        $this->postService->incrementViews($post['id']);
 
         $seo = [
-            "title" => $post->title,
-            "description" => $post->description,
-            "image" => $post->image_path,
+            "title" => $post['title'],
+            "description" => $post['description'],
+            "image" => $post['image_path'],
             "type" => 'article'
         ];
 
         $authenticated = Auth::check();
-        $sortedComments = $this->commentService->sortComments($post->id);
+        $sortedComments = $this->commentService->sortComments($post['id']);
 
-        return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggest_posts'));
+        return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggestPosts'));
     }
 
     public function notFound(Request $request)
     {
         return view('errors.404');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return array
+     */
+    private function handler(Request $request, $id): array
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
+        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
+
+        $posts = $this->postService->getAllPosts();
+
+        foreach ($posts as $post) {
+            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
+            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
+        }
+        return array($seo, $posts);
     }
 }

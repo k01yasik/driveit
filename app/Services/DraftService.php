@@ -8,7 +8,7 @@ use App\User;
 
 class DraftService
 {
-    protected $draftRepository;
+    protected DraftRepositoryInterface $draftRepository;
 
     public function __construct(DraftRepositoryInterface $draftRepository)
     {
@@ -20,8 +20,8 @@ class DraftService
         return $this->draftRepository->getUserDrafts($id);
     }
 
-    public function save(Draft $draft, User $user): bool
+    public function save(Draft $draft, int $userId): bool
     {
-        return $this->draftRepository->save($draft, $user);
+        $this->draftRepository->save($draft, $userId);
     }
 }

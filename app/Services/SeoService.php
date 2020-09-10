@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class SeoService
 {
-    protected $seoRepository;
+    protected CachedSeoRepository $seoRepository;
 
     public function __construct(CachedSeoRepository $seoRepository)
     {
@@ -20,28 +20,36 @@ class SeoService
     {
         $name = $this->getRouteName($request);
 
-        $seoData = $this->seoRepository->getSeoData($name);
-
-        return $seoData;
+        return $this->seoRepository->getSeoData($name);
     }
 
-    public function getAllData(): Collection
+    public function getAllData(): array
     {
         return $this->seoRepository->getAllData();
     }
 
-    public function getSeoById(int $id): Model
+    public function getSeoById(int $id): array
     {
         return $this->seoRepository->getSeoById($id);
     }
 
-    public function store(array $data): bool
+    public function store(string $route, string $title, string $description): bool
     {
-        return $this->seoRepository->store($data);
+        return $this->seoRepository->store($route, $title, $description);
     }
 
     public function getRouteName(Request $request): string
     {
         return $request->route()->getName();
+    }
+
+    public function update(int $seoId, string $title, string $description): bool
+    {
+        return $this->seoRepository->update($seoId, $title, $description);
+    }
+
+    public function delete(int $id): void
+    {
+        $this->seoRepository->delete($id);
     }
 }

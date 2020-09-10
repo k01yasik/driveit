@@ -6,15 +6,16 @@ use App\Events\MessageSaved;
 use App\Repositories\CachedUserRepository;
 use App\Http\Requests\MessageRequest;
 use App\Services\MessageService;
+use App\Services\UserService;
 
 class MessageController extends Controller
 {
-    protected CachedUserRepository $userRepository;
+    protected UserService $userService;
     protected MessageService $messageService;
 
-    public function __construct(CachedUserRepository $userRepository, MessageService $messageService)
+    public function __construct(UserService $userService, MessageService $messageService)
     {
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
         $this->messageService = $messageService;
     }
 
@@ -26,9 +27,9 @@ class MessageController extends Controller
         $messageText = clean($data['message']);
         $username = $data['username'];
 
-        $user = $this->userRepository->getMessageUser($username);
+        $user = $this->userService->getMessageUser($username);
 
-        $message = $this->messageService->create($user->id, $friendId, $messageText);
+        $message = $this->messageService->create($user['id'], $friendId, $messageText);
 
         $this->messageService->add($message);
 
@@ -37,7 +38,7 @@ class MessageController extends Controller
         return array(
             'username' => $username,
             'url' => route('user.profile', array('username' => $username)),
-            'avatar' => $user->profile->avatar,
+            'avatar' => $user['profile']['avatar'],
             'time' => $message->getCreatedAt(),
             'text' => $message->getMessageText()
         );

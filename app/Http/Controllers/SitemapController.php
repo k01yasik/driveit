@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\CachedPostRepository;
+use App\Services\PostService;
 
 class SitemapController extends Controller
 {
-    protected $postRepository;
+    protected PostService $postService;
 
-    public function __construct(CachedPostRepository $postRepository)
+    public function __construct(PostService $postService)
     {
-        $this->postRepository = $postRepository;
+        $this->postService = $postService;
     }
 
     public function index()
     {
         $data = [];
 
-        $posts = $this->postRepository->getPostsForSitemap();
+        $posts = $this->postService->getPostsForSitemap();
 
         foreach ($posts as $post) {
             array_push($data, [
-                'link' => 'https://web-rookie.ru/posts/'.$post->slug,
+                'link' => 'https://web-rookie.ru/posts/'.$post['slug'],
             ]);
         }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\ConfirmRequest;
 use App\Repositories\CachedUserRepository;
 use App\Repositories\Interfaces\FriendRepositoryInterface;
 use App\Services\FriendService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\SeoService;
@@ -14,15 +15,15 @@ use App\User;
 
 class PublicUsersController extends Controller
 {
-    protected $seoService;
-    protected $friendService;
-    protected $userRepository;
+    protected SeoService $seoService;
+    protected FriendService $friendService;
+    protected UserService $userService;
 
-    public function __construct(SeoService $seoService, FriendService $friendService, CachedUserRepository $userRepository)
+    public function __construct(SeoService $seoService, FriendService $friendService, UserService $userService)
     {
         $this->seoService = $seoService;
         $this->friendService = $friendService;
-        $this->userRepository = $userRepository;
+        $this->userRepository = $userService;
     }
 
     public function index(Request $request, $username) {
@@ -31,13 +32,13 @@ class PublicUsersController extends Controller
 
         $seo = $this->seoService->getSeoData($request);
 
-        $profiles = $this->userRepository->getAllPublicUsers($id);
+        $profiles = $this->userService->getAllPublicUsers($id);
 
-        $currentUser = $this->userRepository->getUsersWithFriends($id);
+        $currentUser = $this->userService->getUsersWithFriends($id);
 
-        $confirmedFriends = $this->friendService->getConfirmedFriends($currentUser->friends);
+        $confirmedFriends = $this->friendService->getConfirmedFriends($currentUser['friends']);
 
-        $requestedFriends = $this->friendService->getRequestedFriends($currentUser->friends);
+        $requestedFriends = $this->friendService->getRequestedFriends($currentUser['friends']);
 
         return view('user.public', compact('seo', 'profiles', 'currentUser', 'confirmedFriends', 'requestedFriends'));
     }
@@ -46,11 +47,11 @@ class PublicUsersController extends Controller
     {
         $friend = $request->validated()['friend'];
 
-        $authUserId = Auth::id();
+        $user = Auth::user();
 
-        $this->friendService->addFriend($authUserId, $friend);
+        $this->friendService->addFriend($user->id, $friend);
 
-        broadcast(new FriendRequest(Auth::user(), User::find($friend)));
+        broadcast(new FriendRequest($user, User::find($friend)));
 
         return response('ok', 200);
     }

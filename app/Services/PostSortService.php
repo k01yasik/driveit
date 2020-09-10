@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class PostSortService
 {
-    public function sortedBy(Collection $collection, $criteria)
+    public function sortedBy(array $collection, $criteria)
     {
         if ($criteria == 'posts.rated') {
             foreach ($collection as $col) {
@@ -14,9 +14,10 @@ class PostSortService
                 $col->setAttribute('seconds', strtotime($col->getOriginal('date_published')));
             }
 
-            $collection = $collection->values()->all();
+            $collection = array_values($collection);
 
-            array_multisort(array_column($collection, 'rat'), SORT_DESC, array_column($collection, 'seconds'), SORT_DESC, $collection);
+            $array_column = array_column($collection, 'rat');
+            array_multisort($array_column, SORT_DESC, array_column($collection, 'seconds'), SORT_DESC, $collection);
             
             $collection = collect($collection);
 
@@ -25,9 +26,10 @@ class PostSortService
                 $col->setAttribute('seconds', strtotime($col->getOriginal('date_published')));
             }
 
-            $collection = $collection->values()->all();
+            $collection = array_values($collection);
 
-            array_multisort(array_column($collection, 'views'), SORT_DESC, array_column($collection, 'seconds'), SORT_DESC, $collection);
+            $array_column1 = array_column($collection, 'views');
+            array_multisort($array_column1, SORT_DESC, array_column($collection, 'seconds'), SORT_DESC, $collection);
             
             $collection = collect($collection);
 
@@ -37,9 +39,10 @@ class PostSortService
                 $col->setAttribute('seconds', strtotime($col->getOriginal('date_published')));
             }
 
-            $collection = $collection->values()->all();
+            $collection = array_values($collection);
 
-            array_multisort(array_column($collection, 'comment'), SORT_DESC, array_column($collection, 'seconds'), SORT_DESC, $collection);
+            $array_column2 = array_column($collection, 'comment');
+            array_multisort($array_column2, SORT_DESC, array_column($collection, 'seconds'), SORT_DESC, $collection);
 
             $collection = collect($collection);
         }
@@ -47,7 +50,7 @@ class PostSortService
         return $collection;
     }
 
-    public function getSlicedData(string $name, Collection $posts, int $count)
+    public function getSlicedData(string $name, array $posts, int $count)
     {
         if ($name == 'posts.rated') {
 

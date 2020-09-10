@@ -8,7 +8,7 @@ use App\Services\CommentService;
 
 class CommentController extends Controller
 {
-    protected $commentService;
+    protected CommentService $commentService;
 
     public function __construct(CommentService $commentService)
     {

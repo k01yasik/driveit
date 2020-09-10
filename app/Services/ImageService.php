@@ -29,9 +29,9 @@ class ImageService
         return $image->stream('jpg', 80);
     }
 
-    public function storePubliclyImage(UploadedFile $image, Model $model, string $username, string $imageName): string
+    public function storePubliclyImage(UploadedFile $image, array $model, string $username, string $imageName): string
     {
-        return $image->storePubliclyAs($username.'/'.$model->path, $imageName, ['disk' => 'public']);
+        return $image->storePubliclyAs($username.'/'.$model['path'], $imageName, ['disk' => 'public']);
     }
 
     public function createImageThumbnail(UploadedFile $image, int $width, int $height): Image

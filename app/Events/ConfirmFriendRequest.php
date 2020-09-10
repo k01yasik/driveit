@@ -15,14 +15,9 @@ class ConfirmFriendRequest implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $sender;
-    public $friend;
+    public User $sender;
+    public User $friend;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
     public function __construct(User $sender, User $friend)
     {
         $this->sender = $sender;
