@@ -38,14 +38,15 @@ class DraftController extends Controller
     {
         $data = $draftRequest->validated();
 
-        $draft = new DraftDto();
-        $draft->slug = $data["slug"];
-        $draft->title = $data["title"];
-        $draft->description = $data["description"];
-        $draft->name = $data["name"];
-        $draft->caption = $data["caption"];
-        $draft->body = $data["body"];
-        $draft->image = $data["image"];
+        $draft = new DraftDto(
+            $data['slug'],
+            $data['title'],
+            $data['description'],
+            $data['name'],
+            $data['caption'],
+            $data['body'],
+            $data['image']
+        );
 
         $this->draftService->save($draft, Auth::id());
 

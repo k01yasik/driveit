@@ -19,13 +19,13 @@ class DraftRepository implements DraftRepositoryInterface
     public function save(DraftDto $draft, int $userId): void
     {
         $model = new Draft;
-        $model->slug = $draft->slug;
-        $model->title = $draft->title;
-        $model->description = $draft->description;
-        $model->name = $draft->name;
-        $model->caption = $draft->caption;
-        $model->body = $draft->body;
-        $model->image = $draft->image;
+        $model->slug = $draft->getSlug();
+        $model->title = $draft->getTitle();
+        $model->description = $draft->getDescription();
+        $model->name = $draft->getName();
+        $model->caption = $draft->getCaption();
+        $model->body = $draft->getBody();
+        $model->image = $draft->getImage();
         $model->user_id = $userId;
         $model->save();
     }

@@ -14,10 +14,10 @@ use App\Events\ConfirmFriendRequest;
 
 class UserPageController extends Controller
 {
-    protected $seoService;
-    protected $userRepository;
-    protected $friendService;
-    protected $messageService;
+    protected SeoService $seoService;
+    protected CachedUserRepository $userRepository;
+    protected FriendService $friendService;
+    protected MessageService $messageService;
 
     public function __construct(SeoService $seoService,
                                 CachedUserRepository $userRepository,

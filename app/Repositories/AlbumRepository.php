@@ -17,9 +17,9 @@ class AlbumRepository implements AlbumRepositoryInterface
     public function save(string $albumName, int $userId): void
     {
         $album = new Album;
-        $album->name = $album_name;
+        $album->name = $albumName;
         $album->path = Str::random(10);
-        $album->user_id = $id;
+        $album->user_id = $userId;
         $album->save();
     }
 
