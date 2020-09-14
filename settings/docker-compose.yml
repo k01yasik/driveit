@@ -4,8 +4,8 @@ services:
   #PHP Service
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: ../Dockerfile
     image: digitalocean.com/php
     container_name: app
     restart: unless-stopped
@@ -25,7 +25,7 @@ services:
   mail:
     image: tvial/docker-mailserver:latest
     hostname: mail
-    domainname: ******
+    domainname: example.org
     container_name: mail
     restart: unless-stopped
     ports:
@@ -52,7 +52,7 @@ services:
       - PERMIT_DOCKER=connected-networks
       - VIRUS_DELETE_DELAY=1
       - POSTFIX_MESSAGE_SIZE_LIMIT=104857600
-      - POSTMASTER_ADDRESS=******
+      - POSTMASTER_ADDRESS=admin@example.org
       - ENABLE_FETCHMAIL=0
     cap_add:
       - NET_ADMIN
@@ -63,12 +63,12 @@ services:
   #Echo Srvice
   echo:
     build:
-      context: .
-      dockerfile: DockerfileEcho
+      context: ..
+      dockerfile: ../DockerfileEcho
     container_name: echo
     restart: unless-stopped
     tty: true
-    working_dir: /app
+    working_dir: /
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -107,11 +107,11 @@ services:
       - F2B_LOG_LEVEL=INFO
       - F2B_DB_PURGE_AGE=1d
       - F2B_IPTABLES_CHAIN=DOCKER-USER
-      - SSMTP_HOST=mail.*****
+      - SSMTP_HOST=mail.example.org
       - SSMTP_PORT=465
-      - SSMTP_HOSTNAME=******
-      - SSMTP_USER=******
-      - SSMTP_PASSWORD=******
+      - SSMTP_HOSTNAME=example.org
+      - SSMTP_USER=admin@example.org
+      - SSMTP_PASSWORD=ssmtp_password
       - SSMTP_TLS=YES
     volumes:
       - ./fail2ban:/data
@@ -142,10 +142,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MARIADB_DATABASE: ******
-      MARIADB_ROOT_PASSWORD: ******
-      MARIADB_USER: ******
-      MARIADB_PASSWORD: ******
+      MARIADB_DATABASE: db_name
+      MARIADB_ROOT_PASSWORD: db_root_password
+      MARIADB_USER: db_user
+      MARIADB_PASSWORD: db_password
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
@@ -165,7 +165,7 @@ services:
     ports:
       - "6379:6379"
     environment:
-      REDIS_PASSWORD: ******
+      REDIS_PASSWORD: redia_password
     volumes:
       - ./redis/data:/bitnami/redis/data
       - /etc/localtime:/etc/localtime:ro
