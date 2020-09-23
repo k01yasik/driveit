@@ -36,7 +36,6 @@ class ProfileObserver
     public function saved(Profile $profile)
     {
         Cache::forget('latest-posts');
-        Cache::forget('paginated-posts');
         Cache::forget('all-users');
         Cache::forget('all-public-users');
     }

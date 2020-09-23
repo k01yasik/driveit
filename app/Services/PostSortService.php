@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Collection;
-
 class PostSortService
 {
     public function sortedBy(array $collection, $criteria)

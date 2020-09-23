@@ -20,8 +20,8 @@ class PostService
         $count = 0;
 
         foreach ($rating as $r) {
-            if ($r->rating === 1) {
-                $count += $count + 1;
+            if ($r['rating'] == 1) {
+                $count += 1;
             }
         }
 
@@ -33,10 +33,12 @@ class PostService
         $count = 0;
 
         foreach ($comments as $c) {
-            if ($c->is_verified === 1) {
-                $count += $count + 1;
+            if ($c['is_verified'] === 1) {
+                $count += 1;
             }
         }
+
+        return $count;
     }
 
     public function getPaginatedPostsByCategory(array $category, bool $isStart, int $id = null): LengthAwarePaginator
@@ -44,10 +46,10 @@ class PostService
         $posts = $this->postRepository->getPaginatedPostsByCategory($category);
 
         if ($isStart) {
-            return new LengthAwarePaginator($posts, count($posts), 10);
+            return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'));
         }
 
-        return new LengthAwarePaginator($posts, count($posts), 10, $id, [
+        return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'), $id, [
             'path' => null,
             'query' => null,
             'fragment' => null,
@@ -121,10 +123,10 @@ class PostService
         $posts =  $this->postRepository->getPaginatedPostsOrderedById($isStart);
 
         if ($isStart) {
-            return new LengthAwarePaginator($posts, count($posts), 10);
+            return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'));
         }
 
-        return new LengthAwarePaginator($posts, count($posts), 10, $id, [
+        return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'), $id, [
             'path' => null,
             'query' => null,
             'fragment' => null,
@@ -132,23 +134,16 @@ class PostService
         ]);
     }
 
-    public function getAllPublishedPosts(): LengthAwarePaginator
+    public function getPostsForPage(int $pageId, int $numberPosts): array
     {
-        $posts = $this->postRepository->getAllPublishedPosts();
-
-        foreach ($posts as $post) {
-            $post->rating_count = $this->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->countPostComments($post->comments->toArray());;
-        }
-
-        return new LengthAwarePaginator($posts, count($posts), 10);
+        return $this->postRepository->getPostsForPage($pageId, $numberPosts);
     }
 
-    public function getPaginatedPostsWithoutCache(int $id): LengthAwarePaginator
+    public function getPostsPaginator(array $posts, int $pageId, int $numberPosts): LengthAwarePaginator
     {
-        $posts = $this->postRepository->getPaginatedPostsWithoutCache();
+        $postsCount = $this->postRepository->getPostsCount();
 
-        return new LengthAwarePaginator($posts, count($posts), 10, $id, [
+        return new LengthAwarePaginator($posts, $postsCount, $numberPosts, $pageId, [
             'path' => null,
             'query' => null,
             'fragment' => null,
@@ -160,7 +155,7 @@ class PostService
     {
         $posts = $this->postRepository->search($query);
 
-        return new LengthAwarePaginator($posts, count($posts), 10);
+        return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'));
     }
 
     public function getAllPosts(): array
@@ -186,5 +181,40 @@ class PostService
     public function getPostsForSitemap(): array
     {
         return $this->postRepository->getPostsForSitemap();
+    }
+
+    public function getTopPosts(int $count): array
+    {
+        $posts = $this->postRepository->getTopPosts($count);
+
+        $posts = $this->calculatePostStats($posts);
+
+        return $posts;
+    }
+
+    public function calculatePostStats(array $posts): array
+    {
+        $postsTemp = [];
+
+        foreach ($posts as $post) {
+            $post['rating_count'] = $this->countPostRating($post['rating']);
+            $post['comments_count'] = $this->countPostComments($post['comments']);
+
+            $postsTemp[] = $post;
+        }
+
+        return $postsTemp;
+    }
+
+    public function getPagesCount(): int
+    {
+        $numberPosts = $this->postRepository->getPostsCount();
+
+        return ceil($numberPosts / config('pagination.postsPerPage'));
+    }
+
+    public function getPostsSortedByViews(int $pageId, int $numberPosts)
+    {
+        return $this->postRepository->getPostsSortedByViews($pageId, $numberPosts);
     }
 }

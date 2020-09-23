@@ -11,7 +11,7 @@ class SuggestsService
         $suggestIds = [];
 
         foreach ($post['suggest'] as $suggest) {
-            array_push($suggestIds, $suggest->suggest);
+            $suggestIds[] = $suggest['suggest'];
         }
 
         return $suggestIds;

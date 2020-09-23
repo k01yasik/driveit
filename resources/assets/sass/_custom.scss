@@ -1089,8 +1089,14 @@ footer {
       .chevron-left, .chevron-right {
         fill: $gray-2;
       }
+
+      .page-link {
+        color: $gray-2;
+      }
     }
   }
+
+
 
   &:hover {
     background: $primary-1;
@@ -3004,4 +3010,8 @@ main {
 .svg-vk, .svg-fb, .svg-twitter {
   float: left;
   fill: $white;
+}
+
+.user-avatar-link {
+  padding: .5em 0;
 }

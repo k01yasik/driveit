@@ -9,7 +9,7 @@
     @include('components.verification')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('seo.index')
-    <link rel="amphtml" href="{{ route('amp.show', ['slug' => $post->slug]) }}">
+    <link rel="amphtml" href="{{ route('amp.show', ['slug' => $post['slug']]) }}">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -48,14 +48,14 @@
         {
             "@context": "http://schema.org",
             "@type": "Article",
-            "author": "{{ $post->user->username }}",
-            "name": "{{ $post->name }}",
-            "description": "{{ $post->description }}",
-            "image": "{{ $post->image_path }}",
-            "url": "{{ config('app.url') }}/posts/{{ $post->slug }}",
-            "headline": "{{ $post->name }}",
-            "datePublished": "{{ $post->getOriginal('date_published') }}",
-            "dateModified": "{{ $post->getOriginal('date_published') }}"
+            "author": "{{ $post['user']['username'] }}",
+            "name": "{{ $post['name'] }}",
+            "description": "{{ $post['description'] }}",
+            "image": "{{ $post['image_path'] }}",
+            "url": "{{url('/')}}/posts/{{ $post['slug'] }}",
+            "headline": "{{ $post['name'] }}",
+            "datePublished": "{{ $post['updated_at'] }}",
+            "dateModified": "{{ $post['updated_at'] }}"
         }
     </script>
 </head>

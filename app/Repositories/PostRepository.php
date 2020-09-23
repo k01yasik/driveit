@@ -107,19 +107,14 @@ class PostRepository implements PostRepositoryInterface
         return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
     }
 
-    public function getPaginatedPostsWithoutCache(): array
-    {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
-    }
-
     public function getPostsForShow(string $slug): array
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments', 'suggest'])->where([['slug', $slug], ['is_published', 1]])->firstOrFail()->toArray();
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments', 'suggest'])->where([['slug', $slug], ['is_published', 1]])->get()->toArray();
     }
 
     public function getSuggests(array $ids): array
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->find($ids);
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->find($ids)->toArray();
     }
 
     public function search(string $query): array
@@ -137,8 +132,45 @@ class PostRepository implements PostRepositoryInterface
         $post = Post::find($postId);
 
         if ($post instanceof Model) {
-            $post->views += $post->views;
+            $post->views += 1;
             $post->save();
         }
+    }
+
+    public function getTopPosts(int $count): array
+    {
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])
+            ->where('is_published', true)
+            ->orderByDesc('date_published')
+            ->take($count)
+            ->get()
+            ->toArray();
+    }
+
+    public function getPostsForPage(int $pageId, int $numberPosts): array
+    {
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])
+            ->where('is_published', true)
+            ->orderByDesc('date_published')
+            ->skip(($pageId - 1) * config('pagination.postsPerPage'))
+            ->take($numberPosts)
+            ->get()
+            ->toArray();
+    }
+
+    public function getPostsSortedByViews(int $pageId, int $numberPosts): array
+    {
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])
+            ->where('is_published', true)
+            ->orderByDesc('views')
+            ->skip(($pageId - 1) * config('pagination.postsPerPage'))
+            ->take($numberPosts)
+            ->get()
+            ->toArray();
+    }
+
+    public function getPostsCount(): int
+    {
+        return Post::count();
     }
 }

@@ -76,15 +76,15 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
 });
 
-Route::get('/best-rated', 'PageController@list')->name('posts.rated');
+Route::get('/best-rated', 'PageController@bestRated')->name('posts.rated');
 
 Route::get('/best-rated/page/{id}', 'PageController@ratedPaginate')->name('best.rated.paginate');
 
-Route::get('/best-views', 'PageController@list')->name('posts.views');
+Route::get('/best-views', 'PageController@bestViews')->name('posts.views');
 
 Route::get('/best-views/page/{id}', 'PageController@viewsPaginate')->name('best.views.paginate');
 
-Route::get('/best-comments', 'PageController@list')->name('posts.comments');
+Route::get('/best-comments', 'PageController@bestComments')->name('posts.comments');
 
 Route::get('/best-comments/page/{id}', 'PageController@commentsPaginate')->name('best.comments.paginate');
 

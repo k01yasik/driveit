@@ -3,70 +3,54 @@
 namespace App\Observers;
 
 use App\Post;
+use App\Services\PostService;
 use Illuminate\Support\Facades\Cache;
 
 class PostObserver
 {
+    private PostService $postService;
+
     /**
-     * Handle the post "created" event.
-     *
-     * @param  \App\Post  $post
-     * @return void
+     * PostObserver constructor.
+     * @param PostService $postService
      */
-    public function created(Post $post)
+    public function __construct(PostService $postService)
     {
-        //
+        $this->postService = $postService;
     }
 
-    /**
-     * Handle the post "updated" event.
-     *
-     * @param  \App\Post  $post
-     * @return void
-     */
-    public function updated(Post $post)
+    public function created()
     {
+    }
 
+    public function updated()
+    {
     }
 
     public function saved(Post $post)
     {
         Cache::forget('latest-posts');
-        Cache::forget('paginated-posts');
         Cache::forget('posts_count_cart');
         Cache::forget('posts-for-sitemap');
+        Cache::forget('top-posts');
+
+        $pages = $this->postService->getPagesCount();
+
+        for ($i = 1; $i <= $pages; $i++) {
+            Cache::forget('paginated-posts-'.$i);
+        }
+
     }
 
-    /**
-     * Handle the post "deleted" event.
-     *
-     * @param  \App\Post  $post
-     * @return void
-     */
-    public function deleted(Post $post)
+    public function deleted()
     {
-        //
     }
 
-    /**
-     * Handle the post "restored" event.
-     *
-     * @param  \App\Post  $post
-     * @return void
-     */
-    public function restored(Post $post)
+    public function restored()
     {
-        //
     }
 
-    /**
-     * Handle the post "force deleted" event.
-     *
-     * @param  \App\Post  $post
-     * @return void
-     */
-    public function forceDeleted(Post $post)
+    public function forceDeleted()
     {
-        //
     }
 }

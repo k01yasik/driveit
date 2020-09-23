@@ -83,11 +83,6 @@ final class CachedPostRepository implements PostRepositoryInterface
         });
     }
 
-    public function getPaginatedPostsWithoutCache(): array
-    {
-        return $this->postRepository->getPaginatedPostsWithoutCache();
-    }
-
     public function getPostsForShow(string $slug): array
     {
         return $this->postRepository->getPostsForShow($slug);
@@ -113,5 +108,29 @@ final class CachedPostRepository implements PostRepositoryInterface
     public function incrementViews(int $postId): void
     {
         $this->postRepository->incrementViews($postId);
+    }
+
+    public function getTopPosts(int $count): array
+    {
+        return Cache::rememberForever('top-posts', function () use ($count){
+            return $this->postRepository->getTopPosts($count);
+        });
+    }
+
+    public function getPostsForPage(int $pageId, int $numberPosts): array
+    {
+        return Cache::rememberForever('paginated-posts-'.$pageId, function () use ($pageId, $numberPosts) {
+            return $this->postRepository->getPostsForPage($pageId, $numberPosts);
+        });
+    }
+
+    public function getPostsCount(): int
+    {
+        return $this->postRepository->getPostsCount();
+    }
+
+    public function getPostsSortedByViews(int $pageId, int $numberPosts): array
+    {
+        return $this->postRepository->getPostsSortedByViews($pageId, $numberPosts);
     }
 }

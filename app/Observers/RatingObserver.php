@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Rating;
+use App\Services\PostService;
 use Illuminate\Support\Facades\Cache;
 
 class RatingObserver
@@ -18,16 +19,21 @@ class RatingObserver
 
     }
 
-    public function saved(Rating $rating)
+    public function saved(PostService $postService)
     {
         Cache::forget('latest-posts');
-        Cache::forget('paginated-posts');
+        Cache::forget('top-posts');
+
+        $pages = $postService->getPagesCount();
+
+        for ($i = 1; $i <= $pages; $i++) {
+            Cache::forget('paginated-posts-'.$i);
+        }
     }
 
     public function created(Rating $rating)
     {
         Cache::forget('latest-posts');
-        Cache::forget('paginated-posts');
     }
 
     /**

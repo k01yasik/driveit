@@ -11,6 +11,7 @@ use App\Services\CommentService;
 use App\Services\PaginateService;
 use App\Services\PostSortService;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SortService\Interfaces\SortFactory;
 
 class PageController extends Controller
 {
@@ -21,6 +22,7 @@ class PageController extends Controller
     protected PostSortService $postSortService;
     protected PostService $postService;
     protected SuggestsService $suggestsService;
+    protected SortFactory $sortFactory;
 
     public function __construct(
         SeoService $seoService,
@@ -29,7 +31,8 @@ class PageController extends Controller
         PostSortService $postSortService,
         PostService $postService,
         PaginatorService $paginatorService,
-        SuggestsService $suggestsService
+        SuggestsService $suggestsService,
+        SortFactory $sortFactory
     )
     {
         $this->seoService = $seoService;
@@ -39,13 +42,14 @@ class PageController extends Controller
         $this->postService = $postService;
         $this->paginatorService = $paginatorService;
         $this->suggestsService = $suggestsService;
+        $this->sortFactory = $sortFactory;
     }
 
     public function home(Request $request)
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = $this->postService->getAllPublishedPosts();
+        $posts = $this->postService->getTopPosts(config('pagination.postsPerPage'));
 
         return view('page.home', compact('seo', 'posts'));
     }
@@ -54,13 +58,13 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = $this->postService->getAllPublishedPosts();
+        $posts = $this->postService->getPostsForPage(1, config('pagination.postsPerPage'));
 
-        $pages = $this->paginatorService->calculatePages($posts);
+        $posts = $this->postService->calculatePostStats($posts);
 
-        $previousNumberPage = $pages["previousPage"];
-        $nextNumberPage = $pages["nextPage"];
-        $lastNumberPage = $pages["lastPage"];
+        $posts = $this->postService->getPostsPaginator($posts, 1, config('pagination.postsPerPage'));
+
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
 
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
     }
@@ -69,79 +73,162 @@ class PageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $posts = $this->postService->getPaginatedPostsWithoutCache($id);
+        $posts = $this->postService->getPostsForPage($id, config('pagination.postsPerPage'));
 
-        foreach ($posts as $post) {
+        $posts = $this->postService->calculatePostStats($posts);
 
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-        }
+        $posts = $this->postService->getPostsPaginator($posts, $id, config('pagination.postsPerPage'));
 
-        $pages = $this->paginatorService->calculatePages($posts);
-
-        $previousNumberPage = $pages["previousPage"];
-        $nextNumberPage = $pages["nextPage"];
-        $lastNumberPage = $pages["lastPage"];
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
 
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
     }
 
-    public function list(Request $request) {
+    public function bestRated(Request $request)
+    {
         $seo = $this->seoService->getSeoData($request);
-        $name = $request->route()->getName();
+
+        $url= url()->current();
+
+        $breadcrumb = __('Best posts by rating');
 
         $posts = $this->postService->getAllPosts();
 
-        foreach ($posts as $post) {
+        $posts = $this->postService->calculatePostStats($posts);
 
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-        }
+        $posts = $this->sortFactory->createPostSortByRating()->sort($posts);
 
-        $data = $this->paginateService->paginationData(10, 1, url()->current(), count($posts));
+        $posts = array_slice($posts, 0, config('pagination.postsPerPage'));
 
-        $posts = $this->postSortService->getSlicedData($name, $posts, $data["perPage"]);
+        $posts = $this->postService->getPostsPaginator($posts, 1, config('pagination.postsPerPage'));
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+
+        return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
+    }
+
+    public function bestComments(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $url= url()->current();
+
+        $breadcrumb = __('Best posts by comments');
+
+        $posts = $this->postService->getAllPosts();
+
+        $posts = $this->postService->calculatePostStats($posts);
+
+        $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
+
+        $posts = array_slice($posts, 0, config('pagination.postsPerPage'));
+
+        $posts = $this->postService->getPostsPaginator($posts, 1, config('pagination.postsPerPage'));
+
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+
+        return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
+    }
+
+    public function bestViews(Request $request)
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $url= url()->current();
+
+        $breadcrumb = __('Best posts by views');
+
+        $posts = $this->postService->getPostsSortedByViews(1, config('pagination.postsPerPage'));
+
+        $posts = $this->postService->calculatePostStats($posts);
+
+        $posts = $this->postService->getPostsPaginator($posts, 1, config('pagination.postsPerPage'));
+
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+
+        return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
     public function commentsPaginate($id, Request $request)
     {
-        list($seo, $posts) = $this->handler($request, $id);
+        $breadcrumb = __('Best posts by comments');
 
-        $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-comments', $posts->count());
+        $postsPerPage = config('pagination.postsPerPage');
+        $offset = ($id - 1) * $postsPerPage;
 
-        $posts = $this->postSortService->sortedBy($posts, 'posts.comments');
+        $seo = $this->seoService->getSeoData($request);
 
-        $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
+        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
+        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        $url= url('/').'/'.$request->segment(1);
+
+        $posts = $this->postService->getAllPosts();
+
+        $posts = $this->postService->calculatePostStats($posts);
+
+        $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
+
+        $posts = array_slice($posts, $offset, $postsPerPage);
+
+        $posts = $this->postService->getPostsPaginator($posts, $id, $postsPerPage);
+
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+
+        return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
     public function ratedPaginate($id, Request $request)
     {
-        list($seo, $posts) = $this->handler($request, $id);
+        $breadcrumb = __('Best posts by rating');
 
-        $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-rated', $posts->count());
+        $postsPerPage = config('pagination.postsPerPage');
+        $offset = ($id - 1) * $postsPerPage;
 
-        $posts = $this->postSortService->sortedBy($posts, 'posts.rated');
+        $seo = $this->seoService->getSeoData($request);
 
-        $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
+        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
+        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        $url= url('/').'/'.$request->segment(1);
+
+        $posts = $this->postService->getAllPosts();
+
+        $posts = $this->postService->calculatePostStats($posts);
+
+        $posts = $this->sortFactory->createPostSortByRating()->sort($posts);
+
+        $posts = array_slice($posts, $offset, $postsPerPage);
+
+        $posts = $this->postService->getPostsPaginator($posts, $id, $postsPerPage);
+
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+
+        return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
     public function viewsPaginate($id, Request $request)
     {
-        list($seo, $posts) = $this->handler($request, $id);
+        $breadcrumb = __('Best posts by views');
 
-        $data = $this->paginateService->paginationData(10, $id, config('app.url').'/best-views', $posts->count());
+        $postsPerPage = config('pagination.postsPerPage');
 
-        $posts = $this->postSortService->sortedBy($posts, 'posts.views');
+        $seo = $this->seoService->getSeoData($request);
 
-        $posts = $posts->slice($data['perPage'] * $id - $data['perPage'], $data['perPage']);
+        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
+        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
 
-        return view('posts.list', compact('seo', 'posts', 'data'));
+        $url= url('/').'/'.$request->segment(1);
+
+        $posts = $this->postService->getPostsSortedByViews($id, $postsPerPage);
+
+        $posts = $this->postService->calculatePostStats($posts);
+
+        $posts = $this->postService->getPostsPaginator($posts, $id, $postsPerPage);
+
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+
+        return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
     public function about(Request $request) {
@@ -158,21 +245,17 @@ class PageController extends Controller
 
     public function show($slug)
     {
-
         $post = $this->postService->getPostsForShow($slug);
 
-        $post->rating_count = $this->postService->countPostRating($post['rating']->toArray());
-        $post->comments_count = $this->postService->countPostComments($post['comments']->toArray());;
+        $post = $this->postService->calculatePostStats($post);
+
+        $post = $post[0];
 
         $suggestIds = $this->suggestsService->getSuggestsIds($post);
 
         $suggestPosts = $this->postService->getSuggests($suggestIds);
 
-        foreach ($suggestPosts as $pp) {
-
-            $post->rating_count = $this->postService->countPostRating($post['rating']->toArray());
-            $post->comments_count = $this->postService->countPostComments($post['comments']->toArray());;
-        }
+        $suggestPosts = $this->postService->calculatePostStats($suggestPosts);
 
         $this->postService->incrementViews($post['id']);
 
@@ -184,6 +267,7 @@ class PageController extends Controller
         ];
 
         $authenticated = Auth::check();
+
         $sortedComments = $this->commentService->sortComments($post['id']);
 
         return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggestPosts'));
@@ -192,26 +276,5 @@ class PageController extends Controller
     public function notFound(Request $request)
     {
         return view('errors.404');
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return array
-     */
-    private function handler(Request $request, $id): array
-    {
-        $seo = $this->seoService->getSeoData($request);
-
-        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
-        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
-
-        $posts = $this->postService->getAllPosts();
-
-        foreach ($posts as $post) {
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-        }
-        return array($seo, $posts);
     }
 }

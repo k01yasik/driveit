@@ -33,8 +33,6 @@ interface PostRepositoryInterface
 
     public function getAllPublishedPosts(): array;
 
-    public function getPaginatedPostsWithoutCache(): array;
-
     public function getPostsForShow(string $slug): array;
 
     public function getSuggests(array $ids): array;
@@ -44,4 +42,12 @@ interface PostRepositoryInterface
     public function getPostsForSitemap(): array;
 
     public function incrementViews(int $postId): void;
+
+    public function getTopPosts(int $count): array;
+
+    public function getPostsForPage(int $pageId, int $numberPosts): array;
+
+    public function getPostsCount(): int;
+
+    public function getPostsSortedByViews(int $pageId, int $numberPosts): array;
 }

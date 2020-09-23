@@ -39,6 +39,8 @@ use App\Repositories\UserRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\AlbumRepository;
 use App\Repositories\DraftRepository;
+use App\Services\SortService\Creator;
+use App\Services\SortService\Interfaces\SortFactory;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -61,7 +63,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(
             CategoryRepositoryInterface::class,
-            CategoryRepositoryInterface::class
+            CategoryRepository::class
         );
 
         $this->app->when(CachedUserRepository::class)
@@ -70,7 +72,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->when(CachedCommentRepository::class)
             ->needs(CommentRepositoryInterface::class)
-            ->give(CommentRepositoryInterface::class);
+            ->give(CommentRepository::class);
 
         $this->app->when(CachedPostDashboardRepository::class)
             ->needs(PostDashboardRepositoryInterface::class)
@@ -128,6 +130,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             FavoriteRepositoryInterface::class,
             FavoriteRepository::class
+        );
+
+        $this->app->bind(
+            SortFactory::class,
+            Creator::class
         );
     }
 

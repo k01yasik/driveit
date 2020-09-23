@@ -132,5 +132,8 @@
   "Banned": "Забанненые",
   "All users": "Все пользователи",
   "Create a token": "Создать токен",
-  "Drafts": "Черновики"
+  "Drafts": "Черновики",
+  "Best posts by rating": "Лучшие статьи по рейтингу",
+  "Best posts by comments": "Лучшие статьи по комментариям",
+  "Best posts by views": "Лучшие статьи по просмотрам"
 }

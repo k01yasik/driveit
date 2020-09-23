@@ -18,8 +18,6 @@ class PaginatorService
         $nextNumberPage = $paginator->currentPage() + 1;
         $lastNumberPage = $paginator->lastPage();
 
-        return ["previousPage" => $previousNumberPage,
-            "nextPage" => $nextNumberPage,
-            "lastPage" => $lastNumberPage];
+        return array($previousNumberPage, $nextNumberPage, $lastNumberPage);
     }
 }

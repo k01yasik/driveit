@@ -1,42 +1,57 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="all-posts">
-        <div class="all-posts-item">{{ __('Posts') }}</div>
-        <span class="all-posts-item">/</span>
-        <a href="{{ route('posts.index') }}" class="all-posts-item"><div>{{ __('All posts') }}</div></a>
+    <div class="breadcrumbs flex-v-center">
+        <ul class="flex flex-v-center">
+            <li class="flex flex-v-center">
+                <a href="{{ route('page.home') }}" class="breadcrumbs-home-link">
+                    <svg version="1.1" class="home-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 27.02 27.02" xml:space="preserve">
+                            <g>
+                                <path d="M3.674,24.876c0,0-0.024,0.604,0.566,0.604c0.734,0,6.811-0.008,6.811-0.008l0.01-5.581
+                                c0,0-0.096-0.92,0.797-0.92h2.826c1.056,0,0.991,0.92,0.991,0.92l-0.012,5.563c0,0,5.762,0,6.667,0
+                                c0.749,0,0.715-0.752,0.715-0.752V14.413l-9.396-8.358l-9.975,8.358C3.674,14.413,3.674,24.876,3.674,24.876z"></path>
+                                <path d="M0,13.635c0,0,0.847,1.561,2.694,0l11.038-9.338l10.349,9.28c2.138,1.542,2.939,0,2.939,0
+                                L13.732,1.54L0,13.635z"></path>
+                                <polygon points="23.83,4.275 21.168,4.275 21.179,7.503 23.83,9.752 	"></polygon>
+                            </g>
+                        </svg>
+                </a>
+            </li>
+            <li class="flex flex-v-center"><span>/</span></li>
+            <li class="breadcrumbs-bold-item flex flex-v-center">{{ $breadcrumb }}</li>
+        </ul>
     </div>
 
     @each('components.post', $posts, 'post')
 
-    @if ($data['hasPages'])
+    @if ($posts->hasPages())
         <div class="pagination-wrapper">
             <ul class="pagination">
-                @if ($data['currentPage'] == 1)
+                @if ($posts->onFirstPage())
                     <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
                         <span class="page-link" aria-hidden="true">&lsaquo;</span>
                     </li>
                 @else
                     <li class="page-item">
-                        <a class="page-link" href="{{ $data['currentUrl'].'/page/'. $data['previousNumberPage'] }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                        <a class="page-link" href="{{ $url.'/page/'. $previousNumberPage }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
                     </li>
                 @endif
 
-                @for ($i = 1; $i <= $data['lastNumberPage']; $i++)
-                    @if ($i == $data['currentPage'])
+                @for ($i = 1; $i <= $lastNumberPage; $i++)
+                    @if ($i == $posts->currentPage())
                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $i }}</span></li>
                     @else
                         @if ($i == 1)
-                            <li class="page-item"><a class="page-link" href="{{ $data['currentUrl'] }}">{{ $i }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $i }}</a></li>
                         @else
-                            <li class="page-item"><a class="page-link" href="{{ $data['currentUrl'].'/page/'.$i }}">{{ $i }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ $url.'/page/'.$i }}">{{ $i }}</a></li>
                         @endif
                     @endif
                 @endfor
 
-                @if ($data['hasMorePages'])
+                @if ($posts->hasMorePages())
                     <li class="page-item">
-                        <a class="page-link" href="{{ $data['currentUrl'].'/page/'. $data['nextNumberPage'] }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                        <a class="page-link" href="{{ $url.'/page/'. $nextNumberPage }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
                     </li>
                 @else
                     <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">

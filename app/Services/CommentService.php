@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class CommentService
 {
-    protected $commentRepository;
+    protected CachedCommentRepository $commentRepository;
 
     public function __construct(CachedCommentRepository $commentRepository)
     {
@@ -45,35 +45,35 @@ class CommentService
      * @param int $level
      * @return bool
      */
-    protected function isChild($parent, $child, int $level): bool
+    protected function isChild(array $parent, array $child, int $level): bool
     {
-        return $child->level == $level && $child->parent_id == $parent->id;
+        return $child['level'] == $level && $child['parent_id'] == $parent['id'];
     }
 
-    public function sortComments($id)
+    public function sortComments(int $id)
     {
         $sortedComments = [];
 
         $comments = $this->getCommentsByPost($id);
 
         foreach ($comments as $comment) {
-            $sortedComments = $this->addComment($sortedComments, $comment);
+            $sortedComments[] = $comment;
 
             foreach ($comments as $comment_1) {
                 if ($this->isChild($comment, $comment_1, 1)) {
-                    $sortedComments = $this->addComment($sortedComments, $comment_1);
+                    $sortedComments[] = $comment_1;
 
                     foreach ($comments as $comment_2) {
                         if ($this->isChild($comment_1, $comment_2, 2)) {
-                            $sortedComments = $this->addComment($sortedComments, $comment_2);
+                            $sortedComments[] = $comment_2;
 
                             foreach ($comments as $comment_3) {
                                 if ($this->isChild($comment_2, $comment_3, 3)) {
-                                    $sortedComments = $this->addComment($sortedComments, $comment_3);
+                                    $sortedComments[] = $comment_3;
 
                                     foreach ($comments as $comment_4) {
                                         if ($this->isChild($comment_3, $comment_4, 4)) {
-                                            $sortedComments = $this->addComment($sortedComments, $comment_4);
+                                            $sortedComments[] = $comment_4;
                                         }
                                     }
                                 }

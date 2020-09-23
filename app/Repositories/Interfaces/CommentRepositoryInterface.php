@@ -3,7 +3,6 @@
 namespace App\Repositories\Interfaces;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
-use Illuminate\Database\Eloquent\Collection;
 
 interface CommentRepositoryInterface
 {

@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             //UserTableSeeder::class,
             //SuggestTableSeeder::class,
+            \Database\Seeders\PostImagePath::class
         ]);
     }
 }

@@ -11,22 +11,26 @@
         "echo": "./node_modules/.bin/laravel-echo-server start --force"
     },
     "devDependencies": {
-        "cross-env": "^5.2.1",
-        "jquery": "^3.4.1",
-        "laravel-mix": "^2.1.14",
-        "lodash": "^4.17.15"
+        "cross-env": "^7.0.2",
+        "jquery": "^3.5.1",
+        "laravel-mix": "^5.0.5",
+        "lodash": "^4.17.20",
+        "resolve-url-loader": "^3.1.0",
+        "sass": "^1.26.10",
+        "sass-loader": "^8.0.2",
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "axios": "^0.19.2",
-        "chart.js": "^2.9.3",
-        "chartjs-plugin-datalabels": "^0.5.0",
-        "laravel-echo": "^1.6.1",
-        "mjml": "^4.5.1",
-        "morphdom": "^2.5.12",
-        "normalize-scss": "^7.0.1",
-        "smartcrop": "^2.0.3",
-        "social-likes-next": "^1.1.0",
-        "socket.io-client": "^2.3.0",
-        "tippy.js": "^6.1.0"
+        "axios": "^0.20.0",
+        "chart.js": ">=2.9.3",
+        "chartjs-plugin-datalabels": "^0.7.0",
+        "laravel-echo": "^1.8.1",
+        "mjml": "^4.6.3",
+        "morphdom": "^2.6.1",
+        "normalize-scss": ">=7.0.1",
+        "smartcrop": ">=2.0.3",
+        "social-likes-next": ">=1.1.0",
+        "socket.io-client": ">=2.3.0",
+        "tippy.js": "^6.2.6"
     }
 }
