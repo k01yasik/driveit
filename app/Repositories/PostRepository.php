@@ -87,9 +87,13 @@ class PostRepository implements PostRepositoryInterface
 
     }
 
-    public function getPaginatedPostsOrderedById(bool $isStart, int $id =  null): array
+    public function getPaginatedPostsOrderedById(int $pageId, int $numberPosts): array
     {
-        return Post::orderByDesc('id')->get()->toArray();
+        return Post::orderByDesc('id')
+            ->skip(($pageId - 1) * $numberPosts)
+            ->take($numberPosts)
+            ->get()
+            ->toArray();
     }
 
     public function getPostBySlugWithUserData(string $slug): array
@@ -97,9 +101,17 @@ class PostRepository implements PostRepositoryInterface
         return Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail()->toArray();
     }
 
-    public function getPaginatedPostsByCategory(array $category): array
+    public function getPaginatedPostsByCategory(array $category, int $pageId, int $numberPosts): array
     {
-        return Category::find($category[0]['id'])->posts()->with(['user', 'categories', 'user.profile'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
+        return Category::find($category['id'])
+            ->posts()
+            ->with(['user', 'categories', 'user.profile', 'rating', 'comments'])
+            ->where('is_published', 1)
+            ->orderByDesc('date_published')
+            ->skip(($pageId - 1) * $numberPosts)
+            ->take($numberPosts)
+            ->get()
+            ->toArray();
     }
 
     public function getAllPublishedPosts(): array
@@ -172,5 +184,11 @@ class PostRepository implements PostRepositoryInterface
     public function getPostsCount(): int
     {
         return Post::count();
+    }
+
+    public function getPostsCountByCategory(int $id): int
+    {
+        return Category::find($id)
+            ->posts()->count();
     }
 }

@@ -41,15 +41,15 @@ class PostService
         return $count;
     }
 
-    public function getPaginatedPostsByCategory(array $category, bool $isStart, int $id = null): LengthAwarePaginator
+    public function getPaginatedPostsByCategory(array $category, int $id): LengthAwarePaginator
     {
-        $posts = $this->postRepository->getPaginatedPostsByCategory($category);
+        $posts = $this->postRepository->getPaginatedPostsByCategory($category, $id, config('pagination.postsPerPage'));
 
-        if ($isStart) {
-            return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'));
-        }
+        $posts = $this->calculatePostStats($posts);
 
-        return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'), $id, [
+        $postsCount = $this->postRepository->getPostsCountByCategory($category['id']);
+
+        return new LengthAwarePaginator($posts, $postsCount, config('pagination.postsPerPage'), $id, [
             'path' => null,
             'query' => null,
             'fragment' => null,
@@ -118,15 +118,13 @@ class PostService
         return PostEntity::restoreFromDb($id, $slug, $title, $description, $name, $caption, $body, $imagePath, $isPublished, $views, $datePablished);
     }
 
-    public function getPaginatedPostsOrderedById(bool $isStart, int $id = null): LengthAwarePaginator
+    public function getPaginatedPostsOrderedById(int $id): LengthAwarePaginator
     {
-        $posts =  $this->postRepository->getPaginatedPostsOrderedById($isStart);
+        $posts =  $this->postRepository->getPaginatedPostsOrderedById($id, config('pagination.postsPerPage'));
 
-        if ($isStart) {
-            return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'));
-        }
+        $postsCount = $this->postRepository->getPostsCount();
 
-        return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'), $id, [
+        return new LengthAwarePaginator($posts, $postsCount, config('pagination.postsPerPage'), $id, [
             'path' => null,
             'query' => null,
             'fragment' => null,
@@ -199,7 +197,6 @@ class PostService
         foreach ($posts as $post) {
             $post['rating_count'] = $this->countPostRating($post['rating']);
             $post['comments_count'] = $this->countPostComments($post['comments']);
-
             $postsTemp[] = $post;
         }
 

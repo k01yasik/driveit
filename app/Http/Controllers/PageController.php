@@ -153,19 +153,7 @@ class PageController extends Controller
     {
         $breadcrumb = __('Best posts by comments');
 
-        $postsPerPage = config('pagination.postsPerPage');
-        $offset = ($id - 1) * $postsPerPage;
-
-        $seo = $this->seoService->getSeoData($request);
-
-        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
-        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
-
-        $url= url('/').'/'.$request->segment(1);
-
-        $posts = $this->postService->getAllPosts();
-
-        $posts = $this->postService->calculatePostStats($posts);
+        list($postsPerPage, $offset, $seo, $url, $posts) = $this->prepareData($id, $request);
 
         $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
 
@@ -182,19 +170,7 @@ class PageController extends Controller
     {
         $breadcrumb = __('Best posts by rating');
 
-        $postsPerPage = config('pagination.postsPerPage');
-        $offset = ($id - 1) * $postsPerPage;
-
-        $seo = $this->seoService->getSeoData($request);
-
-        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
-        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
-
-        $url= url('/').'/'.$request->segment(1);
-
-        $posts = $this->postService->getAllPosts();
-
-        $posts = $this->postService->calculatePostStats($posts);
+        list($postsPerPage, $offset, $seo, $url, $posts) = $this->prepareData($id, $request);
 
         $posts = $this->sortFactory->createPostSortByRating()->sort($posts);
 
@@ -213,12 +189,9 @@ class PageController extends Controller
 
         $postsPerPage = config('pagination.postsPerPage');
 
-        $seo = $this->seoService->getSeoData($request);
+        $seo = $this->getSeoData($request, $id);
 
-        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
-        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
-
-        $url= url('/').'/'.$request->segment(1);
+        $url = $this->getUrlBreadcrumb($request);
 
         $posts = $this->postService->getPostsSortedByViews($id, $postsPerPage);
 
@@ -276,5 +249,50 @@ class PageController extends Controller
     public function notFound(Request $request)
     {
         return view('errors.404');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return array
+     */
+    private function getSeoData(Request $request, $id): array
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $seo['title'] = $seo['title'] . '. Страница - ' . $id . '.';
+        $seo['description'] = $seo['description'] . '. Страница - ' . $id . '.';
+        return $seo;
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    private function getUrlBreadcrumb(Request $request): string
+    {
+        return url('/') . '/' . $request->segment(1);
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return array
+     */
+    private function prepareData($id, Request $request): array
+    {
+        $postsPerPage = config('pagination.postsPerPage');
+
+        $offset = ($id - 1) * $postsPerPage;
+
+        $seo = $this->getSeoData($request, $id);
+
+        $url = $this->getUrlBreadcrumb($request);
+
+        $posts = $this->postService->getAllPosts();
+
+        $posts = $this->postService->calculatePostStats($posts);
+
+        return array($postsPerPage, $offset, $seo, $url, $posts);
     }
 }

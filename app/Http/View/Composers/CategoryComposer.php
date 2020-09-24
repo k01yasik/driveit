@@ -10,9 +10,9 @@ use Illuminate\View\View;
 
 class CategoryComposer
 {
-    private $postService;
-    private $paginatorService;
-    private $categoryService;
+    private PostService $postService;
+    private PaginatorService $paginatorService;
+    private CategoryService $categoryService;
 
     public function __construct(PostService $postService, PaginatorService $paginatorService, CategoryService $categoryService)
     {
@@ -30,14 +30,14 @@ class CategoryComposer
         $id = request()->route()->parameter('id');
 
         if ($id) {
-            $posts = $this->postService->getPaginatedPostsByCategory($category, false, $id);
+            $posts = $this->postService->getPaginatedPostsByCategory($category, $id);
 
             $seo = [
                 "title" => 'Статьи в категории '.$category['displayname'].'. Страница - '.$id.'.',
                 "description" => 'Статьи в категории '.$category['displayname'].'. Страница - '.$id.'.',
             ];
         } else {
-            $posts = $this->postService->getPaginatedPostsByCategory($category, true);
+            $posts = $this->postService->getPaginatedPostsByCategory($category, 1);
 
             $seo = [
                 "title" => 'Статьи в категории '.$category['displayname'],
@@ -45,16 +45,7 @@ class CategoryComposer
             ];
         }
 
-        foreach ($posts as $post) {
-            $post->comments_count = $this->postService->countPostComments($post->comments->toArray());;
-            $post->rating_count = $this->postService->countPostRating($post->rating->toArray());
-        }
-
-        $pages = $this->paginatorService->calculatePages($posts);
-
-        $previousNumberPage = $pages["previousPage"];
-        $nextNumberPage = $pages["nextPage"];
-        $lastNumberPage = $pages["lastPage"];
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
 
         $categoryName = $category['name'];
 

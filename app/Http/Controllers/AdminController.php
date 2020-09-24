@@ -163,13 +163,9 @@ class AdminController extends Controller
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $posts = $this->postService->getPaginatedPostsOrderedById(true);
+        $posts = $this->postService->getPaginatedPostsOrderedById(1);
 
-        $pages = $this->paginatorService->calculatePages($posts);
-
-        $previousNumberPage = $pages["previousPage"];
-        $nextNumberPage = $pages["nextPage"];
-        $lastNumberPage = $pages["lastPage"];
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
 
         $items = $posts;
         $items_to_display = 3;
@@ -190,13 +186,9 @@ class AdminController extends Controller
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $posts = $posts = $this->postService->getPaginatedPostsOrderedById(false, $id);
+        $posts = $posts = $this->postService->getPaginatedPostsOrderedById($id);
 
-        $pages = $this->paginatorService->calculatePages($posts);
-
-        $previousNumberPage = $pages["previousPage"];
-        $nextNumberPage = $pages["nextPage"];
-        $lastNumberPage = $pages["lastPage"];
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
 
         $items = $posts;
         $items_to_display = 3;
@@ -215,11 +207,7 @@ class AdminController extends Controller
 
         $unpublish_comments_count = $this->commentService->getCommentsNotVerifiedCount();
 
-        $pages = $this->paginatorService->calculatePages($comments);
-
-        $previousNumberPage = $pages["previousPage"];
-        $nextNumberPage = $pages["nextPage"];
-        $lastNumberPage = $pages["lastPage"];
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
 
         $items = $comments;
         $items_to_display = 3;
@@ -241,11 +229,7 @@ class AdminController extends Controller
 
         $comments = $this->commentService->getPaginatedComments(false, $id);
 
-        $pages = $this->paginatorService->calculatePages($comments);
-
-        $previousNumberPage = $pages["previousPage"];
-        $nextNumberPage = $pages["nextPage"];
-        $lastNumberPage = $pages["lastPage"];
+        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
 
         $items = $comments;
         $items_to_display = 3;

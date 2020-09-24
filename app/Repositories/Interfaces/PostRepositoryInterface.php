@@ -27,9 +27,9 @@ interface PostRepositoryInterface
 
     public function updateStatus(PostEntity $postEntity): void;
 
-    public function getPaginatedPostsOrderedById(bool $isStart, int $id = null): array;
+    public function getPaginatedPostsOrderedById(int $pageId, int $numberPosts): array;
 
-    public function getPaginatedPostsByCategory(array $category): array;
+    public function getPaginatedPostsByCategory(array $category, int $pageId, int $numberPosts): array;
 
     public function getAllPublishedPosts(): array;
 

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @include('components.verification')
+    <meta name="yandex-verification" content="b479b5da6781c74c" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('seo.index')
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">

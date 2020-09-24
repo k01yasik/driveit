@@ -34,6 +34,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
             [
                 'category.show',
+                'category.paginate',
             ],
             'App\Http\View\Composers\CategoryComposer'
         );
