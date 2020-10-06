@@ -35,14 +35,15 @@ class VerificationController extends Controller
      * @return void
      */
 
-    protected $seoService;
+    protected SeoService $seoService;
 
-    public function __construct(SeoService $seoService)
+    public function __construct(Request $request, SeoService $seoService)
     {
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
         $this->seoService = $seoService;
+        $this->redirectTo = '/user/'.$request->user()->username;
     }
 
     public function show(Request $request)
