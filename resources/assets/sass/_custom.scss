@@ -1500,14 +1500,6 @@ footer {
   padding: 2em;
   margin: 0 auto;
   max-width: 450px;
-
-  p {
-    margin: 0 0 1em;
-
-    &:last-child {
-      margin: 0;
-    }
-  }
 }
 
 .height-3 {
@@ -3014,4 +3006,30 @@ main {
 
 .user-avatar-link {
   padding: .5em 0;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.privacy-policy {
+  margin: 3em 0 0;
+  font-size: .75em;
+  color: $gray-11;
+
+  a {
+    color: $primary-1;
+    font-weight: bold;
+  }
+}
+
+.error-message {
+  color: rgb(239 71 71 / 60%);
+  height: 3rem;
+  line-height: 4;
+  font-size: .75em;
+  display: flex;
+  align-items: center;
+  float: right;
+  font-weight: bold;
 }

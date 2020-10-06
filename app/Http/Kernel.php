@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'public' => \App\Http\Middleware\PublicUser::class,
         'current' => \App\Http\Middleware\CurrentUser::class,
+        'captcha' => \App\Http\Middleware\Captcha::class,
     ];
 }

@@ -25,11 +25,9 @@ interface PostRepositoryInterface
 
     public function getById(int $postId): array;
 
-    public function updateStatus(PostEntity $postEntity): void;
-
     public function getPaginatedPostsOrderedById(int $pageId, int $numberPosts): array;
 
-    public function getPaginatedPostsByCategory(array $category, int $pageId, int $numberPosts): array;
+    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array;
 
     public function getAllPublishedPosts(): array;
 
@@ -50,4 +48,10 @@ interface PostRepositoryInterface
     public function getPostsCount(): int;
 
     public function getPostsSortedByViews(int $pageId, int $numberPosts): array;
+
+    public function getPostStatus(PostEntity $postEntity): bool;
+
+    public function publishPost(PostEntity $postEntity): void;
+
+    public function unpublishPost(PostEntity $postEntity): void;
 }

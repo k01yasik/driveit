@@ -30,14 +30,14 @@ class CategoryComposer
         $id = request()->route()->parameter('id');
 
         if ($id) {
-            $posts = $this->postService->getPaginatedPostsByCategory($category, $id);
+            $posts = $this->postService->getPaginatedPostsByCategoryId($category['id'], $id);
 
             $seo = [
                 "title" => 'Статьи в категории '.$category['displayname'].'. Страница - '.$id.'.',
                 "description" => 'Статьи в категории '.$category['displayname'].'. Страница - '.$id.'.',
             ];
         } else {
-            $posts = $this->postService->getPaginatedPostsByCategory($category, 1);
+            $posts = $this->postService->getPaginatedPostsByCategoryId($category['id'], 1);
 
             $seo = [
                 "title" => 'Статьи в категории '.$category['displayname'],

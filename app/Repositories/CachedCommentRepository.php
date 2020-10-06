@@ -17,9 +17,9 @@ final class CachedCommentRepository implements CommentRepositoryInterface
         $this->commentRepository = $commentRepository;
     }
 
-    public function update(array $comment): bool
+    public function update(array $comment): void
     {
-        return $this->commentRepository->update($comment);
+        $this->commentRepository->update($comment);
     }
 
     public function save(array $comment): array

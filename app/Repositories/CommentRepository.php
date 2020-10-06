@@ -26,16 +26,18 @@ class CommentRepository implements CommentRepositoryInterface
             ->get()->toArray();
     }
 
-    public function update(array $comment): bool
+    public function update(array $comment): void
     {
-        $commentModel = Comment::find($comment['id']);
-        $commentModel->user_id = $comment['user_id'];
-        $commentModel->post_id = $comment['post_id'];
-        $commentModel->message = $comment['message'];
-        $commentModel->is_verified = $comment['is_verified'];
-        $commentModel->level = $comment['level'];
-        $commentModel->parent_id = $comment['parent_id'];
-        return $commentModel->save();
+        Comment::find($comment['id'])->update(
+            [
+                'user_id'       => $comment['user_id'],
+                'post_id'       => $comment['post_id'],
+                'message'       => $comment['message'],
+                'is_verified'   => $comment['is_verified'],
+                'level'         => $comment['level'],
+                'parent_id'     => $comment['parent_id'],
+            ]
+        );
     }
 
     public function save(array $comment): array

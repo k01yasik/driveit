@@ -6,6 +6,7 @@ use App\Category;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Post;
 use App\Entities\Post as PostEntity;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -48,23 +49,24 @@ class PostRepository implements PostRepositoryInterface
         $post->categories()->attach($postCategoriesId);
     }
 
-    public function updateStatus(PostEntity $postEntity): void
+    public function getPostStatus(PostEntity $postEntity): bool
     {
-        $post = Post::find($postEntity->getId());
-        $post->is_published = $postEntity->isPublished();
+        return Post::select('is_published')->find($postEntity->getId());
+    }
 
-        if ($date = $postEntity->getDatePublished()) {
-            $post->date_published = $date;
-        }
+    public function publishPost(PostEntity $postEntity): void
+    {
+        Post::find($postEntity->getId())->update(['is_published' => true, 'date_published' => Carbon::now()]);
+    }
 
-        $post->save();
+    public function unpublishPost(PostEntity $postEntity): void
+    {
+        Post::find($postEntity->getId())->update(['is_published' => false, 'date_published' => null]);
     }
 
     public function updateHtml(PostEntity $postEntity, int $postId): void
     {
-        $post = Post::find($postId);
-        $post->body = clean($postEntity->getBody());
-        $post->save();
+        $post = Post::find($postId)->update(['body' => clean($postEntity->getBody())]);
     }
 
     public function getPostByIdWithUserData($postId): array
@@ -82,11 +84,6 @@ class PostRepository implements PostRepositoryInterface
         return Post::find($postId)->toArray();
     }
 
-    public function changePublishStatus(int $postId)
-    {
-
-    }
-
     public function getPaginatedPostsOrderedById(int $pageId, int $numberPosts): array
     {
         return Post::orderByDesc('id')
@@ -101,9 +98,9 @@ class PostRepository implements PostRepositoryInterface
         return Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail()->toArray();
     }
 
-    public function getPaginatedPostsByCategory(array $category, int $pageId, int $numberPosts): array
+    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array
     {
-        return Category::find($category['id'])
+        return Category::find($categoryId)
             ->posts()
             ->with(['user', 'categories', 'user.profile', 'rating', 'comments'])
             ->where('is_published', 1)
@@ -136,7 +133,7 @@ class PostRepository implements PostRepositoryInterface
 
     public function getPostsForSitemap(): array
     {
-        return Post::where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
+        return Post::select(['slug', 'name', 'image_path', 'caption'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
     }
 
     public function incrementViews(int $postId): void

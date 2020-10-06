@@ -1,7 +1,6 @@
 $().ready(function () {
     let id = $('.channel').data('id');
     let post_id = $('.full-post').data('id');
-
     if (id) {
         window.Echo.private('user.' + id)
             .listen('MessageSaved', (e) => {

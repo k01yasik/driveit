@@ -40,6 +40,8 @@ class PostObserver
             Cache::forget('paginated-posts-'.$i);
         }
 
+        Cache::forget('post-status-'.$post->id);
+
     }
 
     public function deleted()

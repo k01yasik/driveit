@@ -8,7 +8,7 @@ interface CommentRepositoryInterface
 {
     public function getById(int $id): array;
 
-    public function update(array $comment): bool;
+    public function update(array $comment): void;
 
     public function save(array $comment): array;
 

@@ -45,9 +45,11 @@
     @include('components.schema')
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <noscript><div><img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    <div>
+        <img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" />
+    </div>
     <header>
         @include('components.sitetop')
     </header>
@@ -66,6 +68,14 @@
     @include('components.backbutton')
     @include('components.webfont')
     @include('components.pwa')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('recaptcha.public_key') }}"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('recaptcha.public_key') }}').then(function(token) {
+                document.getElementById("recaptcha_token").value = token;
+            });
+        });
+    </script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

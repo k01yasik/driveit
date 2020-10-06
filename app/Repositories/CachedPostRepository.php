@@ -61,19 +61,14 @@ final class CachedPostRepository implements PostRepositoryInterface
         return $this->postRepository->getById($postId);
     }
 
-    public function updateStatus(PostEntity $postEntity): void
-    {
-        $this->postRepository->updateStatus($postEntity);
-    }
-
     public function getPaginatedPostsOrderedById(int $pageId, int $numberPosts): array
     {
         return $this->postRepository->getPaginatedPostsOrderedById($pageId, $numberPosts);
     }
 
-    public function getPaginatedPostsByCategory(array $category, int $pageId, int $numberPosts): array
+    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array
     {
-        return $this->postRepository->getPaginatedPostsByCategory($category, $pageId, $numberPosts);
+        return $this->postRepository->getPaginatedPostsByCategoryId($categoryId, $pageId, $numberPosts);
     }
 
     public function getAllPublishedPosts(): array
@@ -137,5 +132,22 @@ final class CachedPostRepository implements PostRepositoryInterface
     public function getPostsCountByCategory(int $id): int
     {
         return $this->postRepository->getPostsCountByCategory($id);
+    }
+
+    public function getPostStatus(PostEntity $postEntity): bool
+    {
+        return Cache::rememberForever('post-status-'.$postEntity->getId(), function () use ($postEntity) {
+            return $this->postRepository->getPostStatus($postEntity);
+        });
+    }
+
+    public function publishPost(PostEntity $postEntity): void
+    {
+        $this->postRepository->publishPost($postEntity);
+    }
+
+    public function unpublishPost(PostEntity $postEntity): void
+    {
+        $this->postRepository->unpublishPost($postEntity);
     }
 }

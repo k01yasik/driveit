@@ -7,7 +7,7 @@ use App\Repositories\CachedCommentRepository;
 
 class AdminCommentService
 {
-    protected $commentRepository;
+    protected CachedCommentRepository $commentRepository;
 
     public function __construct(CachedCommentRepository $commentRepository)
     {

@@ -41,15 +41,17 @@ class PostService
         return $count;
     }
 
-    public function getPaginatedPostsByCategory(array $category, int $id): LengthAwarePaginator
+    public function getPaginatedPostsByCategoryId(int $categoryId, int $id): LengthAwarePaginator
     {
-        $posts = $this->postRepository->getPaginatedPostsByCategory($category, $id, config('pagination.postsPerPage'));
+        $numberPosts = config('pagination.postsPerPage');
+
+        $posts = $this->postRepository->getPaginatedPostsByCategoryId($categoryId, $id, $numberPosts);
 
         $posts = $this->calculatePostStats($posts);
 
-        $postsCount = $this->postRepository->getPostsCountByCategory($category['id']);
+        $postsCount = $this->postRepository->getPostsCountByCategory($categoryId);
 
-        return new LengthAwarePaginator($posts, $postsCount, config('pagination.postsPerPage'), $id, [
+        return new LengthAwarePaginator($posts, $postsCount, $numberPosts, $id, [
             'path' => null,
             'query' => null,
             'fragment' => null,
@@ -84,7 +86,13 @@ class PostService
 
     public function changePublishStatus(PostEntity $postEntity): void
     {
-        $this->postRepository->updateStatus($postEntity);
+        $isPublished = $this->postRepository->getPostStatus($postEntity);
+
+        if ($isPublished) {
+            $this->postRepository->unpublishPost($postEntity);
+        } else {
+            $this->postRepository->publishPost($postEntity);
+        }
     }
 
     public function getPostByIdWithCategories(int $postId)
