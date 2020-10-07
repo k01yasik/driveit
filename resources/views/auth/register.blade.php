@@ -9,6 +9,7 @@
             <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Registration') }}">
                 @csrf
                 <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+                <input type="hidden" name="action" value="registration">
 
                 <label for="username">{{ __('Username') }}</label>
 
