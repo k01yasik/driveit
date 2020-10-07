@@ -33,7 +33,7 @@
   "Searching results": "Результаты поиска",
   "Search": "Поиск",
   "Reset Password": "Сброс пароля",
-  "Reset Password Notification": "Сброс пароля",
+  "Reset Password Notification": "Уведомление о сбросе пароля",
   "You are receiving this email because we received a password reset request for your account.": "Вы получили это электронное письмо, потому что мы получили запрос на сброс пароля для вашей учетной записи.",
   "If you did not request a password reset, no further action is required.": "Если вы не запрашивали сброс пароля, никаких дополнительных действий не требуется.",
   "Send Password Reset Link": "Выслать ссылку сброса пароля",
@@ -63,7 +63,7 @@
   "Verify Your Email Address": "Подтвердите адрес электронной почты",
   "Please click the button below to verify your email address.": "Пожалуйста, нажмите кнопку ниже, чтобы подтвердить свой адрес электронной почты.",
   "If you did not create an account, no further action is required.": "Если вы не создавали учетную запись, никаких дополнительных действий не требуется.",
-  "Verify Email Address": "Подтвердите адрес электронной почти",
+  "Verify Email Address": "Подтвердите адрес электронной почты",
   "Before proceeding, please check your email for a verification link.": "Для продолжения необходимо подтвердить адрес электронной почты.",
   "If you did not receive the email": "Если вы не получали письмо",
   "click here to request another": "нажмите здесь",
@@ -135,5 +135,11 @@
   "Drafts": "Черновики",
   "Best posts by rating": "Лучшие статьи по рейтингу",
   "Best posts by comments": "Лучшие статьи по комментариям",
-  "Best posts by views": "Лучшие статьи по просмотрам"
+  "Best posts by views": "Лучшие статьи по просмотрам",
+  "This password reset link will expire in :count minutes.": "Ссылка на сброс пароля будет действительна в течение :count минут",
+  "All rights reserved.": "Все права защищены.",
+  "Whoops!": "Ой!",
+  "Hello!": "Здравствуйте!",
+  "Regards": "С уважением",
+  "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "Если у вас возникают проблемы при нажатии на кнопку \":actionText\", скопируйте и вставте\nв своём браузере данную ссылку:"
 }
