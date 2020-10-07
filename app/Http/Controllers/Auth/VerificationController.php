@@ -37,13 +37,12 @@ class VerificationController extends Controller
 
     protected SeoService $seoService;
 
-    public function __construct(Request $request, SeoService $seoService)
+    public function __construct(SeoService $seoService)
     {
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
         $this->seoService = $seoService;
-        $this->redirectTo = '/user/'.$request->user()->username;
     }
 
     public function show(Request $request)
@@ -53,5 +52,10 @@ class VerificationController extends Controller
         return $request->user()->hasVerifiedEmail()
             ? redirect($this->redirectPath())
             : view('auth.verify', compact('seo'));
+    }
+
+    protected function verified(Request $request)
+    {
+        $this->redirectTo = '/user/'.$request->user()->username;
     }
 }
