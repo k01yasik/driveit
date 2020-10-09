@@ -2,7 +2,7 @@
     <header>
         <div class="header-top v-h-3 flex flex-v-center">
             <a href="{{ route('user.profile', ['username' => $post['user']['username']]) }}" class="user-avatar-link">
-                <img src="{{ $post['user']['profile']['avatar'] }}" class="user-avatar" alt="{{ $post['user']['username'] }}" />
+                <img src="{{ $post['user']['profile']['avatar'] }}" width="200" height="200" class="user-avatar" alt="{{ $post['user']['username'] }}" />
             </a>
             <a href="{{ route('user.profile', ['username' => $post['user']['username']]) }}" class="margin-h-1 post-author flex flex-v-center">{{ $post['user']['username'] }}</a>
             <div class="date-published margin-left-auto flex flex-v-center">{{ $post['date_published'] }}</div>
@@ -48,7 +48,7 @@
     <div class="post-wrapper">
         <picture>
             <source media="(max-width: 375px)" srcset="{{ $post['image_path'] }}">
-            <img src="{{ $post['image_path'] }}" alt="{{ $post['name'] }}" class="post-image">
+            <img src="{{ $post['image_path'] }}" width="500" height="333" alt="{{ $post['name'] }}" class="post-image">
         </picture>
     </div>
     <div class="post-buttons-wrapper">

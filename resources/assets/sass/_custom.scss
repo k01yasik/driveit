@@ -25,6 +25,7 @@ a {
 }
 
 img {
+  aspect-ratio: attr(width) / attr(height);
   width: 100%;
   height: auto;
 }
@@ -206,7 +207,7 @@ ol {
     display: block;
 
     span {
-      color: $primary-1;
+      color: $primary-contrast;
     }
   }
 }
@@ -326,7 +327,7 @@ ol {
 
 .registration, .signout {
   background: $white;
-  color: $primary-1;
+  color: $primary-darker-contrast;
   border-radius: 0 3px 3px 0;
 }
 
