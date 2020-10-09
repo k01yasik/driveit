@@ -28,7 +28,9 @@
     <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="preconnect" href="https://ajax.googleapis.com">
     <link rel="preconnect" href="https://mc.yandex.ru/">
-    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <link rel="preload" href="{{asset('css/app.css')}}" as="style">
+    <link rel="preload" href="{{ asset('js/app.js') }}" as="script">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -56,6 +58,6 @@
         @include('components.footer')
     </footer>
     @include('components.backbutton')
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>
