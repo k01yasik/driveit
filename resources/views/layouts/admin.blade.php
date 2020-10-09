@@ -52,8 +52,6 @@
         @include('components.footer')
     </footer>
     @include('components.backbutton')
-    @include('components.webfont')
-    @include('components.pwa')
     <script>
         let posts = {!! json_encode($posts->toArray(), JSON_HEX_TAG) !!};
         let commentsVerified = {!! $commentsVerified !!};

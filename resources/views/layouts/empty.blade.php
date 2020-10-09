@@ -56,8 +56,6 @@
         @include('components.footer')
     </footer>
     @include('components.backbutton')
-    @include('components.webfont')
-    @include('components.pwa')
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

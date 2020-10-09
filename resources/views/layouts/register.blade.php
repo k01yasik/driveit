@@ -56,8 +56,6 @@
         @include('components.footer')
     </footer>
     @include('components.backbutton')
-    @include('components.webfont')
-    @include('components.pwa')
     <script src="https://www.google.com/recaptcha/api.js?render={{ config('recaptcha.public_key') }}"></script>
     <script>
         grecaptcha.ready(function() {
