@@ -29,13 +29,6 @@
         <link rel="preconnect" href="https://ajax.googleapis.com">
         <link rel="preconnect" href="https://mc.yandex.ru/">
         <link href="{{asset('css/app.css')}}" rel="stylesheet">
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149570604-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-149570604-1');
-        </script>
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -47,7 +40,6 @@
     <body>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
                       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <noscript><div><img src="https://mc.yandex.ru/watch/55662706" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
         <header>
             @include('components.sitetop')
             @include('components.carousel')

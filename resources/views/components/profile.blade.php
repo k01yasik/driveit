@@ -2,7 +2,7 @@
     <div class="user-profile-left-panel">
         <div class="avatar">
             <div class="avatar-inner circle">
-                <img src="{{ $user->profile->avatar }}">
+                <img src="{{ $user['profile']['avatar'] }}">
                 @if ($currentUserProfile)
                     <div class="change-avatar">
                         <div class="upload-button">
@@ -18,41 +18,41 @@
                         </div>
                     </div>
                     <form enctype="multipart/form-data" id="change-avatar-form">
-                        <input type="file" id="change-avatar-input" accept="image/jpeg,image/png" name="change-avatar-image" data-username="{{ $user->username }}">
+                        <input type="file" id="change-avatar-input" accept="image/jpeg,image/png" name="change-avatar-image" data-username="{{ $user['username'] }}">
                     </form>
                 @endif
             </div>
         </div>
         <div class="user-profile-username">
-            <a href="{{ route('user.profile', ['username' => $user->username]) }}">{{ $user->username }}</a>
+            <a href="{{ route('user.profile', ['username' => $user['username']]) }}">{{ $user['username'] }}</a>
         </div>
         <div class="channel hidden-element" data-id="{{ Auth::id() }}"></div>
     </div>
     <div class="user-profile-right-panel">
         <ul>
             <li>
-                <a href="{{ route('user.friends', ['username' => $user->username]) }}">{{ __('Friends') }}</a>
+                <a href="{{ route('user.friends', ['username' => $user['username']]) }}">{{ __('Friends') }}</a>
                 @if ($currentUserProfile)
                     @isset($friendRequestCount)
                         @if($friendRequestCount > 0)
-                            <a href="{{ route('user.requests', ['username' => $user->username]) }}" class="friend-requests right">+{{ $friendRequestCount }}</a>
+                            <a href="{{ route('user.requests', ['username' => $user['username']]) }}" class="friend-requests right">+{{ $friendRequestCount }}</a>
                         @else
-                            <a href="{{ route('user.requests', ['username' => $user->username]) }}" class="friend-requests right" style="display:none;">0</a>
+                            <a href="{{ route('user.requests', ['username' => $user['username']]) }}" class="friend-requests right" style="display:none;">0</a>
                         @endif
                     @endisset
                 @endif
             </li>
             @if($currentUserProfile)
-                <li><a href="{{ route('users', ['username' => $user->username]) }}">{{ __('Find friends') }}</a></li>
-                <li><a href="{{ route('draft.index', ['username' => $user->username]) }}">{{ __('Drafts') }}</a></li>
+                <li><a href="{{ route('users', ['username' => $user['username']]) }}">{{ __('Find friends') }}</a></li>
+                <li><a href="{{ route('draft.index', ['username' => $user['username']]) }}">{{ __('Drafts') }}</a></li>
                 <li>
-                    <a href="{{ route('user.messages', ['username' => $user->username]) }}">{{ __('Messages') }}</a>
+                    <a href="{{ route('user.messages', ['username' => $user['username']]) }}">{{ __('Messages') }}</a>
                     <div class="messages-count right" style="display:none;">0</div>
                 </li>
             @endif
-            <li><a href="{{ route('user.albums.index', ['username' => $user->username]) }}">{{ __('Albums') }}</a></li>
+            <li><a href="{{ route('user.albums.index', ['username' => $user['username']]) }}">{{ __('Albums') }}</a></li>
             @if($currentUserProfile)
-                <li><a href="{{ route('user.settings', ['username' => $user->username]) }}">{{ __('Settings') }}</a></li>
+                <li><a href="{{ route('user.settings', ['username' => $user['username']]) }}">{{ __('Settings') }}</a></li>
             @endif
         </ul>
     </div>

@@ -28,9 +28,6 @@ class DraftController extends Controller
 
         $seo = $this->seoService->getSeoData($request);
 
-        $seo['title'] = $seo['title'].' '.$username;
-        $seo['description'] = $seo['description'].' '.$username;
-
         return view('draft.index', compact('drafts', 'seo'));
     }
 

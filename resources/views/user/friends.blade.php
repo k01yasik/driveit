@@ -8,17 +8,17 @@
         <div class="col s12 m12 l9">
             <div class="profile-block">
                 <div class="album-breadcrumbs rounded">
-                    <a href="{{ route('user.profile', ['username' => $user->username]) }}" class="album-breadcrumbs-item">{{ __('Profile') }}</a>
+                    <a href="{{ route('user.profile', ['username' => $user['username']]) }}" class="album-breadcrumbs-item">{{ __('Profile') }}</a>
                     <span class="album-breadcrumbs-item">/</span>
                     <div class="album-breadcrumbs-item breadcrumbs-bold-item">{{ __('Friends') }}</div>
                 </div>
                 <div class="profile-block-content rounded">
-                    @if ($friendList->count() > 0 )
+                    @if (count($friendList) > 0 )
                         <ul class="request-list">
                             @foreach($friendList as $friend)
                                 <li class="users-element">
-                                    <a href="{{ route('user.profile', ['username' => $friend->user->username]) }}" class="profile-link"><img src="{{ $friend->user->profile->avatar }}" class="avatar-image"></a>
-                                    <a href="{{ route('user.profile', ['username' => $friend->user->username]) }}" class="profile-name">{{ $friend->user->username }}</a>
+                                    <a href="{{ route('user.profile', ['username' => $friend['user']['username']]) }}" class="profile-link"><img src="{{ $friend['user']['profile']['avatar'] }}" class="avatar-image"></a>
+                                    <a href="{{ route('user.profile', ['username' => $friend['user']['username']]) }}" class="profile-name">{{ $friend['user']['username'] }}</a>
                                     @if( $friend->confirmed )
                                         <div class="friend-button right">
                                             <svg version="1.1" class="public-user-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">

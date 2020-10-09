@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileComposer
 {
-    protected $userService;
-    protected $friendService;
+    protected UserService $userService;
+    protected FriendService $friendService;
 
     public function __construct(UserService $userService,
                                 FriendService $friendService)
@@ -27,7 +27,7 @@ class ProfileComposer
 
         $currentUserId = Auth::id();
 
-        $currentUserProfile = $user->id === $currentUserId;
+        $currentUserProfile = $user['id'] === $currentUserId;
 
         $friendRequestCount = $this->friendService
             ->getFriendsCount($currentUserId);

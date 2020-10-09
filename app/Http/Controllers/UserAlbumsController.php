@@ -46,7 +46,15 @@ class UserAlbumsController extends Controller
         $seo['title'] = $seo['title'].' '.$username;
         $seo['description'] = $seo['description'].' '.$username;
 
-        return view('user.albums.index', compact('seo'));
+        $user = $this->userService->getUserForAlbums($username);
+
+        $currentUserId = Auth::id();
+
+        $currentUserProfile = $user['id'] === $currentUserId;
+
+        $friendRequestCount = $this->friendService->getFriendsCount($currentUserId);
+
+        return view('user.albums.index', compact('seo', 'user', 'currentUserProfile', 'friendRequestCount'));
     }
 
     public function create(Request $request, $username) {

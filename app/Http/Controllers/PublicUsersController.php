@@ -23,7 +23,7 @@ class PublicUsersController extends Controller
     {
         $this->seoService = $seoService;
         $this->friendService = $friendService;
-        $this->userRepository = $userService;
+        $this->userService = $userService;
     }
 
     public function index(Request $request, $username) {

@@ -8,26 +8,26 @@
         <div class="col s12 m12 l9">
             <div class="profile-block">
                 <div class="album-breadcrumbs rounded">
-                    <a href="{{ route('user.profile', ['username' => $user->username]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
+                    <a href="{{ route('user.profile', ['username' => $user['username']]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
                     <span class="album-breadcrumbs-item">/</span>
-                    <a href="{{ route('user.friends', ['username' => $user->username]) }}" class="album-breadcrumbs-item">{{ __('Friends') }}</a>
+                    <a href="{{ route('user.friends', ['username' => $user['username']]) }}" class="album-breadcrumbs-item">{{ __('Friends') }}</a>
                     <span class="album-breadcrumbs-item">/</span>
                     <div class="album-breadcrumbs-item breadcrumbs-bold-item">{{ __('Search') }}</div>
                 </div>
                 <div class="profile-block-content rounded">
-                    @if ($profiles->count() > 0 )
+                    @if (count($profiles) > 0 )
                         <ul>
                             @foreach($profiles as $profile)
-                                <li class="users-element friend-id-{{$profile->user->id}}">
-                                    <a href="{{ route('user.profile', ['username' => $profile->user->username]) }}" class="profile-link"><img src="{{ $profile->avatar }}" class="avatar-image"></a>
-                                    <a href="{{ route('user.profile', ['username' => $profile->user->username]) }}" class="profile-name">{{ $profile->user->username }}</a>
-                                    @if (in_array($profile->user->id, $confirmedFriends, true))
+                                <li class="users-element friend-id-{{$profile['user']['id']}}">
+                                    <a href="{{ route('user.profile', ['username' => $profile['user']['username']]) }}" class="profile-link"><img src="{{ $profile['avatar'] }}" class="avatar-image"></a>
+                                    <a href="{{ route('user.profile', ['username' => $profile['user']['username']]) }}" class="profile-name">{{ $profile['user']['username'] }}</a>
+                                    @if (in_array($profile['user']['id'], $confirmedFriends, true))
                                         <div class="confirmed right">
                                             <svg version="1.1" class="checked-friend-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
                                                 <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"></path>
                                             </svg>
                                         </div>
-                                    @elseif(in_array($profile->user->id, $requestedFriends, true))
+                                    @elseif(in_array($profile['user']['id'], $requestedFriends, true))
                                         <div class="waiting right" title="{{ __('Waiting for confirmation.') }}">
                                             <svg version="1.1" class="hourglass-friend-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
                                         <g>
@@ -41,7 +41,7 @@
                                     </svg>
                                         </div>
                                     @else
-                                        <div class="request-friend right" title="{{__('Send request to add to friends')}}" data-friend="{{ $profile->user->id }}" data-username="{{ $user->username }}">
+                                        <div class="request-friend right" title="{{__('Send request to add to friends')}}" data-friend="{{ $profile['user']['id'] }}" data-username="{{ $user['username'] }}">
                                             <svg version="1.1" class="plus-friend-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 533.333 533.333" style="enable-background:new 0 0 533.333 533.333;"
                                                  xml:space="preserve">
                                         <g>

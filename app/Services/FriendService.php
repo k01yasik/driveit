@@ -12,20 +12,20 @@ use App\Repositories\Interfaces\FriendRepositoryInterface;
 
 class FriendService
 {
-    private $friendRepository;
+    private FriendRepositoryInterface $friendRepository;
 
     public function __construct(FriendRepositoryInterface $friendRepository)
     {
         $this->friendRepository = $friendRepository;
     }
 
-    public function getConfirmedFriends($friends)
+    public function getConfirmedFriends(array $friends)
     {
         $friendsId = [];
 
         foreach ($friends as $friend) {
-            if ($friend->confirmed) {
-                array_push($friendsId, $friend->friend_id);
+            if ($friend['confirmed']) {
+                array_push($friendsId, $friend['friend_id']);
             }
         }
 
@@ -38,7 +38,7 @@ class FriendService
 
         foreach ($friends as $friend)
         {
-            array_push($friendsId, $friend->friend_id);
+            array_push($friendsId, $friend['friend_id']);
         }
 
         return $friendsId;

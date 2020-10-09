@@ -59,7 +59,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserForAlbums(string $username): array
     {
-        return User::with('profile', 'albums', 'albums.images')->where('username', $username)->firstOrFail()->toArray();
+        return User::with('profile', 'albums', 'albums.images')->where('username', $username)->first()->toArray();
     }
 
     public function getAllUnbannedUsers(array $ripIds): array

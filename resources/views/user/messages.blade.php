@@ -8,18 +8,18 @@
         <div class="col s12 m12 l9">
             <div class="profile-block">
             <div class="album-breadcrumbs">
-                <a href="{{ route('user.profile', ['username' => $user->username]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
+                <a href="{{ route('user.profile', ['username' => $user['username']]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
                 <span class="album-breadcrumbs-item">/</span>
                 <div class="album-breadcrumbs-item breadcrumbs-bold-item">{{ __('Messages') }}</div>
             </div>
             <div class="profile-block-content">
-                @if ($friendList->count() > 0 )
+                @if (count($friendList) > 0 )
                     <ul class="request-list">
                         @foreach($friendList as $friend)
                             <li class="users-element">
-                                <a href="{{ route('user.friend.messages', ['username' => $user->username, 'friend' => $friend->user->username]) }}" class="users-element-link">
+                                <a href="{{ route('user.friend.messages', ['username' => $user['username'], 'friend' => $friend['user']['username']]) }}" class="users-element-link">
                                     <div class="profile-link"><img src="{{ $friend->user->profile->avatar }}" class="avatar-image"></div>
-                                    <div class="profile-name">{{ $friend->user->username }}</div>
+                                    <div class="profile-name">{{ $friend['user']['username'] }}</div>
                                     <div class="friend-button right">
                                         <svg version="1.1" class="public-user-check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 444.815 444.815" style="enable-background:new 0 0 444.815 444.815;"
                                         xml:space="preserve">

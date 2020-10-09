@@ -8,10 +8,10 @@
         <div class="col s12 m12 l9">
             <div class="album-block">
             <div class="album-breadcrumbs">
-                <a href="{{ route('user.profile', ['username' => $user->username]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
+                <a href="{{ route('user.profile', ['username' => $user['username']]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
                 <span class="album-breadcrumbs-item">/</span>
                 <div class="album-breadcrumbs-item breadcrumbs-bold-item">{{ __('Albums') }}</div>
-                <a href="{{ route('user.albums.create', ['username' => $user->username]) }}" class="right create-album" title="{{ __('Create an album') }}">
+                <a href="{{ route('user.albums.create', ['username' => $user['username']]) }}" class="right create-album" title="{{ __('Create an album') }}">
                     <svg version="1.1" class="create-album-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 533.333 533.333" style="enable-background:new 0 0 533.333 533.333;"
                     xml:space="preserve">
                         <g>
@@ -23,12 +23,12 @@
                     </svg>
                 </a>
             </div>
-            @foreach($user->albums as $album)
+            @foreach($user['albums'] as $album)
                 <div class="album-wrapper">
                     <div class="album-caption">
-                        <a href="{{ route('user.albums.show', ['username' => $user->username, 'albumname' => $album->name]) }}">{{ $album->name }}</a>
+                        <a href="{{ route('user.albums.show', ['username' => $user['username'], 'albumname' => $album['name']]) }}">{{ $album['name'] }}</a>
 
-                        <a href="{{ route('user.albums.edit', ['username' => $user->username, 'albumname' => $album->name]) }}" class="edit-album right">
+                        <a href="{{ route('user.albums.edit', ['username' => $user['username'], 'albumname' => $album['name']]) }}" class="edit-album right">
                             <svg version="1.1" class="edit-album-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                 <g>
                                     <g>
@@ -56,10 +56,10 @@
                         </a>
                     </div>
                     <div class="album-cover">
-                        @if ($album->cover)
-                            <img src="{{ $album->cover }}" alt="{{ $album->name }}">
+                        @if ($album['cover'])
+                            <img src="{{ $album['cover'] }}" alt="{{ $album['name'] }}">
                         @else
-                            <img src="/storage/cover/album-cover.jpg" alt="{{ $album->name }}">
+                            <img src="/storage/cover/album-cover.jpg" alt="{{ $album['name'] }}">
                         @endif
                     </div>
                 </div>
