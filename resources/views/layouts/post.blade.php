@@ -57,6 +57,7 @@
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    @include('components.yandex-noscript')
     <header>
         @include('components.sitetop')
         @include('components.carousel')

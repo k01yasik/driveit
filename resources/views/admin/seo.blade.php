@@ -36,9 +36,9 @@
                     @foreach($allSeo as $so)
                         <div class="item-block flex flex-v-center">
                             <div class="item-block-link">
-                                <a href="{{ route('seo.show', ['id' => $so->id]) }}">{{$so->route_name}}</a>
+                                <a href="{{ route('seo.show', ['id' => $so['id']]) }}">{{$so['route_name']}}</a>
                             </div>
-                            <a href="{{ route('seo.edit', ['id' => $so->id]) }}" class="edit-button">
+                            <a href="{{ route('seo.edit', ['id' => $so['id']]) }}" class="edit-button">
                                 <svg version="1.1" class="edit-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                     <g>
                                         <g>
@@ -65,7 +65,7 @@
                                 </svg>
                             </a>
                             <div class="delete-button">
-                                <form method="POST" action="{{ route('seo.destroy', ['id' => $so->id]) }}">
+                                <form method="POST" action="{{ route('seo.destroy', ['id' => $so['id']]) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit">

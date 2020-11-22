@@ -1,31 +1,28 @@
-$().ready(function () {
-   let back = $('.back-to-top');
+let back = $('.back-to-top');
 
-   $( window ).scroll(function() {
-       const BODY_SCROLL = document.body.scrollTop;
-       const ELEMENT_SCROLL = document.documentElement.scrollTop;
-       const heightPixels = 500;
+$( window ).scroll(function() {
+   const BODY_SCROLL = document.body.scrollTop;
+   const ELEMENT_SCROLL = document.documentElement.scrollTop;
+   const heightPixels = 500;
 
-       let scrollTop;
+   let scrollTop;
 
-       if (BODY_SCROLL > ELEMENT_SCROLL) {
-           scrollTop = BODY_SCROLL;
-       } else {
-           scrollTop = ELEMENT_SCROLL;
-       }
+   if (BODY_SCROLL > ELEMENT_SCROLL) {
+       scrollTop = BODY_SCROLL;
+   } else {
+       scrollTop = ELEMENT_SCROLL;
+   }
 
-       if (scrollTop > heightPixels) {
-           if (back.css('opacity') === '0') { back.css('opacity', 1); back.css('z-index', 1000); }
-       } else {
-           if (back.css('opacity') === '1') { back.css('opacity', 0); back.css('z-index', -100); }
-       }
-   });
+   if (scrollTop > heightPixels) {
+       if (back.css('opacity') === '0') { back.css('opacity', 1); back.css('z-index', 1000); }
+   } else {
+       if (back.css('opacity') === '1') { back.css('opacity', 0); back.css('z-index', -100); }
+   }
+});
 
-   back.click(function() {
+back.click(function() {
 
-       $('html, body').animate({
-           scrollTop: 0
-       }, $( window ).scrollTop() / 2 + 2000);
-   });
-
+   $('html, body').animate({
+       scrollTop: 0
+   }, $( window ).scrollTop() / 2 + 2000);
 });

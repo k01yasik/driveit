@@ -24,6 +24,7 @@ class ViewServiceProvider extends ServiceProvider
                 'user.messages',
                 'user.albums.edit',
                 'user.albums.show',
+                'user.albums.create',
                 'user.settings',
                 'user.friendmessages'
             ],

@@ -55,7 +55,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'public', 'verified']
 
         Route::get('/{username}/comment/{id}/edit', 'CommentController@edit')->name('user.comment.edit');
 
-        Route::get('/{username}/new/albums', 'UserAlbumsController@create')->name('user.albums.create');
+        Route::get('/{username}/new/album', 'UserAlbumsController@create')->name('user.albums.create');
 
         Route::post('/{username}/albums', 'UserAlbumsController@store')->name('user.albums.store');
 
@@ -88,7 +88,7 @@ Route::get('/best-comments', 'PageController@bestComments')->name('posts.comment
 
 Route::get('/best-comments/page/{id}', 'PageController@commentsPaginate')->name('best.comments.paginate');
 
-Route::get('/about', 'PageController@about')->name('page.about');
+Route::get('/about', 'PageController@about')->name('page.about')->middleware();
 
 Route::get('/rules', 'PageController@rules')->name('page.rules');
 

@@ -208,6 +208,7 @@ ol {
 
     span {
       color: $primary-contrast;
+      display: inline;
     }
   }
 }
@@ -1733,7 +1734,6 @@ a {
 .album-breadcrumbs-item {
   float: left;
   margin-right: 1em;
-  font-size: 1.25rem;
 
   &:last-child {
     margin-right: 0;
@@ -1942,13 +1942,8 @@ a {
   height: 2em;
   width: 2em;
   border-radius: 3px;
-  background: $dark-gray-bottom;
+  background: $primary-1;
   margin: .5em 0;
-  transition: all .5s ease-in-out;
-
-  &:hover {
-    background: $gray-12;
-  }
 }
 
 .add-image {
@@ -2015,13 +2010,8 @@ main {
   height: 2em;
   width: 2em;
   margin: .5em 0;
-  background: $dark-gray-bottom;
+  background: $primary-1;
   border-radius: 3px;
-  transition: all .5s ease-in-out;
-
-  &:hover {
-    background: $gray-12;
-  }
 }
 
 .create-album-form {

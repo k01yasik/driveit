@@ -42,6 +42,7 @@
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    @include('components.yandex-noscript')
     <header>
         @include('components.sitetop')
     </header>
@@ -55,7 +56,7 @@
     </footer>
     @include('components.backbutton')
     <script>
-        let posts = {!! json_encode($posts->toArray(), JSON_HEX_TAG) !!};
+        let posts = {!! json_encode($posts, JSON_HEX_TAG) !!};
         let commentsVerified = {!! $commentsVerified !!};
         let commentsNotVerified = {!! $commentsNotVerified !!};
         let datesQuery = {!! json_encode($datesQuery, JSON_HEX_TAG) !!};

@@ -1,11 +1,11 @@
 <div class="left-panel">
     <div class="avatar">
         <div class="avatar-inner circle">
-            <img src="{{ $user->profile->avatar }}">
+            <img src="{{ $user['profile']['avatar'] }}">
         </div>
     </div>
     <div class="user-profile-username">
-        <a href="{{ route('user.profile', ['username' => $user->username]) }}">{{ $user->username }}</a>
+        <a href="{{ route('user.profile', ['username' => $user['username']]) }}">{{ $user['username'] }}</a>
     </div>
     <ul class="panel-menu">
         <li class="@isset($activeItem){{ $activeItem == 'admin.index' ? 'active-item' : '' }}@endisset"><a href="{{ route('admin.index') }}">{{ __('Dashboard') }}</a></li>
