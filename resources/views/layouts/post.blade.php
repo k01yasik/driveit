@@ -26,10 +26,9 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://www.google-analytics.com">
-    <link rel="preconnect" href="https://ajax.googleapis.com">
-    <link rel="preconnect" href="https://mc.yandex.ru/">
     <link rel="preload" href="{{asset('css/app.css')}}" as="style">
+    <link rel="preload" href="{{ asset('js/manifest.js') }}" as="script">
+    <link rel="preload" href="{{ asset('js/vendor.js') }}" as="script">
     <link rel="preload" href="{{ asset('js/app.js') }}" as="script">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -83,6 +82,8 @@
         @include('components.footer')
     </footer>
     @include('components.backbutton')
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/manifest.js') }}"></script>
+    <script src="{{ asset('js/vendor.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
