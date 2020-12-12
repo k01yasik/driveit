@@ -1,6 +1,6 @@
 <article class="post">
     <header>
-        <div class="header-top v-h-3 flex flex-v-center">
+        <div class="header-top flex flex-v-center">
             <a href="{{ route('user.profile', ['username' => $post['user']['username']]) }}" class="user-avatar-link">
                 <img src="{{ $post['user']['profile']['avatar'] }}" width="200" height="200" class="user-avatar" alt="{{ $post['user']['username'] }}" />
             </a>

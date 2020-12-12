@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li class="flex flex-v-center"><span>/</span></li>
-            <li class="breadcrumbs-bold-item flex flex-v-center">{{ $breadcrumb }}</li>
+            <li class="flex flex-v-center">{{ $breadcrumb }}</li>
         </ul>
     </div>
 

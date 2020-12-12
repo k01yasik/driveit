@@ -1,4 +1,4 @@
-<div class="navigation margin-top-minus-3-m">
+<div class="navigation">
     <div class="container menu-back">
         <div class="row">
             <div class="col s12">

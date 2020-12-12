@@ -31,6 +31,8 @@ interface PostRepositoryInterface
 
     public function getAllPublishedPosts(): array;
 
+    public function getPostsByMonth(): array;
+
     public function getPostsForShow(string $slug): array;
 
     public function getSuggests(array $ids): array;

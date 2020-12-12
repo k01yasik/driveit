@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="yandex-verification" content="b479b5da6781c74c" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @include('seo.index')
+    <x-seo.index :title="$seo['title']" :description="$seo['description']" :url="url()->current()" />
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -36,14 +36,13 @@
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-KRG3CV2');
     </script>
-    @include('components.schema')
+    <x-schema />
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    @include('components.yandex-noscript')
-    <header>
-        @include('components.sitetop')
+    <x-noscript.googletag-noscript/>
+    <x-noscript.yandex-noscript/>
+    <header class="header">
+        <x-sitetop />
     </header>
     <div class="main">
         <div class="container">
@@ -55,17 +54,10 @@
         </div>
     </div>
     <footer>
-        @include('components.footer')
+        <x-footer />
     </footer>
-    @include('components.backbutton')
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('recaptcha.public_key') }}"></script>
-    <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute('{{ config('recaptcha.public_key') }}', {action: 'registration'}).then(function(token) {
-                document.getElementById("recaptcha_token").value = token;
-            });
-        });
-    </script>
+    <x-backbutton />
+    <x-scripts.recaptcha />
     <script src="{{ asset('js/manifest.js') }}"></script>
     <script src="{{ asset('js/vendor.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>

@@ -14,30 +14,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    protected SeoService $seoService;
-    protected UserService $userService;
-    protected PostDashboardService $postDashboardService;
-    protected CommentService $commentService;
-    protected GoogleAnalyticsService $googleAnalyticsService;
-    protected PostService $postService;
-    protected PaginatorService $paginatorService;
-
-    public function __construct(SeoService $seoService,
-                                UserService $userService,
-                                PostDashboardService $postDashboardService,
-                                CommentService $commentService,
-                                GoogleAnalyticsService $googleAnalyticsService,
-                                PostService $postService,
-                                PaginatorService $paginatorService)
-    {
-        $this->seoService = $seoService;
-        $this->userService = $userService;
-        $this->postDashboardService = $postDashboardService;
-        $this->commentService = $commentService;
-        $this->googleAnalyticsService = $googleAnalyticsService;
-        $this->postService = $postService;
-        $this->paginatorService = $paginatorService;
-    }
+    public function __construct(private SeoService $seoService,
+                                private UserService $userService,
+                                private PostDashboardService $postDashboardService,
+                                private CommentService $commentService,
+                                private GoogleAnalyticsService $googleAnalyticsService,
+                                private PostService $postService,
+                                private PaginatorService $paginatorService)
+    {}
 
     public function index(Request $request)
     {

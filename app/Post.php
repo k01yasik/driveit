@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Laravel\Scout\Searchable;
 
 /**
  * App\Post
@@ -53,9 +52,7 @@ use Laravel\Scout\Searchable;
  */
 class Post extends Model
 {
-    use Searchable;
-
-    public $asYouType = true;
+    public bool $asYouType = true;
 
     public function categories()
     {

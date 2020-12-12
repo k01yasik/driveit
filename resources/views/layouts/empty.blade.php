@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="yandex-verification" content="b479b5da6781c74c" />
-    @include('seo.index')
+    <x-seo.index :title="$seo['title']" :description="$seo['description']" :url="url()->current()" />
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -39,11 +39,10 @@
     @include('components.schema')
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    @include('components.yandex-noscript')
+    <x-noscript.googletag-noscript/>
+    <x-noscript.yandex-noscript/>
     <header>
-        @include('components.sitetop')
+        <x-sitetop />
     </header>
     <div class="main">
         <div class="container">
@@ -55,9 +54,9 @@
         </div>
     </div>
     <footer>
-        @include('components.footer')
+        <x-footer />
     </footer>
-    @include('components.backbutton')
+    <X-backbutton>
     <script src="{{ asset('js/manifest.js') }}"></script>
     <script src="{{ asset('js/vendor.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>

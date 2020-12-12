@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li class="flex flex-v-center"><span>/</span></li>
-            <li class="breadcrumbs-bold-item flex flex-v-center">{{ __('All posts') }}</li>
+            <li class="flex flex-v-center">{{ __('All posts') }}</li>
         </ul>
     </div>
     @each('components.post', $posts, 'post')

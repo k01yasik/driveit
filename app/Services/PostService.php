@@ -169,6 +169,11 @@ class PostService
         return $this->postRepository->getAllPublishedPosts();
     }
 
+    public function getPostsByMonth(): array
+    {
+        return $this->postRepository->getPostsByMonth();
+    }
+
     public function getPostsForShow(string $slug): array
     {
         return $this->postRepository->getPostsForShow($slug);

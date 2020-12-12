@@ -1,0 +1,11 @@
+<div class="hero">
+    <div class="hero__wrapper">
+        <div class="hero__logo">
+            <div class="hero__img"></div>
+        </div>
+        <div class="hero__content exception">
+            <h1>{{ __('Error 404') }}</h1>
+            <p>{{ __('The page you are viewing does not exist.') }}</p>
+        </div>
+    </div>
+</div>

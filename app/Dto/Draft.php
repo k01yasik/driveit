@@ -1,92 +1,51 @@
 <?php
 
-
 namespace App\Dto;
-
 
 class Draft
 {
-    private $slug;
-    private $title;
-    private $description;
-    private $name;
-    private $caption;
-    private $body;
-    private $image;
+    public function __construct(
+        private string $slug,
+        private string $title,
+        private string $description,
+        private string $name,
+        private string $caption,
+        private string $body,
+        private string $image
+    )
+    {}
 
-    /**
-     * Draft constructor.
-     * @param $slug
-     * @param $title
-     * @param $description
-     * @param $name
-     * @param $caption
-     * @param $body
-     * @param $image
-     */
-    public function __construct($slug, $title, $description, $name, $caption, $body, $image)
-    {
-        $this->slug = $slug;
-        $this->title = $title;
-        $this->description = $description;
-        $this->name = $name;
-        $this->caption = $caption;
-        $this->body = $body;
-        $this->image = $image;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCaption()
+    public function getCaption(): string
     {
         return $this->caption;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }

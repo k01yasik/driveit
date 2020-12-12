@@ -1,5 +1,5 @@
 <div class="comment-item level-{{ $comment['level'] }}" data-level="{{ $comment['level'] }}">
-    <div class="header">
+    <div class="comment-header">
         <a href="{{ route('user.profile', ['username' => $comment['user']['username']]) }}" class="user-avatar-link header-item">
             <img src="{{ $comment['user']['profile']['avatar'] }}" class="user-avatar" alt="{{ $comment['user']['username'] }}" />
         </a>

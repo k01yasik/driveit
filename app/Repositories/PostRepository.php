@@ -7,10 +7,8 @@ use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Post;
 use App\Entities\Post as PostEntity;
 use Carbon\Carbon;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -114,6 +112,23 @@ class PostRepository implements PostRepositoryInterface
     public function getAllPublishedPosts(): array
     {
         return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', 1)->orderByDesc('date_published')->get()->toArray();
+    }
+
+    public function getPostsByMonth(): array
+    {
+        $publishedPostsByMonth = DB::table('posts')
+            ->select('id')
+            ->whereRaw('is_published = TRUE AND date_published >= DATE_SUB(CURDATE(), INTERVAL DAYOFMONTH(CURDATE())-1 DAY)')
+            ->get();
+
+        $ids = [];
+
+        foreach ($publishedPostsByMonth as $publishedPostByMonth)
+        {
+            $ids[] = $publishedPostByMonth->id;
+        }
+
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->whereIn('id', $ids)->orderByDesc('date_published')->get()->toArray();
     }
 
     public function getPostsForShow(string $slug): array

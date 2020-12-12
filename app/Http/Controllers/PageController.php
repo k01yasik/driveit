@@ -15,37 +15,19 @@ use App\Services\SortService\Interfaces\SortFactory;
 
 class PageController extends Controller
 {
-    protected SeoService $seoService;
-    protected CommentService $commentService;
-    protected PaginateService $paginateService;
-    protected PaginatorService $paginatorService;
-    protected PostSortService $postSortService;
-    protected PostService $postService;
-    protected SuggestsService $suggestsService;
-    protected SortFactory $sortFactory;
-
     public function __construct(
-        SeoService $seoService,
-        CommentService $commentService,
-        PaginateService $paginateService,
-        PostSortService $postSortService,
-        PostService $postService,
-        PaginatorService $paginatorService,
-        SuggestsService $suggestsService,
-        SortFactory $sortFactory
+        private SeoService $seoService,
+        private CommentService $commentService,
+        private PaginateService $paginateService,
+        private PostSortService $postSortService,
+        private PostService $postService,
+        private PaginatorService $paginatorService,
+        private SuggestsService $suggestsService,
+        private SortFactory $sortFactory
     )
-    {
-        $this->seoService = $seoService;
-        $this->commentService = $commentService;
-        $this->paginateService = $paginateService;
-        $this->postSortService = $postSortService;
-        $this->postService = $postService;
-        $this->paginatorService = $paginatorService;
-        $this->suggestsService = $suggestsService;
-        $this->sortFactory = $sortFactory;
-    }
+    {}
 
-    public function home(Request $request)
+    public function home(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $seo = $this->seoService->getSeoData($request);
 
@@ -54,7 +36,7 @@ class PageController extends Controller
         return view('page.home', compact('seo', 'posts'));
     }
 
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $seo = $this->seoService->getSeoData($request);
 
@@ -69,7 +51,7 @@ class PageController extends Controller
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
     }
 
-    public function paginate($id, Request $request)
+    public function paginate($id, Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $seo = $this->seoService->getSeoData($request);
 
@@ -84,7 +66,7 @@ class PageController extends Controller
         return view('posts.index', compact('seo', 'posts', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage'));
     }
 
-    public function bestRated(Request $request)
+    public function bestRated(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $seo = $this->seoService->getSeoData($request);
 
@@ -107,7 +89,7 @@ class PageController extends Controller
         return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
-    public function bestComments(Request $request)
+    public function bestComments(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $seo = $this->seoService->getSeoData($request);
 
@@ -130,7 +112,22 @@ class PageController extends Controller
         return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
-    public function bestViews(Request $request)
+    public function bestCommentsByMonth(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        $seo = $this->seoService->getSeoData($request);
+
+        $breadcrumb = __('Best of the month by comments');
+
+        $posts = $this->postService->getPostsByMonth();
+
+        $posts = $this->postService->calculatePostStats($posts);
+
+        $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
+
+        return view('posts.best-comments', compact('seo', 'posts', 'breadcrumb'));
+    }
+
+    public function bestViews(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $seo = $this->seoService->getSeoData($request);
 
@@ -149,7 +146,7 @@ class PageController extends Controller
         return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
-    public function commentsPaginate($id, Request $request)
+    public function commentsPaginate($id, Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $breadcrumb = __('Best posts by comments');
 
@@ -166,7 +163,7 @@ class PageController extends Controller
         return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
-    public function ratedPaginate($id, Request $request)
+    public function ratedPaginate($id, Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $breadcrumb = __('Best posts by rating');
 
@@ -183,7 +180,7 @@ class PageController extends Controller
         return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
-    public function viewsPaginate($id, Request $request)
+    public function viewsPaginate($id, Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $breadcrumb = __('Best posts by views');
 
@@ -204,19 +201,21 @@ class PageController extends Controller
         return view('posts.list', compact('seo', 'posts', 'url', 'nextNumberPage', 'previousNumberPage', 'lastNumberPage', 'breadcrumb'));
     }
 
-    public function about(Request $request) {
+    public function about(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
         $seo = $this->seoService->getSeoData($request);
 
         return view('page.about', compact('seo'));
     }
 
-    public function rules(Request $request) {
+    public function rules(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
         $seo = $this->seoService->getSeoData($request);
 
         return view('page.rules', compact('seo'));
     }
 
-    public function show($slug)
+    public function show($slug): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $post = $this->postService->getPostsForShow($slug);
 
@@ -236,7 +235,7 @@ class PageController extends Controller
             "title" => $post['title'],
             "description" => $post['description'],
             "image" => $post['image_path'],
-            "type" => 'article'
+            "type" => "article"
         ];
 
         $authenticated = Auth::check();
@@ -246,7 +245,7 @@ class PageController extends Controller
         return view('posts.show', compact('seo', 'post', 'sortedComments', 'authenticated', 'suggestPosts'));
     }
 
-    public function notFound(Request $request)
+    public function notFound(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('errors.404');
     }

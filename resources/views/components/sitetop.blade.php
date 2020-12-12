@@ -1,17 +1,16 @@
 <div class="sitetop">
     <div class="container">
         <div class="row">
-            <div class="col s12 m6 l3 v-h-3 flex">
+            <div class="col s12 m6 l3 v-h-3 flex flex-h-center-small">
                 <div class="logo"><a href="{{url('/')}}">web-rookie.<span>ru</span></a></div>
             </div>
-            <div class="col s12 m6 l2 v-h-3 flex flex-v-center flex-j-end-m col-last-m">
+            <div class="col s12 m6 l2 v-h-3 flex flex-v-center flex-h-center-small flex-j-end-m col-last-m">
                 <ul class="social-button">
                     <li>
                         <a href="https://vk.com/driveitwithme" target="_blank" rel="noopener noreferrer nofollow">
-                            <svg class="svg-vk" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.17 14.17">
-                                <g id="vk">
-                                    <rect fill="#FFFFFF" width="14.17" height="14.17" rx="3"/>
-                                    <path id="vk-2" data-name="vk" fill="#573ea4" d="M12.52,4.3h-2.4S9.27,6.48,8.27,7c-.71-.47.17-2.1-.35-2.68-.36-.4-2.58-.29-2.66.22.25.08.48.15.58.36C6.08,5.41,6,7,5.62,7S5.15,6.66,5,6.46a7.18,7.18,0,0,1-.48-.7c-.18-.31-.83-1.51-.83-1.51H1.65A27.42,27.42,0,0,0,2.86,6.91C3.89,8.64,5.05,10.43,8,10c.18-.5,0-1.22.54-1.25.29,0,.51.32.67.51a3.86,3.86,0,0,0,.5.55,2,2,0,0,0,1.5.29c.6,0,1.22.13,1.31-.29S12,8.9,11.75,8.64s-.93-.72-1-1.12.73-1.2,1-1.51A7.28,7.28,0,0,0,12.52,4.3Z"/>
+                            <svg class="svg-vk" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 14.171 14.171" style="enable-background:new 0 0 14.171 14.171;" xml:space="preserve">
+                                <g>
+                                    <path d="M13.268,0H0.905C0.405,0,0,0.405,0,0.904v12.363c0,0.499,0.405,0.904,0.905,0.904h12.362   c0.499,0,0.904-0.405,0.904-0.904V0.904C14.172,0.404,13.767,0,13.268,0z M11.755,8.635c0.259,0.264,0.821,0.707,0.719,1.158   c-0.094,0.414-0.712,0.263-1.312,0.287c-0.685,0.029-1.091,0.044-1.503-0.287C9.465,9.636,9.351,9.45,9.165,9.242   C8.996,9.054,8.783,8.717,8.493,8.73C7.972,8.756,8.135,9.482,7.95,9.977c-2.896,0.456-4.059-1.333-5.085-3.069   C2.368,6.067,1.65,4.261,1.65,4.261l2.048-0.007c0,0,0.657,1.195,0.831,1.503c0.148,0.262,0.311,0.47,0.479,0.704   c0.141,0.194,0.364,0.574,0.608,0.543c0.397-0.051,0.469-1.591,0.223-2.107C5.741,4.688,5.506,4.615,5.263,4.544   C5.345,4.026,7.56,3.918,7.918,4.32c0.52,0.584-0.36,2.21,0.352,2.684c1-0.524,1.854-2.718,1.854-2.718l2.398,0.015   c0,0-0.375,1.186-0.768,1.712c-0.229,0.308-0.989,0.994-0.959,1.503C10.819,7.919,11.437,8.311,11.755,8.635z"/>
                                 </g>
                             </svg>
                         </a>
@@ -45,7 +44,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col s12 m6 l4 v-h-3 flex flex-v-center flex-j-end-s">
+            <div class="col s12 m6 l4 v-h-3 flex flex-v-center flex-h-center-small">
                 <div class="search">
                     <form method="GET" action="{{ route('search.index') }}" class="search-form" role="search">
                         @csrf
@@ -66,7 +65,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col s12 m6 l3 v-h-3 flex flex-v-center flex-j-end-s flex-j-end-l col-last-m flex-j-end-m">
+            <div class="col s12 m6 l3 v-h-3 flex flex-v-center flex-h-center-small flex-j-end-l col-last-m flex-j-end-m">
                 <div class="signin-block">
                     @auth
                         <div class="active-sign-in">

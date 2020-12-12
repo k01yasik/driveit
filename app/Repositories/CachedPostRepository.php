@@ -78,6 +78,13 @@ final class CachedPostRepository implements PostRepositoryInterface
         });
     }
 
+    public function getPostsByMonth(): array
+    {
+        return Cache::rememberForever('best-comments-by-month', function () {
+            return $this->postRepository->getPostsByMonth();
+        });
+    }
+
     public function getPostsForShow(string $slug): array
     {
         return $this->postRepository->getPostsForShow($slug);

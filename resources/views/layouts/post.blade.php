@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="yandex-verification" content="b479b5da6781c74c" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @include('seo.index')
+    <x-seo.index :title="$seo['title']" :description="$seo['description']" :image="$seo['image']" :url="url()->current()" :type="$seo['type']"/>
     <link rel="amphtml" href="{{ route('amp.show', ['slug' => $post['slug']]) }}">
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
@@ -37,30 +37,18 @@
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-KRG3CV2');
     </script>
-    @include('components.schema')
-    <script type="application/ld+json">
-        {
-            "@context": "http://schema.org",
-            "@type": "Article",
-            "author": "{{ $post['user']['username'] }}",
-            "name": "{{ $post['name'] }}",
-            "description": "{{ $post['description'] }}",
-            "image": "{{ $post['image_path'] }}",
-            "url": "{{url('/')}}/posts/{{ $post['slug'] }}",
-            "headline": "{{ $post['name'] }}",
-            "datePublished": "{{ $post['updated_at'] }}",
-            "dateModified": "{{ $post['updated_at'] }}"
-        }
-    </script>
+    <x-schema />
+    <x-schema.post :username="$post['user']['username']" :postname="$post['name']" :description="$post['description']"
+    :image="$post['image_path']" :slug="$post['slug']" :updated="$post['updated_at']" />
+    <x-schema.post-breadcrumbs />
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRG3CV2"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    @include('components.yandex-noscript')
-    <header>
-        @include('components.sitetop')
-        @include('components.carousel')
-        @include('components.navigation')
+    <x-noscript.googletag-noscript/>
+    <x-noscript.yandex-noscript/>
+    <header class="header">
+        <x-sitetop />
+        <x-hero />
+        <x-navigation />
     </header>
     <div class="main">
         <div class="container">
@@ -72,16 +60,16 @@
                 </div>
                 <div class="col s12 m12 l3">
                     <aside>
-                        @include('components.ads')
+                        <x-ads />
                     </aside>
                 </div>
             </div>
         </div>
     </div>
     <footer>
-        @include('components.footer')
+        <x-footer />
     </footer>
-    @include('components.backbutton')
+    <x-backbutton />
     <script src="{{ asset('js/manifest.js') }}"></script>
     <script src="{{ asset('js/vendor.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>

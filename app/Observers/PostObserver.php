@@ -33,6 +33,7 @@ class PostObserver
         Cache::forget('posts_count_cart');
         Cache::forget('posts-for-sitemap');
         Cache::forget('top-posts');
+        Cache::forget('best-comments-by-month');
 
         $pages = $this->postService->getPagesCount();
 

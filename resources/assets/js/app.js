@@ -1,6 +1,4 @@
 require('./bootstrap');
-require('./responsiveslides');
-require('./slider');
 require('./post-upload-image');
 require('./editor');
 require('./publish-post');

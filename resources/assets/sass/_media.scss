@@ -81,16 +81,11 @@
     display: none;
   }
 
-  .margin-top-minus-3-m {
-    margin-top: -3em;
-  }
-
   .menu-back {
-    background: $secondary-2-1;
+    background: $white;
     position: relative;
     z-index: 1000;
     height: 3em;
-    border-radius: 3px 3px 0 0;
   }
 
   .user-block {
@@ -166,7 +161,6 @@
   }
 
   .menu-back {
-    border-radius: 3px 3px 0 0;
     float: none;
     height: 3em;
   }

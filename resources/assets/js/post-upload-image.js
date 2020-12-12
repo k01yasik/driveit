@@ -18,7 +18,6 @@ $('#post_upload_image_input').change(function () {
     let path = localStorage.getItem('title-post-image-path');
 
     if (url !== '') {
-
         $.ajax({
             method: "DELETE",
             url: "/admin/posts/image-destroy" + '?' + $.param({url: url, path: path}),
@@ -29,14 +28,12 @@ $('#post_upload_image_input').change(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         }).done( function () {
-
             let selectedFile = $('#post_upload_image_input')[0].files[0];
 
             let formData = new FormData();
             formData.append('post_upload', selectedFile);
 
             if (selectedFile) {
-
                 $.ajax({
                     method: "POST",
                     url: "/admin/posts/image-upload",
@@ -48,7 +45,6 @@ $('#post_upload_image_input').change(function () {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 }).done(function (result) {
-
                     $('.uploaded-image').remove();
 
                     let image_element = "<img src=" + result + " class='uploaded-image' />";
@@ -60,7 +56,6 @@ $('#post_upload_image_input').change(function () {
                     localStorage.setItem('title-post-image-url', result['url']);
                     localStorage.setItem('title-post-image-path', result['path']);
                 });
-
             }
         });
 
@@ -71,7 +66,6 @@ $('#post_upload_image_input').change(function () {
         formData.append('post_upload', selectedFile);
 
         if (selectedFile) {
-
             $.ajax({
                 method: "POST",
                 url: "/admin/posts/image-upload",

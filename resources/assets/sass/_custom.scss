@@ -5,7 +5,7 @@
 html {
   font-family: 'Roboto', sans-serif;
   color: $gray-2;
-  background: $gray-9;
+  background: $gray-6;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -42,6 +42,72 @@ button {
   padding: 0;
 }
 
+.header {
+  background-image: url("/storage/hero/test-2.jpg");
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: top;
+}
+.hero {
+  height: 600px;
+}
+
+.hero__wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__content {
+  width: 100%;
+  background: white;
+  border-radius: 3px;
+  padding: 2em;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+
+  &.exception {
+    width: 100%;
+    text-align: center;
+
+    h1 {
+      margin: 0 0 1rem;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  h1 {
+    margin: 0;
+    font-weight: normal;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+}
+
+.hero__logo {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 3em;
+}
+
+.hero__img {
+  width: 300px;
+  height: 300px;
+  background-image: url("/storage/hero/test-3.png");
+  background-size: cover;
+}
+
 .padding-2 {
   padding: 2em;
 }
@@ -52,6 +118,10 @@ button {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.full-height {
+  height: 100vh;
 }
 
 .primary-border {
@@ -145,7 +215,7 @@ input, textarea {
   }
 }
 
-header, .sitetop, .carousel, .navigation, .main, footer {
+header, .sitetop, .hero, .navigation, .main, footer {
   float: left;
   width: 100%;
 }
@@ -191,7 +261,6 @@ ol {
 }
 
 .sitetop {
-  background: $secondary-2-1;
   display: block;
   position: relative;
 }
@@ -207,8 +276,8 @@ ol {
     display: block;
 
     span {
-      color: $primary-contrast;
-      display: inline;
+      color: $primary-1;
+      display: inline-block;
     }
   }
 }
@@ -431,13 +500,19 @@ nav {
       text-align: center;
       line-height: 3em;
       cursor: pointer;
-      border-left: 1px solid $secondary-2-1;
-      border-right: 1px solid $secondary-2-1;
+
+      &.active {
+        a {
+          color: white;
+        }
+
+        &:hover {
+          background: $primary-1;
+        }
+      }
 
       &:hover {
-        background: $primary-1;
-        border-right: 1px solid $primary-1;
-        border-left: 1px solid $primary-1;
+        background: $secondary-2-1;
 
         &>a {
           color: $white;
@@ -445,13 +520,14 @@ nav {
 
         .caret {
           transform: rotate(0deg);
+          fill: white;
         }
 
         ul {
           transition: all .5s ease-in-out;
           position: absolute;
-          border-radius: 3px;
-          box-shadow: 0 1px 1px 0 $gray-13;
+          box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+          background: $secondary-2-1;
           z-index: 20;
           opacity: 1;
 
@@ -459,49 +535,34 @@ nav {
             transition: all .5s ease-in-out;
             display: block;
             float: none;
-            background: $gray-5;
-            border-left: 3px solid $gray-5;
-            border-right: 3px solid $gray-5;
 
             &:hover {
-              border-left: 3px solid $primary-1;
               position: relative;
+              background: white;
+
+              a {
+                color: $secondary-2-1;
+              }
             }
 
             a {
-              color: $gray-2;
+              color: white;
             }
           }
         }
       }
 
       a {
-        color: $white;
+        color: $secondary-2-1;
         display: block;
         text-transform: uppercase;
-      }
-
-      &:first-child {
-        border-radius: 3px 0 0 0;
-      }
-
-      &:last-child {
-        border-radius: 0 3px 0 0;
       }
     }
 
     .active {
       color: $white;
       background: $primary-1;
-      border-left: 1px solid $primary-1;
-      border-right: 1px solid $primary-1;
     }
-  }
-}
-
-.active + .menuItem {
-  &:hover {
-    border-left: 1px solid $white!important;
   }
 }
 
@@ -586,6 +647,7 @@ nav {
   li {
     float: left;
     margin-right: 1em;
+    height: 3em;
 
     &:last-child {
       margin-right: 0;
@@ -604,6 +666,22 @@ nav {
     width: 1em;
     float: left;
     text-align: center;
+  }
+}
+
+.pill {
+  color: $secondary-2-1;
+  transition: all .5s ease-in-out;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  padding: 0 1em;
+  border: 1px solid $secondary-2-1;
+
+  &:hover {
+    background: $secondary-2-1;
+    color: white;
   }
 }
 
@@ -667,6 +745,7 @@ nav {
   .header-top {
     float: left;
     width: 100%;
+    margin-bottom: .5em;
   }
 
   .user-avatar-link {
@@ -826,6 +905,7 @@ footer {
 
   a {
     color: $gray-4;
+    display: inline-block;
 
     &:hover {
       color: $gray-2;
@@ -1223,7 +1303,7 @@ footer {
       margin-bottom: 0;
     }
 
-    .header {
+    .comment-header {
       line-height: 3em;
       width: 100%;
       float: left;
@@ -1740,10 +1820,6 @@ a {
   }
 }
 
-.breadcrumbs-bold-item {
-  font-weight: 700;
-}
-
 .profile-block-content {
   background: $white;
   padding: 2em;
@@ -2020,35 +2096,6 @@ main {
   border-radius: 3px;
   float: left;
   width: 100%;
-}
-
-.navigation-wrapper-404 {
-  .margin-top-minus-3-m {
-    margin-top: 0;
-  }
-}
-
-.exception-wrapper {
-  background-image: url(https://web-rookie.ru/storage/Bzdykin/default/repair-of-car-dents.webp);
-  border-radius: 0 0 3px 3px;
-  padding: 2em;
-  background-repeat: no-repeat;
-  background-position: 100% 100%, 0 0;
-  background-size: cover;
-  height: 799.2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  float: left;
-  width: 100%;
-}
-
-.big-caption-404 {
-  font-size: 3rem;
-  padding: 2rem;
-  background: $white;
-  border-radius: 3px;
-  opacity: .8;
 }
 
 .exception-403 {
@@ -2928,7 +2975,7 @@ main {
 
 .caret {
   height: 14px;
-  fill: $white;
+  fill: $secondary-2-1;
   transform: rotate(180deg);
   margin-bottom: -.1em;
   margin-left: .5em;
@@ -3022,4 +3069,8 @@ main {
   display: flex;
   align-items: center;
   font-weight: bold;
+}
+
+.sitetop-bg {
+  background: $secondary-2-1;
 }

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="yandex-verification" content="b479b5da6781c74c" />
-    <x-seo.index :title="$seo['title']" :description="$seo['description']" :url="url()->current()" />
+    <x-seo.index :title="__('An error has occurred')" :description="__('An error has occurred')" :url="url()->current()" />
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -38,24 +38,21 @@
     </script>
     <x-schema />
 </head>
-<body>
-    <x-noscript.googletag-noscript/>
-    <x-noscript.yandex-noscript/>
-    <header>
-        <x-sitetop />
-    </header>
-    <main class="main">
-        <div class="container-full">
-            @yield('content')            
-        </div>
-    </main>
-    <footer>
-        <x-footer />
-    </footer>
-    <x-backbutton />
-    <x-googleanalytics />
-    <script src="{{ asset('js/manifest.js') }}"></script>
-    <script src="{{ asset('js/vendor.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-</body>
+    <body class="header full-height">
+        <x-noscript.googletag-noscript/>
+        <x-noscript.yandex-noscript/>
+        <header>
+            <x-sitetop />
+            <x-hero-403 />
+            <x-navigation />
+        </header>
+        <main>
+            @yield('content')
+        </main>
+        <footer>
+        </footer>
+        <script src="{{ asset('js/manifest.js') }}"></script>
+        <script src="{{ asset('js/vendor.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+    </body>
 </html>
