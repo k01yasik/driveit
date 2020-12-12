@@ -43,10 +43,7 @@ button {
 }
 
 .header {
-  background-image: url("/storage/hero/back.webp");
-  background-size: cover;
-  background-position-x: center;
-  background-position-y: top;
+  background: $background-image;
 }
 .hero {
   height: 600px;
@@ -500,6 +497,7 @@ nav {
       text-align: center;
       line-height: 3em;
       cursor: pointer;
+      border-top-left-radius: 3px;
 
       &.active {
         a {
