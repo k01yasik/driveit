@@ -47,10 +47,16 @@ button {
 }
 .hero {
   height: 600px;
+
+  @media only screen and (max-width: 600px) {
+    height: inherit;
+    padding: 2em 0;
+  }
 }
 
 .hero__wrapper {
   max-width: 1200px;
+  width: 80%;
   margin: 0 auto;
   height: 100%;
   display: flex;
@@ -58,6 +64,10 @@ button {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+
+  @media only screen and (min-width: 601px) and (max-width: 992px) {
+    width: 85%;
+  }
 }
 
 .hero__content {
@@ -66,6 +76,11 @@ button {
   border-radius: 3px;
   padding: 2em;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+
+  @media only screen and (max-width: 600px) {
+    width: 90%;
+    padding: 1em;
+  }
 
   &.exception {
     width: 100%;
@@ -85,6 +100,15 @@ button {
     font-weight: normal;
     font-size: 1.6rem;
     text-align: center;
+
+    @media only screen and (max-width: 600px) {
+      font-size: 1.3rem;
+      text-align: left;
+    }
+
+    @media only screen and (min-width: 601px) and (max-width: 992px) {
+      text-align: left;
+    }
   }
 }
 
@@ -95,7 +119,7 @@ button {
   flex-wrap: wrap;
   align-content: center;
   justify-content: center;
-  margin-bottom: 3em;
+  margin-bottom: 2em;
 }
 
 .hero__img {
@@ -103,6 +127,11 @@ button {
   height: 300px;
   background-image: url("/storage/hero/avatar.webp");
   background-size: cover;
+
+  @media only screen and (max-width: 600px) {
+    width: 150px;
+    height: 150px;
+  }
 }
 
 .padding-2 {
@@ -497,7 +526,10 @@ nav {
       text-align: center;
       line-height: 3em;
       cursor: pointer;
-      border-top-left-radius: 3px;
+
+      &:first-child {
+        border-top-left-radius: 3px;
+      }
 
       &.active {
         a {
@@ -628,6 +660,10 @@ nav {
   width: 100%;
   float: left;
 
+  @media only screen and (max-width: 600px) {
+    padding: 0 1em;
+  }
+
   &.no-top-border-radius {
     border-radius: 0 0 3px 3px;
   }
@@ -718,6 +754,10 @@ nav {
   display: inline-block;
   width: 100%;
 
+  @media only screen and (max-width: 600px) {
+    padding: 1em;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -768,10 +808,7 @@ nav {
 
   .post-name {
     margin: 0;
-    font-size: 1.5em;
-    font-weight: 700;
-    line-height: 1.5;
-    color: $post-name-color;
+    color: $gray-2;
   }
 
   .post-categories {
@@ -1580,6 +1617,11 @@ footer {
   padding: 2em;
   margin: 0 auto;
   max-width: 450px;
+
+  @media only screen and (max-width: 600px) {
+    max-width: 340px;
+    margin: 0 auto;
+  }
 }
 
 .height-3 {
@@ -1637,7 +1679,7 @@ input[type=checkbox], input[type=radio] {
 .social-btn {
   width: 100%;
   margin-bottom: 1em;
-  box-shadow: 0 0 1px 0 $secondary-2-1;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
   border: 0;
   padding: 0;
   background: $white;

@@ -1,0 +1,1 @@
+<a href="{{ $href }}" {{ $attributes->whereStartsWith('class') }}>{{ $slot }}</a>

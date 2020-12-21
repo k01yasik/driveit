@@ -41,7 +41,7 @@
 <body>
     <x-noscript.googletag-noscript/>
     <x-noscript.yandex-noscript/>
-    <header>
+    <header class="header">
         <x-sitetop />
     </header>
     <main class="main">

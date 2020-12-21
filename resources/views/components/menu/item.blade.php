@@ -1,0 +1,1 @@
+<li {{ $attributes->merge() }}><a href="{{ $route }}">{{ $slot }}</a></li>

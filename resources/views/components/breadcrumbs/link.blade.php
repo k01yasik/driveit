@@ -1,0 +1,1 @@
+<a href="{{ $route }}" {{ $attributes->whereStartsWith('class') }}>{{ $slot }}</a>
