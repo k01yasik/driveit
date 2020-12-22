@@ -1,1 +1,1 @@
-<li {{ $attributes->merge() }}><a href="{{ $route }}">{{ $slot }}</a></li>
+<li {{ $attributes->whereStartsWith('class') }}><a href="{{ $href }}">{{ $slot }}</a></li>

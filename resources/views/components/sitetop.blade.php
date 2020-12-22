@@ -50,7 +50,7 @@
                         @csrf
                         <label for="search" class="no-label">Поиск...</label>
                         <input name="search" id="search" type="text" class="inputSearch" autocomplete="off">
-                        <button type="submit" role="search" aria-label="search">
+                        <button type="submit">
                             <svg version="1.1" class="magnifying" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 30.239 30.239" style="enable-background:new 0 0 30.239 30.239;"
                             xml:space="preserve">
                                 <g>
