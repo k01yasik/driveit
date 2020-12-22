@@ -157,11 +157,13 @@ class PostService
         ]);
     }
 
-    public function search(string $query): LengthAwarePaginator
+    public function search(string $query): array
     {
         $posts = $this->postRepository->search($query);
 
-        return new LengthAwarePaginator($posts, count($posts), config('pagination.postsPerPage'));
+        $posts = $this->calculatePostStats($posts);
+
+        return $posts;
     }
 
     public function getAllPosts(): array

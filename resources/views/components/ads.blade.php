@@ -1,9 +1,9 @@
 <div class="leaderboard">
     <div class="row">
         <div class="col s12">
-            <div class="leaderboard-text">{{ __('Advertisement') }}</div>
+            <h1 class="leaderboard-text">{{ __('Advertisement') }}</h1>
             <div class="advert">
-                <img src="{{ config('filesystems.disks.public.url') }}/Bzdykin/coupon/coupon.webp" width="200" height="133" alt="{{ __('Advertisement') }}"/>
+                <img src="{{ url("/") }}/images/coupon.webp" width="200" height="133" alt="{{ __('Advertisement') }}"/>
             </div>
         </div>
     </div>

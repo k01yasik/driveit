@@ -1,8 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="all-posts">
-        <div class="all-posts-item">{{ __('Searching results') }}</div>
-    </div>
-    @each('components.post', $searches, 'post')
+    <section>
+        <div class="all-posts">
+            <h1 class="all-posts-item">{{ __('Search results for phrase:') }} "{{ $query }}"</h1>
+        </div>
+        @each('components.post', $searches, 'post')
+    </section>
 @endsection

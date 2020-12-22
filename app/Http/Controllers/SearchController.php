@@ -27,6 +27,6 @@ class SearchController extends Controller
 
         $searches = $this->postService->search($query);
 
-        return view('search.index', compact('seo', 'searches'));
+        return view('search.index', compact('seo', 'query', 'searches'));
     }
 }

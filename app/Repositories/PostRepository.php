@@ -143,7 +143,7 @@ class PostRepository implements PostRepositoryInterface
 
     public function search(string $query): array
     {
-        return Post::search($query)->get()->load(['user', 'categories', 'user.profile'])->toArray();
+        return Post::search($query)->get()->load(['user', 'categories', 'user.profile', 'rating', 'comments'])->toArray();
     }
 
     public function getPostsForSitemap(): array

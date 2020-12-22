@@ -24,6 +24,12 @@ a {
   }
 }
 
+article {
+  footer {
+    background: initial;
+  }
+}
+
 img {
   aspect-ratio: attr(width) / attr(height);
   width: 100%;
@@ -856,7 +862,6 @@ nav {
   display: flex;
   justify-content: center;
   position: relative;
-  margin-top: 2em;
 }
 
 .post-buttons, .post-buttons-changed {
@@ -913,7 +918,6 @@ nav {
 
 .post-read-more-wrapper {
   margin-top: 2em;
-  float: right;
 
   .post-read-more {
     height: 3em;
@@ -923,6 +927,8 @@ nav {
     line-height: 3em;
     color: $white;
     border-radius: 3px;
+    float: right;
+    margin-top: 2em;
   }
 
   .arrow-svg {
@@ -1565,6 +1571,12 @@ footer {
   margin-bottom: 2em;
   padding: 0 2em;
   border-radius: 3px;
+
+  h1 {
+    font-size: 1rem;
+    margin: 0;
+    font-weight: normal;
+  }
 }
 
 .all-posts-item {
