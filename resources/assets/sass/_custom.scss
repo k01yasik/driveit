@@ -1688,6 +1688,24 @@ input[type=checkbox], input[type=radio] {
   width: 100%;
 }
 
+.profile-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  @media only screen and (min-width: 425px ) and (max-width: 600px) {
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  @media only screen and (max-width: 424px) {
+    margin-bottom: 1em;
+    width: 100%;
+  }
+}
+
 .social-btn {
   width: 100%;
   margin-bottom: 1em;
@@ -1861,15 +1879,28 @@ a {
   float: left;
   width: 100%;
   border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .album-breadcrumbs-item {
   float: left;
   margin-right: 1em;
+}
 
-  &:last-child {
-    margin-right: 0;
-  }
+.breadcrumbs-left-panel {
+  width: calc(100% - 2em);
+}
+
+.breadcrumbs-bold-item {
+  font-weight: bold;
+}
+
+.album-bold-item {
+  font-weight: bold;
 }
 
 .profile-block-content {
@@ -1895,46 +1926,83 @@ a {
 
 .users-element, .users-element-request {
   float: left;
-  padding: 0 1em;
-  background: $gray-6;
-  margin-bottom: 2em;
-  border-radius: 3px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid $gray-10;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+
+  @media only screen and (min-width: 425px ) and (max-width: 600px) {
+    justify-content: flex-end;
+  }
+
+  @media only screen and (max-width: 424px) {
+    justify-content: flex-end;
+  }
 
   &:last-child {
     margin-bottom: 0;
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 
   .profile-link {
     float: left;
     display: block;
-    width: 2em;
-    margin: .5em 0;
+    width: 5em;
+    height: 5em;
+    margin-right: 1em;
+    overflow: hidden;
+    border-radius: 50%;
+
+    @media only screen and (min-width: 425px ) and (max-width: 600px) {
+      margin-right: 0;
+    }
+
+    @media only screen and (max-width: 424px) {
+      margin-bottom: 1em;
+      margin-right: 0;
+    }
 
     .image-avatar {
       vertical-align: middle;
       border-radius: 3px;
     }
   }
+}
 
-  .profile-name {
-    margin: .75em 1em;
-    float: left;
+.profile-title {
+  margin: 0 0 2rem 0;
+  font-weight: normal;
+  line-height: 3rem;
+
+  @media only screen and (max-width: 424px) {
+    line-height: initial;
+    margin: 0 0 1rem 0;
+  }
+}
+
+.profile-info-wrapper {
+  @media only screen and (min-width: 425px ) and (max-width: 600px) {
+    width: 50%;
   }
 
-  .request-friend {
-    height: 2em;
-    margin: .5em 0;
-    width: 2em;
-    background: $dark-gray-bottom;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: all .5s ease-in-out;
-
-    &:hover {
-      background: $gray-12;
-    }
+  @media only screen and (max-width: 424px) {
+    width: 100%;
   }
+}
+
+.profile-name {
+  font-weight: bold;
+}
+
+.profile-text {
+  font-size: .9rem;
+  color: $gray-3;
 }
 
 .users-element-request {
@@ -1960,17 +2028,62 @@ a {
   cursor: pointer;
 }
 
-.confirmed, .waiting {
+.confirmed, .waiting, .request-friend {
   height: 2em;
-  margin: .5em 0;
-  background: $dark-gray-bottom;
-  width: 2em;
   border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+}
+
+.request-friend {
+  cursor: pointer;
+
+  &:hover {
+    .button-title {
+      background: $primary-1;
+      color: $white;
+    }
+  }
+
+  &:active {
+    .svg-wrapper {
+      background: $primary-1;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.svg-wrapper {
+  height: 2em;
+  background: $secondary-2-1;
+  border-radius: 3px 0 0 3px;
+}
+
+.button-title {
+  color: $secondary-2-1;
+  padding: 0 .5em;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  transition: all .5s ease-in-out;
+  border-radius: 0 3px 3px 0;
 }
 
 .avatar-image {
   vertical-align: middle;
-  border-radius: 50%;
+}
+
+.breadcrumbs-wrapper {
+  @media only screen and (max-width: 600px) {
+    display: block;
+    float: left;
+  }
 }
 
 .request-list-element {
@@ -2047,13 +2160,18 @@ a {
 
 .album-wrapper {
   float: left;
-  margin-bottom: 2em;
 
   .album-caption {
     line-height: 3em;
     background: $white;
     padding: 0 2em;
     border-radius: 3px 3px 0 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 3em;
   }
 
   .album-cover {
@@ -2066,12 +2184,30 @@ a {
   }
 }
 
+.album-grid {
+  display: grid;
+  grid-auto-rows: auto;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 2em;
+  column-gap: 2em;
+  width: 100%;
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .edit-album {
   height: 2em;
   width: 2em;
   border-radius: 3px;
-  background: $primary-1;
-  margin: .5em 0;
+  background: $secondary-2-1;
+}
+
+.album-caption-link {
+  width: calc(100% - 3em);
+  margin-right: 1em;
+  line-height: 1.5;
 }
 
 .add-image {
@@ -2137,8 +2273,7 @@ main {
 .create-album {
   height: 2em;
   width: 2em;
-  margin: .5em 0;
-  background: $primary-1;
+  background: $secondary-2-1;
   border-radius: 3px;
 }
 

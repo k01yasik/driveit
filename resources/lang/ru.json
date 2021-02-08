@@ -146,5 +146,9 @@
   "Error 404": "Ошибка 404",
   "Error 403": "Ошибка 403",
   "The page you are viewing does not exist.": "Страница, которую вы просматриваете, не существует.",
-  "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "Если у вас возникают проблемы при нажатии на кнопку \":actionText\", скопируйте и вставте\nв своём браузере данную ссылку:"
+  "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "Если у вас возникают проблемы при нажатии на кнопку \":actionText\", скопируйте и вставте\nв своём браузере данную ссылку:",
+  "List of all users": "Список всех пользователей",
+  "Waiting": "Ожидание",
+  "Add": "Добавить",
+  "Confirmed": "Подтверждено"
 }

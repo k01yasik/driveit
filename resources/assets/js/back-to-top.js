@@ -21,7 +21,6 @@ $( window ).scroll(function() {
 });
 
 back.click(function() {
-
    $('html, body').animate({
        scrollTop: 0
    }, $( window ).scrollTop() / 2 + 2000);

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Profile
@@ -30,5 +31,20 @@ class Profile extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function getBirthDateAttribute($value): ?string
+    {
+        Carbon::setLocale('ru');
+
+        if (isset($value)) {
+            $age = Carbon::parse($value)->diffForHumans(null,  false, false, 2);
+            $age_arr = explode(" ", $age);
+            array_pop($age_arr);
+
+            return implode(" ", $age_arr);
+        }
+
+        return false;
     }
 }
