@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="yandex-verification" content="b479b5da6781c74c" />
+    <meta name="yandex-verification" content="2b915c6348ef147d" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <x-seo.index :title="$seo['title']" :description="$seo['description']" :image="$seo['image']" :url="url()->current()" :type="$seo['type']"/>
     <link rel="amphtml" href="{{ route('amp.show', ['slug' => $post['slug']]) }}">

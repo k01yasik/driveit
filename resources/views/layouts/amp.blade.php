@@ -9,7 +9,7 @@
     <link rel="canonical" href="{{ route('posts.show', ['slug' => $post->slug]) }}">
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="yandex-verification" content="b479b5da6781c74c" />
+    <meta name="yandex-verification" content="2b915c6348ef147d" />
     <x-seo.index :title="$seo['title']" :description="$seo['description']" :url="url()->current()" />
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">

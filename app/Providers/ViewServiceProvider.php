@@ -26,6 +26,7 @@ class ViewServiceProvider extends ServiceProvider
                 'user.albums.show',
                 'user.albums.create',
                 'user.settings',
+                'user.requests',
                 'user.friendmessages'
             ],
             'App\Http\View\Composers\ProfileComposer'

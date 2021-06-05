@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\ChangePasswords;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +15,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             //UserTableSeeder::class,
             //SuggestTableSeeder::class,
-            \Database\Seeders\PostImagePath::class
+            //\Database\Seeders\PostImagePath::class
+            //ChangePasswords::class
+            \Database\Seeders\FireBroadcastEvent::class,
         ]);
     }
 }

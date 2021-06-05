@@ -16,9 +16,9 @@ class MessageSaved implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $userTo;
-    public $userFrom;
-    public $url;
+    public \Illuminate\Database\Eloquent\Model|User|\Illuminate\Database\Eloquent\Collection|null|array $userTo;
+    public \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|null|array $userFrom;
+    public string $url;
     public string $createdAt;
     public int $text;
 
@@ -36,9 +36,9 @@ class MessageSaved implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel|array
+     * @return Channel|PrivateChannel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): Channel|PrivateChannel|array
     {
         return new PrivateChannel('user.'.$this->userTo->id);
     }

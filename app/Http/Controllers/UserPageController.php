@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\CachedUserRepository;
-use App\Repositories\MessageRepository;
 use App\Services\FriendService;
 use App\Services\MessageService;
 use Illuminate\Http\Request;
@@ -11,6 +10,7 @@ use App\Services\SeoService;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Events\ConfirmFriendRequest;
+use Illuminate\Support\Facades\Log;
 
 class UserPageController extends Controller
 {
@@ -40,7 +40,8 @@ class UserPageController extends Controller
         return view('user.profile', compact('seo'));
     }
 
-    public function requests(Request $request, $username) {
+    public function requests(Request $request, $username): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
 
         $seo = $this->seoService->getSeoData($request);
 
