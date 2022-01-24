@@ -28,7 +28,7 @@
     <link rel="preload" href="{{asset('css/app.css')}}" as="style">
     <link rel="preload" href="{{ asset('js/manifest.js') }}" as="script">
     <link rel="preload" href="{{ asset('js/vendor.js') }}" as="script">
-    <link rel="preload" href="{{ asset('js/app.js') }}" as="script">
+    <link rel="preload" href="{{ asset('js/app.ts') }}" as="script">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -56,6 +56,6 @@
     <x-googleanalytics />
     <script src="{{ asset('js/manifest.js') }}"></script>
     <script src="{{ asset('js/vendor.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.ts') }}"></script>
 </body>
 </html>
