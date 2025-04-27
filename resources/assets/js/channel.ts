@@ -1,8 +1,3 @@
-# Refactored Code with TypeScript and Modern JavaScript
-
-Here's the refactored code following best practices:
-
-```typescript
 interface User {
   id: number;
   username: string;
