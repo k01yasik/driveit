@@ -1,106 +1,60 @@
-// Кэшируем элементы DOM
-const uploadInput = document.getElementById('upload_image_to_album_input');
-const addImageButtons = document.querySelectorAll('.add-image-button');
-const imageProgress = document.querySelector('.image-progress');
-const noImages = document.querySelector('.no-images');
-const imageWrapper = document.querySelector('.image-wrapper');
-const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
-// Обработчики клика по кнопкам добавления изображения
-addImageButtons.forEach(button => {
-  button.addEventListener('click', () => uploadInput.click());
-});
-
-// Обработчик изменения input файла
-uploadInput.addEventListener('change', async function() {
-  if (!this.files || this.files.length === 0) return;
-  
-  // Показываем прогресс-бар
-  imageProgress.style.display = 'block';
-  imageProgress.value = 0;
-  
-  const { name: albumName, username } = uploadInput.dataset;
-  const formData = new FormData();
-  
-  // Добавляем файлы в FormData
-  Array.from(this.files).forEach(file => {
-    formData.append('images_upload[]', file);
-  });
-  
-  formData.append('album_name', albumName);
-  formData.append('username', username);
-  
-  try {
-    const response = await fetch('/user/albums/image/upload', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-TOKEN': csrfToken
-      },
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error(`Server returned status ${response.status}`);
-    }
-
-    const result = await response.json();
-    handleUploadSuccess(result);
-  } catch (error) {
-    handleUploadError(error.message);
-  }
-});
-
-// Обработчик прогресса загрузки (альтернатива для fetch)
-function trackProgress(readableStream, progressCallback) {
-  const reader = readableStream.getReader();
-  let loaded = 0;
-  
-  return new ReadableStream({
-    async start(controller) {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        
-        loaded += value?.length || 0;
-        progressCallback(loaded);
-        controller.enqueue(value);
-      }
-      controller.close();
-      reader.releaseLock();
-    }
-  });
+interface ImageData {
+  id: string;
+  url: string;
+  username: string;
+  album: string;
 }
 
-// Обработчик успешной загрузки
-function handleUploadSuccess(result) {
-  // Скрываем сообщение "нет изображений"
-  if (noImages) noImages.style.display = 'none';
-  
-  // Сбрасываем прогресс-бар
-  imageProgress.style.display = 'none';
-  imageProgress.value = 0;
-  
-  // Показываем обертку если скрыта
-  if (imageWrapper.style.display === 'none') {
+type UploadResponse = Array<[number, string, string, string, string]>;
+
+const uploadInput: HTMLInputElement | null = document.getElementById(
+  'upload_image_to_album_input',
+) as HTMLInputElement;
+const addImageButtons: NodeListOf<HTMLElement> = document.querySelectorAll('.add-image-button');
+const imageProgress: HTMLProgressElement | null = document.querySelector('.image-progress');
+const noImages: HTMLElement | null = document.querySelector('.no-images');
+const imageWrapper: HTMLElement | null = document.querySelector('.image-wrapper');
+const csrfTokenMeta: HTMLMetaElement | null = document.querySelector('meta[name="csrf-token"]');
+const csrfToken: string = csrfTokenMeta?.content || '';
+
+const handleButtonClick = (): void => {
+  if (uploadInput) {
+    uploadInput.click();
+  }
+};
+
+const handleUploadSuccess = (result: UploadResponse): void => {
+  if (noImages) {
+    noImages.style.display = 'none';
+  }
+
+  if (imageProgress) {
+    imageProgress.style.display = 'none';
+    imageProgress.value = 0;
+  }
+
+  if (imageWrapper && imageWrapper.style.display === 'none') {
     imageWrapper.style.display = 'flex';
   }
-  
-  // Создаем HTML для новых изображений
-  const imagesHtml = result.map(createImageHtml).join('');
-  imageWrapper.insertAdjacentHTML('afterbegin', imagesHtml);
-}
 
-// Обработчик ошибки загрузки
-function handleUploadError(error) {
+  if (imageWrapper) {
+    const imagesHtml = result.map(createImageHtml).join('');
+    imageWrapper.insertAdjacentHTML('afterbegin', imagesHtml);
+  }
+};
+
+const handleUploadError = (error: string): void => {
   console.error('Upload error:', error);
-  imageProgress.style.display = 'none';
-  imageProgress.value = 0;
-  alert('Произошла ошибка при загрузке изображений. Пожалуйста, попробуйте снова.');
-}
+  
+  if (imageProgress) {
+    imageProgress.style.display = 'none';
+    imageProgress.value = 0;
+  }
 
-// Функция для создания HTML одного изображения
-function createImageHtml([, imageUrl, id, username, album]) {
-  return `
+  alert('Произошла ошибка при загрузке изображений. Пожалуйста, попробуйте снова.');
+};
+
+const createImageHtml = ([, imageUrl, id, username, album]: [number, string, string, string, string]): string => `
   <div class="image-block">
     <div class="image-block-top">
       <div class="image-block-top-button" data-id="${id}" data-username="${username}" data-album="${album}">
@@ -115,7 +69,7 @@ function createImageHtml([, imageUrl, id, username, album]) {
         </svg>
       </div>
     </div>
-    <img src="${imageUrl}" />
+    <img src="${imageUrl}" alt="Uploaded content" />
     <div class="image-block-footer">
       <div class="image-block-footer-counter">0</div>
       <div class="image-block-footer-wrapper">
@@ -130,4 +84,80 @@ function createImageHtml([, imageUrl, id, username, album]) {
       </div>
     </div>
   </div>`;
-}
+
+const trackProgress = (
+  readableStream: ReadableStream<Uint8Array>,
+  progressCallback: (loaded: number) => void,
+): ReadableStream<Uint8Array> => {
+  const reader = readableStream.getReader();
+  let loaded = 0;
+
+  return new ReadableStream({
+    async start(controller) {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        loaded += value?.length || 0;
+        progressCallback(loaded);
+        if (value) {
+          controller.enqueue(value);
+        }
+      }
+      controller.close();
+      reader.releaseLock();
+    },
+  });
+};
+
+const initializeUploadHandlers = (): void => {
+  addImageButtons.forEach((button: HTMLElement) => {
+    button.addEventListener('click', handleButtonClick);
+  });
+
+  if (uploadInput) {
+    uploadInput.addEventListener('change', async (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      if (!target.files || target.files.length === 0) return;
+
+      if (imageProgress) {
+        imageProgress.style.display = 'block';
+        imageProgress.value = 0;
+      }
+
+      const { name: albumName, username } = target.dataset;
+      const formData = new FormData();
+
+      Array.from(target.files).forEach((file) => {
+        formData.append('images_upload[]', file);
+      });
+
+      if (albumName) formData.append('album_name', albumName);
+      if (username) formData.append('username', username);
+
+      try {
+        const response = await fetch('/user/albums/image/upload', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server returned status ${response.status}`);
+        }
+
+        const result: UploadResponse = await response.json();
+        handleUploadSuccess(result);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        handleUploadError(errorMessage);
+      }
+    });
+  }
+};
+
+// Запуск приложения
+initializeUploadHandlers();
