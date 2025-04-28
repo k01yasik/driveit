@@ -3239,6 +3239,26 @@ main {
   padding: .5em 0;
 }
 
+.expanded-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 200ms ease;
+}
+
+.expanded-content.expanded {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+.caret-down {
+  transition: transform 200ms ease;
+}
+
+.rotate-svg {
+  transform: rotate(180deg);
+}
+
 .grecaptcha-badge {
   visibility: hidden;
 }
