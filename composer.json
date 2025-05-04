@@ -26,7 +26,7 @@
         "league/commonmark": ">1.5",
         "lireincore/ymlparser": ">3.2",
         "mews/purifier": ">2.1",
-        "predis/predis": >^1.1",
+        "predis/predis": ">1.1",
         "prewk/xml-string-streamer": ">0.11.0",
         "psr/event-dispatcher": ">0.6.0",
         "spatie/laravel-analytics": ">3.10",
