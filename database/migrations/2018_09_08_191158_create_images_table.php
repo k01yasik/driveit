@@ -20,7 +20,7 @@ class CreateImagesTable extends Migration
             $table->text('name');
             $table->text('url_thumbnail')->nullable();
             $table->text('path_thumbnail')->nullable();
-            $table->foreignId'album_id');
+            $table->foreignId('album_id');
             $table->timestamps();
 
             $table->foreign('album_id')->references('id')->on('albums');
