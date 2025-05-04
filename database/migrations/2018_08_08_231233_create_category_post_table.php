@@ -15,12 +15,12 @@ class CreateCategoryPostTable extends Migration
     {
         Schema::create('category_post', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('category_id');
-            $table->unsignedInteger('post_id');
+            $table->foreignId('category_id');
+            $table->foreignId('post_id');
             $table->timestamps();
 
-            $table->foreignId('category_id')->references('id')->on('categories');
-            $table->foreignId('post_id')->references('id')->on('posts');
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('post_id')->references('id')->on('posts');
         });
     }
 
