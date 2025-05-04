@@ -14,10 +14,10 @@ class CreateMessagesTable extends Migration
     public function up()
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('user_id')->index();
+            $table->id();
+            $table->foreignId('user_id')->index();
             $table->string('text');
-            $table->unsignedInteger('friend_id');
+            $table->foreignId('friend_id');
             $table->boolean('new')->default(true);
             $table->timestamps();
 
