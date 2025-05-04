@@ -14,8 +14,8 @@ class CreateRipsTable extends Migration
     public function up()
     {
         Schema::create('rips', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('user_id')->unique();
+            $table->id();
+            $table->foreignId('user_id')->unique();
             $table->dateTime('rip_date');
             $table->timestamps();
 
