@@ -14,11 +14,11 @@ class CreateAlbumsTable extends Migration
     public function up()
     {
         Schema::create('albums', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name');
             $table->string('path');
             $table->string('cover')->nullable();
-            $table->unsignedInteger('user_id');
+            $table->foreignId('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
