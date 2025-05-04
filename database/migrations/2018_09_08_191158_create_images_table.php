@@ -14,13 +14,13 @@ class CreateImagesTable extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->text('url');
             $table->text('path');
             $table->text('name');
             $table->text('url_thumbnail')->nullable();
             $table->text('path_thumbnail')->nullable();
-            $table->unsignedInteger('album_id');
+            $table->foreignId'album_id');
             $table->timestamps();
 
             $table->foreign('album_id')->references('id')->on('albums');
