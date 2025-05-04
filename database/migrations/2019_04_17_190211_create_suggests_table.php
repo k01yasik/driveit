@@ -14,9 +14,9 @@ class CreateSuggestsTable extends Migration
     public function up()
     {
         Schema::create('suggests', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('suggest');
+            $table->id();
+            $table->foreignId('post_id');
+            $table->foreignId('suggest');
             $table->timestamps();
         });
 
