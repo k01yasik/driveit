@@ -14,7 +14,7 @@ class CreateSeoTable extends Migration
     public function up()
     {
         Schema::create('seo', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('route_name')->unique();
             $table->string('title');
             $table->string('description');
