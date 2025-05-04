@@ -14,7 +14,7 @@ class CreateNewsTable extends Migration
     public function up()
     {
         Schema::create('news', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('slug', 191)->unique();
             $table->string('title', 255);
             $table->text('description');
@@ -24,7 +24,7 @@ class CreateNewsTable extends Migration
             $table->text('image_path');
             $table->boolean('is_published');
             $table->dateTime('date_published')->nullable();
-            $table->unsignedInteger('user_id');
+            $table->foreignId('user_id');
             $table->integer('views');
             $table->timestamps();
         });
