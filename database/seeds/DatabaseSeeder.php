@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             //SuggestTableSeeder::class,
             //\Database\Seeders\PostImagePath::class
             //ChangePasswords::class
-            \Database\Seeders\FireBroadcastEvent::class,
+            //\Database\Seeders\FireBroadcastEvent::class,
+            SeoTableSeeder::class,
+            PostTableSeeder::class
         ]);
     }
 }
