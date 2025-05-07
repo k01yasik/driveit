@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             //\Database\Seeders\FireBroadcastEvent::class,
             UserTableSeeder::class,
             SeoTableSeeder::class,
+            CategoryTableSeeder::class,
             PostTableSeeder::class
         ]);
     }
