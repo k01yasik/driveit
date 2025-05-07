@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             //\Database\Seeders\PostImagePath::class
             //ChangePasswords::class
             //\Database\Seeders\FireBroadcastEvent::class,
+            UserTableSeeder::class,
             SeoTableSeeder::class,
             PostTableSeeder::class
         ]);
