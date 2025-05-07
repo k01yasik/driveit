@@ -17,13 +17,12 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
+        $user = User::find('username', config('admin.username'))->first();
         $album = new Album;
         $album->name = 'default';
         $album->path = Str::random(10);
-        $album->user()->associate(User::find(1));
+        $album->user()->associate($user);
         $album->save();
-
-        $user = User::find(1);
 
         $post = new Post;
         $post->slug = 'corrosion-of-the-vehicle-and-methods-of-its-elimination';
