@@ -30,6 +30,7 @@
         "psr/event-dispatcher": ">0.6.0",
         "spatie/laravel-analytics": ">3.10",
         "spatie/laravel-permission": ">2.12",
+        "laravel/scout": "*",
         "teamtnt/laravel-scout-tntsearch-driver": ">11.1"
     },
     "require-dev": {
