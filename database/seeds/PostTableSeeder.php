@@ -17,7 +17,7 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::find('username', config('admin.username'))->first();
+        $user = User::where('username', config('admin.username'))->first();
         $album = new Album;
         $album->name = 'default';
         $album->path = Str::random(10);
