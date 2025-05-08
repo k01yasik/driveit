@@ -1,24 +1,65 @@
-$('.image-block-top-button').click(function () {
-    let element = $( this );
-    let id = element.data('id');
-    let username = element.data('username');
-    let album = element.data('album');
-    let path = element.data('path');
-    let thumbnail = element.data('thumbnail');
+// Типы для TypeScript
+interface ImageDeleteButton extends HTMLElement {
+    dataset: {
+        id: string;
+        username: string;
+        album: string;
+        path: string;
+        thumbnail: string;
+    };
+}
 
+// Функция для удаления изображения
+async function deleteImage(element: ImageDeleteButton): Promise<void> {
+    const { id, username, album, path, thumbnail } = element.dataset;
+    const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content;
 
-    $.ajax({
-       method: "DELETE",
-       url: "/user/image/delete" + '?' + $.param({id: id, username: username, album: album, path: path, thumbnail: thumbnail}),
-       contentType: false,
-       processData: false,
-       dataType: 'text',
-       headers: {
-           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-       }
-    }).done( function (result) {
-       if (result === 'ok') {
-           element.parent().parent().remove();
-       }
+    if (!id || !username || !album || !path || !thumbnail || !csrfToken) {
+        console.error('Missing required data attributes or CSRF token');
+        return;
+    }
+
+    try {
+        const params = new URLSearchParams();
+        params.append('id', id);
+        params.append('username', username);
+        params.append('album', album);
+        params.append('path', path);
+        params.append('thumbnail', thumbnail);
+
+        const response = await fetch(`/user/image/delete?${params.toString()}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        });
+
+        if (response.ok) {
+            const result = await response.text();
+            if (result === 'ok') {
+                const parentElement = element.parentElement?.parentElement;
+                if (parentElement) {
+                    parentElement.remove();
+                }
+            }
+        } else {
+            console.error('Delete request failed:', response.status);
+        }
+    } catch (error) {
+        console.error('Error deleting image:', error);
+    }
+}
+
+// Инициализация обработчиков событий
+function initImageDeleteButtons(): void {
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll<ImageDeleteButton>('.image-block-top-button');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', () => deleteImage(button));
+        });
     });
-});
+}
+
+// Запуск инициализации
+initImageDeleteButtons();
