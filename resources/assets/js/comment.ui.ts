@@ -1,9 +1,9 @@
-import { CreateHtmlElement } from './createHtmlElement';
+import { HtmlElementCreator } from './createHtmlElement';
 import { CommentResponse } from './types';
 import { DOMService } from './dom.service';
 
 export class CommentUI {
-  private htmlElementCreator = new CreateHtmlElement();
+  private htmlElementCreator = new HtmlElementCreator();
 
   constructor(private domService: DOMService) {}
 
@@ -33,7 +33,7 @@ export class CommentUI {
   }
 
   public insertComment(html: string, targetElement: HTMLElement | null = null): void {
-    const commentElement = this.htmlElementCreator.fromString(html);
+    const commentElement = this.htmlElementCreator.createFromString(html);
     const commentsWrapper = this.domService.getElement('commentsWrapper');
 
     if (targetElement) {
