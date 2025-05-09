@@ -55,12 +55,6 @@ export class FriendRequestHandler {
             );
         } catch (error) {
             console.error('Friend request error:', error);
-            this.showError(button as HTMLElement);
         }
-    }
-
-    private static showError(element: HTMLElement): void {
-        element.textContent = 'Error! Try again';
-        element.style.color = 'red';
     }
 }
