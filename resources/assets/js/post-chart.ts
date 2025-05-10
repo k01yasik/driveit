@@ -1,174 +1,209 @@
-if (typeof posts !== 'undefined' ) {
+// Определяем типы для данных
+type ChartData = {
+  month: number;
+  year: number;
+  count: number;
+};
 
-    let ctx = $('#postChart');
-    let ctx2 = $('#commentsChart');
-    let ctx3 = $('#usersChart');
-    let ctx4 = $('#countryChart');
-    let ctx5 = $('#cityChart');
+type DashboardData = {
+  posts?: ChartData[];
+  commentsVerified?: number;
+  commentsNotVerified?: number;
+  datesQuery?: string[];
+  usersQuery?: number[];
+  sessionQuery?: number[];
+  hitsQuery?: number[];
+  countryQueryLabels?: string[];
+  countryQueryData?: number[];
+  cityQueryLabels?: string[];
+  cityQueryData?: number[];
+};
 
-    let postLabels = [];
-    let postData = [];
-    let postCount = 0;
+// Константы для повторно используемых значений
+const COLORS = {
+  primary: '#573EA4',
+  secondary: '#EF4747',
+  tertiary: '#BF3985',
+  success: '#39BF39',
+  warning: '#EFD247',
+  palette: [
+    '#EF4747', '#EFD247', '#573EA4', '#39BF39', '#EF9347',
+    '#EFEF47', '#7A369F', '#2B8F8F', '#EFB747', '#ABDF43',
+    '#BF3985', '#3C5AA0'
+  ]
+};
 
-    posts.forEach(function (element) {
-        switch (element.month) {
-            case 1:
-                element.month = 'Январь';
-                break;
-            case 2:
-                element.month = 'Февраль';
-                break;
-            case 3:
-                element.month = 'Март';
-                break;
-            case 4:
-                element.month = 'Апрель';
-                break;
-            case 5:
-                element.month = 'Май';
-                break;
-            case 6:
-                element.month = 'Июнь';
-                break;
-            case 7:
-                element.month = 'Июль';
-                break;
-            case 8:
-                element.month = 'Август';
-                break;
-            case 9:
-                element.month = 'Сентябрь';
-                break;
-            case 10:
-                element.month = 'Октябрь';
-                break;
-            case 11:
-                element.month = 'Ноябрь';
-                break;
-            case 12:
-                element.month = 'Декабрь';
-                break;
+const MONTH_NAMES: { [key: number]: string } = {
+  1: 'Январь', 2: 'Февраль', 3: 'Март', 4: 'Апрель', 5: 'Май', 6: 'Июнь',
+  7: 'Июль', 8: 'Август', 9: 'Сентябрь', 10: 'Октябрь', 11: 'Ноябрь', 12: 'Декабрь'
+};
+
+// Функция для создания подписей месяцев
+const createMonthLabels = (posts: ChartData[]): string[] => {
+  return posts.map(post => {
+    const monthName = MONTH_NAMES[post.month] || `Месяц ${post.month}`;
+    return `${monthName} ${post.year}`;
+  });
+};
+
+// Функция для создания чарта
+const createChart = (
+  elementId: string,
+  type: 'bar' | 'line' | 'doughnut',
+  data: {
+    labels: string[];
+    datasets: {
+      label?: string;
+      data: number[];
+      backgroundColor?: string | string[];
+      borderColor?: string;
+      fill?: string;
+      datalabels?: {
+        color?: string;
+        display?: boolean;
+      };
+    }[];
+  },
+  options?: object
+): Chart | null => {
+  const ctx = document.getElementById(elementId) as HTMLCanvasElement | null;
+  if (!ctx) {
+    console.error(`Element with id ${elementId} not found`);
+    return null;
+  }
+
+  return new Chart(ctx, { type, data, options });
+};
+
+// Основная функция инициализации дашборда
+const initDashboard = (data: DashboardData): void => {
+  if (!data.posts) return;
+
+  // Posts chart
+  createChart(
+    'postChart',
+    'bar',
+    {
+      labels: createMonthLabels(data.posts),
+      datasets: [{
+        label: 'Количество опубликованных статей',
+        data: data.posts.map(post => post.count),
+        backgroundColor: COLORS.primary,
+        datalabels: { color: '#FFFFFF' }
+      }]
+    },
+    {
+      scales: {
+        yAxes: [{ ticks: { beginAtZero: true } }]
+      }
+    }
+  );
+
+  // Comments chart
+  if (data.commentsVerified !== undefined && data.commentsNotVerified !== undefined) {
+    createChart(
+      'commentsChart',
+      'doughnut',
+      {
+        labels: ['Одобренные комментарии', 'Неодобренные комментарии'],
+        datasets: [{
+          data: [data.commentsVerified, data.commentsNotVerified],
+          backgroundColor: [COLORS.primary, COLORS.secondary],
+          datalabels: { color: '#FFFFFF' }
+        }]
+      }
+    );
+  }
+
+  // Users chart
+  if (data.datesQuery && data.usersQuery && data.sessionQuery && data.hitsQuery) {
+    createChart(
+      'usersChart',
+      'line',
+      {
+        labels: data.datesQuery,
+        datasets: [
+          {
+            label: 'Количество пользователей',
+            data: data.usersQuery,
+            backgroundColor: COLORS.primary,
+            borderColor: COLORS.primary,
+            fill: 'origin',
+            datalabels: { display: false }
+          },
+          {
+            label: 'Количество сессий',
+            data: data.sessionQuery,
+            backgroundColor: COLORS.secondary,
+            borderColor: COLORS.secondary,
+            fill: 'origin',
+            datalabels: { display: false }
+          },
+          {
+            label: 'Количество взаимодействий',
+            data: data.hitsQuery,
+            backgroundColor: COLORS.tertiary,
+            borderColor: COLORS.tertiary,
+            fill: 'origin',
+            datalabels: { display: false }
+          }
+        ]
+      },
+      {
+        scales: {
+          yAxes: [{ ticks: { beginAtZero: true } }]
         }
-    });
+      }
+    );
+  }
 
-    posts.forEach((element) => {
-        postLabels.push(element.month + ' ' + element.year);
-        postData.push(element.count);
-    });
+  // Country chart
+  if (data.countryQueryLabels && data.countryQueryData) {
+    createChart(
+      'countryChart',
+      'doughnut',
+      {
+        labels: data.countryQueryLabels,
+        datasets: [{
+          data: data.countryQueryData,
+          backgroundColor: COLORS.palette,
+          datalabels: { color: '#FFFFFF' }
+        }]
+      }
+    );
+  }
 
-    postData.forEach((element) => {
-        postCount = postCount + element;
-    });
+  // City chart
+  if (data.cityQueryLabels && data.cityQueryData) {
+    createChart(
+      'cityChart',
+      'doughnut',
+      {
+        labels: data.cityQueryLabels,
+        datasets: [{
+          data: data.cityQueryData,
+          backgroundColor: COLORS.palette.slice(0, 10), // Берем первые 10 цветов
+          datalabels: { color: '#FFFFFF' }
+        }]
+      }
+    );
+  }
+};
 
-    let myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: postLabels,
-            datasets: [{
-                label: 'Количество опубликованных статей',
-                data: postData,
-                backgroundColor: '#573EA4',
-                datalabels: {
-                    color: '#FFFFFF'
-                }
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-    });
+document.addEventListener('DOMContentLoaded', () => {
+  const dashboardData: DashboardData = {
+    posts: typeof posts !== 'undefined' ? posts : undefined,
+    commentsVerified: typeof commentsVerified !== 'undefined' ? commentsVerified : undefined,
+    commentsNotVerified: typeof commentsNotVerified !== 'undefined' ? commentsNotVerified : undefined,
+    datesQuery: typeof datesQuery !== 'undefined' ? datesQuery : undefined,
+    usersQuery: typeof usersQuery !== 'undefined' ? usersQuery : undefined,
+    sessionQuery: typeof sessionQuery !== 'undefined' ? sessionQuery : undefined,
+    hitsQuery: typeof hitsQuery !== 'undefined' ? hitsQuery : undefined,
+    countryQueryLabels: typeof countryQueryLabels !== 'undefined' ? countryQueryLabels : undefined,
+    countryQueryData: typeof countryQueryData !== 'undefined' ? countryQueryData : undefined,
+    cityQueryLabels: typeof cityQueryLabels !== 'undefined' ? cityQueryLabels : undefined,
+    cityQueryData: typeof cityQueryData !== 'undefined' ? cityQueryData : undefined
+  };
 
-    let commentsCount = commentsVerified + commentsNotVerified;
-
-    let commentsDoughnutChart = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Одобренные комментарии', 'Неодобренные комментарии'],
-            datasets: [{
-                data: [commentsVerified, commentsNotVerified],
-                backgroundColor: ['#573EA4', '#EF4747'],
-                datalabels: {
-                    color: '#FFFFFF'
-                }
-            }]
-        }
-    });
-
-    let usersChart = new Chart(ctx3, {
-        type: 'line',
-        data: {
-            labels: datesQuery,
-            datasets: [{
-                label: 'Количество пользователей',
-                data: usersQuery,
-                backgroundColor: '#573EA4',
-                borderColor: '#573EA4',
-                fill: 'origin',
-                datalabels: {
-                    display: false
-                }
-            },{
-                label: 'Количество сессий',
-                data: sessionQuery,
-                backgroundColor: '#EF4747',
-                borderColor: '#EF4747',
-                fill: 'origin',
-                datalabels: {
-                    display: false
-                }
-            },{
-                label: 'Количество взаимодействий',
-                data: hitsQuery,
-                backgroundColor: '#BF3985',
-                borderColor: '#BF3985',
-                fill: 'origin',
-                datalabels: {
-                    display: false
-                }
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-    });
-
-    let countryDoughnutChart = new Chart(ctx4, {
-        type: 'doughnut',
-        data: {
-            labels: countryQueryLabels,
-            datasets: [{
-                data: countryQueryData,
-                backgroundColor: ['#EF4747', '#EFD247', '#573EA4', '#39BF39', '#EF9347', '#EFEF47', '#7A369F', '#2B8F8F', '#EFB747', '#ABDF43', '#BF3985', '#3C5AA0'],
-                datalabels: {
-                    color: '#FFFFFF'
-                }
-            }]
-        }
-    });
-
-    let cityChart = new Chart(ctx5, {
-        type: 'doughnut',
-        data: {
-            labels: cityQueryLabels,
-            datasets: [{
-                data: cityQueryData,
-                backgroundColor: ['#EF4747', '#EFD247', '#573EA4', '#39BF39', '#EF9347', '#EFEF47', '#7A369F', '#2B8F8F', '#EFB747', '#ABDF43'],
-                datalabels: {
-                    color: '#FFFFFF'
-                }
-            }]
-        }
-    });
-}
+  initDashboard(dashboardData);
+});
