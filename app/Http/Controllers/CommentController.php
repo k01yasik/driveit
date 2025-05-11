@@ -19,10 +19,20 @@ class CommentController extends Controller
         return view('user.comment.edit');
     }
 
-    public function store(CommentStoreRequest $request)
+    public function store(Request $request, int $postId): JsonResponse
     {
-        $data = $request->validated();
+        $validated = $request->validate([...]);
 
-        return $this->commentService->store($data);
+        $dto = new CommentDTO(
+            userId: auth()->id(),
+            postId: $postId,
+            message: $validated['message'],
+            level: $validated['level'],
+            parentId: $validated['parent'] ?? null
+        );
+
+        $result = $this->commentService->store($dto);
+        
+        return response()->json($result->toArray());
     }
 }
