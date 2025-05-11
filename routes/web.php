@@ -183,6 +183,9 @@ Route::get('/search', 'SearchController@index')->name('search.index');
 
 Route::get('/news', 'NewsController@index')->name('news.index');
 
+Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
+    ->middleware('auth');
+
 Route::get('login/facebook', 'Auth\LoginController@redirectToProviderFacebook')->name('login.facebook');
 
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallbackFacebook');
