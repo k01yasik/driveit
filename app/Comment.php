@@ -1,55 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Comment
- *
  * @property int $id
  * @property int $user_id
  * @property int $post_id
  * @property string $message
- * @property int $is_verified
+ * @property bool $is_verified
  * @property int $level
  * @property int|null $parent_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Post $post
- * @property-read \App\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereIsVerified($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereLevel($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereMessage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment wherePostId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereUserId($value)
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment notVerified()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment verified()
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property-read User $user
+ * @property-read Post $post
  */
 class Comment extends Model
 {
-    public function user() {
-        return $this->belongsTo('App\User');
-    }
+    protected $casts = [
+        'is_verified' => 'boolean',
+    ];
 
-    public function post() {
-        return $this->belongsTo('App\Post');
-    }
-
-    public function getCreatedAtAttribute($value)
+    public function user(): BelongsTo
     {
-        $date = new Carbon($value);
-        Carbon::setLocale('ru');
+        return $this->belongsTo(User::class);
+    }
 
-        return $date->diffForHumans(null,  false, false, 1);
+    public function post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function scopeVerified($query)
+    {
+        return $query->where('is_verified', true);
+    }
+
+    public function scopeNotVerified($query)
+    {
+        return $query->where('is_verified', false);
+    }
+
+    public function getCreatedAtAttribute($value): string
+    {
+        return Carbon::parse($value)
+            ->locale('ru')
+            ->diffForHumans(null, false, false, 1);
     }
 }
