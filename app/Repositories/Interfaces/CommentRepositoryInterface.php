@@ -1,24 +1,82 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\DTO\CommentDTO;
+use App\DTO\CommentUpdateDTO;
 
 interface CommentRepositoryInterface
 {
+    /**
+     * Get comment by ID
+     * 
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
     public function getById(int $id): array;
 
-    public function update(array $comment): void;
+    /**
+     * Update existing comment
+     */
+    public function update(CommentUpdateDTO $commentData): void;
 
-    public function save(array $comment): array;
+    /**
+     * Create new comment
+     */
+    public function create(CommentDTO $commentData): array;
 
-    public function getCommentsVerifiedCount(): int;
+    /**
+     * Get count of verified comments
+     */
+    public function getVerifiedCount(): int;
 
-    public function getCommentsNotVerifiedCount(): int;
+    /**
+     * Get count of unverified comments
+     */
+    public function getUnverifiedCount(): int;
 
-    public function getCommentsByPost(int $id): array;
+    /**
+     * Get all comments for specific post
+     * 
+     * @return array<array-key, array{
+     *     id: int,
+     *     user_id: int,
+     *     post_id: int,
+     *     message: string,
+     *     is_verified: bool,
+     *     level: int,
+     *     parent_id: int|null,
+     *     created_at: string,
+     *     updated_at: string,
+     *     user: array,
+     * }>
+     */
+    public function getByPostId(int $postId): array;
 
-    public function getPaginatedComments(bool $isStart, int $id = null): Paginator;
+    /**
+     * Get paginated comments list
+     * 
+     * @param int|null $page Page number for pagination
+     */
+    public function getPaginated(?int $page = null): LengthAwarePaginator;
 
-    public function getUnpublishedComments(): array;
+    /**
+     * Get all unverified comments
+     * 
+     * @return array<array-key, array{
+     *     id: int,
+     *     user_id: int,
+     *     post_id: int,
+     *     message: string,
+     *     is_verified: bool,
+     *     level: int,
+     *     parent_id: int|null,
+     *     created_at: string,
+     *     updated_at: string,
+     *     user: array,
+     * }>
+     */
+    public function getUnverified(): array;
 }
