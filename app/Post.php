@@ -57,6 +57,19 @@ class Post extends Model
 
     public bool $asYouType = true;
 
+    protected $casts = [
+    'is_verified' => 'boolean',
+    'view_count' => 'integer'
+    ];
+
+    public function scopePopular($query) {
+        return $query->orderBy('view_count', 'desc');
+    }
+
+    public function scopeWithComments($query) {
+        return $query->withCount('comments')->orderBy('comments_count', 'desc');
+    }
+    
     public function categories()
     {
         return $this->belongsToMany('App\Category');
