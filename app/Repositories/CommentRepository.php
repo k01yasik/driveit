@@ -1,86 +1,66 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Comment;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CommentRepository implements CommentRepositoryInterface
 {
-
-    /**
-     * @param int $id
-     * @return array
-     */
     public function getById(int $id): array
     {
-        return Comment::find($id)->toArray();
+        return Comment::findOrFail($id)->toArray();
     }
 
     public function getCommentsByPost(int $id): array
     {
-        return Comment::with(['user', 'user.profile'])
+        return Comment::with(['user.profile'])
             ->where('post_id', $id)
             ->orderBy('created_at')
-            ->get()->toArray();
+            ->get()
+            ->toArray();
     }
 
     public function update(array $comment): void
     {
-        Comment::find($comment['id'])->update(
-            [
-                'user_id'       => $comment['user_id'],
-                'post_id'       => $comment['post_id'],
-                'message'       => $comment['message'],
-                'is_verified'   => $comment['is_verified'],
-                'level'         => $comment['level'],
-                'parent_id'     => $comment['parent_id'],
-            ]
-        );
+        $commentModel = Comment::findOrFail($comment['id']);
+        $commentModel->update($comment);
     }
 
     public function save(array $comment): array
     {
-        $commentModel = new Comment;
-        $commentModel->user_id = $comment['user_id'];
-        $commentModel->post_id = $comment['post_id'];
-        $commentModel->message = $comment['message'];
-        $commentModel->is_verified = $comment['is_verified'];
-        $commentModel->level = $comment['level'];
-        $commentModel->parent_id = $comment['parent_id'];
-        $commentModel->save();
-        return $commentModel->toArray();
+        return Comment::create($comment)->toArray();
     }
 
     public function getCommentsVerifiedCount(): int
     {
-        return Comment::where('is_verified', true)->count();
+        return Comment::verified()->count();
     }
 
     public function getCommentsNotVerifiedCount(): int
     {
-        return Comment::where('is_verified', false)->count();
+        return Comment::notVerified()->count();
     }
 
-    /**
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
-    public function getPaginatedComments(bool $isStart, int $id = null): Paginator
+    public function getPaginatedComments(bool $isStart, ?int $id = null): LengthAwarePaginator
     {
-        $comments = Comment::with(['user', 'user.profile', 'post'])->orderByDesc('created_at');
+        $query = Comment::with(['user.profile', 'post'])
+            ->latest();
 
-        if ($isStart) {
-            return $comments->paginate(10);
-        }
-
-        return $comments->paginate(10, ['*'], 'page', $id);
+        return $isStart 
+            ? $query->paginate(10)
+            : $query->paginate(10, ['*'], 'page', $id);
     }
 
     public function getUnpublishedComments(): array
     {
-        return Comment::with(['user', 'user.profile'])->where('is_verified', 0)->orderByDesc('created_at')->get()->toArray();
+        return Comment::with(['user.profile'])
+            ->notVerified()
+            ->latest()
+            ->get()
+            ->toArray();
     }
 }
