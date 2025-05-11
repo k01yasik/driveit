@@ -15,6 +15,17 @@ class CommentRepository implements CommentRepositoryInterface
         return Comment::findOrFail($id)->toArray();
     }
 
+    public function create(CommentDTO $dto): array {
+    return Comment::create([
+        'user_id' => $dto->userId,
+        'post_id' => $dto->postId,
+        'message' => $dto->message,
+        'is_verified' => $dto->isVerified,
+        'level' => $dto->level,
+        'parent_id' => $dto->parentId
+    ])->toArray();
+    }
+
     public function getCommentsByPost(int $id): array
     {
         return Comment::with(['user.profile'])
