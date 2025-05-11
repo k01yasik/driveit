@@ -1,74 +1,89 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
-
 use App\Repositories\Interfaces\CommentRepositoryInterface;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
 final class CachedCommentRepository implements CommentRepositoryInterface
 {
-    private CommentRepositoryInterface $commentRepository;
-
-    public function __construct(CommentRepositoryInterface $commentRepository)
-    {
-        $this->commentRepository = $commentRepository;
-    }
+    private const CACHE_TTL = 3600; // 1 hour
+    
+    public function __construct(
+        private CommentRepositoryInterface $commentRepository
+    ) {}
 
     public function update(array $comment): void
     {
+        $this->clearCommentCache($comment['id']);
         $this->commentRepository->update($comment);
     }
 
     public function save(array $comment): array
     {
-        return $this->commentRepository->save($comment);
+        $result = $this->commentRepository->save($comment);
+        $this->clearCommentCache($result['id']);
+        return $result;
     }
 
     public function getCommentsByPost(int $id): array
     {
-        return $this->commentRepository->getCommentsByPost($id);
+        return Cache::remember(
+            "comments_for_post_{$id}", 
+            self::CACHE_TTL,
+            fn() => $this->commentRepository->getCommentsByPost($id)
+        );
     }
 
-    /**
-     * @param int $id
-     * @return array
-     */
     public function getById(int $id): array
     {
-        return Cache::rememberForever('comment_'.$id, function () use ($id) {
-            return $this->commentRepository->getById($id);
-        });
+        return Cache::remember(
+            "comment_{$id}",
+            self::CACHE_TTL,
+            fn() => $this->commentRepository->getById($id)
+        );
     }
 
     public function getCommentsVerifiedCount(): int
     {
-        return Cache::rememberForever('comments_verified', function () {
-            return $this->commentRepository->getCommentsVerifiedCount();
-        });
+        return Cache::remember(
+            'comments_verified_count',
+            self::CACHE_TTL,
+            fn() => $this->commentRepository->getCommentsVerifiedCount()
+        );
     }
 
     public function getCommentsNotVerifiedCount(): int
     {
-        return Cache::rememberForever('comments_not_verified', function () {
-            return $this->commentRepository->getCommentsNotVerifiedCount();
-        });
+        return Cache::remember(
+            'comments_not_verified_count',
+            self::CACHE_TTL,
+            fn() => $this->commentRepository->getCommentsNotVerifiedCount()
+        );
     }
 
-    /**
-     * @param bool $isStart
-     * @param int|null $id
-     * @return Paginator
-     */
-    public function getPaginatedComments(bool $isStart, int $id = null): Paginator
+    public function getPaginatedComments(bool $isStart, ?int $id = null): LengthAwarePaginator
     {
         return $this->commentRepository->getPaginatedComments($isStart, $id);
     }
 
     public function getUnpublishedComments(): array
     {
-        return $this->commentRepository->getUnpublishedComments();
+        return Cache::remember(
+            'unpublished_comments',
+            self::CACHE_TTL,
+            fn() => $this->commentRepository->getUnpublishedComments()
+        );
+    }
+
+    private function clearCommentCache(int $commentId): void
+    {
+        Cache::forget("comment_{$commentId}");
+        Cache::forget('comments_verified_count');
+        Cache::forget('comments_not_verified_count');
+        Cache::forget('unpublished_comments');
     }
 }
