@@ -181,9 +181,8 @@ class PostService
         return $this->postRepository->getPostsForShow($slug);
     }
 
-    public function getSuggests(array $suggestIds): array
-    {
-        return $this->postRepository->getSuggests($suggestIds);
+    public function getSuggestsWithStats(array $suggestIds): array {
+        return $this->calculatePostStats($this->getSuggests($suggestIds));
     }
 
     public function incrementViews(int $postId): void
@@ -228,5 +227,15 @@ class PostService
     public function getPostsSortedByViews(int $pageId, int $numberPosts)
     {
         return $this->postRepository->getPostsSortedByViews($pageId, $numberPosts);
+    }
+
+    public function getAllPostsWithStats(): array {
+        $posts = $this->getAllPosts();
+        return $this->calculatePostStats($posts);
+    }
+
+    public function calculateAndPaginate(array $posts, int $page): array {
+        $posts = $this->calculatePostStats($posts);
+        return $this->getPostsPaginator($posts, $page, config('pagination.postsPerPage'));
     }
 }
