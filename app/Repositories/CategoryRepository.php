@@ -37,7 +37,7 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         $category = Category::where('name', $name)->firstOrFail();
         
-        return new CategoryDto(
+        return new CategoryDTO(
             id: $category->id,
             name: $category->name,
             displayName: $category->displayname,
