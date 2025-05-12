@@ -2,63 +2,49 @@
 
 namespace App\Services;
 
-use App\Category;
-use App\Post;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\DTO\CategoryDTO;
+use Illuminate\Support\Collection;
 
 class CategoryService
 {
-    protected $categoryRepository;
-
-    public function __construct(CategoryRepositoryInterface $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
+    public function __construct(
+        private readonly CategoryRepositoryInterface $categoryRepository
+    ) {
     }
 
-    public function getParentCategoryId(array $category): ?int
+    public function getParentCategoryId(CategoryDTO $category): ?int
     {
-        if ($category['parent_id']) return $category['parent_id'];
-
-        return null;
+        return $category->parentId;
     }
 
-    public function getPostAllCategoriesId(array $category): array
+    public function getPostAllCategoriesId(CategoryDTO $category): array
     {
-        $postCategoriesId = [];
+        $postCategoriesId = [$category->id];
 
-        $parentId = $this->getParentCategoryId($category);
-
-        if (!is_null($parentId)) array_push($postCategoriesId, $parentId);
-
-        array_push($postCategoriesId, $category['id']);
+        if ($category->parentId !== null) {
+            $postCategoriesId[] = $category->parentId;
+        }
 
         return $postCategoriesId;
     }
 
-    public function getCategoryByName(string $name): array
+    public function getCategoryByName(string $name): CategoryDTO
     {
         return $this->categoryRepository->getCategoryByName($name);
     }
 
-    public function getPostCategoriesIdByPost(array $post): array
+    public function getPostCategoriesIdByPost(Collection $postCategories): array
     {
-        $categoryArray = [];
-
-        foreach ($post['categories'] as $category) {
-            array_push($categoryArray, $category['id']);
-        }
-
-        return $categoryArray;
+        return $postCategories->pluck('id')->toArray();
     }
 
-    public function getCategoryNameWithParentName(array $category): array
+    public function getCategoryNameWithParentName(CategoryDTO $category): array
     {
         $categories = [];
 
-        $parentId = $this->getParentCategoryId($category);
-
-        if (!is_null($parentId)) {
-            $mainCategory = $this->categoryRepository->getPostCategory($parentId);
+        if ($category->parentId !== null) {
+            $mainCategory = $this->categoryRepository->getPostCategory($category->parentId);
             $categories[] = $this->makeCategoryResponse($mainCategory);
         }
 
@@ -67,18 +53,21 @@ class CategoryService
         return $categories;
     }
 
-    public function getAllParentCategories(): array
+    public function getAllParentCategories(): Collection
     {
         return $this->categoryRepository->getAllParentCategories();
     }
 
-    public function getPostCategory(int $categoryId): array
+    public function getPostCategory(int $categoryId): CategoryDTO
     {
         return $this->categoryRepository->getPostCategory($categoryId);
     }
 
-    protected function makeCategoryResponse(array $category)
+    protected function makeCategoryResponse(CategoryDTO $category): array
     {
-        return ['name' => $category['name'], 'displayname' => $category['displayname']];
+        return [
+            'name' => $category->name,
+            'displayname' => $category->displayName
+        ];
     }
 }
