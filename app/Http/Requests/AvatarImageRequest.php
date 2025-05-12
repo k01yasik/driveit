@@ -6,6 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AvatarImageRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return true;
+    }
+    
     public function rules(): array
     {
         return [
