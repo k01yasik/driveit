@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repositories\Interfaces\CommentRepositoryInterface;
-use App\DTO\CommentUpdateDTO;
+use App\Dto\CommentUpdateDTO;
 
 class AdminCommentService
 {
