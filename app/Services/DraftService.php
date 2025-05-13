@@ -2,26 +2,43 @@
 
 namespace App\Services;
 
-use App\Dto\Draft;
+use App\DTO\DraftDTO;
 use App\Repositories\Interfaces\DraftRepositoryInterface;
-use App\User;
+use App\Exceptions\DraftSaveException;
 
 class DraftService
 {
-    protected DraftRepositoryInterface $draftRepository;
-
-    public function __construct(DraftRepositoryInterface $draftRepository)
-    {
-        $this->draftRepository = $draftRepository;
+    public function __construct(
+        private DraftRepositoryInterface $draftRepository
+    ) {
     }
 
-    public function getUserDrafts(int $id): array
+    /**
+     * Get all drafts for a user
+     *
+     * @param int $userId
+     * @return array
+     */
+    public function getUserDrafts(int $userId): array
     {
-        return $this->draftRepository->getUserDrafts($id);
+        return $this->draftRepository->getUserDrafts($userId);
     }
 
-    public function save(Draft $draft, int $userId): bool
+    /**
+     * Save a draft
+     *
+     * @param DraftDTO $draft
+     * @param int $userId
+     * @return bool
+     * @throws DraftSaveException
+     */
+    public function save(DraftDTO $draft, int $userId): bool
     {
-        $this->draftRepository->save($draft, $userId);
+        try {
+            $this->draftRepository->save($draft, $userId);
+            return true;
+        } catch (\Exception $e) {
+            throw new DraftSaveException('Failed to save draft', 0, $e);
+        }
     }
 }
