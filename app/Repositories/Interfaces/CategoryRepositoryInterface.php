@@ -2,11 +2,14 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\DTO\CategoryDTO;
+use Illuminate\Support\Collection;
+
 interface CategoryRepositoryInterface
 {
-    public function getPostCategory(int $id): array;
+    public function getPostCategory(int $id): CategoryDTO;
 
-    public function getAllParentCategories(): array;
+    public function getAllParentCategories(): Collection;
 
-    public function getCategoryByName(string $name): array;
+    public function getCategoryByName(string $name): CategoryDTO;
 }
