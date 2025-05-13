@@ -2,31 +2,31 @@
 
 namespace App\Repositories;
 
-use App\Draft;
-use App\User;
-use Illuminate\Support\Facades\Auth;
+use App\Draft as DraftModel;
+use App\DTO\Draft as DraftDTO;
 use App\Repositories\Interfaces\DraftRepositoryInterface;
-use App\Dto\Draft as DraftDto;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DraftRepository implements DraftRepositoryInterface
 {
-    public function getUserDrafts(int $id): array
+    public function getUserDrafts(int $userId): array
     {
-        return Draft::where('user_id', $id)->get()->toArray();
+        return DraftModel::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->toArray();
     }
 
-
-    public function save(DraftDto $draft, int $userId): void
+    public function save(DraftDTO $draft, int $userId): void
     {
-        $model = new Draft;
-        $model->slug = $draft->getSlug();
-        $model->title = $draft->getTitle();
-        $model->description = $draft->getDescription();
-        $model->name = $draft->getName();
-        $model->caption = $draft->getCaption();
-        $model->body = $draft->getBody();
-        $model->image = $draft->getImage();
-        $model->user_id = $userId;
-        $model->save();
+        $model = new DraftModel();
+        $model->fill(array_merge(
+            $draft->toArray(),
+            ['user_id' => $userId]
+        ));
+        
+        if (!$model->save()) {
+            throw new \RuntimeException('Failed to save draft');
+        }
     }
 }
