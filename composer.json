@@ -52,7 +52,7 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "App\\DTO\\": "app/Dto"
+            "App\\DTO\\": "app/Dto/"
         }
     },
     "autoload-dev": {
