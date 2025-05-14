@@ -2,24 +2,13 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Support\Collection;
+
 interface FriendRepositoryInterface
 {
-    /**
-     * @param int $id
-     * @return int
-     */
-    public function getFriendsCount(int $id): int;
-
-    /**
-     * @param int $authUserId
-     * @param int $friend
-     * @param bool $owner
-     */
-    public function add(int $authUserId, int $friend, bool $owner): void;
-
-    public function getFriendsRequests(int $friendId): array;
-
-    public function getFriendsList(int $friendId): array;
-
-    public function confirmUsers(int $id, int $currentUserId): void;
+    public function getPendingRequestsCount(int $userId): int;
+    public function createFriendRequest(int $userId, int $friendId, bool $isOwner): void;
+    public function getPendingRequests(int $userId): Collection;
+    public function getFriends(int $userId): Collection;
+    public function confirmFriendRequest(int $userId, int $friendId): void;
 }
