@@ -2,57 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\FriendRequest;
-use App\Http\Requests\ConfirmRequest;
-use App\Repositories\CachedUserRepository;
-use App\Repositories\Interfaces\FriendRepositoryInterface;
+use App\Events\FriendRequestSent;
+use App\Http\Requests\FriendRequestRequest;
 use App\Services\FriendService;
+use App\Services\SeoService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\SeoService;
-use App\User;
 
 class PublicUsersController extends Controller
 {
-    protected SeoService $seoService;
-    protected FriendService $friendService;
-    protected UserService $userService;
-
-    public function __construct(SeoService $seoService, FriendService $friendService, UserService $userService)
-    {
-        $this->seoService = $seoService;
-        $this->friendService = $friendService;
-        $this->userService = $userService;
+    public function __construct(
+        private SeoService $seoService,
+        private FriendService $friendService,
+        private UserService $userService
+    ) {
     }
 
-    public function index(Request $request, $username) {
+    public function index(Request $request, string $username)
+    {
+        $userId = Auth::id();
 
-        $id = Auth::id();
-
-        $seo = $this->seoService->getSeoData($request);
-
-        $profiles = $this->userService->getAllPublicUsers($id);
-
-        $currentUser = $this->userService->getUsersWithFriends($id);
-
-        $confirmedFriends = $this->friendService->getConfirmedFriends($currentUser['friends']);
-
-        $requestedFriends = $this->friendService->getRequestedFriends($currentUser['friends']);
-
-        return view('user.public', compact('seo', 'profiles', 'currentUser', 'confirmedFriends', 'requestedFriends'));
+        return view('user.public', [
+            'seo' => $this->seoService->getSeoData($request),
+            'profiles' => $this->userService->getAllPublicUsers($userId),
+            'currentUser' => $this->userService->getUserWithFriends($userId),
+            'confirmedFriends' => $this->friendService->getConfirmedFriendsIds(
+                $this->userService->getUserFriends($userId)
+            ),
+            'requestedFriends' => $this->friendService->getRequestedFriendsIds(
+                $this->userService->getUserFriends($userId)
+            ),
+        ]);
     }
 
-    public function store(ConfirmRequest $request)
+    public function store(FriendRequestRequest $request)
     {
-        $friend = $request->validated()['friend'];
-
+        $validated = $request->validated();
         $user = Auth::user();
 
-        $this->friendService->addFriend($user->id, $friend);
+        $this->friendService->sendFriendRequest($user->id, $validated['friend_id']);
 
-        broadcast(new FriendRequest($user, User::find($friend)));
+        event(new FriendRequestSent($user, User::find($validated['friend_id'])));
 
-        return response('ok', 200);
+        return response()->json(['status' => 'success']);
     }
 }
