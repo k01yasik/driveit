@@ -1,73 +1,54 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bzdykin
- * Date: 18.08.2018
- * Time: 17:24
- */
 
 namespace App\Services;
 
 use App\Repositories\Interfaces\FriendRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class FriendService
 {
-    private FriendRepositoryInterface $friendRepository;
-
-    public function __construct(FriendRepositoryInterface $friendRepository)
-    {
-        $this->friendRepository = $friendRepository;
+    public function __construct(
+        private FriendRepositoryInterface $friendRepository
+    ) {
     }
 
-    public function getConfirmedFriends(array $friends)
+    public function getConfirmedFriendsIds(Collection $friends): array
     {
-        $friendsId = [];
-
-        foreach ($friends as $friend) {
-            if ($friend['confirmed']) {
-                array_push($friendsId, $friend['friend_id']);
-            }
-        }
-
-        return $friendsId;
+        return $friends
+            ->where('confirmed', true)
+            ->pluck('friend_id')
+            ->toArray();
     }
 
-    public function getRequestedFriends($friends)
+    public function getRequestedFriendsIds(Collection $friends): array
     {
-        $friendsId = [];
-
-        foreach ($friends as $friend)
-        {
-            array_push($friendsId, $friend['friend_id']);
-        }
-
-        return $friendsId;
+        return $friends->pluck('friend_id')->toArray();
     }
 
-    public function getFriendsCount(int $id): int
+    public function getFriendsCount(int $userId): int
     {
-        return $this->friendRepository->getFriendsCount($id);
+        return $this->friendRepository->getPendingRequestsCount($userId);
     }
 
-    public function addFriend(int $authUserId, int $friend): void
+    public function sendFriendRequest(int $senderId, int $recipientId): void
     {
-        $this->friendRepository->add($authUserId, $friend, true);
-        $this->friendRepository->add($friend, $authUserId, false);
+        $this->friendRepository->createFriendRequest($senderId, $recipientId, true);
+        $this->friendRepository->createFriendRequest($recipientId, $senderId, false);
     }
 
-    public function getFriendsRequests(int $friendId): array
+    public function getPendingRequests(int $userId): Collection
     {
-        return $this->friendRepository->getFriendsRequests($friendId);
+        return $this->friendRepository->getPendingRequests($userId);
     }
 
-    public function getFriendsList(int $friendId): array
+    public function getFriends(int $userId): Collection
     {
-        return $this->friendRepository->getFriendsList($friendId);
+        return $this->friendRepository->getFriends($userId);
     }
 
-    public function confirmUsers(int $id, int $currentUserId): void
+    public function acceptFriendRequest(int $requestId, int $currentUserId): void
     {
-        $this->friendRepository->confirmUsers($id, $currentUserId);
-        $this->friendRepository->confirmUsers($currentUserId, $id);
+        $this->friendRepository->confirmFriendRequest($requestId, $currentUserId);
+        $this->friendRepository->confirmFriendRequest($currentUserId, $requestId);
     }
 }
