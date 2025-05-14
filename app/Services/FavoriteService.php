@@ -2,35 +2,43 @@
 
 namespace App\Services;
 
-
 use App\Repositories\Interfaces\FavoriteRepositoryInterface;
+use App\Exceptions\FavoriteException;
 
 class FavoriteService
 {
-    protected $favoriteRepository;
+    private FavoriteRepositoryInterface $favoriteRepository;
 
     public function __construct(FavoriteRepositoryInterface $favoriteRepository)
     {
         $this->favoriteRepository = $favoriteRepository;
     }
 
-    public function getFavCountForImage($imageId): int
+    public function getFavoritesCountForImage(int $imageId): int
     {
-        return $this->favoriteRepository->getFavCountForImage($imageId);
+        return $this->favoriteRepository->getFavoritesCountForImage($imageId);
     }
 
-    public function vote(int $userId, int $imageId): void
+    public function addFavorite(int $userId, int $imageId): void
     {
-        $this->favoriteRepository->add($userId, $imageId);
+        if ($this->favoriteRepository->userHasFavorite($userId, $imageId)) {
+            throw FavoriteException::alreadyExists($userId, $imageId);
+        }
+
+        $this->favoriteRepository->addFavorite($userId, $imageId);
     }
 
-    public function removeVote(int $userId, int $imageId): void
+    public function removeFavorite(int $userId, int $imageId): void
     {
-        $this->favoriteRepository->removeVote($userId, $imageId);
+        if (!$this->favoriteRepository->userHasFavorite($userId, $imageId)) {
+            throw FavoriteException::notFound($userId, $imageId);
+        }
+
+        $this->favoriteRepository->removeFavorite($userId, $imageId);
     }
 
-    public function delete(int $imageId): void
+    public function deleteAllFavoritesForImage(int $imageId): void
     {
-        $this->favoriteRepository->delete($imageId);
+        $this->favoriteRepository->deleteAllForImage($imageId);
     }
 }
