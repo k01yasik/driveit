@@ -2,50 +2,45 @@
 
 namespace App\Repositories;
 
+use App\Models\Friend;
 use App\Repositories\Interfaces\FriendRepositoryInterface;
-use App\Friend;
 use Illuminate\Database\Eloquent\Collection;
 
 class FriendRepository implements FriendRepositoryInterface
 {
-
-    /**
-     * @param int $id
-     * @return int
-     */
-    public function getFriendsCount(int $id): int
+    public function getPendingRequestsCount(int $userId): int
     {
-        return Friend::where([['friend_id', $id], ['confirmed', 0], ['owner', 1]])->count();
+        return Friend::pendingRequestsToUser($userId)->count();
     }
 
-    /**
-     * @param int $authUserId
-     * @param int $friend
-     * @param bool $owner
-     */
-    public function add(int $authUserId, int $friend, bool $owner): void
+    public function createFriendRequest(int $userId, int $friendId, bool $isOwner): void
     {
-        $friend_db = new Friend;
-        $friend_db->user_id = $authUserId;
-        $friend_db->friend_id = $friend;
-        $friend_db->owner = $owner;
-        $friend_db->save();
+        Friend::create([
+            'user_id' => $userId,
+            'friend_id' => $friendId,
+            'owner' => $isOwner,
+            'confirmed' => false,
+        ]);
     }
 
-    public function getFriendsRequests(int $friendId): array
+    public function getPendingRequests(int $userId): Collection
     {
-        return Friend::with(['user', 'user.profile'])->where([['friend_id', $friendId], ['confirmed', 0], ['owner', 1]])->get()->toArray();
+        return Friend::with(['user', 'user.profile'])
+            ->pendingRequestsToUser($userId)
+            ->get();
     }
 
-    public function getFriendsList(int $friendId): array
+    public function getFriends(int $userId): Collection
     {
-        return Friend::with(['user', 'user.profile'])->where([['friend_id', $friendId], ['confirmed', 1]])->get()->toArray();
+        return Friend::with(['user', 'user.profile'])
+            ->confirmedFriendsOfUser($userId)
+            ->get();
     }
 
-    public function confirmUsers(int $id, int $currentUserId): void
+    public function confirmFriendRequest(int $userId, int $friendId): void
     {
-        $friend = Friend::where([['user_id', $id], ['friend_id', $currentUserId]])->first();
-        $friend->confirmed = true;
-        $friend->save();
+        Friend::where('user_id', $userId)
+            ->where('friend_id', $friendId)
+            ->update(['confirmed' => true]);
     }
 }
