@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FavoriteRequest;
 use App\Services\FavoriteService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-
+use App\Exceptions\FavoriteException;
+use Symfony\Component\HttpFoundation\Response;
 
 class FavoriteController extends Controller
 {
-
-    /**
-     * @var FavoriteService
-     */
     private FavoriteService $favoriteService;
 
     public function __construct(FavoriteService $favoriteService)
@@ -20,25 +18,70 @@ class FavoriteController extends Controller
         $this->favoriteService = $favoriteService;
     }
 
-    public function vote(FavoriteRequest $request)
+    /**
+     * Add favorite for image
+     *
+     * @param FavoriteRequest $request
+     * @return JsonResponse
+     */
+    public function addFavorite(FavoriteRequest $request): JsonResponse
     {
-        $imageId = $request->validated()['id'];
+        try {
+            $imageId = $request->validated()['id'];
+            $userId = Auth::id();
 
-        $userId = Auth::id();
+            $this->favoriteService->addFavorite($userId, $imageId);
 
-        $this->favoriteService->vote($userId, $imageId);
+            return response()->json([
+                'success' => true,
+                'count' => $this->favoriteService->getFavoritesCountForImage($imageId)
+            ], Response::HTTP_CREATED);
 
-        return $this->favoriteService->getFavCountForImage($imageId);
+        } catch (FavoriteException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], Response::HTTP_CONFLICT);
+        }
     }
 
-    public function unvote(FavoriteRequest $request)
+    /**
+     * Remove favorite for image
+     *
+     * @param FavoriteRequest $request
+     * @return JsonResponse
+     */
+    public function removeFavorite(FavoriteRequest $request): JsonResponse
     {
-        $imageId = $request->validated()['id'];
+        try {
+            $imageId = $request->validated()['id'];
+            $userId = Auth::id();
 
-        $userId = Auth::id();
+            $this->favoriteService->removeFavorite($userId, $imageId);
 
-        $this->favoriteService->removeVote($userId, $imageId);
+            return response()->json([
+                'success' => true,
+                'count' => $this->favoriteService->getFavoritesCountForImage($imageId)
+            ]);
 
-        return $this->favoriteService->getFavCountForImage($imageId);
+        } catch (FavoriteException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    /**
+     * Get favorites count for image
+     *
+     * @param int $imageId
+     * @return JsonResponse
+     */
+    public function getFavoritesCount(int $imageId): JsonResponse
+    {
+        return response()->json([
+            'count' => $this->favoriteService->getFavoritesCountForImage($imageId)
+        ]);
     }
 }
