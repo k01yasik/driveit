@@ -17,13 +17,13 @@ class AuthServiceProvider extends ServiceProvider
         'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->registerPolicies();
+
+            // Автоматическое обнаружение политик, если они следуют стандартным соглашениям
+        Gate::guessPolicyNamesUsing(function ($modelClass) {
+            return 'App\\Policies\\'.class_basename($modelClass).'Policy';
+        });
     }
 }
