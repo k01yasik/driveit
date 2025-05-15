@@ -2,34 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Messages\StoreMessageAction;
-use App\Actions\Messages\GetConversationAction;
+use App\Events\MessageSaved;
 use App\Http\Requests\MessageRequest;
-use Illuminate\Http\JsonResponse;
+use App\Services\MessageService;
+use App\Services\UserService;
+use App\Entities\Message;
 
 class MessageController extends Controller
 {
-    public function store(
-        MessageRequest $request,
-        StoreMessageAction $action
-    ): JsonResponse {
-        $messageData = $action->execute(
-            $request->validated(),
-            $request->user()
-        );
+    private UserService $userService;
+    private MessageService $messageService;
 
-        return response()->json($messageData);
+    public function __construct(UserService $userService, MessageService $messageService)
+    {
+        $this->userService = $userService;
+        $this->messageService = $messageService;
     }
 
-    public function show(
-        int $friendId,
-        GetConversationAction $action
-    ): JsonResponse {
-        $messages = $action->execute(
-            auth()->id(),
-            $friendId
+    public function store(MessageRequest $request): array
+    {
+        $validated = $request->validated();
+        $user = $this->userService->getMessageUser($validated['username']);
+
+        $message = $this->messageService->createMessage(
+            $user['id'],
+            $validated['friend_id'],
+            clean($validated['message'])
         );
 
-        return response()->json(['messages' => $messages]);
+        $this->messageService->addMessage($message);
+        broadcast(new MessageSaved($message));
+
+        return [
+            'username' => $validated['username'],
+            'url' => route('user.profile', ['username' => $validated['username']]),
+            'avatar' => $user['profile']['avatar'],
+            'time' => $message->getCreatedAt()->format('d F, Y H:i'),
+            'text' => $message->getText(),
+        ];
     }
 }
