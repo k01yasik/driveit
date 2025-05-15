@@ -2,26 +2,21 @@
 
 namespace App\Entities;
 
-use Carbon\CarbonImmutable;
+use Carbon\Carbon;
 
 class Message
 {
     private int $userId;
     private int $friendId;
-    private CarbonImmutable $createdAt;
-    private string $messageText;
+    private Carbon $createdAt;
+    private string $text;
 
-    private function __construct(int $userId, int $friendId, string $messageText, ?CarbonImmutable $createdAt = null)
+    public function __construct(int $userId, int $friendId, string $text)
     {
         $this->userId = $userId;
         $this->friendId = $friendId;
-        $this->messageText = $messageText;
-        $this->createdAt = $createdAt ?? CarbonImmutable::now();
-    }
-
-    public static function create(int $userId, int $friendId, string $messageText): self
-    {
-        return new self($userId, $friendId, $messageText);
+        $this->text = $text;
+        $this->createdAt = Carbon::now();
     }
 
     public function getUserId(): int
@@ -29,9 +24,9 @@ class Message
         return $this->userId;
     }
 
-    public function getMessageText(): string
+    public function getText(): string
     {
-        return $this->messageText;
+        return $this->text;
     }
 
     public function getFriendId(): int
@@ -39,17 +34,17 @@ class Message
         return $this->friendId;
     }
 
-    public function getCreatedAt(): CarbonImmutable
+    public function getCreatedAt(): Carbon
     {
         return $this->createdAt;
     }
-    
+
     public function toArray(): array
     {
         return [
             'user_id' => $this->userId,
             'friend_id' => $this->friendId,
-            'message_text' => $this->messageText,
+            'text' => $this->text,
             'created_at' => $this->createdAt,
         ];
     }
