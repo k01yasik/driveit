@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Album;
-use App\Models\Image;
+use App\Album;
+use App\Image;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 use App\Exceptions\ImageNotFoundException;
 
