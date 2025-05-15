@@ -1,53 +1,36 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * App\Message
- *
- * @property int $id
- * @property int $user_id
- * @property string $text
- * @property int $friend_id
- * @property int $new
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\User $friend
- * @property-read \App\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereFriendId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereNew($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Message whereUserId($value)
- * @mixin \Eloquent
- */
 class Message extends Model
 {
-    public function user() {
-        return $this->belongsTo('App\User');
+    protected $fillable = [
+        'user_id',
+        'friend_id',
+        'text',
+        'new',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function friend()
+    public function friend(): BelongsTo
     {
-        return $this->belongsTo('App\User', 'friend_id');
+        return $this->belongsTo(User::class, 'friend_id');
     }
 
-    public function getCreatedAtAttribute($value)
+    public function getFormattedCreatedAtAttribute(): string
     {
-        $date = new Carbon($value);
-
-        Carbon::setLocale('ru');
-
-        setlocale(LC_TIME, 'ru_RU.UTF-8');
-
-        return $date->formatLocalized('%e %B, %G %H:%M');
+        return $this->created_at->locale('ru')->isoFormat('D MMMM, YYYY HH:mm');
     }
 }
