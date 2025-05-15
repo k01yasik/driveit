@@ -2,31 +2,27 @@
 
 namespace App\Services;
 
-
 use App\Entities\Message;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
 
 class MessageService
 {
-    private MessageRepositoryInterface $messageRepository;
+    public function __construct(
+        private MessageRepositoryInterface $messageRepository
+    ) {}
 
-    public function __construct(MessageRepositoryInterface $messageRepository)
+    public function createMessage(int $userId, int $friendId, string $messageText): Message
     {
-        $this->messageRepository = $messageRepository;
+        return Message::create($userId, $friendId, $messageText);
     }
 
-    public function add(Message $message): void
+    public function saveMessage(Message $message): void
     {
         $this->messageRepository->add($message);
     }
 
-    public function getMessages(int $currentId, int $friendId): array
+    public function getConversation(int $currentId, int $friendId): array
     {
-        $this->messageRepository->getMessages($currentId, $friendId);
-    }
-
-    public function create(int $userId, int $friendId, string $message): Message
-    {
-        return Message::create($userId, $friendId, $message);
+        return $this->messageRepository->getMessages($currentId, $friendId);
     }
 }
