@@ -7,6 +7,5 @@ use App\Entities\Message;
 interface MessageRepositoryInterface
 {
     public function add(Message $message): void;
-
-    public function getMessages(int $current_id, int $friendId): array;
+    public function getMessages(int $currentUserId, int $friendId): array;
 }
