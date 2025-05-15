@@ -2,15 +2,13 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Image;
+
 interface ImageRepositoryInterface
 {
-    public function add(string $url, string $path, string $imageName, string $pathThumbnail, string $urlThumbnail, int $albumId): void;
-
-    public function getByPath(string $path): array;
-
-    public function deleteImage(int $userId, int $albumId, int $imageId): void;
-
-    public function deletePostImageByUrl(int $userId, string $albumName, string $url): void;
-
-    public function getAllAlbumImages(int $album_id): array;
+    public function create(array $imageData): Image;
+    public function getByPath(string $path): Image;
+    public function deleteByUserAndAlbum(int $userId, int $albumId, int $imageId): void;
+    public function deleteByUserAlbumNameAndUrl(int $userId, string $albumName, string $url): void;
+    public function getAllByAlbumId(int $albumId): array;
 }
