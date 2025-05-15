@@ -3,43 +3,66 @@
 namespace App\Events;
 
 use App\Entities\Message;
-use Carbon\Carbon;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\User;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 class MessageSaved implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public \Illuminate\Database\Eloquent\Model|User|\Illuminate\Database\Eloquent\Collection|null|array $userTo;
-    public \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|null|array $userFrom;
-    public string $url;
-    public string $createdAt;
-    public int $text;
+    public User $recipient;
+    public User $sender;
+    public string $senderProfileUrl;
+    public string $formattedCreatedAt;
+    public string $messageText;
 
     public function __construct(Message $message)
     {
-        $this->userTo = User::find($message->getFriendId());
-        $user = User::with('profile')->find($message->getUserId());
-        $this->userFrom = $user;
-        $this->url = route('user.profile', ['username' => $user->username]);
-
-        $this->createdAt = Carbon::createFromTimestamp($message->getCreatedAt())->toDateTimeString();
-        $this->text = $message->getMessageText();
+        $this->initializeRecipient($message);
+        $this->initializeSender($message);
+        $this->initializeMessageDetails($message);
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return Channel|PrivateChannel|array
-     */
-    public function broadcastOn(): Channel|PrivateChannel|array
+    private function initializeRecipient(Message $message): void
     {
-        return new PrivateChannel('user.'.$this->userTo->id);
+        $this->recipient = User::findOrFail($message->getFriendId());
+    }
+
+    private function initializeSender(Message $message): void
+    {
+        $sender = User::with('profile')->findOrFail($message->getUserId());
+        $this->sender = $sender;
+        $this->senderProfileUrl = route('user.profile', ['username' => $sender->username]);
+    }
+
+    private function initializeMessageDetails(Message $message): void
+    {
+        $this->messageText = $message->getText();
+        $this->formattedCreatedAt = $message->getCreatedAt()->toDateTimeString();
+    }
+
+    public function broadcastOn(): PrivateChannel
+    {
+        return new PrivateChannel('user.'.$this->recipient->id);
+    }
+
+    public function broadcastWith(): array
+    {
+        return [
+            'sender' => [
+                'id' => $this->sender->id,
+                'username' => $this->sender->username,
+                'profile_url' => $this->senderProfileUrl,
+                'avatar' => $this->sender->profile->avatar ?? null,
+            ],
+            'message' => [
+                'text' => $this->messageText,
+                'created_at' => $this->formattedCreatedAt,
+            ],
+        ];
     }
 }
