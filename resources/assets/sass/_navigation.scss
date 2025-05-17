@@ -1,0 +1,33 @@
+nav {
+  .first-level {
+    display: none;
+    height: 3em;
+
+    > .menuItem {
+      transition: all $transition-time;
+      float: left;
+      height: 3em;
+      width: 20%;
+      text-align: center;
+      line-height: 3em;
+      cursor: pointer;
+
+      &:hover {
+        background: $secondary-2-1;
+        > a {
+          color: $white;
+        }
+      }
+
+      a {
+        color: $secondary-2-1;
+        display: block;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.small-first-level {
+  display: none;
+}
