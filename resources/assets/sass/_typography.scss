@@ -1,0 +1,62 @@
+article footer {
+  background: initial;
+}
+
+label {
+  font-weight: 400;
+  height: 3em;
+  line-height: 3em;
+
+  &.required::after {
+    content: '*';
+    color: $primary-1;
+    margin-left: 0.25em;
+  }
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button {
+  overflow: visible;
+  border: 0;
+  outline: none;
+  padding: 0;
+}
+
+input:not([type]),
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background-color: white;
+  border: 1px solid $gray-13;
+  font-size: 1em;
+  padding: 0.5em;
+  width: 100%;
+  border-radius: $base-border-radius;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
