@@ -1,0 +1,52 @@
+.hero {
+  height: $header-height;
+
+  @media (max-width: 600px) {
+    height: inherit;
+    padding: 2em 0;
+  }
+}
+
+.hero__wrapper {
+  max-width: $container-width;
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 601px) and (max-width: 992px) {
+    width: 85%;
+  }
+}
+
+.hero__content {
+  width: 100%;
+  background: white;
+  border-radius: $base-border-radius;
+  padding: 2em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+
+  @media (max-width: 600px) {
+    width: 90%;
+    padding: 1em;
+  }
+
+  h1 {
+    margin: 0;
+    font-weight: normal;
+    font-size: 1.6rem;
+    text-align: center;
+
+    @media (max-width: 600px) {
+      font-size: 1.3rem;
+      text-align: left;
+    }
+
+    @media (min-width: 601px) and (max-width: 992px) {
+      text-align: left;
+    }
+  }
+}
