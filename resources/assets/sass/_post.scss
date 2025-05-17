@@ -1,0 +1,28 @@
+.post {
+  background: $white;
+  border-radius: $base-border-radius;
+  padding: 2em;
+  margin-bottom: 2em;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  header {
+    float: left;
+    width: 100%;
+
+    .user-avatar {
+      height: 2em;
+      width: 2em;
+      border-radius: 50%;
+      float: left;
+    }
+
+    .post-author {
+      height: 2em;
+      font-weight: 700;
+      float: left;
+    }
+  }
+}
