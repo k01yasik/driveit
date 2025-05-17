@@ -1,6 +1,5 @@
 @import '~normalize-scss/sass/normalize/_import-now';
 @import 'grid';
-@import 'comments';
 @import "variables";
 @import "reset";
 @import "typography";
@@ -13,4 +12,5 @@
 @import "comments";
 @import "profile";
 @import "media-queries";
+@import "card";
 @import '~social-likes-next/lib/social-likes_birman.css';
