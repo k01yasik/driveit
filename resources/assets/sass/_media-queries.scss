@@ -1,0 +1,37 @@
+@media only screen and (max-width: 600px) {
+  .post .post-name {
+    font-size: 1em;
+  }
+
+  .form-caption h2 {
+    font-size: 1.15em;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  nav .first-level {
+    display: block;
+  }
+
+  .small-first-level {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .profile {
+    width: 60%;
+  }
+
+  .signout {
+    width: 40%;
+  }
+
+  .signin {
+    width: 40%;
+  }
+
+  .registration {
+    width: 60%;
+  }
+}
