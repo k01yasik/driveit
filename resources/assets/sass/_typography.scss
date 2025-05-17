@@ -1,62 +1,100 @@
-article footer {
-  background: initial;
+// === Typography ===
+
+// Заголовки
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: normal;
 }
 
-label {
-  font-weight: 400;
-  height: 3em;
-  line-height: 3em;
+h1 {
+  font-size: 2rem;
+}
 
-  &.required::after {
-    content: '*';
-    color: $primary-1;
-    margin-left: 0.25em;
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+h5 {
+  font-size: 0.875rem;
+}
+
+h6 {
+  font-size: 0.75rem;
+}
+
+// Параграфы
+p {
+  margin: 0 0 1em;
+  &:last-child { margin-bottom: 0; }
+}
+
+// Текстовые стили
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.font-normal { font-weight: normal; }
+.font-bold { font-weight: bold; }
+.font-light { font-weight: 300; }
+
+.font-smaller { font-size: 0.75rem; }
+.font-small { font-size: 0.875rem; }
+.font-medium { font-size: 1rem; }
+.font-large { font-size: 1.125rem; }
+.font-xl { font-size: 1.25rem; }
+
+.line-height-1 { line-height: 1; }
+.line-height-1-2 { line-height: 1.2; }
+.line-height-1-5 { line-height: 1.5; }
+.line-height-2 { line-height: 2; }
+
+// Цвет текста
+.text-primary { color: $primary-1; }
+.text-secondary { color: $secondary-2-1; }
+.text-complement { color: $complement-3; }
+.text-gray { color: $gray-2; }
+.text-gray-light { color: $gray-3; }
+.text-white { color: $white; }
+
+// Декорации
+.underline { text-decoration: underline; }
+.uppercase { text-transform: uppercase; }
+.capitalize { text-transform: capitalize; }
+.lowercase { text-transform: lowercase; }
+
+// Блоки цитирования
+blockquote {
+  border-left: 4px solid $gray-5;
+  padding-left: 1em;
+  margin: 1em 0;
+  font-style: italic;
+  color: $gray-11;
+}
+
+// Списки
+ul, ol {
+  padding-left: 1.5em;
+  margin: 0 0 1em;
+}
+
+li {
+  margin-bottom: 0.25em;
+  &:last-child { margin-bottom: 0; }
+}
+
+// Ссылки
+.link-hover-opacity {
+  transition: opacity 0.3s ease-in-out;
+  &:hover {
+    opacity: 0.8;
   }
-}
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  color: inherit;
-  font: inherit;
-  margin: 0;
-}
-
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-  -webkit-appearance: button;
-  cursor: pointer;
-}
-
-button,
-select {
-  text-transform: none;
-}
-
-button {
-  overflow: visible;
-  border: 0;
-  outline: none;
-  padding: 0;
-}
-
-input:not([type]),
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  background-color: white;
-  border: 1px solid $gray-13;
-  font-size: 1em;
-  padding: 0.5em;
-  width: 100%;
-  border-radius: $base-border-radius;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
 }
