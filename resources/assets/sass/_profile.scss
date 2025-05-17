@@ -1,0 +1,27 @@
+.user-profile {
+  background: $white;
+  border-radius: 3px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding: 2em 0;
+
+  ul {
+    padding: 0 2em;
+
+    li {
+      margin-bottom: 1em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.avatar {
+  max-height: 200px;
+  max-width: 200px;
+  margin: 0 auto;
+  width: 90%;
+}
