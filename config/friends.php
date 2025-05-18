@@ -1,4 +1,3 @@
-// config/friends.php
 <?php
 
 return [
