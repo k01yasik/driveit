@@ -48,7 +48,7 @@ final class CachedCommentRepository implements CommentRepositoryInterface
     }
 
     public function create(CommentDTO $dto): array {
-        return $this->commentRepository->create($dto)
+        return $this->commentRepository->create($dto);
     }
 
     public function getCommentsVerifiedCount(): int
