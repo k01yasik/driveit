@@ -1,4 +1,3 @@
-// app/Console/Commands/CleanExpiredFriendRequests.php
 <?php
 
 namespace App\Console\Commands;
