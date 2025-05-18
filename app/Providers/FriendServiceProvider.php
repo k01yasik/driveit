@@ -1,4 +1,3 @@
-// app/Providers/FriendServiceProvider.php
 <?php
 
 namespace App\Providers;
