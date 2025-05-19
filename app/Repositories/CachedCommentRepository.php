@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\DTO\CommentDTO;
 use App\DTO\CommentUpdateDTO;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
+use App\Repositories\Interfaces\CachedRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
-final class CachedCommentRepository implements CommentRepositoryInterface
+final class CachedCommentRepository implements CommentRepositoryInterface, CachedRepositoryInterface
 {
     private const CACHE_TTL = 3600; // 1 hour
     private const CACHE_PREFIX = 'comment_';
@@ -27,15 +29,15 @@ final class CachedCommentRepository implements CommentRepositoryInterface
         );
     }
 
-    public function update(CommentUpdateDTO $comment): void
+    public function update(CommentUpdateDTO $commentData): void
     {
-        $this->clearCache($comment->id);
-        $this->commentRepository->update($comment);
+        $this->clearCache($commentData->id);
+        $this->commentRepository->update($commentData);
     }
 
-    public function create(array $comment): array
+    public function create(CommentDTO $commentData): array
     {
-        $result = $this->commentRepository->create($comment);
+        $result = $this->commentRepository->create($commentData);
         $this->clearCache($result['id']);
         return $result;
     }
@@ -69,7 +71,6 @@ final class CachedCommentRepository implements CommentRepositoryInterface
 
     public function getPaginated(?int $page = null): LengthAwarePaginator
     {
-        // Пагинацию обычно не кэшируют полностью
         return $this->commentRepository->getPaginated($page);
     }
 
@@ -102,7 +103,7 @@ final class CachedCommentRepository implements CommentRepositoryInterface
         );
     }
 
-    private function clearCache(int $commentId): void
+    public function clearCache(int $commentId): void
     {
         $keys = [
             self::CACHE_PREFIX . $commentId,
@@ -116,7 +117,22 @@ final class CachedCommentRepository implements CommentRepositoryInterface
             Cache::forget($key);
         }
         
-        // Также очищаем кэш для родительских комментариев
         Cache::forget("parent_valid_{$commentId}_*");
+    }
+
+    public function clearAllCache(): void
+    {
+        Cache::forget('comments_verified_count');
+        Cache::forget('comments_unverified_count');
+        Cache::forget('unverified_comments');
+    }
+
+    public function bulkVerify(array $ids): int
+    {
+        foreach ($ids as $id) {
+            $this->clearCache($id);
+        }
+        $this->clearAllCache();
+        return $this->commentRepository->bulkVerify($ids);
     }
 }
