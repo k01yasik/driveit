@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ConfirmFriendRequest;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\UserService;
 use App\Services\FriendService;
 use App\Services\MessageService;
 use App\Services\SeoService;
@@ -14,21 +14,16 @@ use App\Models\User;
 class UserPageController extends Controller
 {
     private SeoService $seoService;
-    private UserRepositoryInterface $userRepository;
+    private UserService $userService;
     private FriendService $friendService;
     private MessageService $messageService;
 
     public function __construct(
         SeoService $seoService,
-        UserRepositoryInterface $userRepository,
+        UserService $userService,
         FriendService $friendService,
         MessageService $messageService
-    ) {
-        $this->seoService = $seoService;
-        $this->userRepository = $userRepository;
-        $this->friendService = $friendService;
-        $this->messageService = $messageService;
-    }
+    ) {}
 
     public function index(Request $request, string $username)
     {
@@ -80,7 +75,7 @@ class UserPageController extends Controller
     public function friendMessages(Request $request, string $username, string $friendUsername)
     {
         $seo = $this->getSeoWithUsername($request, $friendUsername);
-        $friend = $this->userRepository->getMessageUser($friendUsername);
+        $friend = $this->userService->getMessageUser($friendUsername);
         $messages = $this->messageService->getConversation(Auth::id(), $friend->id);
 
         return view('user.friendmessages', [
