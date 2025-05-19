@@ -62,7 +62,7 @@ class PageController extends Controller
 
     public function bestRated(Request $request): View
     {
-        $posts = $this->postService->getAllPostsWithStats();
+        $posts = $this->postService->getAllPosts();
         $posts = $this->sortFactory->createPostSortByRating()->sort($posts);
         $posts = $this->postService->paginatePosts(array_slice($posts, 0, config('pagination.postsPerPage')), 1);
 
@@ -75,7 +75,7 @@ class PageController extends Controller
 
     public function bestComments(Request $request): View
     {
-        $posts = $this->postService->getAllPostsWithStats();
+        $posts = $this->postService->getAllPosts();
         $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
         $posts = $this->postService->paginatePosts(array_slice($posts, 0, config('pagination.postsPerPage')), 1);
 
@@ -155,7 +155,7 @@ class PageController extends Controller
 
     public function show(string $slug): View
     {
-        $post = $this->postService->getPostWithStats($slug);
+        $post = $this->postService->getPostBySlug($slug);
         $this->postService->incrementViews($post['id']);
 
         return view('posts.show', [
@@ -194,7 +194,7 @@ class PageController extends Controller
     private function getSuggestedPosts(array $post): array
     {
         $suggestIds = $this->suggestsService->getSuggestsIds($post);
-        return $this->postService->getSuggestsWithStats($suggestIds);
+        return $this->postService->getPostsByIds($suggestIds);
     }
 
     private function getPostSeoData(array $post): array
@@ -216,7 +216,7 @@ class PageController extends Controller
         $postsPerPage = config('pagination.postsPerPage');
         $offset = ($id - 1) * $postsPerPage;
 
-        $posts = $this->postService->getAllPostsWithStats();
+        $posts = $this->postService->getAllPosts();
         $posts = $this->sortFactory->$sortMethod()->sort($posts);
         $posts = $this->postService->paginatePosts(
             array_slice($posts, $offset, $postsPerPage),
