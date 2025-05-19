@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\DTO\CommentDTO;
 use App\DTO\CommentUpdateDTO;
 use App\Models\Comment;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
@@ -20,24 +21,31 @@ class CommentRepository implements CommentRepositoryInterface
             ->toArray();
     }
 
-    public function update(CommentUpdateDTO $comment): void
+    public function update(CommentUpdateDTO $commentData): void
     {
-        Comment::where('id', $comment->id)
+        Comment::where('id', $commentData->id)
             ->update([
-                'user_id' => $comment->userId,
-                'post_id' => $comment->postId,
-                'message' => $comment->message,
-                'is_verified' => $comment->isVerified,
-                'level' => $comment->level,
-                'parent_id' => $comment->parentId
+                'user_id' => $commentData->userId,
+                'post_id' => $commentData->postId,
+                'message' => $commentData->message,
+                'is_verified' => $commentData->isVerified,
+                'level' => $commentData->level,
+                'parent_id' => $commentData->parentId
             ]);
     }
 
-    public function create(array $comment): array
+    public function create(CommentDTO $commentData): array
     {
-        return Comment::create($comment)
-            ->load('user.profile')
-            ->toArray();
+        $comment = new Comment();
+        $comment->user_id = $commentData->userId;
+        $comment->post_id = $commentData->postId;
+        $comment->message = $commentData->message;
+        $comment->is_verified = $commentData->isVerified;
+        $comment->level = $commentData->level;
+        $comment->parent_id = $commentData->parentId;
+        $comment->save();
+
+        return $comment->load('user.profile')->toArray();
     }
 
     public function getVerifiedCount(): int
@@ -92,7 +100,6 @@ class CommentRepository implements CommentRepositoryInterface
             ->exists();
     }
 
-    // Опционально: пакетное обновление
     public function bulkVerify(array $ids): int
     {
         return Comment::whereIn('id', $ids)
