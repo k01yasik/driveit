@@ -155,7 +155,7 @@ class PageController extends Controller
 
     public function show(string $slug): View
     {
-        $post = $this->postService->getPostBySlug($slug);
+        $post = $this->postService->getPostsForShow($slug);
         $this->postService->incrementViews($post['id']);
 
         return view('posts.show', [
