@@ -79,6 +79,11 @@ class PostService
         return $this->postRepository->getPostByIdWithUserData($postId);
     }
 
+    public function getPostBySlugWithUserData(string $slug): array
+    {
+        return $this->postRepository->getPostBySlugWithUserData($slug);
+    }
+    
     public function getById(int $postId): array
     {
         return $this->postRepository->getById($postId);
