@@ -64,7 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'check.friendship' => \App\Http\Middleware\CheckFriendship::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
         'public' => \App\Http\Middleware\PublicUser::class,
         'current' => \App\Http\Middleware\CurrentUser::class,
         'captcha' => \App\Http\Middleware\Captcha::class,
