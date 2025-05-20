@@ -12,6 +12,8 @@ class GrantAdminPrivilegies extends Seeder
      */
     public function run()
     {
+        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        
         $user = User::where('username', 'Bzdykin')->firstOrFail();
         $user->assignRole('admin');
     }
