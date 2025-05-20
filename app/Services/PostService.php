@@ -212,7 +212,7 @@ class PostService
 
     public function calculatePostStats(array $posts): array
     {
-        if (count($posts) = 1) {
+        if (count($posts) == 1) {
             $posts['rating_count'] = $this->countPostRating($posts['rating']);
             $posts['comments_count'] = $this->countPostComments($posts['comments']);
             return $posts;
