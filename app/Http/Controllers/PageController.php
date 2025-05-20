@@ -194,7 +194,7 @@ class PageController extends Controller
     private function getSuggestedPosts(array $post): array
     {
         $suggestIds = $this->suggestsService->getSuggestsIds($post);
-        return $this->postService->getPostsByIds($suggestIds);
+        return $this->postService->getSuggestsWithStats($suggestIds);
     }
 
     private function getPostSeoData(array $post): array
