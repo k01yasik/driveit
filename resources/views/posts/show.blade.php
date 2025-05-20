@@ -115,7 +115,7 @@
                             L21.57,2.049z"></path>
                         </g>
                     </svg>
-                    <p>{{ $post['post']['rating_count'] }}</p>
+                    <p>{{ $post['rating_count'] }}</p>
                 </div>
                 <div class="comments-block">
                     <svg version="1.1" class="comments-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
