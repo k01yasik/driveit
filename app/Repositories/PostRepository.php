@@ -93,7 +93,23 @@ class PostRepository implements PostRepositoryInterface
 
     public function getPostBySlugWithUserData(string $slug): array
     {
-        return Post::with(['user', 'categories', 'user.profile'])->where('slug', $slug)->firstOrFail()->toArray();
+        $post = Post::with([
+            'user', 
+            'categories', 
+            'user.profile', 
+            'rating', 
+            'comments', 
+            'suggest'
+        ])
+        ->where('slug', $slug)
+        ->where('is_published', 1)
+        ->first(); 
+    
+        if (!$post) {
+            abort(404);
+        }
+
+        return $post->toArray();
     }
 
     public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array
