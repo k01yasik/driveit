@@ -18,7 +18,6 @@ class PostService
     public function countPostRating(array $rating): int
     {
         $count = 0;
-        dd($rating);
         foreach ($rating as $r) {
             if ($r['rating'] == 1) {
                 $count += 1;
