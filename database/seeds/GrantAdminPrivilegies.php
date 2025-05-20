@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use Spatie\Permission\Models\Role;
 
 class GrantAdminPrivilegies extends Seeder
 {
