@@ -6,7 +6,7 @@ namespace App\Repositories;
 
 use App\DTO\CommentDTO;
 use App\DTO\CommentUpdateDTO;
-use App\Models\Comment;
+use App\Comment;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
