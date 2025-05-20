@@ -81,7 +81,8 @@ class PostService
 
     public function getPostBySlugWithUserData(string $slug): array
     {
-        return $this->postRepository->getPostBySlugWithUserData($slug);
+        $post = $this->postRepository->getPostBySlugWithUserData($slug);
+        return $this->calculatePostStats($post);
     }
     
     public function getById(int $postId): array
