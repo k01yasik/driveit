@@ -104,7 +104,7 @@ class PostRepository implements PostRepositoryInterface
         ->where('slug', $slug)
         ->where('is_published', 1)
         ->first(); 
-        dd(post);
+        dd($post);
     
         if (!$post) {
             abort(404);
