@@ -215,6 +215,7 @@ class PostService
         $postsTemp = [];
 
         foreach ($posts as $post) {
+            dd($post);
             $post['rating_count'] = $this->countPostRating($post['rating']);
             $post['comments_count'] = $this->countPostComments($post['comments']);
             $postsTemp[] = $post;
