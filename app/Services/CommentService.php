@@ -25,7 +25,7 @@ class CommentService
      */
     public function getNestedComments(int $postId): array
     {
-        $comments = $this->commentRepository->getCommentsByPost($postId);
+        $comments = $this->commentRepository->getByPostId($postId);
         return $this->buildNestedStructure($comments);
     }
 
