@@ -212,8 +212,14 @@ class PostService
 
     public function calculatePostStats(array $posts): array
     {
+        if ($posts.length == 1) {
+            $posts['rating_count'] = $this->countPostRating($posts['rating']);
+            $posts['comments_count'] = $this->countPostComments($posts['comments']);
+            return $posts;
+        }
+
         $postsTemp = [];
-        dd($posts);
+    
         foreach ($posts as $post) {
             $post['rating_count'] = $this->countPostRating($post['rating']);
             $post['comments_count'] = $this->countPostComments($post['comments']);
