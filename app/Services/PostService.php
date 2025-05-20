@@ -187,7 +187,7 @@ class PostService
     }
 
     public function getSuggestsWithStats(array $suggestIds): array {
-        return $this->calculatePostStats($this->getSuggests($suggestIds));
+        return $this->calculatePostStats($this->postRepository->getSuggests($suggestIds));
     }
 
     public function incrementViews(int $postId): void
