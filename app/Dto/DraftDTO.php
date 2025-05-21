@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class Draft
+class DraftDTO
 {
     public function __construct(
         private string $slug,
