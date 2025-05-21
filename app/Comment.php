@@ -44,7 +44,7 @@ class Comment extends Model
         return $query->where('is_verified', true);
     }
 
-    public function scopeNotVerified($query)
+    public function scopeUnverified($query)
     {
         return $query->where('is_verified', false);
     }
