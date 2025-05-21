@@ -57,7 +57,7 @@ class CommentService
 
     public function getCommentsVerifiedCount(): int
     {
-        return $this->commentRepository->getCommentsVerifiedCount();
+        return $this->commentRepository->getVerifiedCount();
     }
 
     public function getCommentsNotVerifiedCount(): int
