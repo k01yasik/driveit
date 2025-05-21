@@ -62,7 +62,7 @@ class CommentService
 
     public function getCommentsNotVerifiedCount(): int
     {
-        return $this->commentRepository->getNotVerifiedCount();
+        return $this->commentRepository->getUnverifiedCount();
     }
 
     public function getPaginatedComments(bool $isStart, ?int $id = null): LengthAwarePaginator
