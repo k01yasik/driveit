@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Thumbnail;
+namespace App\Services;
 
 use Intervention\Image\ImageManager;
 
