@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Models\Category;
+use App\Category;
 use App\DTO\CategoryDTO;
 use Illuminate\Support\Collection;
 
