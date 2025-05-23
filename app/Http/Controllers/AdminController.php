@@ -35,7 +35,7 @@ class AdminController extends Controller
 
         $commentsAll = $commentsVerified + $commentsNotVerified;
 
-        $analyticData = $this->googleAnalyticsService->getAnalyticData();
+        /*$analyticData = $this->googleAnalyticsService->getAnalyticData();
 
         $datesQuery = $analyticData[0];
         $usersQuery = $analyticData[1];
@@ -50,7 +50,7 @@ class AdminController extends Controller
         $cityData = $this->googleAnalyticsService->getCityByCountry('Russia');
 
         $cityQueryLabels = $cityData[0];
-        $cityQueryData = $cityData[1];
+        $cityQueryData = $cityData[1];*/
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
