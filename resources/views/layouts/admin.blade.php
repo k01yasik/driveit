@@ -53,7 +53,11 @@
         <x-footer />
     </footer>
     <x-backbutton />
-    <x-googleanalytics :posts="$posts" />
+    <x-googleanalytics 
+        :posts="$posts" 
+        :commentsVerified="$commentsVerified"
+        :commentsNotVerified="$commentsNotVerified"
+        />
     <script src="{{ asset('js/manifest.js') }}"></script>
     <script src="{{ asset('js/vendor.js') }}"></script>
     <script src="{{ asset('js/app.ts') }}"></script>
