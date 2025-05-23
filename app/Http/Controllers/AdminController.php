@@ -28,7 +28,7 @@ class AdminController extends Controller
         $seo = $this->seoService->getSeoData($request);
 
         $posts = $this->postDashboardService->getPostDashboard();
-
+        dd($posts);
         $commentsVerified = $this->commentService->getCommentsVerifiedCount();
 
         $commentsNotVerified = $this->commentService->getCommentsNotVerifiedCount();
