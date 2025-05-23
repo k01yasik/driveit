@@ -2,7 +2,7 @@
     let posts = {!! json_encode($posts, JSON_HEX_TAG) !!};
     let commentsVerified = {!! $commentsVerified !!};
     let commentsNotVerified = {!! $commentsNotVerified !!};
-    /*let datesQuery = {!! json_encode($datesQuery, JSON_HEX_TAG) !!};
+    /* let datesQuery = {!! json_encode($datesQuery, JSON_HEX_TAG) !!};
     let usersQuery = {!! json_encode($usersQuery, JSON_HEX_TAG) !!};
     let sessionQuery = {!! json_encode($sessionQuery, JSON_HEX_TAG) !!};
     let hitsQuery = {!! json_encode($hitsQuery, JSON_HEX_TAG) !!};
