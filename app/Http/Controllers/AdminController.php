@@ -55,10 +55,13 @@ class AdminController extends Controller
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
         $activeItem = $this->seoService->getRouteName($request);
-
+        /*
         return view('admin.index', compact('seo', 'user', 'posts', 'commentsVerified',
             'commentsNotVerified', 'commentsAll', 'datesQuery', 'usersQuery', 'sessionQuery', 'hitsQuery',
             'countryQueryData', 'countryQueryLabels', 'cityQueryLabels', 'cityQueryData', 'activeItem'));
+        */
+        return view('admin.index', compact('seo', 'user', 'posts', 'commentsVerified',
+            'commentsNotVerified', 'commentsAll', 'activeItem'));
     }
 
     public function users(Request $request)
