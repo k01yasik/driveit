@@ -1,99 +1,135 @@
-// Grid Variables
-$columns: 12;
-$gutter: 2%;
-$breakpoints: (
-  'small': 0,
-  'medium': 601px,
-  'large': 993px
-);
+@mixin grid-classes($size, $i, $perc) {
+  &.offset-#{$size}#{$i} {
+    margin-left: $perc;
+  }
+}
 
-// Container Styles
 .container {
   max-width: 1200px;
   width: 90%;
   margin: 0 auto;
   position: relative;
+}
 
-  @media (min-width: map-get($breakpoints, 'medium')) {
+@media only screen and (min-width: 601px) {
+  .container {
     width: 85%;
-  }
-
-  @media (min-width: map-get($breakpoints, 'large')) {
-    width: 80%;
+    max-width: 1200px;
   }
 }
 
-// Row Styles
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 80%;
+    max-width: 1200px;
+  }
+}
+
 .row {
+  float: left;
   width: 100%;
   margin-bottom: 2em;
-  @include clearfix;
 
   &:last-child {
     margin-bottom: 0;
   }
-}
 
-// Column Mixins
-@mixin column-base {
-  float: left;
-  min-height: 1px;
-  box-sizing: border-box;
-}
-
-@mixin column-width($i, $columns, $gutter) {
-  $column-width: (100% - ($gutter * ($columns - 1))) / $columns;
-  width: ($column-width * $i) + ($gutter * ($i - 1));
-  @if $i < $columns { margin-right: $gutter; }
-}
-
-@mixin column-offset($i, $columns, $gutter) {
-  $column-width: (100% - ($gutter * ($columns - 1))) / $columns;
-  margin-left: ($column-width + $gutter) * $i;
-}
-
-// Grid Generator
-@mixin grid-generator($size, $columns, $gutter) {
-  @for $i from 1 through $columns {
-    .col.#{$size}#{$i} {
-      @include column-width($i, $columns, $gutter);
-    }
-    
-    .offset-#{$size}#{$i} {
-      @include column-offset($i, $columns, $gutter);
-    }
-  }
-  
-  .col.#{$size}#{$columns} {
-    margin-right: 0;
-  }
-}
-
-// Clearfix Mixin
-@mixin clearfix {
   &:after {
     content: "";
     display: table;
     clear: both;
   }
-}
 
-// Base Column Styles
-.col {
-  @include column-base;
-  
-  &:last-child {
-    margin-right: 0;
+  .col {
+    float: left;
+    min-height: 1px;
+
+    $i: 1;
+    $columns: 12;
+    $margin-r: 2;
+    $block-w: (100 - ($columns - 1) * $margin-r) / $columns;
+
+    @while $i <= $columns {
+      $w-perc: unquote(($block-w * $i + $margin-r * ($i - 1)) + "%");
+      $margin-perc: unquote(($margin-r) + "%");
+
+      &.s#{$i} {
+        width: $w-perc;
+        @if $i < $columns { margin-right: $margin-perc; }
+        @if $i == $columns { margin-right: 0; }
+      }
+
+      $i: $i + 1;
+    }
+
+    $i: 1;
+
+    @while $i <= $columns {
+      $w-perc: unquote((($block-w + $margin-r) * $i) + "%");
+      @include grid-classes("s", $i, $w-perc);
+      $i: $i + 1;
+    }
+
+    @media only screen and (min-width: 601px) {
+      $i: 1;
+      $columns: 12;
+      $margin-r: 2;
+      $block-w: (100 - ($columns - 1) * $margin-r) / $columns;
+
+      @while $i <= $columns {
+        $w-perc: unquote(($block-w * $i + $margin-r * ($i - 1)) + "%");
+        $margin-perc: unquote(($margin-r) + "%");
+
+        &.m#{$i} {
+          width: $w-perc;
+          @if $i < $columns { margin-right: $margin-perc; }
+          @if $i == $columns { margin-right: 0; }
+        }
+
+        $i: $i + 1;
+      }
+    }
+
+    @media only screen and (min-width: 601px) and (max-width: 992px) {
+      $i: 1;
+
+      @while $i <= $columns {
+        $w-perc: unquote((($block-w + $margin-r) * $i) + "%");
+        @include grid-classes("m", $i, $w-perc);
+        $i: $i + 1;
+      }
+    }
+
+    @media only screen and (min-width: 993px) {
+      $i: 1;
+      $columns: 12;
+      $margin-r: 2;
+      $block-w: (100 - ($columns - 1) * $margin-r) / $columns;
+
+      @while $i <= $columns {
+        $w-perc: unquote(($block-w * $i + $margin-r * ($i - 1)) + "%");
+        $margin-perc: unquote(($margin-r) + "%");
+
+        &.l#{$i} {
+          width: $w-perc;
+          @if $i < $columns { margin-right: $margin-perc; }
+          @if $i == $columns { margin-right: 0; }
+        }
+
+        $i: $i + 1;
+      }
+
+      $i: 1;
+
+      @while $i <= $columns {
+        $w-perc: unquote((($block-w + $margin-r) * $i) + "%");
+        @include grid-classes("l", $i, $w-perc);
+        $i: $i + 1;
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
-}
-
-// Generate Grids
-@include grid-generator('s', $columns, $gutter);
-
-@media (min-width: map-get($breakpoints, 'medium')) {
-  @include grid-generator('m', $columns, $gutter);
-}
-
-@media (min-width: map-get($breakpoints, 'large')) {
-  @include grid-generator('l', $columns, $gutter);
 }
