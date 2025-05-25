@@ -1,0 +1,253 @@
+@media only screen and (max-width: 600px) {
+  .flex-h-center-small {
+    justify-content: center;
+  }
+
+  .search, .signin-block {
+    max-width: 340px;
+  }
+
+  .navigation {
+    background: $secondary-2-1;
+  }
+
+  .post {
+    .post-name {
+      font-size: 1em;
+    }
+  }
+
+  aside {
+    margin-top: 2em;
+  }
+
+  .breadcrumbs {
+    li {
+      margin-right: .5em;
+    }
+  }
+
+  .add-comment-button {
+    font-size: .875em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    max-width: 225px;
+  }
+
+  .form-caption {
+    h2 {
+      font-size: 1.15em;
+    }
+  }
+
+  .user-block-avatar {
+    margin: .5em 0;
+  }
+
+  .user-block-avatar-link {
+    float: inherit;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .flex-j-end-s {
+    justify-content: flex-end;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+
+  .flex-j-end-m {
+    justify-content: flex-end;
+  }
+
+  .small-nav {
+    display: none;
+  }
+
+  nav {
+    .first-level {
+      display: block;
+    }
+  }
+
+  .small-first-level {
+    display: none;
+  }
+
+  .menu-back {
+    background: $white;
+    position: relative;
+    z-index: 1000;
+    height: 3em;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .user-block {
+    padding: 0 2em;
+  }
+
+  .left-panel {
+    width: 100%;
+    padding: 2em 1em;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 992px) {
+  .row {
+    .col {
+      &.col-last-m {
+        margin-right: 0;
+      }
+    }
+  }
+
+  aside {
+    margin-top: 2em;
+  }
+
+  .login-wrapper {
+    width: 80%;
+  }
+
+  .user-profile {
+    margin: 0;
+  }
+
+  .sub-level {
+    a {
+      padding-left: 1rem;
+    }
+  }
+
+  .flex-h-center-medium {
+    justify-content: center;
+  };
+
+  .search {
+    max-width: 340px;
+  }
+
+  .signin-block {
+    float: inherit;
+    max-width: 340px;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .flex-j-end-l {
+    justify-content: flex-end;
+  }
+
+  .profile {
+    width: 60%;
+  }
+
+  .signout {
+    width: 40%;
+  }
+
+  .signin {
+    width: 40%;
+  }
+
+  .registration {
+    width: 60%;
+  }
+
+  .menu-back {
+    float: none;
+    height: 3em;
+  }
+
+  .outer-container {
+    width: 100%;
+  }
+
+  .user-profile-left-panel, .user-profile-right-panel {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .date-published {
+    font-size: .75em;
+  }
+
+  .post {
+    .post-categories {
+      .category-link {
+        font-size: .75em;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 424px) {
+  .post-buttons-changed, .post-buttons {
+    padding: 0 .5em;
+  }
+
+  .eye-block, .rating-block {
+    margin-right: .25em;
+  }
+
+  .post-buttons, .post-buttons-changed, .suggest-buttons {
+    p {
+      margin: .5em .75em 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .remember {
+    font-size: .875em;
+    height: 3rem;
+    line-height: 3rem;
+  }
+
+  .social-btn {
+    .right-block {
+      font-size: .875em;
+    }
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .suggest-block {
+    margin-bottom: 2em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .sm-margin-bottom-2 {
+    margin-bottom: 2em;
+  }
+}
+
+@media only screen and (min-width: 993px) and (max-width: 1305px) {
+  .suggest-post-name {
+    font-size: .75em;
+  }
+}
+
+@media only screen and (min-width: 993px) and (max-width: 1110px) {
+  .suggest-category {
+    .category-link {
+      font-size: .6875em;
+    }
+  }
+
+  .tags-svg {
+    margin-right: .5em;
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .user-profile-left-panel, .user-profile-right-panel {
+    width: 100%;
+  }
+}
