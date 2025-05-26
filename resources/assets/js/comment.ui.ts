@@ -36,23 +36,24 @@ export class CommentUI {
     const commentElement = this.htmlElementCreator.createFromString(html);
     const commentsWrapper = this.domService.getElement('commentsWrapper');
 
+    if (!commentElement) return;
+
     if (targetElement) {
-      targetElement.insertAdjacentElement('afterend', commentElement);
+      targetElement.insertAdjacentElement('afterend', commentElement as Element);
     } else if (commentsWrapper) {
-      commentsWrapper.insertAdjacentElement('afterend', commentElement);
+      commentsWrapper.insertAdjacentElement('afterend', commentElement as Element);
     }
   }
 
   public scrollToCommentElement(): void {
-      const animateElement = this.domService.getElement('animateElement');
-      const addCommentElement = this.domService.getElement('addCommentElement');
+    const animateElement = this.domService.getElement('animateElement');
+    const addCommentElement = this.domService.getElement('addCommentElement');
 
-      if (animateElement && addCommentElement) {
-          const options: ScrollToOptions = {
-              top: addCommentElement.offsetTop,
-              behavior: 'smooth'
-          };
-          animateElement.scrollTo(options);
-      }
+    if (animateElement && addCommentElement) {
+      window.scrollTo({
+        top: addCommentElement.offsetTop,
+        behavior: 'smooth'
+      });
+    }
   }
 }
