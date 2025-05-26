@@ -1,6 +1,6 @@
 interface EditorCommand {
   command: string;
-  value?: string;
+  value?: string | null;
 }
 
 class TextEditor {
@@ -202,7 +202,7 @@ class TextEditor {
   private executeCommand(command: string, value: string | null = null): void {
     this.editor.focus();
     this.restoreSelection();
-    document.execCommand(command, false, value);
+    document.execCommand(command, false, value === null ? undefined : value);
   }
 
   private restoreSelection(): void {
