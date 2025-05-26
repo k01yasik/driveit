@@ -52,33 +52,33 @@ export class CommentController {
   }
   
   private handleReplyClick(event: Event): void {
-      const element = event.currentTarget as HTMLElement;
-      const level = parseInt(this.domService.getDatasetValue(element, 'level', '0')) + 1;
-      const parent = this.domService.getDatasetValue(element, 'parent');
-      const wrapper = this.domService.getElement('wrapper');
+    const element = event.currentTarget as HTMLElement;
+    const level = parseInt(this.domService.getDatasetValue(element, 'level', '0')) + 1;
+    const parent = this.domService.getDatasetValue(element, 'parent');
+    const wrapper = this.domService.getElement('wrapper');
 
-      if (wrapper) {
-          wrapper.dataset.level = level.toString();
-          wrapper.dataset.parent = parent;
-      }
+    if (wrapper) {
+        wrapper.dataset.level = level.toString();
+        wrapper.dataset.parent = parent;
+    }
 
-      this.commentUI.scrollToCommentElement();
+    this.commentUI.scrollToCommentElement();
 
-      const clickedParent = element.closest('.comment-item');
-      if (!clickedParent) return;
+    const clickedParent = element.closest('.comment-item');
+    if (!clickedParent) return;
 
-      const clickedParentLevel = parseInt(this.domService.getDatasetValue(clickedParent, 'level', '0')) + 1;
-      let currentElement: HTMLElement | null = clickedParent as HTMLElement;
+    const clickedParentLevel = parseInt(this.domService.getDatasetValue(clickedParent as HTMLElement, 'level', '0')) + 1;
+    let currentElement: Element | null = clickedParent;
 
-      while (currentElement) {
-          const nextSibling = currentElement.nextElementSibling;
-          if (!nextSibling) break;
-          const nextSiblingLevel = parseInt(this.domService.getDatasetValue(nextSibling as HTMLElement, 'level', '0'));
+    while (currentElement) {
+        const nextSibling = currentElement.nextElementSibling;
+        if (!nextSibling) break;
+        const nextSiblingLevel = parseInt(this.domService.getDatasetValue(nextSibling as HTMLElement, 'level', '0'));
     
-      if (nextSiblingLevel < clickedParentLevel) break;
-          currentElement = nextSibling as HTMLElement;
-      }
+        if (nextSiblingLevel < clickedParentLevel) break;
+        currentElement = nextSibling;
+    }
 
-      this.commentService.setTargetElement(currentElement || clickedParent as HTMLElement);
+    this.commentService.setTargetElement((currentElement || clickedParent) as HTMLElement);
   }
 }
