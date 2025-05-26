@@ -46,14 +46,12 @@ export class CommentUI {
   }
 
   public scrollToCommentElement(): void {
-    const animateElement = this.domService.getElement('animateElement');
     const addCommentElement = this.domService.getElement('addCommentElement');
-
-    if (animateElement && addCommentElement) {
-      window.scrollTo({
-        top: addCommentElement.offsetTop,
-        behavior: 'smooth'
-      });
+    if (addCommentElement) {
+        window.scrollTo({
+            top: addCommentElement.offsetTop,
+            behavior: 'smooth' as ScrollBehavior
+        });
     }
   }
 }
