@@ -16,6 +16,7 @@ export class HtmlElementCreator {
         const template = document.createElement('template');
         template.innerHTML = html.trim();
         
-        return template.content.firstChild?.cloneNode(true) ?? null;
+        // Use a type assertion since we know template content will contain ChildNodes
+        return template.content.firstChild as ChildNode | null;
     }
 }
