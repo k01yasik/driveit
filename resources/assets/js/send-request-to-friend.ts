@@ -22,15 +22,15 @@ class FriendRequest {
     `;
 
     public static init(): void {
-        document.addEventListener('click', (event) => {
-            const target = event.target as HTMLElement;
-            const button = target.closest('.request-friend');
-            
-            if (button) {
-                event.preventDefault();
-                this.handleFriendRequest(button);
-            }
-        });
+      document.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+        const button = target.closest('.request-friend') as HTMLElement | null; // Add type assertion here
+        
+        if (button) {
+            event.preventDefault();
+            this.handleFriendRequest(button);
+        }
+      });
     }
 
     private static async handleFriendRequest(button: HTMLElement): Promise<void> {
