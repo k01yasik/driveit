@@ -1,9 +1,9 @@
 class MessageEditor {
-    private static init(): void {
+    public static init(): void {  // Changed from private to public
         const editor = document.querySelector('.text-editor-body');
         if (!editor) return;
 
-        editor.addEventListener('keydown', async (e) => {
+        editor.addEventListener('keydown', async (e: KeyboardEvent) => {  // Added KeyboardEvent type
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
                 await this.handleMessageSubmit();
@@ -85,7 +85,7 @@ class MessageEditor {
         if (welcomeChat && window.getComputedStyle(welcomeChat).display === 'block') {
             welcomeChat.classList.add('fade-out');
             setTimeout(() => {
-                welcomeChat.style.display = 'none';
+                (welcomeChat as HTMLElement).style.display = 'none';  // Added HTMLElement type assertion
             }, 200);
         }
     }
