@@ -1,6 +1,12 @@
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+declare global {
+  interface Window {
+    dashboardData: DashboardData;
+  }
+}
+
 Chart.register(...registerables);
 Chart.register(ChartDataLabels);
 
