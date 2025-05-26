@@ -6,7 +6,7 @@ interface DeleteResponse {
 class DeleteConfirmation {
     public static init(): void {
         document.addEventListener('click', async (event) => {
-            const button = (event.target as HTMLElement).closest('.confirm-delete-button');
+            const button = (event.target as HTMLElement).closest('.confirm-delete-button') as HTMLElement;
             if (button) {
                 event.preventDefault();
                 await this.handleDeleteConfirmation(button);
