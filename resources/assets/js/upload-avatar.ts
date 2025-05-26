@@ -1,3 +1,5 @@
+import smartcrop from 'smartcrop';
+
 class AvatarUploader {
   private static readonly AVATAR_SIZE = { width: 200, height: 200 };
 
