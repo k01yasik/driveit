@@ -2,7 +2,7 @@ class UserUnbanHandler {
     public static init(): void {
         document.addEventListener('click', async (event) => {
             const target = event.target as HTMLElement;
-            const button = target.closest('.unban-user-button');
+            const button = target.closest('.unban-user-button') as HTMLElement | null;
             
             if (button) {
                 event.preventDefault();
