@@ -1,5 +1,5 @@
 class PostRating {
-    private static init(): void {
+    public static init(): void { 
         document.addEventListener('click', async (event) => {
             const target = event.target as HTMLElement;
             const ratingBlock = target.closest('.rating-block');
@@ -55,7 +55,6 @@ class PostRating {
     }
 }
 
-// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     PostRating.init();
 });
