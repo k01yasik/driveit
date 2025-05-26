@@ -15,14 +15,14 @@ interface DashboardData {
   posts?: ChartData[];
   commentsVerified?: number;
   commentsNotVerified?: number;
-  /*datesQuery?: string[];
+  datesQuery?: string[];
   usersQuery?: number[];
   sessionQuery?: number[];
   hitsQuery?: number[];
   countryQueryLabels?: string[];
   countryQueryData?: number[];
   cityQueryLabels?: string[];
-  cityQueryData?: number[];*/
+  cityQueryData?: number[];
 };
 
 // Константы для повторно используемых значений
