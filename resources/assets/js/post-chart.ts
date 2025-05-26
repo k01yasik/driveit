@@ -1,9 +1,27 @@
-// Определяем типы для данных
+import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+Chart.register(...registerables);
+Chart.register(ChartDataLabels);
+
 type ChartData = {
   month: number;
   year: number;
   count: number;
 };
+
+declare const posts: ChartData[] | undefined;
+declare const commentsVerified: number | undefined;
+declare const commentsNotVerified: number | undefined;
+declare const datesQuery: string[] | undefined;
+declare const usersQuery: number[] | undefined;
+declare const sessionQuery: number[] | undefined;
+declare const hitsQuery: number[] | undefined;
+declare const countryQueryLabels: string[] | undefined;
+declare const countryQueryData: number[] | undefined;
+declare const cityQueryLabels: string[] | undefined;
+declare const cityQueryData: number[] | undefined;
+
 
 type DashboardData = {
   posts?: ChartData[];
