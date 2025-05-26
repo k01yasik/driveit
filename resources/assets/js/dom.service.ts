@@ -27,7 +27,7 @@ export class DOMService {
   }
 
   public getElement<K extends keyof DOMElementMap>(key: K): DOMElementMap[K] | null {
-    return this.elements[key] || null;
+    return this.elements[key] ?? null;
   }
 
   public getCsrfToken(): string {
