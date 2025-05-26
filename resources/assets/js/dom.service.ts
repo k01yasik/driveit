@@ -26,7 +26,7 @@ export class DOMService {
     this.csrfToken = csrfMeta?.getAttribute('content') || '';
   }
 
-  public getElement<K extends keyof DOMElementMap>(key: K): DOMElementMap[K] | null {
+  public getElement<K extends keyof DOMElementMap>(key: K): Partial<DOMElementMap>[K] | null {
     return this.elements[key] ?? null;
   }
 
