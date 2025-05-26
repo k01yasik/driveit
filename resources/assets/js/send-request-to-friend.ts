@@ -67,9 +67,12 @@ class FriendRequest {
     private static replaceWithWaitingButton(button: HTMLElement): void {
         const wrapper = document.createElement('div');
         wrapper.innerHTML = this.WAITING_BUTTON_HTML.trim();
-        button.replaceWith(wrapper.firstChild!);
+        const newElement = wrapper.firstChild as HTMLElement | null;
+        if (newElement) {
+            button.replaceWith(newElement);
+        }
     }
-
+    
     private static getHeaders(): Headers {
         const headers = new Headers();
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
