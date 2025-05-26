@@ -11,7 +11,7 @@ type ChartData = {
 };
 
 
-interface DashboardData = {
+interface DashboardData {
   posts?: ChartData[];
   commentsVerified?: number;
   commentsNotVerified?: number;
