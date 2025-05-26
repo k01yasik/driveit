@@ -10,31 +10,19 @@ type ChartData = {
   count: number;
 };
 
-declare const posts: ChartData[] | undefined;
-declare const commentsVerified: number | undefined;
-declare const commentsNotVerified: number | undefined;
-declare const datesQuery: string[] | undefined;
-declare const usersQuery: number[] | undefined;
-declare const sessionQuery: number[] | undefined;
-declare const hitsQuery: number[] | undefined;
-declare const countryQueryLabels: string[] | undefined;
-declare const countryQueryData: number[] | undefined;
-declare const cityQueryLabels: string[] | undefined;
-declare const cityQueryData: number[] | undefined;
 
-
-type DashboardData = {
+interface DashboardData = {
   posts?: ChartData[];
   commentsVerified?: number;
   commentsNotVerified?: number;
-  datesQuery?: string[];
+  /*datesQuery?: string[];
   usersQuery?: number[];
   sessionQuery?: number[];
   hitsQuery?: number[];
   countryQueryLabels?: string[];
   countryQueryData?: number[];
   cityQueryLabels?: string[];
-  cityQueryData?: number[];
+  cityQueryData?: number[];*/
 };
 
 // Константы для повторно используемых значений
@@ -209,19 +197,6 @@ const initDashboard = (data: DashboardData): void => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const dashboardData: DashboardData = {
-    posts: typeof posts !== 'undefined' ? posts : undefined,
-    commentsVerified: typeof commentsVerified !== 'undefined' ? commentsVerified : undefined,
-    commentsNotVerified: typeof commentsNotVerified !== 'undefined' ? commentsNotVerified : undefined,
-    datesQuery: typeof datesQuery !== 'undefined' ? datesQuery : undefined,
-    usersQuery: typeof usersQuery !== 'undefined' ? usersQuery : undefined,
-    sessionQuery: typeof sessionQuery !== 'undefined' ? sessionQuery : undefined,
-    hitsQuery: typeof hitsQuery !== 'undefined' ? hitsQuery : undefined,
-    countryQueryLabels: typeof countryQueryLabels !== 'undefined' ? countryQueryLabels : undefined,
-    countryQueryData: typeof countryQueryData !== 'undefined' ? countryQueryData : undefined,
-    cityQueryLabels: typeof cityQueryLabels !== 'undefined' ? cityQueryLabels : undefined,
-    cityQueryData: typeof cityQueryData !== 'undefined' ? cityQueryData : undefined
-  };
-
+  const dashboardData: DashboardData = window.dashboardData || {};
   initDashboard(dashboardData);
 });
