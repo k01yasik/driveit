@@ -50,7 +50,9 @@ export class CommentUI {
     if (addCommentElement) {
         window.scrollTo({
             top: addCommentElement.offsetTop,
-            behavior: 'smooth' as ScrollBehavior
+            behavior: 'smooth' as ScrollBehavior,
+            duration: 0,
+            easing: 'linear'
         });
     }
   }
