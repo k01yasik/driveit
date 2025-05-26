@@ -22,6 +22,7 @@ declare global {
     io: typeof io;
     smartcrop: typeof smartcrop;
     Chart: typeof Chart;
+    _: typeof _;
   }
 }
 
