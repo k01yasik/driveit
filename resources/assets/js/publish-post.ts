@@ -16,7 +16,7 @@ class PostPublisher {
     public static init(): void {
         document.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
-            const button = target.closest('.publish');
+            const button = target.closest<HTMLElement>('.publish');
             
             if (button) {
                 event.preventDefault();
@@ -28,6 +28,11 @@ class PostPublisher {
     private static async handlePublishClick(button: HTMLElement): Promise<void> {
         const postId = button.dataset.id;
         
+        if (!postId) {
+            console.error('No post ID found on button');
+            return;
+        }
+
         try {
             await this.togglePublishStatus(postId);
             this.toggleButtonIcon(button);
