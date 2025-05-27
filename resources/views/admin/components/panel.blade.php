@@ -1,7 +1,7 @@
 <div class="left-panel">
     <div class="avatar">
-        <div class="avatar-inner circle">
-            <img src="{{ $user['profile']['avatar'] }}">
+        <div class="avatar-inner">
+            <img src="{{ $user['profile']['avatar'] }}" alt="User avatar">
         </div>
     </div>
     <div class="user-profile-username">
