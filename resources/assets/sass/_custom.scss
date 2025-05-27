@@ -1796,6 +1796,7 @@ input[type=checkbox], input[type=radio] {
   margin: 0 auto;
   width: 100%;
   position: relative;
+  border-radius: 50%;
 
   &:hover {
     .change-avatar {
