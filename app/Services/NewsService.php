@@ -2,20 +2,24 @@
 
 namespace App\Services;
 
-
 use App\Repositories\Interfaces\NewsRepositoryInterface;
+use App\Dto\NewsCollection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class NewsService
 {
-    protected NewsRepositoryInterface $newsRepository;
-
-    public function __construct(NewsRepositoryInterface $newsRepository)
-    {
-        $this->newsRepository = $newsRepository;
+    public function __construct(
+        private NewsRepositoryInterface $newsRepository
+    ) {
     }
 
-    public function getLastNews(): array
+    public function getLastNews(int $limit = 10): NewsCollection
     {
-        return $this->newsRepository->getLastNews();
+        return $this->newsRepository->getLastNews($limit);
+    }
+
+    public function getPaginatedNews(int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->newsRepository->getPaginatedNews($perPage);
     }
 }
