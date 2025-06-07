@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\View\Composers;
 
 use App\Services\CategoryService;
@@ -14,47 +13,74 @@ class CategoryComposer
     private PaginatorService $paginatorService;
     private CategoryService $categoryService;
 
-    public function __construct(PostService $postService, PaginatorService $paginatorService, CategoryService $categoryService)
-    {
+    public function __construct(
+        PostService $postService,
+        PaginatorService $paginatorService,
+        CategoryService $categoryService
+    ) {
         $this->postService = $postService;
         $this->paginatorService = $paginatorService;
         $this->categoryService = $categoryService;
     }
 
-    public function compose(View $view)
+    public function compose(View $view): void
     {
-        $category = $this->categoryService->getCategoryByName(request()->route()->parameter('category'));
+        $categoryName = request()->route()->parameter('category');
+        $pageId = request()->route()->parameter('id') ?? 1;
 
+        $category = $this->categoryService->getCategoryByName($categoryName);
         $categories = $this->categoryService->getCategoryNameWithParentName($category);
+        $posts = $this->postService->getPaginatedPostsByCategoryId($category['id'], $pageId);
 
-        $id = request()->route()->parameter('id');
+        $view->with($this->prepareViewData($category, $categories, $posts, $pageId));
+    }
 
-        if ($id) {
-            $posts = $this->postService->getPaginatedPostsByCategoryId($category['id'], $id);
+    /**
+     * Prepare all view data in a structured way
+     *
+     * @param array $category
+     * @param mixed $categories
+     * @param LengthAwarePaginator $posts
+     * @param int $pageId
+     * @return array
+     */
+    private function prepareViewData(array $category, $categories, $posts, int $pageId): array
+    {
+        $paginationData = $this->paginatorService->calculatePages($posts);
+        
+        return [
+            'categoryName' => $category['name'],
+            'lastNumberPage' => $paginationData['last'],
+            'nextNumberPage' => $paginationData['next'],
+            'previousNumberPage' => $paginationData['previous'],
+            'posts' => $posts,
+            'categories' => $categories,
+            'seo' => $this->generateSeoData($category, $pageId),
+        ];
+    }
 
-            $seo = [
-                "title" => 'Статьи в категории '.$category['displayname'].'. Страница - '.$id.'.',
-                "description" => 'Статьи в категории '.$category['displayname'].'. Страница - '.$id.'.',
-            ];
-        } else {
-            $posts = $this->postService->getPaginatedPostsByCategoryId($category['id'], 1);
+    /**
+     * Generate SEO metadata based on category and page
+     *
+     * @param array $category
+     * @param int $pageId
+     * @return array
+     */
+    private function generateSeoData(array $category, int $pageId): array
+    {
+        $baseTitle = 'Статьи в категории ' . $category['displayname'];
+        $baseDescription = 'Статьи в категории ' . $category['displayname'];
 
-            $seo = [
-                "title" => 'Статьи в категории '.$category['displayname'],
-                "description" => 'Все статьи в категории '.$category['displayname'],
+        if ($pageId > 1) {
+            return [
+                'title' => $baseTitle . '. Страница - ' . $pageId . '.',
+                'description' => $baseDescription . '. Страница - ' . $pageId . '.',
             ];
         }
 
-        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
-
-        $categoryName = $category['name'];
-
-        $view->with('categoryName', $categoryName)
-            ->with('lastNumberPage', $lastNumberPage)
-            ->with('nextNumberPage', $nextNumberPage)
-            ->with('previousNumberPage', $previousNumberPage)
-            ->with('posts', $posts)
-            ->with('categories', $categories)
-            ->with('seo', $seo);
+        return [
+            'title' => $baseTitle,
+            'description' => 'Все ' . $baseDescription,
+        ];
     }
 }
