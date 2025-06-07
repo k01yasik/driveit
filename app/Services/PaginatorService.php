@@ -2,22 +2,23 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PaginatorService
 {
     /**
-     * Calculate number of pages for pagination on view
+     * Calculate pagination metadata
      *
-     * @param Paginator $paginator
-     * @return array
+     * @param LengthAwarePaginator $paginator
+     * @return array<string, int>
      */
-    public function calculatePages(Paginator $paginator): array
+    public function calculatePages(LengthAwarePaginator $paginator): array
     {
-        $previousNumberPage = $paginator->currentPage() - 1;
-        $nextNumberPage = $paginator->currentPage() + 1;
-        $lastNumberPage = $paginator->lastPage();
-
-        return array($previousNumberPage, $nextNumberPage, $lastNumberPage);
+        return [
+            'previous' => max($paginator->currentPage() - 1, 1),
+            'next' => min($paginator->currentPage() + 1, $paginator->lastPage()),
+            'last' => $paginator->lastPage(),
+            'current' => $paginator->currentPage(),
+        ];
     }
 }
