@@ -74,21 +74,18 @@ class CommentService
     {
         $user = Auth::user();
         
-        $comment = [
-            'user_id' => $user->id,
-            'post_id' => $commentData->postId,
-            'message' => clean($commentData->message),
-            'is_verified' => false,
-            'level' => $commentData->level,
-            'parent_id' => $commentData->parentId > 0 ? $commentData->parentId : null,
-        ];
-
-        $savedComment = $this->commentRepository->save($comment);
+        $savedComment = $this->commentRepository->create(new CommentDTO(
+            userId: $commentData->userId,
+            postId: $commentData->postId,
+            message: clean($commentData->message),
+            level: $commentData->level,
+            parentId: $commentData->parentId
+        ));
 
         return new CommentStoreResultDTO(
             level: $savedComment['level'],
             username: $user->username,
-            avatar: $user->profile()->first()->avatar,
+            avatar: $savedComment['user']['profile']['avatar'] ?? '',
             url: route('user.profile', ['username' => $user->username]),
             createdAt: $savedComment['created_at'],
             message: __('Comment was sent for moderation.')

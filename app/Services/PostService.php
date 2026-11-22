@@ -245,7 +245,8 @@ class PostService
         return $this->calculatePostStats($posts);
     }
 
-    public function calculateAndPaginate(array $posts, int $page): array {
+    public function calculateAndPaginate(array $posts, int $page): LengthAwarePaginator
+    {
         $posts = $this->calculatePostStats($posts);
         return $this->getPostsPaginator($posts, $page, config('pagination.postsPerPage'));
     }

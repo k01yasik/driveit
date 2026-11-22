@@ -9,12 +9,12 @@ use App\Services\{
     SeoService,
     CommentService,
     SuggestsService,
-    PaginatorService,
-    PostSortService
+    PaginatorService
 };
 use App\Services\SortService\Interfaces\SortFactory;
-use App\DTO\CommentDTO;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +26,7 @@ class PageController extends Controller
         private PostService $postService,
         private PaginatorService $paginatorService,
         private SuggestsService $suggestsService,
-        private SortFactory $sortFactory,
-        private PostSortService $postSortService
+        private SortFactory $sortFactory
     ) {}
 
     public function home(Request $request): View
@@ -62,35 +61,22 @@ class PageController extends Controller
 
     public function bestRated(Request $request): View
     {
-        $posts = $this->postService->getAllPosts();
-        $posts = $this->sortFactory->createPostSortByRating()->sort($posts);
-        $posts = $this->postService->paginatePosts(array_slice($posts, 0, config('pagination.postsPerPage')), 1);
-
-        return $this->renderSortedPostsView(
-            $request,
-            $posts,
-            __('Best posts by rating')
-        );
+        return $this->paginateSortedPosts(1, $request, 'createPostSortByRating', __('Best posts by rating'));
     }
 
     public function bestComments(Request $request): View
     {
-        $posts = $this->postService->getAllPosts();
-        $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
-        $posts = $this->postService->paginatePosts(array_slice($posts, 0, config('pagination.postsPerPage')), 1);
-
-        return $this->renderSortedPostsView(
-            $request,
-            $posts,
-            __('Best posts by comments')
-        );
+        return $this->paginateSortedPosts(1, $request, 'createPostSortByComments', __('Best posts by comments'));
     }
 
     public function bestCommentsByMonth(Request $request): View
     {
+        $posts = $this->postService->calculatePostStats($this->postService->getPostsByMonth());
+        $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
+
         return view('posts.best-comments', [
             'seo' => $this->seoService->getSeoData($request),
-            'posts' => $this->postSortService->getMonthlyTopByComments(),
+            'posts' => $posts,
             'breadcrumb' => __('Best of the month by comments')
         ]);
     }
@@ -167,28 +153,9 @@ class PageController extends Controller
         ]);
     }
 
-    public function notFound(Request $request): View
+    public function notFound(): Response
     {
-        return view('errors.404');
-    }
-
-    public function storeComment(Request $request): array
-    {
-        $validated = $request->validate([
-            'post' => 'required|integer',
-            'message' => 'required|string|max:5000',
-            'level' => 'required|integer',
-            'parent' => 'nullable|integer'
-        ]);
-
-        $commentDTO = new CommentDTO(
-            postId: (int)$validated['post'],
-            message: (string)$validated['message'],
-            level: (int)$validated['level'],
-            parentId: isset($validated['parent']) ? (int)$validated['parent'] : null
-        );
-
-        return $this->commentService->store($commentDTO)->toArray();
+        return response()->view('errors.404', [], 404);
     }
 
     private function getSuggestedPosts(array $post): array
@@ -216,11 +183,12 @@ class PageController extends Controller
         $postsPerPage = config('pagination.postsPerPage');
         $offset = ($id - 1) * $postsPerPage;
 
-        $posts = $this->postService->getAllPosts();
+        $posts = $this->postService->getAllPostsWithStats();
         $posts = $this->sortFactory->$sortMethod()->sort($posts);
-        $posts = $this->postService->paginatePosts(
+        $posts = $this->postService->getPostsPaginator(
             array_slice($posts, $offset, $postsPerPage),
-            $id
+            $id,
+            $postsPerPage
         );
 
         return $this->renderSortedPostsView(
@@ -232,7 +200,7 @@ class PageController extends Controller
 
     private function renderSortedPostsView(
         Request $request,
-        array $posts,
+        LengthAwarePaginator $posts,
         string $breadcrumb
     ): View {
         return view('posts.list', array_merge(
@@ -245,15 +213,15 @@ class PageController extends Controller
         ));
     }
 
-    private function getPaginationData(array $posts): array
+    private function getPaginationData(LengthAwarePaginator $posts): array
     {
-        [$previous, $next, $last] = $this->paginatorService->calculatePages($posts);
+        $pages = $this->paginatorService->calculatePages($posts);
         
         return [
             'posts' => $posts,
-            'previousNumberPage' => $previous,
-            'nextNumberPage' => $next,
-            'lastNumberPage' => $last
+            'previousNumberPage' => $pages['previous'],
+            'nextNumberPage' => $pages['next'],
+            'lastNumberPage' => $pages['last']
         ];
     }
 }
