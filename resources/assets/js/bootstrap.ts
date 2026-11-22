@@ -18,7 +18,7 @@ declare global {
     $: typeof jQuery;
     jQuery: typeof jQuery;
     axios: typeof axios;
-    Echo: Echo;
+    Echo: Echo<'socket.io'>;
     io: typeof io;
     smartcrop: typeof smartcrop;
     Chart: typeof Chart;
