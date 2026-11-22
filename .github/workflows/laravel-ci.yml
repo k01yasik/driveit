@@ -1,0 +1,53 @@
+name: Laravel CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    env:
+      APP_ENV: testing
+      CACHE_DRIVER: array
+      SESSION_DRIVER: array
+      QUEUE_CONNECTION: sync
+      MAIL_MAILER: array
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ":memory:"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: curl, dom, mbstring, pdo_sqlite, sqlite3, xml
+          tools: composer:v2
+          coverage: none
+
+      - name: Generate an application key for this run
+        run: php -r 'echo "APP_KEY=base64:", base64_encode(random_bytes(32)), PHP_EOL;' >> "$GITHUB_ENV"
+
+      - name: Install locked dependencies
+        id: dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Check Laravel route registration
+        run: php artisan route:list
+
+      - name: Run PHPUnit
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: vendor/bin/phpunit
