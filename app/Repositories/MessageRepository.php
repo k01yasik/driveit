@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\MessageRepositoryInterface;
 use App\Entities\Message as MessageEntity;
-use App\Models\Message as MessageModel;
+use App\Message as MessageModel;
 use Illuminate\Database\Eloquent\Builder;
 
 class MessageRepository implements MessageRepositoryInterface

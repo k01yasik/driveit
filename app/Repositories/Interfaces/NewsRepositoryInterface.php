@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Dto\NewsCollection;
+use App\DTO\NewsCollection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface NewsRepositoryInterface

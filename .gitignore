@@ -22,3 +22,5 @@ laravel-echo-server.json
 Dockerfile
 app.conf
 docker-compose.yml
+
+/.phpunit.cache/

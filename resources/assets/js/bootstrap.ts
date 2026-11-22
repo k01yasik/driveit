@@ -4,6 +4,7 @@ import axios from 'axios';
 import jQuery from 'jquery';
 import Echo from 'laravel-echo';
 import io from 'socket.io-client';
+import Pusher from 'pusher-js';
 import smartcrop from 'smartcrop';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -18,7 +19,7 @@ declare global {
     $: typeof jQuery;
     jQuery: typeof jQuery;
     axios: typeof axios;
-    Echo: Echo<'socket.io'>;
+    Echo: Echo<'socket.io'> | Echo<'reverb'>;
     io: typeof io;
     smartcrop: typeof smartcrop;
     Chart: typeof Chart;
@@ -47,11 +48,26 @@ if (token) {
 Chart.register(...registerables, ChartDataLabels);
 window.Chart = Chart;
 
-// Initialize Echo
-window.Echo = new Echo({
-  broadcaster: 'socket.io',
-  host: window.location.hostname
-});
+// Use Reverb when configured, with Socket.IO for existing Redis deployments.
+const reverbKey = process.env.MIX_REVERB_APP_KEY;
+const reverbUsesTls = (process.env.MIX_REVERB_SCHEME ?? 'https') === 'https';
+const reverbPort = Number(process.env.MIX_REVERB_PORT ?? (reverbUsesTls ? 443 : 80));
+
+window.Echo = reverbKey
+  ? new Echo({
+      broadcaster: 'reverb',
+      Pusher,
+      key: reverbKey,
+      wsHost: process.env.MIX_REVERB_HOST ?? window.location.hostname,
+      wsPort: reverbPort,
+      wssPort: reverbPort,
+      forceTLS: reverbUsesTls,
+      enabledTransports: ['ws', 'wss']
+    })
+  : new Echo({
+      broadcaster: 'socket.io',
+      host: window.location.hostname
+    });
 
 // Configure Tippy.js
 tippy('.tippy', {

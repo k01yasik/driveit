@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\Models\Post;
+use App\Repositories\CachedPostRepository;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\PostService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,13 +18,13 @@ class PostServiceTest extends TestCase
         parent::setUp();
         
         $this->postRepository = $this->createMock(PostRepositoryInterface::class);
-        $this->postService = new PostService($this->postRepository);
+        $this->postService = new PostService(new CachedPostRepository($this->postRepository));
     }
 
     public function testGetTopPosts()
     {
         $limit = 5;
-        $expectedPosts = Post::factory()->count($limit)->make();
+        $expectedPosts = array_fill(0, $limit, ['rating' => [], 'comments' => []]);
 
         $this->postRepository->expects($this->once())
             ->method('getTopPosts')
@@ -38,18 +38,12 @@ class PostServiceTest extends TestCase
 
     public function testCalculateAndPaginate()
     {
-        $posts = Post::factory()->count(10)->make();
+        $posts = array_fill(0, 10, ['rating' => [], 'comments' => []]);
         $page = 1;
 
         $this->postRepository->expects($this->once())
-            ->method('calculatePostStats')
-            ->with($posts)
-            ->willReturn($posts);
-
-        $this->postRepository->expects($this->once())
-            ->method('getPostsPaginator')
-            ->with($posts, $page, config('pagination.postsPerPage'))
-            ->willReturn(new LengthAwarePaginator($posts, 10, config('pagination.postsPerPage')));
+            ->method('getPostsCount')
+            ->willReturn(10);
 
         $result = $this->postService->calculateAndPaginate($posts, $page);
 

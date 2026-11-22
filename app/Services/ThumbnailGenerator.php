@@ -2,17 +2,14 @@
 
 namespace App\Services;
 
+use Illuminate\Http\UploadedFile;
 use Intervention\Image\ImageManager;
 
 class ThumbnailGenerator
 {
-    public function __construct(
-        private ImageManager $imageManager
-    ) {}
-
-    public function generate(UploadedFile $file, array $cropData = null): string
+    public function generate(UploadedFile $file, ?array $cropData = null): string
     {
-        $image = $this->imageManager->make($file);
+        $image = ImageManager::gd()->read($file);
         
         if ($cropData) {
             $image->crop(
@@ -23,6 +20,6 @@ class ThumbnailGenerator
             );
         }
         
-        return $image->encode('jpg', 80)->stream();
+        return (string) $image->toJpeg(80);
     }
 }

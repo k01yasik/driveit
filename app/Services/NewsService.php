@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\NewsRepositoryInterface;
-use App\Dto\NewsCollection;
+use App\DTO\NewsCollection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class NewsService

@@ -3,7 +3,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Friend;
+use App\Friend;
 use Closure;
 use Illuminate\Http\Request;
 

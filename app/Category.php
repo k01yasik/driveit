@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property int|null $parent_id ID родительской категории
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
- * @property-read Collection|\App\Models\Post[] $posts Связанные посты
+ * @property-read Collection|\App\Post[] $posts Связанные посты
  * @property-read int|null $posts_count Количество связанных постов
  * 
  * @method static Builder|Category newModelQuery()
@@ -37,6 +39,7 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Category extends Model
 {
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *

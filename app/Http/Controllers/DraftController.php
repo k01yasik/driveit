@@ -7,7 +7,7 @@ use App\Services\DraftService;
 use App\Http\Requests\DraftRequest;
 use App\Services\SeoService;
 use Illuminate\Support\Facades\Auth;
-use App\Dto\Draft as DraftDto;
+use App\DTO\DraftDTO;
 use App\Draft;
 
 class DraftController extends Controller
@@ -35,7 +35,7 @@ class DraftController extends Controller
     {
         $data = $draftRequest->validated();
 
-        $draft = new DraftDto(
+        $draft = new DraftDTO(
             $data['slug'],
             $data['title'],
             $data['description'],

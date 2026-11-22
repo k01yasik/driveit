@@ -1,24 +1,9 @@
 <?php
 
-namespace App\Dto;
+namespace App\DTO;
 
-use ArrayAccess;
-use Countable;
-use IteratorAggregate;
-use JsonSerializable;
+use Illuminate\Support\Collection;
 
-class NewsCollection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
+class NewsCollection extends Collection
 {
-    public function __construct(
-        private array $items = []
-    ) {
-    }
-
-    // Implement all required interface methods
-    // ... (методы для работы с коллекцией)
-    
-    public function toArray(): array
-    {
-        return $this->items;
-    }
 }

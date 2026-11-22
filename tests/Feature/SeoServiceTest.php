@@ -12,11 +12,13 @@ class SeoServiceTest extends TestCase
 {
     use RefreshDatabase;
 
+    private Seo $seo;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->seo = factory(Seo::class)->create([
+        $this->seo = Seo::class::factory()->create([
             'route_name' => 'page.home',
         ]);
     }

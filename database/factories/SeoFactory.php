@@ -1,14 +1,21 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Seo;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Seo::class, function (Faker $faker) {
-    return [
-        'route_name' => $faker->word.$faker->word,
-        'title' => $faker->sentence(5, true),
-        'description' => $faker->sentence(10, true)
-    ];
-});
+class SeoFactory extends Factory
+{
+    protected $model = Seo::class;
+
+    public function definition(): array
+    {
+        $faker = $this->faker;
+        return [
+            'route_name' => $faker->word.$faker->word,
+            'title' => $faker->sentence(5, true),
+            'description' => $faker->sentence(10, true)
+        ];
+    }
+}
