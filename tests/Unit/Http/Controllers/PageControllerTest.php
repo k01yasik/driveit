@@ -5,7 +5,10 @@ namespace Tests\Unit\Http\Controllers;
 use App\Services\CommentService;
 use App\Services\PostService;
 use App\Services\SeoService;
-use Illuminate\Http\Request;
+use App\Http\Controllers\PageController;
+use App\Services\PaginatorService;
+use App\Services\SortService\Interfaces\SortFactory;
+use App\Services\SuggestsService;
 use Tests\TestCase;
 
 class PageControllerTest extends TestCase
@@ -14,14 +17,14 @@ class PageControllerTest extends TestCase
     {
         $postService = $this->createMock(PostService::class);
         $commentService = $this->createMock(CommentService::class);
-        $seoService = $this->createMock(SeoService::class);
+        $seoService = $this->createStub(SeoService::class);
 
         $postSlug = 'test-post';
-        $expectedPost = ['id' => 1, 'title' => 'Test Post'];
+        $expectedPost = ['id' => 1, 'title' => 'Test Post', 'description' => 'Test', 'image_path' => '/test.jpg', 'suggest' => []];
         $expectedComments = [['id' => 1, 'message' => 'Test comment']];
 
         $postService->expects($this->once())
-            ->method('getPostWithStats')
+            ->method('getPostBySlugWithUserData')
             ->with($postSlug)
             ->willReturn($expectedPost);
 
@@ -33,7 +36,10 @@ class PageControllerTest extends TestCase
         $controller = new PageController(
             $seoService,
             $commentService,
-            /* другие зависимости... */
+            $postService,
+            $this->createStub(PaginatorService::class),
+            new SuggestsService(),
+            $this->createStub(SortFactory::class),
         );
 
         $response = $controller->show($postSlug);

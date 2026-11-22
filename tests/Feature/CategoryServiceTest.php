@@ -14,44 +14,45 @@ class CategoryServiceTest extends TestCase
 {
     use RefreshDatabase;
 
+    private Category $parent_category;
+    private Category $child_category;
+    private CategoryService $categoryService;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->parent_category = factory(Category::class)->create([
+        $this->parent_category = Category::class::factory()->create([
            'has_child' => true,
         ]);
 
-        $this->child_category = factory(Category::class)->create([
+        $this->child_category = Category::class::factory()->create([
            'has_child' => false,
            'parent_id' => $this->parent_category->id,
         ]);
 
-        $this->post = factory(Post::class)
-                        ->create()
-                        ->each(function ($post) {
-                            $post->categories()->saveMany([$this->parent_category, $this->child_category]);
-                        });
+        $post = Post::factory()->create();
+        $post->categories()->attach([$this->parent_category->id, $this->child_category->id]);
 
         $this->categoryService = new CategoryService(new CategoryRepository());
     }
 
     public function testReturnAllCategoryIdsIfChild()
     {
-        $allCategoryIds = $this->categoryService->getPostAllCategoriesId($this->child_category);
+        $allCategoryIds = $this->categoryService->getPostAllCategoriesId($this->categoryService->getPostCategory($this->child_category->id));
 
         $this->assertIsArray($allCategoryIds);
 
         $this->assertCount(2, $allCategoryIds);
 
-        $this->assertEquals($this->parent_category->id, $allCategoryIds[0]);
+        $this->assertEquals($this->child_category->id, $allCategoryIds[0]);
 
-        $this->assertEquals($this->child_category->id, $allCategoryIds[1]);
+        $this->assertEquals($this->parent_category->id, $allCategoryIds[1]);
     }
 
     public function testReturnAllCategoryIdsIfParent()
     {
-        $allCategoryIds = $this->categoryService->getPostAllCategoriesId($this->parent_category);
+        $allCategoryIds = $this->categoryService->getPostAllCategoriesId($this->categoryService->getPostCategory($this->parent_category->id));
 
         $this->assertIsArray($allCategoryIds);
 
@@ -64,7 +65,7 @@ class CategoryServiceTest extends TestCase
     {
         $test_post = Post::with('categories')->first();
 
-        $return = $this->categoryService->getPostCategoriesIdByPost($test_post);
+        $return = $this->categoryService->getPostCategoriesIdByPost($test_post->categories);
 
         $this->assertIsArray($return);
 
@@ -77,7 +78,7 @@ class CategoryServiceTest extends TestCase
 
     public function testReturnRightsCategoryName()
     {
-        $data = $this->categoryService->getCategoryNameWithParentName($this->child_category);
+        $data = $this->categoryService->getCategoryNameWithParentName($this->categoryService->getPostCategory($this->child_category->id));
 
         $this->assertIsArray($data);
 

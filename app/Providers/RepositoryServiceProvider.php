@@ -52,6 +52,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
         $this->app->bind(
             NewsRepositoryInterface::class,
             NewsRepository::class

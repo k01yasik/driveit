@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Comment;
+use App\Contracts\ImageStorageInterface;
+use App\Services\ImageProcessor;
+use App\Services\Interfaces\ImageProcessorInterface;
+use App\Services\Storage\LocalImageStorage;
 use App\Observers\CommentObserver;
 use App\Observers\PostObserver;
 use App\Observers\ProfileObserver;
@@ -41,8 +45,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        //
+        $this->app->bind(ImageProcessorInterface::class, ImageProcessor::class);
+        $this->app->bind(ImageStorageInterface::class, LocalImageStorage::class);
     }
 }

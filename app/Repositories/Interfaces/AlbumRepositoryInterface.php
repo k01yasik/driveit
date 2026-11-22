@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\Album;
+use App\Album;
 use App\Dto\AlbumDTO;
 
 interface AlbumRepositoryInterface

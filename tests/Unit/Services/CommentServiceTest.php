@@ -4,8 +4,8 @@ namespace Tests\Unit\Services;
 
 use App\DTO\CommentDTO;
 use App\DTO\CommentStoreResultDTO;
-use App\Models\Comment;
-use App\Models\User;
+use App\User;
+use App\Repositories\CachedCommentRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Services\CommentService;
 use Illuminate\Support\Facades\Auth;
@@ -21,35 +21,27 @@ class CommentServiceTest extends TestCase
         parent::setUp();
         
         $this->commentRepository = $this->createMock(CommentRepositoryInterface::class);
-        $this->commentService = new CommentService($this->commentRepository);
+        $this->commentService = new CommentService(new CachedCommentRepository($this->commentRepository));
     }
 
     public function testStoreComment()
     {
-        $user = User::factory()->create();
+        $user = new User(['username' => 'tester']);
+        $user->id = 1;
         Auth::shouldReceive('user')->once()->andReturn($user);
-        Auth::shouldReceive('id')->once()->andReturn($user->id);
 
         $commentDTO = new CommentDTO(
+            userId: $user->id,
             postId: 1,
             message: 'Test message',
             level: 1,
             parentId: null
         );
 
-        $expectedData = [
-            'user_id' => $user->id,
-            'post_id' => 1,
-            'message' => 'Test message',
-            'is_verified' => false,
-            'level' => 1,
-            'parent_id' => null
-        ];
-
         $this->commentRepository->expects($this->once())
             ->method('create')
-            ->with($expectedData)
-            ->willReturn(Comment::factory()->make()->toArray());
+            ->with($this->equalTo($commentDTO))
+            ->willReturn(['id' => 1, 'level' => 1, 'created_at' => 'только что']);
 
         $result = $this->commentService->store($commentDTO);
 

@@ -1,6 +1,6 @@
 <script type="application/ld+json">
             {
-                "@context" : "http://schema.org",
+                "@@context" : "http://schema.org",
                 "@type" : "Organization",
                 "name" : "web-rookie.ru",
                 "url" : "https://web-rookie.ru",

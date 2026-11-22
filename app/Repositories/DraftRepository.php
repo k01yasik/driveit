@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Draft as DraftModel;
-use App\DTO\Draft as DraftDTO;
+use App\DTO\DraftDTO;
 use App\Repositories\Interfaces\DraftRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Dto\ImageUploadDTO;
 use App\Repositories\Interfaces\AlbumRepositoryInterface;
-use App\Services\Thumbnail\{ThumbnailGenerator, ThumbnailStrategy};
 use App\Contracts\ImageStorageInterface;
 use App\Image;
 

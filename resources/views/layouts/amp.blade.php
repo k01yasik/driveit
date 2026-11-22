@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic&display=swap">
     <script type="application/ld+json">
         {
-            "@context": "http://schema.org",
+            "@@context": "http://schema.org",
             "@type": "Article",
             "author": {
                 "@type": "Person",

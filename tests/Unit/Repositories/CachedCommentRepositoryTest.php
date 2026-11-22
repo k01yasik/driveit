@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Repositories;
 
+use App\DTO\CommentUpdateDTO;
 use App\Repositories\CachedCommentRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
@@ -18,19 +19,18 @@ class CachedCommentRepositoryTest extends TestCase
         
         $this->commentRepository = $this->createMock(CommentRepositoryInterface::class);
         $this->cachedRepository = new CachedCommentRepository($this->commentRepository);
-        
-        Cache::shouldReceive('remember')->zeroOrMoreTimes();
-        Cache::shouldReceive('forget')->zeroOrMoreTimes();
     }
 
     public function testGetByIdUsesCache()
     {
+        $this->commentRepository->expects($this->never())->method("getById");
+
         $commentId = 1;
         $expectedComment = ['id' => $commentId, 'message' => 'Test'];
         
         Cache::shouldReceive('remember')
             ->once()
-            ->with("comment_{$commentId}", 3600, \Closure::class)
+            ->with("comment_{$commentId}", 3600, \Mockery::type(\Closure::class))
             ->andReturn($expectedComment);
 
         $result = $this->cachedRepository->getById($commentId);
@@ -40,7 +40,7 @@ class CachedCommentRepositoryTest extends TestCase
 
     public function testUpdateClearsCache()
     {
-        $comment = ['id' => 1];
+        $comment = new CommentUpdateDTO(1, 1, 1, 'Test', 0);
         
         Cache::shouldReceive('forget')
             ->once()
@@ -52,11 +52,14 @@ class CachedCommentRepositoryTest extends TestCase
             
         Cache::shouldReceive('forget')
             ->once()
-            ->with('comments_not_verified_count');
+            ->with('comments_unverified_count');
             
         Cache::shouldReceive('forget')
             ->once()
-            ->with('unpublished_comments');
+            ->with('unverified_comments');
+
+        Cache::shouldReceive('forget')->once()->with('comment_exists_1');
+        Cache::shouldReceive('forget')->once()->with('parent_valid_1_*');
 
         $this->commentRepository->expects($this->once())
             ->method('update')

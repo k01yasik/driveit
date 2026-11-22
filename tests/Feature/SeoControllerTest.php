@@ -14,11 +14,13 @@ class SeoControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    private SeoService $seoService;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->seo = factory(Seo::class, 3)->create();
+        $this->seo = Seo::class::factory()->count(3)->create();
 
         $this->seoService = new SeoService(new CachedSeoRepository(new SeoRepository()));
     }

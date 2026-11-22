@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\DTO\Draft;
+use App\DTO\DraftDTO;
 
 interface DraftRepositoryInterface
 {

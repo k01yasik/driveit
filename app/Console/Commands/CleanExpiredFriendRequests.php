@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Friend;
+use App\Friend;
 use Illuminate\Console\Command;
 
 class CleanExpiredFriendRequests extends Command

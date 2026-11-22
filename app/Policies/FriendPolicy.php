@@ -3,8 +3,8 @@
 
 namespace App\Policies;
 
-use App\Models\Friend;
-use App\Models\User;
+use App\Friend;
+use App\User;
 
 class FriendPolicy
 {

@@ -5,7 +5,8 @@ namespace App\Services;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Image as InterventionImage;
-use Intervention\Image\Facades\Image as ImageFacade;
+use App\Dto\ImageData;
+use App\Services\Interfaces\ImageProcessorInterface;
 use Psr\Http\Message\StreamInterface;
 
 class ImageService

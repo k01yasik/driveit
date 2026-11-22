@@ -2,127 +2,66 @@
 
 namespace App\Services;
 
-use Analytics;
+use Google\Analytics\Data\V1beta\Filter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
+use Google\Analytics\Data\V1beta\FilterExpression;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\OrderBy;
 use Spatie\Analytics\Period;
-use Carbon\Carbon;
-use Exception;
-use Spatie\Analytics\Exceptions\InvalidConfiguration;
 
 class GoogleAnalyticsService
 {
-    /**
-     * Get analytics data for the current month
-     * 
-     * @return array
-     * @throws InvalidConfiguration|Exception
-     */
     public function getAnalyticData(): array
     {
-        try {
-            $analyticsData = Analytics::performQuery(
-                Period::create(Carbon::now()->startOfMonth(), Carbon::now()), 
-                'ga:users', 
-                [
-                    'metrics' => 'ga:users, ga:sessions, ga:hits',
-                    'dimensions' => 'ga:date'
-                ]
-            );
+        $rows = Analytics::get(
+            period: $this->currentMonth(),
+            metrics: ['activeUsers', 'sessions', 'eventCount'],
+            dimensions: ['date'],
+            maxResults: 31,
+            orderBy: [OrderBy::dimension('date', false)],
+        );
 
-            $datesQuery = [];
-            $usersQuery = [];
-            $sessionQuery = [];
-            $hitsQuery = [];
-
-            if (isset($analyticsData['rows'])) {
-                foreach ($analyticsData['rows'] as $value) {
-                    array_push($datesQuery, Carbon::createFromDate(
-                        substr($value[0], 0, 4), 
-                        substr($value[0], 4, 2), 
-                        substr($value[0], 6, 2)
-                    )->toFormattedDateString());
-                    array_push($usersQuery, $value[1]);
-                    array_push($sessionQuery, $value[2]);
-                    array_push($hitsQuery, $value[3]);
-                }
-            }
-
-            return [$datesQuery, $usersQuery, $sessionQuery, $hitsQuery];
-        } catch (Exception $e) {
-            throw new Exception("Failed to fetch analytics data: " . $e->getMessage());
-        }
+        return [
+            $rows->pluck('date')->map(fn ($date) => $date->toFormattedDateString())->all(),
+            $rows->pluck('activeUsers')->all(),
+            $rows->pluck('sessions')->all(),
+            $rows->pluck('eventCount')->all(),
+        ];
     }
 
-    /**
-     * Get country analytics data
-     * 
-     * @return array
-     * @throws InvalidConfiguration|Exception
-     */
     public function getAnalyticCountryData(): array
     {
-        try {
-            $countryData = Analytics::performQuery(
-                Period::create(Carbon::now()->startOfMonth(), Carbon::now()), 
-                'ga:users', 
-                [
-                    'metrics' => 'ga:users',
-                    'dimensions' => 'ga:country',
-                    'sort' => '-ga:users',
-                    'max-results' => 10
-                ]
-            );
+        $rows = Analytics::fetchTopCountries($this->currentMonth());
 
-            $countryQueryLabels = [];
-            $countryQueryData = [];
-
-            if (isset($countryData['rows'])) {
-                foreach ($countryData['rows'] as $value) {
-                    array_push($countryQueryLabels, $value[0]);
-                    array_push($countryQueryData, $value[1]);
-                }
-            }
-
-            return [$countryQueryLabels, $countryQueryData];
-        } catch (Exception $e) {
-            throw new Exception("Failed to fetch country analytics data: " . $e->getMessage());
-        }
+        return [$rows->pluck('country')->all(), $rows->pluck('activeUsers')->all()];
     }
 
-    /**
-     * Get city data for a specific country
-     * 
-     * @param string $country
-     * @return array
-     * @throws InvalidConfiguration|Exception
-     */
     public function getCityByCountry(string $country): array
     {
-        try {
-            $cityData = Analytics::performQuery(
-                Period::create(Carbon::now()->startOfMonth(), Carbon::now()), 
-                'ga:users', 
-                [
-                    'metrics' => 'ga:users',
-                    'dimensions' => 'ga:city',
-                    'sort' => '-ga:users',
-                    'segment' => 'users::condition::ga:country=='.$country,
-                    'max-results' => 10
-                ]
-            );
+        $filter = new FilterExpression([
+            'filter' => new Filter([
+                'field_name' => 'country',
+                'string_filter' => new StringFilter([
+                    'match_type' => MatchType::EXACT,
+                    'value' => $country,
+                ]),
+            ]),
+        ]);
 
-            $cityQueryLabels = [];
-            $cityQueryData = [];
+        $rows = Analytics::get(
+            period: $this->currentMonth(),
+            metrics: ['activeUsers'],
+            dimensions: ['city'],
+            orderBy: [OrderBy::metric('activeUsers', true)],
+            dimensionFilter: $filter,
+        );
 
-            if (isset($cityData['rows'])) {
-                foreach ($cityData['rows'] as $value) {
-                    array_push($cityQueryLabels, $value[0]);
-                    array_push($cityQueryData, $value[1]);
-                }
-            }
+        return [$rows->pluck('city')->all(), $rows->pluck('activeUsers')->all()];
+    }
 
-            return [$cityQueryLabels, $cityQueryData];
-        } catch (Exception $e) {
-            throw new Exception("Failed to fetch city data for country {$country}: " . $e->getMessage());
-        }
+    private function currentMonth(): Period
+    {
+        return Period::create(now()->startOfMonth(), now());
     }
 }

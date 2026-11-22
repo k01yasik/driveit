@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Friend;
+use App\Friend;
 use App\Repositories\Interfaces\FriendRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 

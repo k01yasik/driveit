@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\NewsRepositoryInterface;
-use App\DataTransferObjects\NewsCollection;
-use App\Models\News;
+use App\DTO\NewsCollection;
+use App\News;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class NewsRepository implements NewsRepositoryInterface

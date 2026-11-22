@@ -9,7 +9,7 @@ use App\Services\MessageService;
 use App\Services\SeoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\User;
 
 class UserPageController extends Controller
 {
