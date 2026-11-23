@@ -194,11 +194,11 @@ class AdminController extends Controller
 
         $unpublish_comments_count = $this->commentService->getCommentsNotVerifiedCount();
 
-        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+        ['previous' => $previousNumberPage, 'next' => $nextNumberPage, 'last' => $lastNumberPage] = $this->paginatorService->calculatePages($comments);
 
         $items = $comments;
         $items_to_display = 3;
-        $paginated_route = '/comments/page';
+        $paginated_route = '/admin/comments';
 
         $activeItem = $this->seoService->getRouteName($request);
 
@@ -214,16 +214,20 @@ class AdminController extends Controller
             "description" => "Все комментарии. Страница - ".$id.".",
         ];
 
-        $comments = $this->commentService->getPaginatedComments(false, $id);
+        $user = $this->userService->getCurrentUserWithProfile(Auth::id());
+        $activeItem = 'admin.comments';
 
-        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+        $comments = $this->commentService->getPaginatedComments(false, $id);
+        $unpublish_comments_count = $this->commentService->getCommentsNotVerifiedCount();
+
+        ['previous' => $previousNumberPage, 'next' => $nextNumberPage, 'last' => $lastNumberPage] = $this->paginatorService->calculatePages($comments);
 
         $items = $comments;
         $items_to_display = 3;
-        $paginated_route = '/comments/page';
+        $paginated_route = '/admin/comments';
 
         return view('admin.comments', compact('seo', 'comments', 'previousNumberPage', 'nextNumberPage', 'lastNumberPage',
-            'items', 'items_to_display', 'paginated_route'
+            'user', 'unpublish_comments_count', 'activeItem', 'items', 'items_to_display', 'paginated_route'
         ));
     }
 
