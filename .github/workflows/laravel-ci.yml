@@ -51,3 +51,25 @@ jobs:
       - name: Run PHPUnit
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
         run: vendor/bin/phpunit
+
+  assets:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install locked npm dependencies
+        run: npm ci
+
+      - name: Build production assets
+        run: npm run prod
