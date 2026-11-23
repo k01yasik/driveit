@@ -1,76 +1,88 @@
+@use 'variables' as *;
+
 .admin-container {
-    --sidebar-width: 250px;
-    --gap: 1.5rem;
-    --radius: 8px;
-    
+  --comment-gap: 1.5rem;
+
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: var(--comment-gap);
+  padding: var(--comment-gap);
+
+  @media (max-width: 992px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .comments-list {
     display: grid;
-    grid-template-columns: var(--sidebar-width) 1fr;
-    gap: var(--gap);
-    padding: var(--gap);
-}
+    gap: var(--comment-gap);
+  }
 
-.comment-card {
+  .comment-card {
     padding: 1rem;
-    border-radius: var(--radius);
-    background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
+    border-radius: 8px;
+    background: $white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+    overflow-wrap: anywhere;
 
-.comment-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    @media (prefers-reduced-motion: no-preference) {
+      transition: transform .2s, box-shadow .2s;
 
-.comment-header {
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
+      }
+    }
+  }
+
+  .comment-header,
+  .comment-user,
+  .comment-actions {
     display: flex;
     align-items: center;
+    gap: .75rem;
+  }
+
+  .comment-header {
+    float: none;
     justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-}
+    flex-wrap: wrap;
+    margin-bottom: .75rem;
+  }
 
-.comment-user {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.user-avatar {
+  .user-avatar img {
+    display: block;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-}
+  }
 
-.comment-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
+  .comment-footer {
+    float: none;
+  }
 
-.comment-toggle-publish {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 4px;
-}
+  .comment-toggle-publish {
+    padding: .25rem;
+    border-radius: $base-border-radius;
+    background: transparent;
 
-.comment-toggle-publish:hover {
-    background: rgba(0,0,0,0.05);
-}
+    &:hover {
+      background: $gray-6;
+    }
 
-.icon {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-}
+    svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
 
-.icon.published {
-    color: var(--success);
-}
+    .icon-checkmark {
+      color: $complement-2;
+    }
 
-.icon.unpublished {
-    color: var(--warning);
+    .icon-square {
+      color: $gray-3;
+    }
+  }
 }
