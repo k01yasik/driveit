@@ -1,7 +1,9 @@
 Web-rookie.ru app
 ## Laravel 13
 
-Use PHP 8.4 with GD for image processing. Install the locked dependencies with
+Use PHP 8.4 with GD for image processing and Node.js 26 LTS for the frontend.
+If you use nvm, run `nvm install` and `nvm use` from the project root.
+Install the locked dependencies with
 `composer install` and `npm ci`, then run `npm run prod` to build the assets.
 Run `php artisan route:list` and `vendor/bin/phpunit` to check the installation.
 
