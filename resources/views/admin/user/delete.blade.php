@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Delete user'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="right-panel">
                 <div class="breadcrumbs flex flex-v-center">
@@ -26,7 +25,7 @@
                         <li class="flex flex-v-center"><span>/</span></li>
                         <li class="flex flex-v-center"><a href="{{ route('admin.users') }}">{{ __('Users') }}</a></li>
                         <li class="flex flex-v-center"><span>/</span></li>
-                        <li class="flex flex-v-center"><a href="{{ route('admin.user.show', ['username' => $data->username]) }}">{{$data->username}}</a></li>
+                        <li class="flex flex-v-center"><a href="{{ route('admin.user.show', ['username' => $data['username']]) }}">{{$data['username']}}</a></li>
                         <li class="flex flex-v-center"><span>/</span></li>
                         <li class="flex flex-v-center">{{ __('User lockout') }}</li>
                     </ul>
@@ -34,7 +33,7 @@
                 <div class="main-content-wrapper">
                     <div class="flex flex-justify-space">
                         <a href="{{ route('admin.users') }}" class="cancel-delete-button button confirm-button">{{ __('Cancel') }}</a>
-                        <div class="confirm-delete-button button confirm-button right" data-id="{{ $data->id }}" data-message="{{ __('User successfully blocked') }}" data-button="{{ __('Back') }}">{{ __('Confirm block') }}</div>
+                        <div class="confirm-delete-button button confirm-button right" data-id="{{ $data['id'] }}" data-message="{{ __('User successfully blocked') }}" data-button="{{ __('Back') }}">{{ __('Confirm block') }}</div>
                     </div>
                 </div>
             </div>

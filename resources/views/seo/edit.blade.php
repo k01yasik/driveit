@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Edit SEO entry'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="right-panel">
                 <div class="breadcrumbs flex flex-v-center">
@@ -32,15 +31,15 @@
                 <div class="main-content-wrapper">
                     <div class="row">
                         <div class="col s12 m8 offset-m2 l8 offset-l2 padding-2 primary-border">
-                            <form method="POST" action="{{ route('seo.update', ['id' => $result->id]) }}">
+                            <form method="POST" action="{{ route('seo.update', ['id' => $result['id']]) }}">
                                 @csrf
                                 @method('PUT')
                                 <label for="route">{{ __('Route name:')}}</label>
-                                <input name="route" id="route" type="text" value="{{ $result->route_name }}" disabled>
+                                <input name="route" id="route" type="text" value="{{ $result['route_name'] }}" disabled>
                                 <label for="title" class="required">{{ __('Header title:')}}</label>
-                                <input name="title" id="title" type="text" value="{{ $result->title }}" required>
+                                <input name="title" id="title" type="text" value="{{ $result['title'] }}" required>
                                 <label for="description" class="required">{{ __('Header description:')}}</label>
-                                <input name="description" id="description" type="text" value="{{ $result->description }}" required>
+                                <input name="description" id="description" type="text" value="{{ $result['description'] }}" required>
                                 <button type="submit" class="button btn-seo-update">{{ __('Update seo') }}</button>
                             </form>
                         </div>

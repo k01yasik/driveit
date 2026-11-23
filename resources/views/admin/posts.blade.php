@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Posts'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="right-panel">
                 <div class="breadcrumbs flex flex-v-center">
@@ -31,9 +30,9 @@
                     @foreach($posts as $post)
                         <div class="post-block flex flex-v-center">
                             <div class="post-block-link">
-                                <a href="{{ route('admin.posts.show', ['id' => $post->id]) }}">{{ $post->name }}</a>
+                                <a href="{{ route('admin.posts.show', ['id' => $post['id']]) }}">{{ $post['name'] }}</a>
                             </div>
-                            <a href="{{ route('admin.posts.edit', ['id' => $post->id]) }}" class="edit-post">
+                            <a href="{{ route('admin.posts.edit', ['id' => $post['id']]) }}" class="edit-post">
                                 <svg version="1.1" class="edit-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                     <g>
                                         <g>
@@ -59,14 +58,14 @@
                                     </g>
                                 </svg>
                             </a>
-                            @if ($post->is_published)
-                                <div class="publish" data-id="{{ $post->id }}">
+                            @if ($post['is_published'])
+                                <div class="publish" data-id="{{ $post['id'] }}">
                                     <svg version="1.1" class="publish-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
                                         <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"></path>
                                     </svg>
                                 </div>
                             @else
-                                <div class="publish" data-id="{{ $post->id }}">
+                                <div class="publish" data-id="{{ $post['id'] }}">
                                     <svg version="1.1" class="unpublish-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.381 15.381" style="enable-background:new 0 0 15.381 15.381;" xml:space="preserve">
                                     <g>
                                         <g>

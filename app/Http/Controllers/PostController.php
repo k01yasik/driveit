@@ -75,9 +75,9 @@ class PostController extends Controller
 
         $post = $this->postService->getPostByIdWithUserData($id);
 
-        $post->rating_count = $this->postService->countPostRating($post['rating']);
+        $post['rating_count'] = $this->postService->countPostRating($post['rating']);
 
-        $post->comments_count = $this->postService->countPostComments($post['comments']);
+        $post['comments_count'] = $this->postService->countPostComments($post['comments']);
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
@@ -120,7 +120,7 @@ class PostController extends Controller
 
         $categories = $this->categoryService->getAllParentCategories();
 
-        $categoryArray = $this->categoryService->getPostCategoriesIdByPost($post);
+        $categoryArray = $this->categoryService->getPostCategoriesIdByPost(collect($post['categories']));
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 

@@ -13,6 +13,11 @@ class NewsService
     ) {
     }
 
+    public function create(array $data): array
+    {
+        return $this->newsRepository->create($data);
+    }
+
     public function getLastNews(int $limit = 10): NewsCollection
     {
         return $this->newsRepository->getLastNews($limit);

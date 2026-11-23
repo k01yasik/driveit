@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('SEO entry'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="right-panel">
                 <div class="breadcrumbs flex flex-v-center">
@@ -26,7 +25,7 @@
                         <li class="flex flex-v-center"><span>/</span></li>
                         <li class="flex flex-v-center"><a href="{{ route('admin.seo') }}">{{ __('Seo') }}</a></li>
                         <li class="flex flex-v-center"><span>/</span></li>
-                        <li class="flex flex-v-center">{{ $result->route_name }}</li>
+                        <li class="flex flex-v-center">{{ $result['route_name'] }}</li>
                     </ul>
                 </div>
                 <div class="main-content-wrapper">
@@ -37,21 +36,21 @@
                             </div>
                             <div class="flex flex-justify-space margin-bottom-1">
                                 <div class="item-header">{{ __('Route name:') }}</div>
-                                <div class="item-data">{{ $result->route_name }}</div>
+                                <div class="item-data">{{ $result['route_name'] }}</div>
                             </div>
                             <div class="flex flex-justify-space margin-bottom-1">
                                 <div class="item-header">{{ __('Header title') }}</div>
-                                <div class="item-data">{{ $result->title }}</div>
+                                <div class="item-data">{{ $result['title'] }}</div>
                             </div>
                             <div class="flex flex-justify-space margin-bottom-1">
                                 <div class="item-header">{{ __('Header description:') }}</div>
-                                <div class="item-data">{{ $result->description }}</div>
+                                <div class="item-data">{{ $result['description'] }}</div>
                             </div>
                             <div class="flex flex-justify-space margin-bottom-1 margin-top-2">
                                 <div class="item-button-back flex-v-center"><a href="{{ route('admin.seo') }}">{{ __('Back') }}</a></div>
-                                <div class="item-button-edit flex-v-center"><a href="{{ route('seo.edit', ['id' => $result->id]) }}">{{ __('Edit') }}</a></div>
+                                <div class="item-button-edit flex-v-center"><a href="{{ route('seo.edit', ['id' => $result['id']]) }}">{{ __('Edit') }}</a></div>
                                 <div class="item-button-delete flex-v-center">
-                                    <form method="POST" action="{{ route('seo.destroy', ['id' => $result->id]) }}">
+                                    <form method="POST" action="{{ route('seo.destroy', ['id' => $result['id']]) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit">{{ __('Delete') }}</button>

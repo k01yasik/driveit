@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Users'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="right-panel">
                 <div class="breadcrumbs flex flex-v-center">
@@ -31,12 +30,12 @@
                     @foreach($users as $u)
                         <div class="user-block flex flex-v-center flex-justify-space">
                             <div class="user-block-avatar">
-                                <a href="{{ route('admin.user.show', ['username' => $u->username]) }}" class="user-block-avatar-link">
-                                    <img src="{{ $u->profile->avatar }}" class="user-block-avatar-img circle" />
+                                <a href="{{ route('admin.user.show', ['username' => $u['username']]) }}" class="user-block-avatar-link">
+                                    <img src="{{ $u['profile']['avatar'] }}" class="user-block-avatar-img circle" />
                                 </a>
-                                <a href="{{ route('admin.user.show', ['username' => $u->username]) }}" class="user-block-username-link">{{ $u->username }}</a>
+                                <a href="{{ route('admin.user.show', ['username' => $u['username']]) }}" class="user-block-username-link">{{ $u['username'] }}</a>
                             </div>
-                            @if ( $u->email_verified_at)
+                            @if ( $u['email_verified_at'])
                                 <div class="user-block-checked-button margin-right-1">
                                     <svg version="1.1" class="checked-button-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 26 26">
                                         <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"></path>
@@ -56,7 +55,7 @@
                                     </svg>
                                 </div>
                             @endif
-                            <a href="{{ route('admin.user.show', ['username' => $u->username]) }}" class="user-block-show-button margin-right-1">
+                            <a href="{{ route('admin.user.show', ['username' => $u['username']]) }}" class="user-block-show-button margin-right-1">
                                 <svg version="1.1" class="eye-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                     <g>
                                         <path d="M508.177,245.995C503.607,240.897,393.682,121,256,121S8.394,240.897,3.823,245.995c-5.098,5.698-5.098,14.312,0,20.01
@@ -69,7 +68,7 @@
                                     </g>
                                 </svg>
                             </a>
-                            @if ($u->rip)
+                            @if ($u['rip'])
                                 <div class="user-block-ban-button">
                                     <svg version="1.1" class="ban-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 439.963 439.963" style="enable-background:new 0 0 439.963 439.963;"
                                          xml:space="preserve">
@@ -87,7 +86,7 @@
                                     </svg>
                                 </div>
                             @else
-                                <a href="{{ route('admin.user.delete', ['username' => $u->username]) }}" class="user-block-delete-button">
+                                <a href="{{ route('admin.user.delete', ['username' => $u['username']]) }}" class="user-block-delete-button">
                                     <svg version="1.1" class="delete-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
                                          xml:space="preserve">
                                         <g>

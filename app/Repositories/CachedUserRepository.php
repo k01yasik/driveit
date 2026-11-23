@@ -51,8 +51,8 @@ final class CachedUserRepository implements UserRepositoryInterface
 
     public function getBannedUsers(array $ripIds): array
     {
-        return Cache::rememberForever('banned-users', function () {
-            return $this->userRepository->getBannedUsers();
+        return Cache::rememberForever('banned-users', function () use ($ripIds) {
+            return $this->userRepository->getBannedUsers($ripIds);
         });
     }
 

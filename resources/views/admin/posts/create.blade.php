@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Create a post'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="post-create-wrapper">
                 <h2 class="post-create-heading">{{ __('Create a post') }}</h2>
@@ -40,7 +39,7 @@
                     <select id="category" name="category" class="select-category" required>
                         <option value="">--{{ __('Choose a category') }}--</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{mb_strtoupper(mb_substr($category->displayname, 0, 1)) . mb_substr($category->displayname, 1)}}</option>
+                            <option value="{{ $category->id }}">{{mb_strtoupper(mb_substr($category->displayName, 0, 1)) . mb_substr($category->displayName, 1)}}</option>
                         @endforeach
                     </select>
                     <label for="caption" class="required">{{ __('Post caption')}}</label>
