@@ -11,7 +11,7 @@
         <main class="admin-main-content">
             <!-- Хлебные крошки - вынесены в отдельный компонент -->
             @include('admin.components.breadcrumbs', [
-                'items' => [
+                'items' => array_filter([
                     ['route' => 'admin.index', 'label' => __('Home')],
                     ['label' => __('Comments')],
                     $unpublish_comments_count > 0 ? [
@@ -19,7 +19,7 @@
                         'label' => __('Unpublished comments'),
                         'badge' => $unpublish_comments_count
                     ] : null
-                ]->filter()
+                ])
             ])
 
             <!-- Список комментариев -->
