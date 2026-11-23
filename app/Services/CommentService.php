@@ -67,7 +67,7 @@ class CommentService
 
     public function getPaginatedComments(bool $isStart, ?int $id = null): LengthAwarePaginator
     {
-        return $this->commentRepository->getPaginatedComments($isStart, $id);
+        return $this->commentRepository->getPaginated($isStart ? 1 : $id);
     }
 
     public function store(CommentDTO $commentData): CommentStoreResultDTO
