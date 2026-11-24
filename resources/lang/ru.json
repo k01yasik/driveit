@@ -167,5 +167,7 @@
   "Edit comment": "Редактировать комментарий",
   "Failed to create news": "Не удалось создать новость",
   "Pagination": "Постраничная навигация",
-  "Body": "Текст"
+  "Body": "Текст",
+  "All comments": "Все комментарии",
+  "Awaiting moderation": "На модерации"
 }

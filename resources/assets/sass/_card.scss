@@ -1,6 +1,61 @@
 @use 'variables' as *;
 
 .admin-content {
+  .comment-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: 1rem;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      min-height: 2.75rem;
+      padding: .45rem .8rem;
+      border: 1px solid var(--admin-border);
+      border-radius: .65rem;
+      background: var(--admin-surface);
+      font-weight: 600;
+
+      &:hover {
+        background: var(--admin-tint);
+      }
+
+      &[aria-current='page'] {
+        border-color: var(--admin-accent);
+        background: var(--admin-accent);
+        color: $white;
+      }
+    }
+  }
+
+  .comment-filter-count,
+  .comment-status {
+    padding: .15rem .5rem;
+    border-radius: .5rem;
+    background: var(--admin-tint);
+    color: var(--admin-ink);
+    font-size: .8rem;
+    font-weight: 600;
+  }
+
+  .comment-status {
+    .comment-status-published {
+      display: none;
+    }
+  }
+
+  .comment-actions:has(.comment-publish-svg) .comment-status {
+    .comment-status-published {
+      display: inline;
+    }
+
+    .comment-status-pending {
+      display: none;
+    }
+  }
+
   .comments-list {
     display: grid;
     gap: .85rem;
@@ -24,6 +79,10 @@
     justify-content: space-between;
     flex-wrap: wrap;
     margin-bottom: .85rem;
+  }
+
+  .comment-actions {
+    flex-wrap: wrap;
   }
 
   .comment-user .user-name {

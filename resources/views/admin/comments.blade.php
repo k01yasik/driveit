@@ -4,16 +4,13 @@
 
 @section('content')
     @include('admin.components.breadcrumbs', [
-        'items' => array_filter([
-            ['route' => 'admin.index', 'label' => __('Home')],
+        'items' => [
+            ['route' => 'admin.index', 'label' => __('Dashboard')],
             ['label' => __('Comments')],
-            $unpublish_comments_count > 0 ? [
-                'route' => 'admin.comments.unpublished',
-                'label' => __('Unpublished comments'),
-                'badge' => $unpublish_comments_count
-            ] : null
-        ])
+        ]
     ])
+
+    @include('admin.comments.partials.filters')
 
     @if ($comments->isEmpty())
         <div class="empty-state">

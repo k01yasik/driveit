@@ -5,11 +5,13 @@
 @section('content')
     @include('admin.components.breadcrumbs', [
         'items' => [
-            ['route' => 'admin.index', 'label' => __('Home')],
+            ['route' => 'admin.index', 'label' => __('Dashboard')],
             ['route' => 'admin.comments', 'label' => __('Comments')],
             ['label' => __('Unpublished comments')],
         ]
     ])
+
+    @include('admin.comments.partials.filters')
 
     @if ($comments)
         <div class="comments-list">
