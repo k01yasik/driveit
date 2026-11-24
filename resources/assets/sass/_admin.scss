@@ -92,6 +92,17 @@
       background: transparent;
     }
 
+    a,
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+
+      svg {
+        flex: none;
+      }
+    }
+
     a:hover,
     button:hover {
       text-decoration: underline;

@@ -14,10 +14,22 @@
         <div class="admin-topbar-inner">
             <a class="admin-brand" href="{{ route('admin.index') }}">web-rookie<span>.ru</span></a>
             <div class="admin-topbar-links">
-                <a href="{{ route('page.home') }}">{{ __('View site') }}</a>
+                <a href="{{ route('page.home') }}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="M13 5h6v6m0-6-9 9m7-1v6H5V7h6"/>
+                    </svg>
+                    {{ __('View site') }}
+                </a>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit">{{ __('Log out') }}</button>
+                    <button type="submit">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M10 17l5-5-5-5m5 5H3m12-8h5v16h-5"/>
+                        </svg>
+                        {{ __('Log out') }}
+                    </button>
                 </form>
             </div>
         </div>
