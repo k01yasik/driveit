@@ -1,17 +1,17 @@
 @use 'variables' as *;
 
 .admin-page {
-  --admin-ink: #201c32;
-  --admin-muted: #615b73;
-  --admin-accent: #5636a5;
-  --admin-tint: #eee8fc;
-  --admin-border: #e2ddef;
-  --admin-surface: #fff;
+  --admin-ink: #{$gray-1};
+  --admin-muted: #{$gray-3};
+  --admin-accent: #{$secondary-2-1};
+  --admin-tint: #{$gray-9};
+  --admin-border: #{$gray-10};
+  --admin-surface: #{$white};
   --admin-radius: 14px;
 
   min-height: 100vh;
   margin: 0;
-  background: #f5f3fa;
+  background: $gray-6;
   color: var(--admin-ink);
   font-family: system-ui, sans-serif;
 
@@ -39,8 +39,8 @@
 
   .admin-topbar {
     float: none;
-    background: #221642;
-    color: #fff;
+    background: $background-image;
+    color: $white;
   }
 
   .admin-topbar-inner,
@@ -65,7 +65,7 @@
     color: inherit;
 
     &:focus-visible {
-      outline-color: #e4d6ff;
+      outline-color: $primary-contrast;
     }
   }
 
@@ -74,7 +74,7 @@
     font-weight: 750;
 
     span {
-      color: #d6bfff;
+      color: $primary-contrast;
     }
   }
 
@@ -87,7 +87,7 @@
 
     button {
       padding: .35rem .65rem;
-      border: 1px solid #8a77ab;
+      border: 1px solid $white;
       border-radius: .5rem;
       background: transparent;
     }
@@ -122,6 +122,26 @@
 
   .admin-navigation {
     padding: .65rem;
+  }
+
+  .admin-profile {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    margin-bottom: .55rem;
+    padding: .45rem .7rem .85rem;
+    border-bottom: 1px solid var(--admin-border);
+    font-size: .9rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+
+    img {
+      flex: none;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
   }
 
   .admin-nav-link,
@@ -283,11 +303,11 @@
     padding: .6rem 1rem;
     border-radius: .55rem;
     background: var(--admin-accent);
-    color: #fff;
+    color: $white;
     font-weight: 650;
 
     &:hover {
-      background: #432684;
+      background: $background-image;
     }
   }
 
@@ -296,7 +316,7 @@
   }
 
   .admin-form-errors {
-    color: #a52931;
+    color: $primary-darker-contrast;
   }
 
   @media (max-width: 760px) {

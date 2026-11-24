@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .admin-content {
   .comments-list {
     display: grid;
@@ -59,12 +61,12 @@
     color: var(--admin-accent);
 
     &:hover {
-      background: #e1d5fa;
+      background: $gray-10;
     }
 
     &:has(.comment-publish-svg) {
-      background: #e1f4e9;
-      color: #205c40;
+      background: $complement-2;
+      color: $white;
     }
 
     svg {

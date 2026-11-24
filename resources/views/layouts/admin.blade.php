@@ -15,9 +15,6 @@
             <a class="admin-brand" href="{{ route('admin.index') }}">web-rookie<span>.ru</span></a>
             <div class="admin-topbar-links">
                 <a href="{{ route('page.home') }}">{{ __('View site') }}</a>
-                <a href="{{ route('user.profile', ['username' => auth()->user()->username]) }}">
-                    {{ auth()->user()->username }}
-                </a>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit">{{ __('Log out') }}</button>

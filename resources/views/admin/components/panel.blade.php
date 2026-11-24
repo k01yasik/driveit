@@ -1,4 +1,6 @@
 @php
+    $administrator = auth()->user();
+    $avatar = $administrator->profile?->avatar;
     $sections = [
         ['route' => 'admin.index', 'label' => __('Dashboard'), 'active' => ['admin.index']],
         ['route' => 'admin.posts', 'label' => __('Posts'), 'active' => ['admin.posts', 'admin.posts.*']],
@@ -10,6 +12,12 @@
 @endphp
 
 <nav class="admin-navigation" aria-label="{{ __('Administration') }}">
+    <a class="admin-profile" href="{{ route('user.profile', ['username' => $administrator->username]) }}">
+        @if ($avatar)
+            <img src="{{ $avatar }}" alt="" width="44" height="44">
+        @endif
+        {{ $administrator->username }}
+    </a>
     <ul>
         @foreach ($sections as $section)
             <li>
