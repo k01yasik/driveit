@@ -1,42 +1,28 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Comments'))
 
 @section('content')
-    <div class="admin-container">
-        <!-- Левая панель - вынесена в отдельный компонент -->
-        <aside class="admin-sidebar">
-            @include('admin.components.panel')
-        </aside>
+    @include('admin.components.breadcrumbs', [
+        'items' => [
+            ['route' => 'admin.index', 'label' => __('Dashboard')],
+            ['label' => __('Comments')],
+        ]
+    ])
 
-        <!-- Основной контент -->
-        <main class="admin-main-content">
-            <!-- Хлебные крошки - вынесены в отдельный компонент -->
-            @include('admin.components.breadcrumbs', [
-                'items' => array_filter([
-                    ['route' => 'admin.index', 'label' => __('Home')],
-                    ['label' => __('Comments')],
-                    $unpublish_comments_count > 0 ? [
-                        'route' => 'admin.comments.unpublished', 
-                        'label' => __('Unpublished comments'),
-                        'badge' => $unpublish_comments_count
-                    ] : null
-                ])
-            ])
+    @include('admin.comments.partials.filters')
 
-            <!-- Список комментариев -->
-            @if($comments->isEmpty())
-                <div class="empty-state">
-                    <p>{{ __('No comments found') }}</p>
-                </div>
-            @else
-                <div class="comments-list">
-                    @foreach($comments as $comment)
-                        @include('admin.comments.partials.comment-item', compact('comment'))
-                    @endforeach
-                </div>
+    @if ($comments->isEmpty())
+        <div class="empty-state">
+            <p>{{ __('No comments found') }}</p>
+        </div>
+    @else
+        <div class="comments-list">
+            @foreach ($comments as $comment)
+                @include('admin.comments.partials.comment-item', compact('comment'))
+            @endforeach
+        </div>
 
-                <!-- Пагинация -->
-                @include('components.pagination', ['paginator' => $comments])
-            @endif
-        </main>
-    </div>
+        @include('components.pagination', ['paginator' => $comments])
+    @endif
 @endsection

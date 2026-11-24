@@ -152,7 +152,7 @@ class AdminController extends Controller
 
         $posts = $this->postService->getPaginatedPostsOrderedById(1);
 
-        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+        ['previous' => $previousNumberPage, 'next' => $nextNumberPage, 'last' => $lastNumberPage] = $this->paginatorService->calculatePages($posts);
 
         $items = $posts;
         $items_to_display = 3;
@@ -173,9 +173,9 @@ class AdminController extends Controller
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        $posts = $posts = $this->postService->getPaginatedPostsOrderedById($id);
+        $posts = $this->postService->getPaginatedPostsOrderedById($id);
 
-        list($previousNumberPage, $nextNumberPage, $lastNumberPage) = $this->paginatorService->calculatePages($posts);
+        ['previous' => $previousNumberPage, 'next' => $nextNumberPage, 'last' => $lastNumberPage] = $this->paginatorService->calculatePages($posts);
 
         $items = $posts;
         $items_to_display = 3;

@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Posts'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="right-panel">
                 <div class="breadcrumbs flex flex-v-center">
@@ -26,8 +25,8 @@
                         <li class="flex flex-v-center"><span>/</span></li>
                         <li class="flex flex-v-center"><a href="{{ route('posts.index') }}">{{ __('Posts') }}</a></li>
                         <li class="flex flex-v-center"><span>/</span></li>
-                        @foreach($post->categories as $category)
-                            <li class="flex flex-v-center"><a href="{{ route('category.show', ['category' => $category->name]) }}">{{mb_strtoupper(mb_substr($category->displayname, 0, 1)) . mb_substr($category->displayname, 1)}}</a></li>
+                        @foreach($post['categories'] as $category)
+                            <li class="flex flex-v-center"><a href="{{ route('category.show', ['category' => $category['name']]) }}">{{mb_strtoupper(mb_substr($category['displayname'], 0, 1)) . mb_substr($category['displayname'], 1)}}</a></li>
                             @if (!($loop->last))
                                 <li class="flex flex-v-center"><span>/</span></li>
                             @endif
@@ -37,15 +36,15 @@
                 <article class="post">
                     <header>
                         <div class="header-top flex flex-v-center v-h-3">
-                            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="user-avatar-link">
-                                <img src="{{ $post->user->profile->avatar }}" class="user-avatar" alt="{{ $post->user->username }}" />
+                            <a href="{{ route('user.profile', ['username' => $post['user']['username']]) }}" class="user-avatar-link">
+                                <img src="{{ $post['user']['profile']['avatar'] }}" class="user-avatar" alt="{{ $post['user']['username'] }}" />
                             </a>
-                            <a href="{{ route('user.profile', ['username' => $post->user->username]) }}" class="margin-h-1 post-author flex flex-v-center">{{ $post->user->username }}</a>
-                            <div class="date-published margin-left-auto flex flex-v-center">{{ $post->date_published }}</div>
+                            <a href="{{ route('user.profile', ['username' => $post['user']['username']]) }}" class="margin-h-1 post-author flex flex-v-center">{{ $post['user']['username'] }}</a>
+                            <div class="date-published margin-left-auto flex flex-v-center">{{ $post['date_published'] }}</div>
                         </div>
                         <div class="post-header">
                             <div class="post-header-inner-show">
-                                <h2 class="post-name">{{ $post->name }}</h2>
+                                <h2 class="post-name">{{ $post['name'] }}</h2>
                                 <div class="post-categories">
                                     <svg version="1.1" class="tags-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 542.183 542.183" style="enable-background:new 0 0 542.183 542.183;"
                                          xml:space="preserve">
@@ -66,11 +65,11 @@
                                 </g>
                             </svg>
                                     <ul>
-                                        @foreach($post->categories as $category)
+                                        @foreach($post['categories'] as $category)
                                             @if ($loop->last)
-                                                <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a></li>
+                                                <li><a href="{{ route('category.show', ['category' => $category['name']]) }}" class="category-link">{{$category['displayname']}}</a></li>
                                             @else
-                                                <li><a href="{{ route('category.show', ['category' => $category->name]) }}" class="category-link">{{$category->displayname}}</a>,</li>
+                                                <li><a href="{{ route('category.show', ['category' => $category['name']]) }}" class="category-link">{{$category['displayname']}}</a>,</li>
                                             @endif
                                         @endforeach
                                     </ul>
@@ -80,8 +79,8 @@
                     </header>
                     <div class="post-wrapper">
                         <picture>
-                            <source media="(max-width: 375px)" srcset="{{ $post->image_path }}-300w.webp">
-                            <img src="{{ $post->image_path }}.webp" alt="{{ $post->name }}" class="uploaded-image">
+                            <source media="(max-width: 375px)" srcset="{{ $post['image_path'] }}-300w.webp">
+                            <img src="{{ $post['image_path'] }}.webp" alt="{{ $post['name'] }}" class="uploaded-image">
                         </picture>
                     </div>
                     <div class="post-buttons-wrapper">
@@ -98,9 +97,9 @@
                                     c0,41.353,33.647,75,75,75c37.024,0,67.668-27.034,73.722-62.358C299.516,278.367,271,255.522,271,226z"></path>
                                     </g>
                             </svg>
-                                <p>{{ $post->views }}</p>
+                                <p>{{ $post['views'] }}</p>
                             </div>
-                            <div class="rating-block {{ Auth::check() ? 'rating-auth' : 'rating-guest' }}" title="{{ Auth::check() ? 'Проголосуй за статью' : 'Гости не могут голосовать' }}" data-id="{{ $post->id }}">
+                            <div class="rating-block {{ Auth::check() ? 'rating-auth' : 'rating-guest' }}" title="{{ Auth::check() ? 'Проголосуй за статью' : 'Гости не могут голосовать' }}" data-id="{{ $post['id'] }}">
                                 <svg version="1.1" class="star-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 46.354 46.354" style="enable-background:new 0 0 46.354 46.354;"
                                      xml:space="preserve">
                                 <g>
@@ -113,7 +112,7 @@
                                     L21.57,2.049z"></path>
                                 </g>
                             </svg>
-                                <p>{{ $post->rating_count }}</p>
+                                <p>{{ $post['rating_count'] }}</p>
                             </div>
                             <div class="comments-block">
                                 <svg version="1.1" class="comments-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;"
@@ -142,12 +141,12 @@
                                     ></path>
                                 </g>
                             </svg>
-                                <p>{{ $post->comments_count }}</p>
+                                <p>{{ $post['comments_count'] }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="post-content">
-                        {!! $post->body !!}
+                        {!! $post['body'] !!}
                     </div>
                 </article>
             </div>

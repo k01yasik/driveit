@@ -81,7 +81,7 @@ class CommentRepository implements CommentRepositoryInterface
 
     public function getUnverified(): array
     {
-        return Comment::with(['user.profile'])
+        return Comment::with(['user.profile', 'post'])
             ->unverified()
             ->latest()
             ->get()

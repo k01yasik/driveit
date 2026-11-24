@@ -11,10 +11,12 @@ class PostDashboardRepository implements PostDashboardRepositoryInterface
     public function getPostDashboard(): array
     {
         try {
+            $sqlite = DB::connection()->getDriverName() === 'sqlite';
+
             return DB::table('posts')
                 ->select([
-                    DB::raw('YEAR(date_published) as year'),
-                    DB::raw('MONTH(date_published) as month'),
+                    DB::raw($sqlite ? "CAST(strftime('%Y', date_published) AS INTEGER) as year" : 'YEAR(date_published) as year'),
+                    DB::raw($sqlite ? "CAST(strftime('%m', date_published) AS INTEGER) as month" : 'MONTH(date_published) as month'),
                     DB::raw('COUNT(1) as count')
                 ])
                 ->where('is_published', true)

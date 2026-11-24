@@ -52,7 +52,7 @@ class CommentService
 
     public function getUnpublishedComments(): array
     {
-        return $this->commentRepository->getUnpublishedComments();
+        return $this->commentRepository->getUnverified();
     }
 
     public function getCommentsVerifiedCount(): int

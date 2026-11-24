@@ -1,10 +1,9 @@
-@extends('layouts.profile')
+@extends('layouts.admin')
+
+@section('admin-title', __('Edit a post'))
 
 @section('content')
     <div class="row">
-        <div class="col s12 m12 l3 sm-margin-bottom-2">
-            @include('admin.components.panel')
-        </div>
         <div class="col s12 m12 l9">
             <div class="post-create-wrapper">
                 <h2 class="post-create-heading">{{ __('Edit a post') }}</h2>
@@ -23,33 +22,33 @@
                     </div>
                 </div>
                 <picture>
-                    <source media="(max-width: 375px)" srcset="{{ $post->image_path }}-300w.webp">
-                    <img src="{{ $post->image_path }}.webp" alt="{{ $post->name }}" class="uploaded-image">
+                    <source media="(max-width: 375px)" srcset="{{ $post['image_path'] }}-300w.webp">
+                    <img src="{{ $post['image_path'] }}.webp" alt="{{ $post['name'] }}" class="uploaded-image">
                 </picture>
                 <form enctype="multipart/form-data" id="post_upload_image">
                     <input type="file" id="post_upload_image_input" accept="image/jpeg,image/png" name="post_upload_image">
                 </form>
-                <form method="POST" action="{{ route('admin.posts.update', ['id' => $post->id]) }}" id="create-post-form">
+                <form method="POST" action="{{ route('admin.posts.update', ['id' => $post['id']]) }}" id="create-post-form">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" id="image" name="image" value="{{ $post->image_path }}">
+                    <input type="hidden" id="image" name="image" value="{{ $post['image_path'] }}">
                     <label for="title" class="required">{{ __('Post title')}}</label>
-                    <input name="title" id="title" type="text" value="{{ $post->title }}" required>
+                    <input name="title" id="title" type="text" value="{{ $post['title'] }}" required>
                     <label for="description" class="required">{{ __('Post description')}}</label>
-                    <input name="description" id="description" type="text" value="{{ $post->description }}" required>
+                    <input name="description" id="description" type="text" value="{{ $post['description'] }}" required>
                     <label for="name" class="required">{{ __('Post name')}}</label>
-                    <input name="name" id="name" type="text" value="{{ $post->name }}" required>
+                    <input name="name" id="name" type="text" value="{{ $post['name'] }}" required>
                     <label for="category" class="required">{{ __('Choose a category') }}</label>
                     <select id="category" name="category" class="select-category" required>
                         <option value="">--{{ __('Choose a category') }}--</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" @if (in_array($category->id, $categoryArray)){{ 'selected' }}@endif>{{mb_strtoupper(mb_substr($category->displayname, 0, 1)) . mb_substr($category->displayname, 1)}}</option>
+                            <option value="{{ $category->id }}" @if (in_array($category->id, $categoryArray)){{ 'selected' }}@endif>{{mb_strtoupper(mb_substr($category->displayName, 0, 1)) . mb_substr($category->displayName, 1)}}</option>
                         @endforeach
                     </select>
                     <label for="caption" class="required hidden-element">{{ __('Post caption')}}</label>
                     <textarea name="caption" id="caption" class="hidden-element" type="text" required></textarea>
                     <label for="body" class="required">{{ __('Post body')}}</label>
-                    <textarea name="body" id="body" class="hidden-element" type="text" required>{!! $post->body !!}</textarea>
+                    <textarea name="body" id="body" class="hidden-element" type="text" required>{!! $post['body'] !!}</textarea>
                     <button type="submit" class="button btn-post-height hidden-element">{{ __('Save a post') }}</button>
                 </form>
                 <div class="text-editor">
@@ -386,10 +385,10 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="text-editor-body" contenteditable="true">{!! $post->body !!}</div>
+                    <div class="text-editor-body" contenteditable="true">{!! $post['body'] !!}</div>
                 </div>
                 <div class="button btn-post-height submit-edit-post-form">{{ __('Update a post') }}</div>
-                <a href="{{ route('admin.posts.html', ['id' => $post->id]) }}" class="button btn-post-height right">{{ __('Edit HTML') }}</a>
+                <a href="{{ route('admin.posts.html', ['id' => $post['id']]) }}" class="button btn-post-height right">{{ __('Edit HTML') }}</a>
             </div>
         </div>
     </div>

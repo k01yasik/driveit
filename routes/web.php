@@ -181,7 +181,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Новости
     Route::prefix('news')->group(function () {
-        Route::get('/', [NewsController::class, 'index'])->name('admin.news.index');
+        Route::get('/', [NewsController::class, 'adminIndex'])->name('admin.news.index');
         Route::view('/create', 'news.create')->name('news.create');
         Route::post('/', [NewsController::class, 'store'])->name('news.store');
         Route::put('/{id}', [NewsController::class, 'update'])->name('news.update');

@@ -1,0 +1,342 @@
+@use 'variables' as *;
+
+.admin-page {
+  --admin-ink: #{$gray-1};
+  --admin-muted: #{$gray-3};
+  --admin-accent: #{$secondary-2-1};
+  --admin-tint: #{$gray-9};
+  --admin-border: #{$gray-10};
+  --admin-surface: #{$white};
+  --admin-radius: 14px;
+
+  min-height: 100vh;
+  margin: 0;
+  background: $gray-6;
+  color: var(--admin-ink);
+  font-family: system-ui, sans-serif;
+
+  a {
+    color: var(--admin-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--admin-accent);
+    outline-offset: 3px;
+  }
+
+  .admin-skip-link {
+    position: fixed;
+    z-index: 10;
+    inset: .5rem auto auto .5rem;
+    padding: .65rem 1rem;
+    border-radius: .5rem;
+    background: var(--admin-surface);
+
+    &:not(:focus) {
+      clip-path: inset(50%);
+    }
+  }
+
+  .admin-topbar {
+    float: none;
+    background: $background-image;
+    color: $white;
+  }
+
+  .admin-topbar-inner,
+  .admin-shell {
+    width: min(100% - 2rem, 88rem);
+    margin-inline: auto;
+  }
+
+  .admin-topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+    min-height: 4rem;
+    padding-block: .65rem;
+  }
+
+  .admin-brand,
+  .admin-topbar-links a,
+  .admin-topbar-links button {
+    color: inherit;
+
+    &:focus-visible {
+      outline-color: $primary-contrast;
+    }
+  }
+
+  .admin-brand {
+    font-size: 1.25rem;
+    font-weight: 750;
+
+    span {
+      color: $primary-contrast;
+    }
+  }
+
+  .admin-topbar-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .25rem 1rem;
+    font-size: .875rem;
+
+    button {
+      padding: .35rem .65rem;
+      border: 1px solid $white;
+      border-radius: .5rem;
+      background: transparent;
+    }
+
+    a:hover,
+    button:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .admin-shell {
+    display: grid;
+    grid-template-columns: 14rem minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    padding-block: clamp(1rem, 3vw, 2.5rem) 3rem;
+  }
+
+  .admin-navigation,
+  .admin-chart,
+  .admin-content .breadcrumbs,
+  .admin-content .empty-state,
+  .admin-content .main-content-wrapper,
+  .admin-content .post-create-wrapper,
+  .admin-content .comment-card,
+  .admin-content .no-unpublished-comments,
+  .admin-content .user-info {
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    background: var(--admin-surface);
+  }
+
+  .admin-navigation {
+    padding: .65rem;
+  }
+
+  .admin-profile {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    margin-bottom: .55rem;
+    padding: .45rem .7rem .85rem;
+    border-bottom: 1px solid var(--admin-border);
+    font-size: .9rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+
+    img {
+      flex: none;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .admin-nav-link,
+  .admin-quick-links a {
+    display: block;
+    padding: .55rem .7rem;
+    border-radius: .5rem;
+    color: var(--admin-ink);
+    font-size: .9rem;
+    font-weight: 600;
+
+    &:hover,
+    &.is-active {
+      background: var(--admin-tint);
+      color: var(--admin-accent);
+    }
+  }
+
+  .admin-subnav {
+    padding-inline-start: .65rem;
+
+    a {
+      font-size: .83rem;
+    }
+  }
+
+  .admin-quick-links {
+    margin-top: .5rem;
+    padding-top: .5rem;
+    border-top: 1px solid var(--admin-border);
+
+    a {
+      color: var(--admin-accent);
+    }
+  }
+
+  .admin-page-title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -.035em;
+  }
+
+  .admin-content {
+    min-width: 0;
+    overflow-wrap: anywhere;
+
+    > .row > .col {
+      float: none;
+      width: 100%;
+      margin: 0;
+    }
+
+    .breadcrumbs {
+      float: none;
+      margin-bottom: 1rem;
+      padding: .65rem 1rem;
+      line-height: 1.5;
+
+      li {
+        min-height: 2rem;
+        height: auto;
+      }
+
+      .breadcrumbs-home-link {
+        background: var(--admin-accent);
+      }
+    }
+
+    .empty-state {
+      padding: clamp(1rem, 4vw, 2.5rem);
+      color: var(--admin-muted);
+    }
+
+    .empty-state p,
+    .comment-body p,
+    .comment-footer p {
+      margin: 0;
+    }
+
+    .post-create-wrapper,
+    .main-content-wrapper,
+    .user-info {
+      padding: clamp(.85rem, 3vw, 1.75rem);
+    }
+
+    .user-info {
+      width: min(100%, 42rem);
+    }
+
+    .user-block,
+    .item-block,
+    .post-block {
+      border-radius: .75rem;
+    }
+
+    input,
+    select,
+    textarea {
+      max-width: 100%;
+    }
+  }
+
+  .admin-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .admin-chart {
+    min-width: 0;
+    padding: 1.25rem;
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+  }
+
+  .admin-news-form,
+  .admin-news-item {
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    background: var(--admin-surface);
+  }
+
+  .admin-news-item + .admin-news-item {
+    margin-top: .75rem;
+  }
+
+  .admin-news-item h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .admin-news-item small {
+    color: var(--admin-muted);
+  }
+
+  .admin-news-form label {
+    height: auto;
+    margin: 1rem 0 .35rem;
+    line-height: 1.5;
+  }
+
+  .admin-checkbox,
+  .admin-section-actions,
+  .admin-page-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .75rem;
+  }
+
+  .admin-content .admin-primary-action {
+    display: inline-block;
+    padding: .6rem 1rem;
+    border-radius: .55rem;
+    background: var(--admin-accent);
+    color: $white;
+    font-weight: 650;
+
+    &:hover {
+      background: $background-image;
+    }
+  }
+
+  .admin-page-links {
+    margin-top: 1rem;
+  }
+
+  .admin-form-errors {
+    color: $primary-darker-contrast;
+  }
+
+  @media (max-width: 760px) {
+    .admin-shell,
+    .admin-chart-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-navigation > ul,
+    .admin-quick-links {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: .15rem;
+    }
+
+    .admin-content .post-block,
+    .admin-content .user-block,
+    .admin-content .item-block {
+      flex-wrap: wrap;
+    }
+  }
+}
