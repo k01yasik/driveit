@@ -18,6 +18,10 @@
       background: var(--admin-surface);
       font-weight: 600;
 
+      svg {
+        flex: none;
+      }
+
       &:hover {
         background: var(--admin-tint);
       }
