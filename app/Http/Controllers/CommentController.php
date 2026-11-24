@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\DTO\CommentDTO;
+use App\Http\Requests\CommentUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 use App\Services\CommentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,9 +22,24 @@ class CommentController extends Controller
         $this->commentService = $commentService;
     }
 
-    public function edit($username, $id)
+    public function edit(string $username, Comment $comment): View
     {
-        return view('user.comment.edit');
+        Gate::authorize('update', $comment);
+
+        return view('user.comment.edit', [
+            'comment' => $comment,
+            'action' => route('user.comment.update', [$username, $comment]),
+            'back' => route('posts.show', $comment->post->slug).'#comment-'.$comment->id,
+            'seo' => ['title' => __('Edit comment'), 'description' => ''],
+        ]);
+    }
+
+    public function update(CommentUpdateRequest $request, string $username, Comment $comment): RedirectResponse
+    {
+        $changed = $this->commentService->editMessage($comment, $request->validated('message'));
+
+        return redirect(route('posts.show', $comment->post->slug).'#comment-'.$comment->id)
+            ->with('comment_status', $changed ? __('Comment was sent for moderation.') : __('No changes to the comment.'));
     }
 
     public function store(Request $request, ?int $post = null): JsonResponse

@@ -8,6 +8,7 @@ use App\Comment;
 use App\Repositories\CachedCommentRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use App\DTO\CommentDTO;
 use App\DTO\CommentStoreResultDTO;
 
@@ -68,6 +69,23 @@ class CommentService
     public function getPaginatedComments(bool $isStart, ?int $id = null): LengthAwarePaginator
     {
         return $this->commentRepository->getPaginated($isStart ? 1 : $id);
+    }
+
+    public function editMessage(Comment $comment, string $message): bool
+    {
+        $message = clean($message);
+
+        if (blank(trim(html_entity_decode(strip_tags($message)), " \t\n\r\0\x0B\xc2\xa0"))) {
+            throw ValidationException::withMessages(['message' => __('The message field is required.')]);
+        }
+
+        if ($message === $comment->message) {
+            return false;
+        }
+
+        $this->commentRepository->updateMessage($comment->id, $message);
+
+        return true;
     }
 
     public function store(CommentDTO $commentData): CommentStoreResultDTO

@@ -22,6 +22,10 @@ interface CommentRepositoryInterface
      */
     public function update(CommentUpdateDTO $commentData): void;
 
+    public function updateMessage(int $id, string $message): void;
+
+    public function toggleVerification(int $id): void;
+
     /**
      * Create new comment
      */

@@ -118,7 +118,10 @@ Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
     Route::post('/albums/image/upload', [ImageUploadController::class, 'uploadToAlbum'])->name('user.albums.image.upload');
 
     // Комментарии
-    Route::middleware('current')->get('/{username}/comment/{id}/edit', [CommentController::class, 'edit'])->name('user.comment.edit');
+    Route::middleware('current')->group(function () {
+        Route::get('/{username}/comment/{comment}/edit', [CommentController::class, 'edit'])->whereNumber('comment')->name('user.comment.edit');
+        Route::patch('/{username}/comment/{comment}', [CommentController::class, 'update'])->whereNumber('comment')->name('user.comment.update');
+    });
 });
 
 // Админ панель
@@ -165,7 +168,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::get('/page/{id}', [AdminController::class, 'commentsPaginate'])->where('id', '[1-9][0-9]*')->name('admin.comments.paginate');
         Route::put('/publish', [AdminCommentController::class, 'publish'])->name('admin.comments.publish');
         Route::get('/unpublished', [AdminController::class, 'unpublished'])->name('admin.comments.unpublished');
-        Route::get('/{id}/edit', [AdminCommentController::class, 'edit'])->name('admin.comment.edit');
+        Route::get('/{comment}/edit', [AdminCommentController::class, 'edit'])->whereNumber('comment')->name('admin.comment.edit');
+        Route::patch('/{comment}', [AdminCommentController::class, 'update'])->whereNumber('comment')->name('admin.comment.update');
     });
 
     // SEO

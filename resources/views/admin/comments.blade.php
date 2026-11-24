@@ -10,6 +10,10 @@
         ]
     ])
 
+    @if (session('comment_status'))
+        <p role="status">{{ session('comment_status') }}</p>
+    @endif
+
     @include('admin.comments.partials.filters')
 
     @if ($comments->isEmpty())
