@@ -13,7 +13,7 @@ class PostObserver implements ShouldHandleEventsAfterCommit
         Cache::forget('latest-posts');
         Cache::forget('posts_count_cart');
         Cache::forget('posts-for-sitemap');
-        Cache::forget('best-comments-by-month');
+        Cache::forget('posts-published-this-month');
         CachedPostRepository::invalidateListings();
     }
 

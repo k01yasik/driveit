@@ -49,9 +49,13 @@ interface PostRepositoryInterface
 
     public function getPostsCount(): int;
 
+    public function getPublishedPostsCount(): int;
+
     public function getPostsSortedByViews(int $pageId, int $numberPosts): array;
 
     public function getPostStatus(PostEntity $postEntity): bool;
+
+    public function togglePublication(int $postId): void;
 
     public function publishPost(PostEntity $postEntity): void;
 

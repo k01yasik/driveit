@@ -35,13 +35,32 @@ class PostServiceTest extends TestCase
         $this->assertCount($limit, $result);
     }
 
+    public function test_post_stats_count_boolean_and_legacy_verification_values(): void
+    {
+        $this->postRepository->expects($this->never())->method("getPostsCount");
+
+        $post = [
+            'rating' => [['rating' => 1], ['rating' => -1]],
+            'comments' => array_map(
+                fn ($value) => ['is_verified' => $value],
+                [true, 1, '1', false, 0, '0']
+            ),
+        ];
+
+        $result = $this->postService->calculatePostStats($post);
+
+        $this->assertSame(1, $result['rating_count']);
+        $this->assertSame(3, $result['comments_count']);
+        $this->assertSame([$result], $this->postService->calculatePostStats([$post]));
+    }
+
     public function testCalculateAndPaginate()
     {
         $posts = array_fill(0, 10, ['rating' => [], 'comments' => []]);
         $page = 1;
 
         $this->postRepository->expects($this->once())
-            ->method('getPostsCount')
+            ->method('getPublishedPostsCount')
             ->willReturn(10);
 
         $result = $this->postService->calculateAndPaginate($posts, $page);

@@ -6,7 +6,6 @@ use App\Http\Requests\PostStore;
 use App\Services\CategoryService;
 use App\Services\PostService;
 use App\Services\UserService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\SeoService;
 use Illuminate\Support\Facades\Auth;
@@ -73,11 +72,7 @@ class PostController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $post = $this->postService->getPostByIdWithUserData($id);
-
-        $post['rating_count'] = $this->postService->countPostRating($post['rating']);
-
-        $post['comments_count'] = $this->postService->countPostComments($post['comments']);
+        $post = $this->postService->calculatePostStats($this->postService->getPostByIdWithUserData($id));
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
@@ -86,30 +81,9 @@ class PostController extends Controller
 
     public function publish(Request $request)
     {
-        $post = $this->postService->getById($request->id);
+        $data = $request->validate(['id' => ['required', 'integer', 'min:1']]);
 
-        if ($post['is_published']) {
-            $post['is_published'] = 0;
-        } else {
-            $post['is_published'] = 1;
-            $post['data_published'] = Carbon::now();
-        }
-
-        $postEntity = $this->postService->restorePost(
-            $post['id'],
-            $post['slug'],
-            $post['title'],
-            $post['description'],
-            $post['name'],
-            $post['caption'],
-            $post['body'],
-            $post['imagePath'],
-            $post['is_published'],
-            $post['views'],
-            $post['data_published']
-        );
-
-        $this->postService->changePublishStatus($postEntity);
+        $this->postService->changePublishStatus((int) $data['id']);
     }
 
     public function edit($id, Request $request)

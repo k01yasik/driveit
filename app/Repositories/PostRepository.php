@@ -54,6 +54,16 @@ class PostRepository implements PostRepositoryInterface
         return (bool) Post::select('is_published')->findOrFail($postEntity->getId())->is_published;
     }
 
+    public function togglePublication(int $postId): void
+    {
+        DB::transaction(function () use ($postId): void {
+            $post = Post::lockForUpdate()->findOrFail($postId);
+            $post->is_published = ! $post->is_published;
+            $post->date_published = $post->is_published ? Carbon::now() : null;
+            $post->save();
+        });
+    }
+
     public function publishPost(PostEntity $postEntity): void
     {
         Post::findOrFail($postEntity->getId())->forceFill(['is_published' => true, 'date_published' => Carbon::now()])->save();
@@ -66,22 +76,24 @@ class PostRepository implements PostRepositoryInterface
 
     public function updateHtml(PostEntity $postEntity, int $postId): void
     {
-        $post = Post::find($postId)->update(['body' => clean($postEntity->getBody())]);
+        $post = Post::findOrFail($postId);
+        $post->body = clean($postEntity->getBody());
+        $post->save();
     }
 
-    public function getPostByIdWithUserData($postId): array
+    public function getPostByIdWithUserData(int $postId): array
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('id', $postId)->first()->toArray();
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->findOrFail($postId)->toArray();
     }
 
     public function getPostByIdWithCategories(int $postId): array
     {
-        return Post::with('categories')->where('id', $postId)->first()->toArray();
+        return Post::with('categories')->findOrFail($postId)->toArray();
     }
 
     public function getById(int $postId): array
     {
-        return Post::find($postId)->toArray();
+        return Post::findOrFail($postId)->toArray();
     }
 
     public function getPaginatedPostsOrderedById(int $pageId, int $numberPosts): array
@@ -116,11 +128,12 @@ class PostRepository implements PostRepositoryInterface
 
     public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array
     {
-        return Category::find($categoryId)
+        return Category::findOrFail($categoryId)
             ->posts()
             ->with(['user', 'categories', 'user.profile', 'rating', 'comments'])
             ->where('is_published', 1)
             ->orderByDesc('date_published')
+            ->orderByDesc('posts.id')
             ->skip(($pageId - 1) * $numberPosts)
             ->take($numberPosts)
             ->get()
@@ -134,19 +147,15 @@ class PostRepository implements PostRepositoryInterface
 
     public function getPostsByMonth(): array
     {
-        $publishedPostsByMonth = DB::table('posts')
-            ->select('id')
-            ->whereRaw('is_published = TRUE AND date_published >= DATE_SUB(CURDATE(), INTERVAL DAYOFMONTH(CURDATE())-1 DAY)')
-            ->get();
+        $start = now()->startOfMonth();
 
-        $ids = [];
-
-        foreach ($publishedPostsByMonth as $publishedPostByMonth)
-        {
-            $ids[] = $publishedPostByMonth->id;
-        }
-
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->whereIn('id', $ids)->orderByDesc('date_published')->get()->toArray();
+        return Post::with(['user.profile', 'categories', 'rating', 'comments'])
+            ->where('is_published', true)
+            ->where('date_published', '>=', $start)
+            ->where('date_published', '<', $start->copy()->addMonth())
+            ->orderByDesc('date_published')
+            ->get()
+            ->toArray();
     }
 
     public function getPostsForShow(string $slug): array
@@ -194,7 +203,8 @@ class PostRepository implements PostRepositoryInterface
         return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])
             ->where('is_published', true)
             ->orderByDesc('date_published')
-            ->skip(($pageId - 1) * config('pagination.postsPerPage'))
+            ->orderByDesc('posts.id')
+            ->skip(($pageId - 1) * $numberPosts)
             ->take($numberPosts)
             ->get()
             ->toArray();
@@ -205,7 +215,8 @@ class PostRepository implements PostRepositoryInterface
         return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])
             ->where('is_published', true)
             ->orderByDesc('views')
-            ->skip(($pageId - 1) * config('pagination.postsPerPage'))
+            ->orderByDesc('posts.id')
+            ->skip(($pageId - 1) * $numberPosts)
             ->take($numberPosts)
             ->get()
             ->toArray();
@@ -216,9 +227,14 @@ class PostRepository implements PostRepositoryInterface
         return Post::count();
     }
 
+    public function getPublishedPostsCount(): int
+    {
+        return Post::where('is_published', true)->count();
+    }
+
     public function getPostsCountByCategory(int $id): int
     {
-        return Category::find($id)
-            ->posts()->count();
+        return Category::findOrFail($id)
+            ->posts()->where('is_published', true)->count();
     }
 }

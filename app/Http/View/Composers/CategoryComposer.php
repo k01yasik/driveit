@@ -2,9 +2,11 @@
 
 namespace App\Http\View\Composers;
 
+use App\DTO\CategoryDTO;
 use App\Services\CategoryService;
 use App\Services\PaginatorService;
 use App\Services\PostService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 
 class CategoryComposer
@@ -26,30 +28,21 @@ class CategoryComposer
     public function compose(View $view): void
     {
         $categoryName = request()->route()->parameter('category');
-        $pageId = request()->route()->parameter('id') ?? 1;
+        $pageId = (int) request()->route()->parameter('id', 1);
 
         $category = $this->categoryService->getCategoryByName($categoryName);
         $categories = $this->categoryService->getCategoryNameWithParentName($category);
-        $posts = $this->postService->getPaginatedPostsByCategoryId($category['id'], $pageId);
+        $posts = $this->postService->getPaginatedPostsByCategoryId($category->id, $pageId);
 
         $view->with($this->prepareViewData($category, $categories, $posts, $pageId));
     }
 
-    /**
-     * Prepare all view data in a structured way
-     *
-     * @param array $category
-     * @param mixed $categories
-     * @param LengthAwarePaginator $posts
-     * @param int $pageId
-     * @return array
-     */
-    private function prepareViewData(array $category, $categories, $posts, int $pageId): array
+    private function prepareViewData(CategoryDTO $category, array $categories, LengthAwarePaginator $posts, int $pageId): array
     {
         $paginationData = $this->paginatorService->calculatePages($posts);
         
         return [
-            'categoryName' => $category['name'],
+            'categoryName' => $category->name,
             'lastNumberPage' => $paginationData['last'],
             'nextNumberPage' => $paginationData['next'],
             'previousNumberPage' => $paginationData['previous'],
@@ -59,17 +52,10 @@ class CategoryComposer
         ];
     }
 
-    /**
-     * Generate SEO metadata based on category and page
-     *
-     * @param array $category
-     * @param int $pageId
-     * @return array
-     */
-    private function generateSeoData(array $category, int $pageId): array
+    private function generateSeoData(CategoryDTO $category, int $pageId): array
     {
-        $baseTitle = 'Статьи в категории ' . $category['displayname'];
-        $baseDescription = 'Статьи в категории ' . $category['displayname'];
+        $baseTitle = 'Статьи в категории ' . $category->displayName;
+        $baseDescription = 'Статьи в категории ' . $category->displayName;
 
         if ($pageId > 1) {
             return [

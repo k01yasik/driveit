@@ -21,36 +21,23 @@ class CategoryController extends Controller
     /**
      * Display category page with posts
      */
-    public function show(string $name): View
+    public function show(): View
     {
-        $category = $this->categoryService->getCategoryByName($name);
-        $posts = $this->postService->getPostsByCategory($category->id);
-        
-        $parentCategories = $this->categoryService->getCategoryNameWithParentName($category);
-
-        return view('category.show', [
-            'category' => $category,
-            'posts' => $posts,
-            'breadcrumbs' => $parentCategories,
-            'metaTitle' => $category->displayName
-        ]);
+        return view('category.show');
     }
 
-    /**
-     * Paginate category posts (API endpoint)
-     */
-    public function paginate(string $name, int $page = 1): JsonResponse
+    public function paginate(Request $request, string $category, int $id): View|JsonResponse
     {
-        $category = $this->categoryService->getCategoryByName($name);
-        $paginator = $this->postService->getPaginatedPostsByCategory(
-            $category->id, 
-            $page,
-            config('app.posts_per_page', 15)
-        );
+        if (! $request->expectsJson()) {
+            return $this->show();
+        }
+
+        $category = $this->categoryService->getCategoryByName($category);
+        $paginator = $this->postService->getPaginatedPostsByCategoryId($category->id, $id);
 
         return response()->json([
             'posts' => $paginator->items(),
-            'pagination' => $this->paginatorService->getPaginationData($paginator)
+            'pagination' => $this->paginatorService->calculatePages($paginator),
         ]);
     }
 
