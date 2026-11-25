@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Cache;
 
 class CommentObserver
 {
+    public function __construct(private PostService $postService)
+    {
+    }
+
     /**
      * Handle the comment "created" event.
      *
@@ -35,7 +39,7 @@ class CommentObserver
         Cache::forget('top-posts');
     }
 
-    public function saved(Comment $comment, PostService $postService)
+    public function saved(Comment $comment)
     {
         Cache::forget('latest-posts');
         Cache::forget('paginated-posts');
@@ -44,7 +48,7 @@ class CommentObserver
         Cache::forget('comment_'.$comment->id);
         Cache::forget('top-posts');
 
-        $pages = $postService->getPagesCount();
+        $pages = $this->postService->getPagesCount();
 
         for ($i = 1; $i <= $pages; $i++) {
             Cache::forget('paginated-posts-'.$i);
