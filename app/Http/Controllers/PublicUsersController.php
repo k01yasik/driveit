@@ -29,6 +29,7 @@ class PublicUsersController extends Controller
             'seo' => $this->seoService->getSeoData($request),
             'profiles' => $this->userService->getAllPublicUsers($userId),
             'confirmedFriends' => $this->friendService->getConfirmedFriendsIds($friends),
+            'incomingFriends' => $friends->where('owner', false)->where('confirmed', false)->pluck('friend_id')->all(),
             'requestedFriends' => $this->friendService->getRequestedFriendsIds($friends),
         ]);
     }

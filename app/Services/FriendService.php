@@ -45,6 +45,21 @@ class FriendService implements Interfaces\FriendServiceInterface
         return $this->friendRepository->getFriends($userId);
     }
 
+    public function getOutgoingRequests(int $userId): Collection
+    {
+        return $this->friendRepository->getOutgoingRequests($userId);
+    }
+
+    public function dismissRequest(int $userId, int $otherId, bool $outgoing): void
+    {
+        $this->friendRepository->dismissRequest($userId, $otherId, $outgoing);
+    }
+
+    public function removeFriend(int $userId, int $friendId): void
+    {
+        $this->friendRepository->removeFriend($userId, $friendId);
+    }
+
     public function areFriends(int $userId, int $friendId): bool
     {
         return $this->friendRepository->areFriends($userId, $friendId);

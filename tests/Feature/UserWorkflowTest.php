@@ -168,6 +168,98 @@ class UserWorkflowTest extends TestCase
         Storage::disk('public')->assertExists($image->path);
     }
 
+    public function test_requests_can_be_declined_or_cancelled_and_confirmed_friends_removed(): void
+    {
+        (new \SeoTableSeeder())->run();
+        $alice = $this->user('alice');
+        $bob = $this->user('bob');
+        $charlie = $this->user('charlie');
+        Event::fake([FriendRequestSent::class, ConfirmFriendRequest::class]);
+
+        $this->actingAs($alice)->postJson(route('users.store'), ['friend_id' => $bob->id])->assertOk();
+        $this->get(route('user.requests', $alice->username))->assertOk()
+            ->assertViewHas('outgoingRequests', fn ($requests) => $requests->pluck('friend_id')->all() === [$bob->id]);
+
+        $aliceRequest = route('user.requests.destroy', [$alice->username, $bob->id]);
+        $bobRequest = route('user.requests.destroy', [$bob->username, $alice->id]);
+        $this->actingAs($charlie)->delete($aliceRequest, ['outgoing' => 1])->assertForbidden();
+        $this->actingAs($bob)->delete($bobRequest, ['outgoing' => 1])->assertRedirect();
+        $this->assertDatabaseCount('friends', 2);
+        $this->delete($bobRequest, ['outgoing' => 0])->assertRedirect();
+        $this->assertDatabaseCount('friends', 0);
+
+        $this->actingAs($alice)->postJson(route('users.store'), ['friend_id' => $bob->id])->assertOk();
+        $this->delete($aliceRequest, ['outgoing' => 1])->assertRedirect();
+        $this->assertDatabaseCount('friends', 0);
+
+        $this->postJson(route('users.store'), ['friend_id' => $bob->id])->assertOk();
+        $this->actingAs($bob)->post(route('user.requests.confirmation'), ['id' => $alice->id])
+            ->assertRedirect(route('user.requests', $bob->username));
+        $this->delete($bobRequest, ['outgoing' => 0])->assertRedirect();
+        $this->assertDatabaseCount('friends', 2);
+        $this->delete(route('user.friends.destroy', [$bob->username, $alice->id]))->assertRedirect();
+        $this->assertDatabaseCount('friends', 0);
+    }
+
+    public function test_only_the_opened_conversation_is_marked_read_and_the_inbox_keeps_other_unread_messages(): void
+    {
+        (new \SeoTableSeeder())->run();
+        $alice = $this->user('alice');
+        $bob = $this->user('bob');
+        $charlie = $this->user('charlie');
+        $bobMessage = \App\Message::create(['user_id' => $bob->id, 'friend_id' => $alice->id, 'text' => 'From Bob']);
+        $charlieMessage = \App\Message::create(['user_id' => $charlie->id, 'friend_id' => $alice->id, 'text' => 'From Charlie']);
+        $aliceMessage = \App\Message::create(['user_id' => $alice->id, 'friend_id' => $bob->id, 'text' => 'Latest message']);
+
+        $inbox = route('user.messages', $alice->username);
+        $this->actingAs($alice)->get($inbox)->assertOk()->assertSee('Latest message')->assertViewHas('unreadMessageCount', 2);
+        $this->get(route('user.friend.messages', [$alice->username, $bob->username]))->assertOk()
+            ->assertSee('From Bob')->assertViewHas('unreadMessageCount', 1);
+        $this->get($inbox)->assertViewHas('unreadMessageCount', 1);
+
+        $bobRead = route('message.read', [$alice->username, $bob->username]);
+        $this->patchJson($bobRead, ['id' => $charlieMessage->id])->assertNoContent();
+        $this->assertDatabaseHas('messages', ['id' => $bobMessage->id, 'new' => false]);
+        $this->assertDatabaseHas('messages', ['id' => $charlieMessage->id, 'new' => true]);
+        $this->assertDatabaseHas('messages', ['id' => $aliceMessage->id, 'new' => true]);
+
+        $charlieRead = route('message.read', [$alice->username, $charlie->username]);
+        $this->actingAs($bob)->patchJson($charlieRead, ['id' => $charlieMessage->id])->assertForbidden();
+        $this->actingAs($alice)->patchJson($charlieRead, ['id' => $charlieMessage->id])->assertNoContent();
+        $this->get($inbox)->assertViewHas('unreadMessageCount', 0);
+    }
+
+    public function test_profile_details_and_garage_can_only_be_managed_by_the_owner(): void
+    {
+        (new \SeoTableSeeder())->run();
+        $alice = $this->user('alice');
+        $bob = $this->user('bob');
+        $album = Album::create(['user_id' => $alice->id, 'name' => 'road-trip', 'path' => 'road-trip-photos']);
+        $edit = route('user.profile.update', $alice->username);
+        $garage = route('user.garage.store', $alice->username);
+        $details = ['first_name' => 'Alice', 'last_name' => 'Driver', 'city' => 'Kazan', 'about' => '<b>Road trips</b>'];
+        $car = ['make' => 'Toyota', 'model' => 'Celica', 'year' => 1999, 'album_id' => $album->id];
+
+        $this->actingAs($bob)->patch($edit, $details)->assertForbidden();
+        $this->postJson(route('user.garage.store', $bob->username), $car)->assertUnprocessable()->assertJsonValidationErrors('album_id');
+        $this->actingAs($alice)->patch($edit, $details)->assertRedirect();
+        $this->post($garage, $car)->assertRedirect();
+        $storedCar = \App\Car::sole();
+        $this->get(route('user.settings', $alice->username))->assertOk()->assertSee('Toyota Celica');
+        $carEdit = route('user.garage.update', [$alice->username, $storedCar->id]);
+        $this->patch($carEdit, [...$car, 'year' => 2000])->assertRedirect();
+        $this->assertDatabaseHas('cars', ['id' => $storedCar->id, 'year' => 2000]);
+
+        $profile = route('user.profile', $alice->username);
+        $this->actingAs($bob)->get($profile)->assertOk()->assertSee('Alice Driver')
+            ->assertSee('Kazan')->assertSee('<b>Road trips</b>')->assertDontSee('<b>Road trips</b>', false)
+            ->assertSee('Toyota Celica')->assertSee(route('user.albums.show', [$alice->username, $album->name]));
+        $this->patch($carEdit, $car)->assertForbidden();
+        $this->delete(route('user.garage.destroy', [$bob->username, $storedCar->id]))->assertNotFound();
+        $this->actingAs($alice)->delete(route('user.garage.destroy', [$alice->username, $storedCar->id]))->assertRedirect();
+        $this->assertModelMissing($storedCar);
+    }
+
     private function user(string $username, bool $public = true): User
     {
         $id = DB::table('users')->insertGetId([

@@ -4,6 +4,7 @@
 namespace App\Http\View\Composers;
 
 use App\Services\FriendService;
+use App\Services\MessageService;
 use App\Services\UserService;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,8 @@ class ProfileComposer
     protected FriendService $friendService;
 
     public function __construct(UserService $userService,
-                                FriendService $friendService)
+                                FriendService $friendService,
+                                private MessageService $messageService)
     {
         $this->userService = $userService;
         $this->friendService = $friendService;
@@ -36,6 +38,7 @@ class ProfileComposer
             : 0;
         $view->with('user', $user)
             ->with('currentUserProfile', $currentUserProfile)
-            ->with('friendRequestCount', $friendRequestCount);
+            ->with('friendRequestCount', $friendRequestCount)
+            ->with('unreadMessageCount', $currentUserProfile ? $this->messageService->getUnreadCount($currentUserId) : 0);
     }
 }

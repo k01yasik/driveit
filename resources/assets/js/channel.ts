@@ -12,14 +12,7 @@ interface User {
 
 interface MessageEvent {
   sender: { id: number; username: string; profile_url: string; avatar: string | null };
-  message: { text: string; created_at: string };
-}
-
-interface FriendRequestEvent {
-  senderProfileUrl: string;
-  senderAvatar: string | null;
-  sender: Pick<User, 'id' | 'username'>;
-  recipient: Pick<User, 'username'>;
+  message: { id: number; text: string; created_at: string };
 }
 
 interface ConfirmFriendRequestEvent {
@@ -29,6 +22,7 @@ interface ConfirmFriendRequestEvent {
 class RealTimeEventHandler {
   private channelId: number | null;
   private postId: number | null;
+  private pendingReads = new Set<number>();
 
   constructor() {
     this.channelId = this.getDataAttributeNumber('.channel', 'id');
@@ -38,6 +32,11 @@ class RealTimeEventHandler {
   public initialize(): void {
     if (this.channelId) {
       this.setupPrivateChannel();
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          void this.markPendingMessagesRead();
+        }
+      });
     }
 
     if (this.postId) {
@@ -60,7 +59,7 @@ class RealTimeEventHandler {
 
     echoChannel
       .listen('MessageSaved', (e: MessageEvent) => this.handleMessageSaved(e))
-      .listen('FriendRequestSent', (e: FriendRequestEvent) => this.handleFriendRequest(e))
+      .listen('FriendRequestSent', () => this.handleFriendRequest())
       .listen('ConfirmFriendRequest', (e: ConfirmFriendRequestEvent) => this.handleConfirmFriendRequest(e));
   }
 
@@ -78,20 +77,57 @@ class RealTimeEventHandler {
       .leaving((user: User) => this.handleUserLeaving(user));
   }
 
-  private handleMessageSaved(event: MessageEvent): void {
-    const profileBlock = document.querySelector('.profile-block-content');
-    const friendId = parseInt(profileBlock?.getAttribute('data-friend') || '0', 10);
-
-    if (profileBlock && friendId === event.sender.id) {
-      this.appendMessage(profileBlock, event);
-    } else {
+  private async handleMessageSaved(event: MessageEvent): Promise<void> {
+    const conversation = document.querySelector<HTMLElement>('[data-read-url]');
+    if (!conversation || Number(conversation.dataset.friend) !== event.sender.id) {
       this.updateMessageCounter();
+      return;
+    }
+
+    const messageId = event.message.id;
+    if (messageId && conversation.querySelector(`[data-message-id="${messageId}"]`)) return;
+
+    this.appendMessage(conversation, event);
+    conversation.querySelector('.welcome-chat')?.remove();
+    if (messageId && document.visibilityState === 'visible' && await this.markRead(messageId)) return;
+
+    this.updateMessageCounter();
+    if (messageId) this.pendingReads.add(messageId);
+  }
+
+  private async markPendingMessagesRead(): Promise<void> {
+    for (const id of Array.from(this.pendingReads)) {
+      this.pendingReads.delete(id);
+      if (await this.markRead(id)) {
+        this.updateMessageCounter(-1);
+      } else {
+        this.pendingReads.add(id);
+        break;
+      }
+    }
+  }
+
+  private async markRead(id: number): Promise<boolean> {
+    const csrf = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content;
+    const url = document.querySelector<HTMLElement>('[data-read-url]')?.dataset.readUrl;
+    if (!csrf || !url) return false;
+
+    try {
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf },
+        body: JSON.stringify({ id })
+      });
+      return response.ok;
+    } catch (error) {
+      console.error('Could not mark message as read', error);
+      return false;
     }
   }
 
   private appendMessage(container: Element, event: MessageEvent): void {
     const messageHtml = `
-      <div class="message-wrapper">
+      <div class="message-wrapper" data-message-id="${event.message.id}">
         <div class="message-header">
           <a href="${escape(event.sender.profile_url)}" class="message-header-link">
             <img src="${escape(event.sender.avatar ?? '')}" class="message-header-avatar">
@@ -110,58 +146,24 @@ class RealTimeEventHandler {
     container.insertAdjacentHTML('beforeend', messageHtml);
   }
 
-  private updateMessageCounter(): void {
+  private updateMessageCounter(change = 1): void {
     const messageCountElement = document.querySelector('.messages-count');
     if (!messageCountElement) return;
 
     const currentCount = parseInt(messageCountElement.textContent?.replace('+', '') || '0', 10);
-    const newCount = currentCount + 1;
+    const newCount = Math.max(0, currentCount + change);
 
-    messageCountElement.textContent = `+${newCount}`;
-
-    if (messageCountElement instanceof HTMLElement && messageCountElement.style.display === 'none') {
-      this.fadeInElement(messageCountElement);
-    }
+    messageCountElement.textContent = String(newCount);
+    messageCountElement.toggleAttribute('hidden', newCount === 0);
   }
 
-  private handleFriendRequest(event: FriendRequestEvent): void {
-    const friendRequestsElement = document.querySelector('.friend-requests');
-    if (!friendRequestsElement) return;
+  private handleFriendRequest(): void {
+    const counter = document.querySelector('.friend-requests');
+    if (!counter) return;
 
-    const currentRequests = parseInt(friendRequestsElement.textContent?.replace('+', '') || '0', 10);
-    friendRequestsElement.textContent = `+${currentRequests + 1}`;
-
-    if (friendRequestsElement instanceof HTMLElement && friendRequestsElement.style.display === 'none') {
-      this.fadeInElement(friendRequestsElement);
-    }
-
-    this.appendFriendRequest(event);
-  }
-
-  private appendFriendRequest(event: FriendRequestEvent): void {
-    const usersList = document.querySelector('.request-list-element')?.parentElement;
-    if (!usersList) return;
-
-    const requestHtml = `
-      <li class="users-element-request">
-        <a href="${escape(event.senderProfileUrl)}" class="profile-link">
-          <img src="${escape(event.senderAvatar ?? '')}" class="avatar-image">
-        </a>
-        <a href="${escape(event.senderProfileUrl)}" class="profile-name">${escape(event.sender.username)}</a>
-        <div class="friend-request-button right" data-id="${event.sender.id}" data-username="${escape(event.recipient.username)}">
-          <svg version="1.1" class="public-user-uncheck" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.381 15.381" style="enable-background:new 0 0 15.381 15.381;" xml:space="preserve">
-            <g>
-              <path d="M12.016,15.381h-8.65c-1.558,0-2.826-1.268-2.826-2.825v-9.73C0.54,1.268,1.808,0,3.366,0h8.65
-                c1.558,0,2.825,1.268,2.825,2.826v9.73C14.841,14.114,13.574,15.381,12.016,15.381z M3.366,1.305
-                c-0.839,0-1.521,0.683-1.521,1.521v9.73c0,0.838,0.683,1.521,1.521,1.521h8.65c0.839,0,1.521-0.684,1.521-1.521v-9.73
-                c0-0.839-0.683-1.521-1.521-1.521C12.016,1.305,3.366,1.305,3.366,1.305z"></path>
-            </g>
-          </svg>
-        </div>
-      </li>
-    `;
-
-    usersList.insertAdjacentHTML('beforeend', requestHtml);
+    const current = Number(counter.textContent) || 0;
+    counter.textContent = `+${current + 1}`;
+    counter.removeAttribute('hidden');
   }
 
   private handleConfirmFriendRequest(event: ConfirmFriendRequestEvent): void {
@@ -223,25 +225,8 @@ class RealTimeEventHandler {
     }
   }
 
-  private fadeInElement(element: HTMLElement, duration = 500): void {
-    element.style.display = '';
-    element.style.opacity = '0';
-    
-    let opacity = 0;
-    const interval = 16; // ~60fps
-    const delta = interval / duration;
-    
-    const fade = () => {
-      opacity += delta;
-      if (opacity >= 1) {
-        element.style.opacity = '1';
-        return;
-      }
-      
-      element.style.opacity = opacity.toString();
-      requestAnimationFrame(fade);
-    };
-    
-    requestAnimationFrame(fade);
-  }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  new RealTimeEventHandler().initialize();
+});

@@ -26,8 +26,8 @@ class MessageController extends Controller
             clean($validated['message'])
         );
 
-        $this->messageService->addMessage($message);
-        broadcast(new MessageSaved($message));
+        $messageId = $this->messageService->addMessage($message);
+        broadcast(new MessageSaved($message, $messageId));
 
         return [
             'username' => $user->username,

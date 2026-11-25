@@ -20,6 +20,5 @@ require('./fullpage-image');
 require('./flash-messages');
 require('./click-menu');
 require('./test-airlock');
-require('./FriendRequest/index.ts');
 
 import 'social-likes-next';

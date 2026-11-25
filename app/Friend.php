@@ -34,6 +34,11 @@ class Friend extends Model
             ->where('confirmed', true);
     }
 
+    public function recipient(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'friend_id');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
