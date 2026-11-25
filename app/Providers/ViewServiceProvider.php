@@ -18,7 +18,9 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer(
             [
-                'components.profile',
+                'user.profile',
+                'user.albums.index',
+                'draft.index',
                 'user.friends',
                 'user.public',
                 'user.messages',

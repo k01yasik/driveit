@@ -1,3 +1,5 @@
+import { escape } from 'lodash';
+
 interface User {
   id: number;
   username: string;
@@ -9,21 +11,19 @@ interface User {
 }
 
 interface MessageEvent {
-  userFrom: User;
-  url: string;
-  text: string;
-  createdAt: string;
+  sender: { id: number; username: string; profile_url: string; avatar: string | null };
+  message: { text: string; created_at: string };
 }
 
 interface FriendRequestEvent {
-  urlSender: string;
-  avatar: string;
-  sender: User;
-  friend: User;
+  senderProfileUrl: string;
+  senderAvatar: string | null;
+  sender: Pick<User, 'id' | 'username'>;
+  recipient: Pick<User, 'username'>;
 }
 
 interface ConfirmFriendRequestEvent {
-  sender: User;
+  sender: Pick<User, 'id'>;
 }
 
 class RealTimeEventHandler {
@@ -60,7 +60,7 @@ class RealTimeEventHandler {
 
     echoChannel
       .listen('MessageSaved', (e: MessageEvent) => this.handleMessageSaved(e))
-      .listen('FriendRequest', (e: FriendRequestEvent) => this.handleFriendRequest(e))
+      .listen('FriendRequestSent', (e: FriendRequestEvent) => this.handleFriendRequest(e))
       .listen('ConfirmFriendRequest', (e: ConfirmFriendRequestEvent) => this.handleConfirmFriendRequest(e));
   }
 
@@ -80,11 +80,9 @@ class RealTimeEventHandler {
 
   private handleMessageSaved(event: MessageEvent): void {
     const profileBlock = document.querySelector('.profile-block-content');
-    if (!profileBlock) return;
+    const friendId = parseInt(profileBlock?.getAttribute('data-friend') || '0', 10);
 
-    const friendId = parseInt(profileBlock.getAttribute('data-friend') || '0', 10);
-
-    if (friendId === event.userFrom.id) {
+    if (profileBlock && friendId === event.sender.id) {
       this.appendMessage(profileBlock, event);
     } else {
       this.updateMessageCounter();
@@ -95,16 +93,16 @@ class RealTimeEventHandler {
     const messageHtml = `
       <div class="message-wrapper">
         <div class="message-header">
-          <a href="${event.url}" class="message-header-link">
-            <img src="${event.userFrom.profile?.avatar}" class="message-header-avatar">
+          <a href="${escape(event.sender.profile_url)}" class="message-header-link">
+            <img src="${escape(event.sender.avatar ?? '')}" class="message-header-avatar">
           </a>
         </div>
         <div class="message-body">
           <div class="message-body-header">
-            <a href="${event.url}" class="message-header-name">${event.userFrom.username}</a>
-            <div class="message-body-header-time">${event.createdAt}</div>
+            <a href="${escape(event.sender.profile_url)}" class="message-header-name">${escape(event.sender.username)}</a>
+            <div class="message-body-header-time">${escape(event.message.created_at)}</div>
           </div>
-          <div class="message-body-content">${event.text}</div>
+          <div class="message-body-content">${event.message.text}</div>
         </div>
       </div>
     `;
@@ -141,16 +139,16 @@ class RealTimeEventHandler {
   }
 
   private appendFriendRequest(event: FriendRequestEvent): void {
-    const usersList = document.querySelector('.users-element-request:last-of-type')?.parentElement;
+    const usersList = document.querySelector('.request-list-element')?.parentElement;
     if (!usersList) return;
 
     const requestHtml = `
       <li class="users-element-request">
-        <a href="${event.urlSender}" class="profile-link">
-          <img src="${event.avatar}" class="avatar-image">
+        <a href="${escape(event.senderProfileUrl)}" class="profile-link">
+          <img src="${escape(event.senderAvatar ?? '')}" class="avatar-image">
         </a>
-        <a href="${event.urlSender}" class="profile-name">${event.sender.username}</a>
-        <div class="friend-request-button right" data-id="${event.sender.id}" data-username="${event.friend.username}">
+        <a href="${escape(event.senderProfileUrl)}" class="profile-name">${escape(event.sender.username)}</a>
+        <div class="friend-request-button right" data-id="${event.sender.id}" data-username="${escape(event.recipient.username)}">
           <svg version="1.1" class="public-user-uncheck" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.381 15.381" style="enable-background:new 0 0 15.381 15.381;" xml:space="preserve">
             <g>
               <path d="M12.016,15.381h-8.65c-1.558,0-2.826-1.268-2.826-2.825v-9.73C0.54,1.268,1.808,0,3.366,0h8.65

@@ -14,12 +14,17 @@ class FriendRequestSent implements ShouldBroadcast
 
     public function __construct(
         public User $sender,
-        public User $recipient,
-        public string $senderProfileUrl,
-        public ?string $senderAvatar
-    ) {
-        $this->senderProfileUrl = route('user.profile', ['username' => $sender->username]);
-        $this->senderAvatar = $sender->profile->avatar ?? null;
+        public User $recipient
+    ) {}
+
+    public function broadcastWith(): array
+    {
+        return [
+            'sender' => ['id' => $this->sender->id, 'username' => $this->sender->username],
+            'recipient' => ['username' => $this->recipient->username],
+            'senderProfileUrl' => route('user.profile', ['username' => $this->sender->username]),
+            'senderAvatar' => $this->sender->profile?->avatar,
+        ];
     }
 
     public function broadcastOn(): PrivateChannel

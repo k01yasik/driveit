@@ -24,8 +24,7 @@ class MessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string',
-            'friend_id' => 'required|integer',
+            'friend_id' => 'required|integer|exists:users,id',
             'message' => 'required|string'
         ];
     }

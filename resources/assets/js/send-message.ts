@@ -1,9 +1,13 @@
+import { escape } from 'lodash';
+
 class MessageEditor {
-    public static init(): void {  // Changed from private to public
+    private static sending = false;
+    public static init(): void {
+        if (!document.querySelector('[data-message-url]')) return;
         const editor = document.querySelector('.text-editor-body');
         if (!editor) return;
 
-        editor.addEventListener('keydown', async (e: KeyboardEvent) => {  // Added KeyboardEvent type
+        editor.addEventListener('keydown', async (e: KeyboardEvent) => {
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
                 await this.handleMessageSubmit();
@@ -12,36 +16,40 @@ class MessageEditor {
     }
 
     private static async handleMessageSubmit(): Promise<void> {
-        const dataElement = document.querySelector('.profile-block-content');
+        const dataElement = document.querySelector('[data-message-url]');
         if (!dataElement) return;
 
-        const username = dataElement.getAttribute('data-username');
+        const url = dataElement.getAttribute('data-message-url');
         const friendId = dataElement.getAttribute('data-friend');
         const editor = document.querySelector('.text-editor-body');
 
-        if (!username || !friendId || !editor) return;
+        if (!url || !friendId || !editor || this.sending) return;
+        if (!editor.textContent?.trim() && !editor.querySelector('img')) return;
+
+        this.sending = true;
 
         const message = editor.innerHTML;
-        editor.innerHTML = '<div><br></div>';
-        localStorage.removeItem('post-body');
 
         try {
-            const result = await this.sendMessage(username, friendId, message);
+            const result = await this.sendMessage(url, friendId, message);
+            if (editor.innerHTML === message) {
+                editor.innerHTML = '<div><br></div>';
+            }
             this.displayNewMessage(result);
             this.hideWelcomeChat();
         } catch (error) {
             console.error('Message sending failed:', error);
-            // Можно добавить уведомление пользователю
+        } finally {
+            this.sending = false;
         }
     }
 
-    private static async sendMessage(username: string, friendId: string, message: string): Promise<MessageResponse> {
+    private static async sendMessage(url: string, friendId: string, message: string): Promise<MessageResponse> {
         const formData = new FormData();
-        formData.append('username', username);
         formData.append('friend_id', friendId);
         formData.append('message', message);
 
-        const response = await fetch('/user/messages/store', {
+        const response = await fetch(url, {
             method: 'POST',
             body: formData,
             headers: this.getHeaders()
@@ -58,14 +66,14 @@ class MessageEditor {
         const messageHTML = `
             <div class="message-wrapper">
                 <div class="message-header">
-                    <a href="${result.url}" class="message-header-link">
-                        <img src="${result.avatar}" class="message-header-avatar circle">
+                    <a href="${escape(result.url)}" class="message-header-link">
+                        <img src="${escape(result.avatar ?? '')}" class="message-header-avatar circle">
                     </a>
                 </div>
                 <div class="message-body">
                     <div class="message-body-header">
-                        <a href="${result.url}" class="message-header-name">${result.username}</a>
-                        <div class="message-body-header-time">${result.time}</div>
+                        <a href="${escape(result.url)}" class="message-header-name">${escape(result.username)}</a>
+                        <div class="message-body-header-time">${escape(result.time)}</div>
                     </div>
                     <div class="message-body-content">
                         ${result.text}
@@ -74,7 +82,7 @@ class MessageEditor {
             </div>
         `;
 
-        const contentBlock = document.querySelector('.profile-block-content');
+        const contentBlock = document.querySelector('[data-message-url]');
         if (contentBlock) {
             contentBlock.insertAdjacentHTML('beforeend', messageHTML);
         }
@@ -85,7 +93,7 @@ class MessageEditor {
         if (welcomeChat && window.getComputedStyle(welcomeChat).display === 'block') {
             welcomeChat.classList.add('fade-out');
             setTimeout(() => {
-                (welcomeChat as HTMLElement).style.display = 'none';  // Added HTMLElement type assertion
+                (welcomeChat as HTMLElement).style.display = 'none';
             }, 200);
         }
     }
@@ -104,7 +112,7 @@ class MessageEditor {
 
 interface MessageResponse {
     url: string;
-    avatar: string;
+    avatar: string | null;
     username: string;
     time: string;
     text: string;

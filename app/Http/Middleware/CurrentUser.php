@@ -17,13 +17,19 @@ class CurrentUser
      */
     public function handle($request, Closure $next)
     {
-        $username = $request->username;
+        $username = $request->route('username');
+        $user = Auth::user();
 
-        $userRequest = User::where('username', $username)->firstOrFail();
-
-        if ($userRequest->id !== Auth::id()) {
-            return abort(403, 'You are not the owner of this profile');
+        if ($user->username !== $username) {
+            $profileUser = $request->attributes->get('profileUser')
+                ?? User::where('username', $username)->firstOrFail();
+            abort_unless($profileUser->is($user), 403, 'You are not the owner of this profile');
         }
+
+        if (!$request->attributes->has('profileUser')) {
+            $request->attributes->set('profileUser', $user);
+        }
+
         return $next($request);
     }
 }

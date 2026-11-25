@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Repositories\Interfaces\FriendRepositoryInterface;
 use Illuminate\Support\Collection;
 
-class FriendService
+class FriendService implements Interfaces\FriendServiceInterface
 {
     public function __construct(
         private FriendRepositoryInterface $friendRepository
@@ -30,10 +30,9 @@ class FriendService
         return $this->friendRepository->getPendingRequestsCount($userId);
     }
 
-    public function sendFriendRequest(int $senderId, int $recipientId): void
+    public function sendFriendRequest(int $senderId, int $recipientId): bool
     {
-        $this->friendRepository->createFriendRequest($senderId, $recipientId, true);
-        $this->friendRepository->createFriendRequest($recipientId, $senderId, false);
+        return $this->friendRepository->createFriendRequest($senderId, $recipientId);
     }
 
     public function getPendingRequests(int $userId): Collection
@@ -46,9 +45,13 @@ class FriendService
         return $this->friendRepository->getFriends($userId);
     }
 
-    public function acceptFriendRequest(int $requestId, int $currentUserId): void
+    public function areFriends(int $userId, int $friendId): bool
     {
-        $this->friendRepository->confirmFriendRequest($requestId, $currentUserId);
-        $this->friendRepository->confirmFriendRequest($currentUserId, $requestId);
+        return $this->friendRepository->areFriends($userId, $friendId);
+    }
+
+    public function acceptFriendRequest(int $requestId, int $currentUserId): bool
+    {
+        return $this->friendRepository->confirmFriendRequest($requestId, $currentUserId);
     }
 }

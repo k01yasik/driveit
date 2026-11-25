@@ -25,7 +25,7 @@ class UserObserver
 
     public function saved(User $user)
     {
-        Cache::forget('all-public-users');
+        Cache::forget('user_with_profile_'.$user->id);
         Cache::forget('all-users');
         Cache::forget('unbanned-users');
         Cache::forget('banned-users');

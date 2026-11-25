@@ -35,23 +35,23 @@ class FriendRequest {
 
     private static async handleFriendRequest(button: HTMLElement): Promise<void> {
         const friendId = button.dataset.friend;
-        const username = button.dataset.username;
+        if (!friendId || button.dataset.pending) return;
 
-        if (!friendId || !username) return;
+        button.dataset.pending = "true";
 
         try {
-            await this.sendFriendRequest(friendId, username);
+            await this.sendFriendRequest(friendId);
             this.replaceWithWaitingButton(button);
         } catch (error) {
             console.error('Friend request failed:', error);
-            // Можно добавить уведомление пользователю
+        } finally {
+            delete button.dataset.pending;
         }
     }
 
-    private static async sendFriendRequest(friendId: string, username: string): Promise<void> {
+    private static async sendFriendRequest(friendId: string): Promise<void> {
         const formData = new FormData();
-        formData.append('friend', friendId);
-        formData.append('username', username);
+        formData.append('friend_id', friendId);
 
         const response = await fetch('/user/friends/add', {
             method: 'POST',

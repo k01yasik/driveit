@@ -8,9 +8,9 @@
         <div class="col s12 m12 l9">
             <div class="album-block">
                 <div class="album-breadcrumbs">
-                    <a href="{{ route('user.profile', ['username' => $user->username]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
+                    <a href="{{ route('user.profile', ['username' => $user['username']]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
                     <span class="album-breadcrumbs-item">/</span>
-                    <a href="{{ route('user.albums.index', ['username' => $user->username]) }}" class="album-breadcrumbs-item">{{ __('Albums') }}</a>
+                    <a href="{{ route('user.albums.index', ['username' => $user['username']]) }}" class="album-breadcrumbs-item">{{ __('Albums') }}</a>
                     <span class="album-breadcrumbs-item">/</span>
                     <div class="album-breadcrumbs-item breadcrumbs-bold-item">{{ $album->name }}</div>
                 </div>
@@ -32,18 +32,18 @@
                         </div>
                         <div class="add-image-footer">{{ __('Add an image') }}</div>
                         <form enctype="multipart/form-data" id="upload_image_to_album">
-                            <input type="file" id="upload_image_to_album_input" accept="image/jpeg,image/png" name="upload_image_to_album_input" multiple data-name="{{ $album->name }}" data-username="{{ $user->username }}">
+                            <input type="file" id="upload_image_to_album_input" accept="image/jpeg,image/png" name="upload_image_to_album_input" multiple data-name="{{ $album->name }}" data-username="{{ $user['username'] }}">
                         </form>
                     </div>
                 @endif
-                @if ($images->count() > 0)
+                @if (count($images) > 0)
                     <div class="image-wrapper">
                     @foreach($images  as $image)
                         <div class="image-block">
-                            @if ($image->url_thumbnail)
+                            @if ($image['url_thumbnail'])
                                 @if ($currentUserProfile)
                                     <div class="image-block-top">
-                                        <div class="image-block-top-button" data-id="{{ $image->id }}" data-path="{{ $image->path }}" data-thumbnail="{{ $image->path_thumbnail }}" data-username="{{ $user->username }}" data-album="{{ $album->id }}">
+                                        <div class="image-block-top-button" data-id="{{ $image['id'] }}" data-album="{{ $album->id }}">
                                             <svg version="1.1" class="image-block-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
                                             xml:space="preserve">
                                                 <g>
@@ -57,11 +57,11 @@
                                         </div>
                                     </div>
                                 @endif
-                                <img src="{{$image->url_thumbnail}}" data-url="{{$image->url}}" />
+                                <img src="{{$image['url_thumbnail']}}" data-url="{{$image['url']}}" />
                                 <div class="image-block-footer">
-                                    <div class="image-block-footer-counter">{{ $image->favorites->count() }}</div>
+                                    <div class="image-block-footer-counter">{{ $image['favorites_count'] }}</div>
                                     <div class="image-block-footer-wrapper">
-                                        <div class="image-block-footer-button" data-id="{{ $image->id }}" data-username="{{ $user->username }}">
+                                        <div class="image-block-footer-button" data-id="{{ $image['id'] }}" data-username="{{ $user['username'] }}">
                                             <svg version="1.1" class="heart-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
                                                 <g>
                                                     <path d="M255,489.6l-35.7-35.7C86.7,336.6,0,257.55,0,160.65C0,81.6,61.2,20.4,140.25,20.4c43.35,0,86.7,20.4,114.75,53.55
@@ -74,7 +74,7 @@
                             @else
                                 @if($currentUserProfile)
                                     <div class="image-block-top">
-                                        <div class="image-block-top-button" data-id="{{ $image->id }}" data-path="{{ $image->path }}" data-thumbnail="{{ $image->path_thumbnail }}" data-username="{{ $user->username }}"  data-album="{{ $album->id }}">
+                                        <div class="image-block-top-button" data-id="{{ $image['id'] }}" data-album="{{ $album->id }}">
                                             <svg version="1.1" class="image-block-button-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94.926 94.926" style="enable-background:new 0 0 94.926 94.926;"
                                                  xml:space="preserve">
                                                 <g>
@@ -88,11 +88,11 @@
                                         </div>
                                     </div>
                                 @endif
-                                <img src="{{ $image->url }}" />
+                                <img src="{{ $image['url'] }}" />
                                 <div class="image-block-footer">
-                                    <div class="image-block-footer-counter">{{ $image->favorites->count() }}</div>
+                                    <div class="image-block-footer-counter">{{ $image['favorites_count'] }}</div>
                                     <div class="image-block-footer-wrapper">
-                                        <div class="image-block-footer-button" data-id="{{ $image->id }}" data-username="{{ $user->username }}">
+                                        <div class="image-block-footer-button" data-id="{{ $image['id'] }}" data-username="{{ $user['username'] }}">
                                             <svg version="1.1" class="heart-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
                                                 <g>
                                                     <path d="M255,489.6l-35.7-35.7C86.7,336.6,0,257.55,0,160.65C0,81.6,61.2,20.4,140.25,20.4c43.35,0,86.7,20.4,114.75,53.55

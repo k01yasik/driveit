@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Dto\ImageUploadDTO;
-use App\Http\Requests\{AvatarImageRequest, BodyImageUploadRequest, PostImageUploadRequest};
+use App\Http\Requests\{AvatarImageRequest, BodyImageUpload, PostImageUploadRequest};
 use App\Services\ImageUploadService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ImageUploadController extends Controller
 {
@@ -21,11 +22,14 @@ class ImageUploadController extends Controller
         return response()->json($result);
     }
 
-    public function uploadBodyImage(BodyImageUploadRequest $request): JsonResponse
+    public function uploadBodyImage(BodyImageUpload $request): JsonResponse
     {
-        $dto = ImageUploadDTO::fromBodyRequest($request);
-        $url = $this->imageUploadService->handleBodyImageUpload($dto);
-        
+        $url = $this->imageUploadService->handleBodyImageUpload(
+            $request->user()->id,
+            $request->validated('type'),
+            $request->file('upload_image_form_input')
+        );
+
         return response()->json(['url' => $url]);
     }
 
@@ -37,17 +41,30 @@ class ImageUploadController extends Controller
         return response()->json(['url' => $avatarUrl]);
     }
 
-    public function uploadToAlbum(AlbumImageUploadRequest $request): JsonResponse
+    public function uploadToAlbum(Request $request): JsonResponse
     {
-        $dto = ImageUploadDTO::fromAlbumRequest($request);
-        $result = $this->imageUploadService->handleAlbumImageUpload($dto);
-        
-        return response()->json($result);
+        $data = $request->validate([
+            'album_name' => 'required|string',
+            'images_upload' => 'required|array|min:1',
+            'images_upload.*' => 'required|image|mimes:jpeg,png|max:5000',
+        ]);
+        $this->imageUploadService->handleAlbumImageUpload(
+            $request->user()->id,
+            $data['album_name'],
+            $data['images_upload']
+        );
+
+        return response()->json(['status' => 'success'], 201);
     }
 
-    public function deleteImage(DeleteImageRequest $request): JsonResponse
+    public function deleteImage(Request $request): JsonResponse
     {
-        $this->imageUploadService->deleteImage($request->validated());
+        $data = $request->validate([
+            'album' => 'required|integer',
+            'id' => 'required|integer',
+        ]);
+        $this->imageUploadService->deleteImage($request->user()->id, $data['album'], $data['id']);
+
         return response()->json(['status' => 'success']);
     }
 }

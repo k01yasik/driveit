@@ -30,7 +30,7 @@ final class CachedUserRepository implements UserRepositoryInterface
 
     public function getAllUnbannedUsers(array $ripIds): array
     {
-        return Cache::rememberForever('unbanned-users', function () {
+        return Cache::rememberForever('unbanned-users', function () use ($ripIds) {
            return $this->userRepository->getAllUnbannedUsers();
         });
     }
@@ -80,9 +80,7 @@ final class CachedUserRepository implements UserRepositoryInterface
      */
     public function getAllPublicUsers(int $id): array
     {
-        return Cache::rememberForever('all-public-users', function () use ($id) {
-            return $this->userRepository->getAllPublicUsers($id);
-        });
+        return $this->userRepository->getAllPublicUsers($id);
     }
 
     /**

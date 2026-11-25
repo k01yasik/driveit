@@ -2,6 +2,8 @@
 
 namespace App\DTO;
 
+use App\Http\Requests\AvatarImageRequest;
+use App\Http\Requests\PostImageUploadRequest;
 use Illuminate\Http\UploadedFile;
 
 class ImageUploadDTO

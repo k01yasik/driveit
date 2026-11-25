@@ -15,9 +15,9 @@
                     <div class="album-breadcrumbs-item breadcrumbs-bold-item">{{ __('Friend requests') }}</div>
                 </div>
                 <div class="profile-block-content">
-                    @if ($friendRequestCount > 0 )
+                    @if ($friendRequests->isNotEmpty() )
                         <ul class="request-list">
-                            @foreach($friendRequest as $friend)
+                            @foreach($friendRequests as $friend)
                                 <li class="users-element-request">
                                     <a href="{{ route('user.profile', ['username' => $friend['user']['username']]) }}" class="profile-link"><img src="{{ $friend['user']['profile']['avatar'] }}" class="avatar-image"></a>
                                     <a href="{{ route('user.profile', ['username' => $friend['user']['username']]) }}" class="profile-name">{{ $friend['user']['username'] }}</a>

@@ -13,91 +13,84 @@ use App\User;
 
 class UserPageController extends Controller
 {
-    private SeoService $seoService;
-    private UserService $userService;
-    private FriendService $friendService;
-    private MessageService $messageService;
-
     public function __construct(
-        SeoService $seoService,
-        UserService $userService,
-        FriendService $friendService,
-        MessageService $messageService
+        private SeoService $seoService,
+        private UserService $userService,
+        private FriendService $friendService,
+        private MessageService $messageService
     ) {}
 
     public function index(Request $request, string $username)
     {
-        $seo = $this->getSeoWithUsername($request, $username);
+        $seo = $this->seoService->getSeoData($request, $username);
         return view('user.profile', compact('seo'));
     }
 
     public function requests(Request $request, string $username)
     {
-        $seo = $this->getSeoData($request);
-        $friendRequests = $this->friendService->getFriendsRequests(Auth::id());
-        
+        $seo = $this->seoService->getSeoData($request);
+        $friendRequests = $this->friendService->getPendingRequests(Auth::id());
+
         return view('user.requests', compact('seo', 'friendRequests'));
     }
 
     public function settings(Request $request, string $username)
     {
-        $seo = $this->getSeoWithUsername($request, $username);
+        $seo = $this->seoService->getSeoData($request, $username);
         return view('user.settings', compact('seo'));
+    }
+
+    public function updateSettings(Request $request, string $username)
+    {
+        $validated = $request->validate(['public' => 'required|boolean']);
+        $profile = $request->user()->profile()->firstOrFail();
+        $profile->public = (bool) $validated['public'];
+        $profile->save();
+
+        return redirect()->route('user.settings', $username);
     }
 
     public function friends(Request $request, string $username)
     {
-        $seo = $this->getSeoWithUsername($request, $username);
-        $friendList = $this->friendService->getFriendsList(Auth::id());
-        
+        $seo = $this->seoService->getSeoData($request, $username);
+        $friendList = $this->friendService->getFriends($request->attributes->get('profileUser')->id);
+
         return view('user.friends', compact('seo', 'friendList'));
     }
 
     public function messages(Request $request, string $username)
     {
-        $seo = $this->getSeoWithUsername($request, $username);
-        $friendList = $this->friendService->getFriendsList(Auth::id());
-        
+        $seo = $this->seoService->getSeoData($request, $username);
+        $friendList = $this->friendService->getFriends(Auth::id());
+
         return view('user.messages', compact('seo', 'friendList'));
     }
 
     public function update(Request $request)
     {
-        $validated = $request->validate(['id' => 'required|integer']);
+        $validated = $request->validate(['id' => 'required|integer|exists:users,id|not_in:'.Auth::id()]);
         $user = Auth::user();
 
-        $this->friendService->confirmUsers($validated['id'], $user->id);
-        broadcast(new ConfirmFriendRequest($user, User::find($validated['id'])));
+        if ($this->friendService->acceptFriendRequest($validated['id'], $user->id)) {
+            event(new ConfirmFriendRequest($user, User::findOrFail($validated['id'])));
+        }
 
         return response()->noContent();
     }
 
     public function friendMessages(Request $request, string $username, string $friendUsername)
     {
-        $seo = $this->getSeoWithUsername($request, $friendUsername);
+        $seo = $this->seoService->getSeoData($request, $friendUsername);
         $friend = $this->userService->getMessageUser($friendUsername);
-        $messages = $this->messageService->getConversation(Auth::id(), $friend->id);
+        $messages = $this->messageService->getConversation(Auth::id(), $friend['id']);
 
         return view('user.friendmessages', [
             'seo' => $seo,
             'friend' => $friend,
             'type' => 'post',
+            'canSendMessages' => $this->friendService->areFriends(Auth::id(), $friend['id']),
             'messages' => $messages,
             'messagesCount' => count($messages),
         ]);
-    }
-
-    private function getSeoWithUsername(Request $request, string $username): array
-    {
-        $seo = $this->getSeoData($request);
-        $seo['title'] .= ' ' . $username;
-        $seo['description'] .= ' ' . $username;
-        
-        return $seo;
-    }
-
-    private function getSeoData(Request $request): array
-    {
-        return $this->seoService->getSeoData($request);
     }
 }

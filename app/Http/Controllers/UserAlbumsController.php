@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NewAlbumRequest;
 use App\Services\AlbumService;
-use App\Services\FriendService;
 use App\Services\ImageService;
 use App\Services\SeoService;
 use App\Services\UserService;
@@ -16,22 +15,15 @@ class UserAlbumsController extends Controller
     public function __construct(
         private SeoService $seoService,
         private UserService $userService,
-        private FriendService $friendService,
         private AlbumService $albumService,
         private ImageService $imageService
     ) {}
 
     public function index(Request $request, string $username)
     {
-        $seo = $this->seoService->prepareSeoData($request, $username);
-        $user = $this->userService->getUserForAlbums($username);
-        $currentUserId = Auth::id();
-        
         return view('user.albums.index', [
-            'seo' => $seo,
-            'user' => $user,
-            'currentUserProfile' => $user->id === $currentUserId,
-            'friendRequestCount' => $this->friendService->getFriendsCount($currentUserId)
+            'seo' => $this->seoService->getSeoData($request, $username),
+            'user' => $this->userService->getUserForAlbums($username),
         ]);
     }
 
@@ -44,11 +36,11 @@ class UserAlbumsController extends Controller
 
     public function show(Request $request, string $username, string $albumname)
     {
-        $album = $this->albumService->getUserAlbumByName($albumname, Auth::id());
-        
+        $album = $this->albumService->getUserAlbumByName($albumname, $request->attributes->get('profileUser')->id);
+
         return view('user.albums.show', [
-            'seo' => $this->seoService->prepareSeoData($request, $album->name),
-            'images' => $this->imageService->getAllAlbumImages($album->id),
+            'seo' => $this->seoService->getSeoData($request, $album->name),
+            'images' => $this->imageService->getAlbumImages($album->id),
             'album' => $album
         ]);
     }
@@ -57,14 +49,14 @@ class UserAlbumsController extends Controller
     {
         $cleanAlbumName = clean($request->validated()['name']);
         $this->albumService->createAlbum($cleanAlbumName, Auth::id());
-        
+
         return redirect()->route('user.albums.index', compact('username'));
     }
 
     public function edit(Request $request, string $username, string $albumname)
     {
         $album = $this->albumService->getUserAlbumByName($albumname, Auth::id());
-        
+
         return view('user.albums.edit', [
             'seo' => $this->seoService->getSeoData($request),
             'album' => $album
@@ -75,7 +67,7 @@ class UserAlbumsController extends Controller
     {
         $cleanAlbumName = clean($request->validated()['name']);
         $this->albumService->updateName($albumname, $cleanAlbumName, Auth::id());
-        
+
         return redirect()->route('user.albums.index', compact('username'));
     }
 }

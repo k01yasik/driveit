@@ -16,7 +16,7 @@ class MessageRepository implements MessageRepositoryInterface
 
     public function getMessages(int $currentUserId, int $friendId): array
     {
-        return MessageModel::with(['user', 'user.profile', 'friend', 'friend.profile'])
+        return MessageModel::with('user.profile')
             ->where(function (Builder $query) use ($currentUserId, $friendId) {
                 $query->where('user_id', $currentUserId)
                     ->where('friend_id', $friendId);
@@ -26,6 +26,7 @@ class MessageRepository implements MessageRepositoryInterface
                     ->where('friend_id', $currentUserId);
             })
             ->orderBy('created_at')
+            ->orderBy('id')
             ->get()
             ->toArray();
     }

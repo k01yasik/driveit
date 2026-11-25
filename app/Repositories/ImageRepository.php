@@ -51,7 +51,7 @@ class ImageRepository implements ImageRepositoryInterface
 
     public function getAllByAlbumId(int $albumId): array
     {
-        return Image::with('favorites')
+        return Image::withCount('favorites')
             ->where('album_id', $albumId)
             ->latest()
             ->get()

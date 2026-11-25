@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\FriendRequestSent;
+use App\User;
 use App\Http\Requests\FriendRequestRequest;
 use App\Services\FriendService;
 use App\Services\SeoService;
@@ -22,17 +23,13 @@ class PublicUsersController extends Controller
     public function index(Request $request, string $username)
     {
         $userId = Auth::id();
+        $friends = collect($this->userService->getUsersWithFriends($userId)['friends']);
 
         return view('user.public', [
             'seo' => $this->seoService->getSeoData($request),
             'profiles' => $this->userService->getAllPublicUsers($userId),
-            'currentUser' => $this->userService->getUserWithFriends($userId),
-            'confirmedFriends' => $this->friendService->getConfirmedFriendsIds(
-                $this->userService->getUserFriends($userId)
-            ),
-            'requestedFriends' => $this->friendService->getRequestedFriendsIds(
-                $this->userService->getUserFriends($userId)
-            ),
+            'confirmedFriends' => $this->friendService->getConfirmedFriendsIds($friends),
+            'requestedFriends' => $this->friendService->getRequestedFriendsIds($friends),
         ]);
     }
 
@@ -41,9 +38,12 @@ class PublicUsersController extends Controller
         $validated = $request->validated();
         $user = Auth::user();
 
-        $this->friendService->sendFriendRequest($user->id, $validated['friend_id']);
+        $recipient = User::whereHas('profile', fn ($query) => $query->where('public', true))
+            ->findOrFail($validated['friend_id']);
 
-        event(new FriendRequestSent($user, User::find($validated['friend_id'])));
+        if ($this->friendService->sendFriendRequest($user->id, $recipient->id)) {
+            event(new FriendRequestSent($user, $recipient));
+        }
 
         return response()->json(['status' => 'success']);
     }

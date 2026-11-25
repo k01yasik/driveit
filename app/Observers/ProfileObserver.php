@@ -37,7 +37,7 @@ class ProfileObserver
     {
         Cache::forget('latest-posts');
         Cache::forget('all-users');
-        Cache::forget('all-public-users');
+        Cache::forget('user_with_profile_'.$profile->user_id);
     }
 
     /**
