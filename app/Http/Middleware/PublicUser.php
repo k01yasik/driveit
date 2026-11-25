@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
-use App\Profile;
 use Illuminate\Support\Facades\Auth;
 
 class PublicUser
@@ -18,15 +17,15 @@ class PublicUser
      */
     public function handle($request, Closure $next)
     {
-        $username = $request->username;
+        $username = $request->route('username');
 
         $userRequest = User::where('username', $username)->firstOrFail();
 
-        $profile = $userRequest->profile()->first();
-
-        if ($userRequest->id !== Auth::id() && !$profile->public) {
+        if ($userRequest->id !== Auth::id() && !$userRequest->profile?->public) {
             abort(403, 'User profile is not public');
         }
+
+        $request->attributes->set('profileUser', $userRequest);
 
         return $next($request);
     }

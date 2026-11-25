@@ -70,6 +70,8 @@ Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
     // Профиль пользователя
     Route::get('/{username}', [UserPageController::class, 'index'])->middleware('public')->name('user.profile');
     Route::get('/{username}/settings', [UserPageController::class, 'settings'])->middleware('current')->name('user.settings');
+    Route::patch('/{username}/settings', [UserPageController::class, 'updateSettings'])
+        ->middleware('current')->name('user.settings.update');
 
     // Альбомы
     Route::middleware('public')->prefix('{username}/albums')->group(function () {

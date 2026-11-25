@@ -34,6 +34,14 @@
                         </div>
                     @endif
                     <div class="profile-block-content-label">{{ __('Public profile?') }}</div>
+                    <form method="POST" action="{{ route('user.settings.update', $user['username']) }}">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="public" value="{{ $user['profile']['public'] ? 0 : 1 }}">
+                        <button type="submit" class="btn">
+                            {{ $user['profile']['public'] ? __('Make profile private') : __('Make profile public') }}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -23,6 +23,11 @@ class ConfirmFriendRequest implements ShouldBroadcast
         $this->friend = $friend;
     }
 
+    public function broadcastWith(): array
+    {
+        return ['sender' => ['id' => $this->sender->id]];
+    }
+
     /**
      * Get the channels the event should broadcast on.
      *

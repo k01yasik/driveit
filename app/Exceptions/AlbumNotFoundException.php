@@ -2,9 +2,8 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class AlbumNotFoundException extends Exception
+class AlbumNotFoundException extends NotFoundHttpException
 {
-    protected $message = 'Album not found';
 }

@@ -34,14 +34,15 @@ export class FriendRequestHandler {
     private static async handleRequest(event: Event): Promise<void> {
         const button = (event.target as HTMLElement).closest(
             this.options.buttonSelector!
-        );
-        if (!button) return;
+        ) as HTMLElement | null;
+        if (!button || button.dataset.pending) return;
 
         event.preventDefault();
         
         try {
             const { id, username } = (button as HTMLButtonElement).dataset;
             if (!id || !username) return;
+            button.dataset.pending = "true";
 
             await FriendRequestApiService.sendRequest(
                 id,
@@ -55,6 +56,7 @@ export class FriendRequestHandler {
             );
         } catch (error) {
             console.error('Friend request error:', error);
+            delete button.dataset.pending;
         }
     }
 }

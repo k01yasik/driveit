@@ -5,14 +5,21 @@ namespace App\Services;
 use App\Dto\ImageUploadDTO;
 use App\Repositories\Interfaces\AlbumRepositoryInterface;
 use App\Contracts\ImageStorageInterface;
+use App\Album;
+use App\Exceptions\AlbumNotFoundException;
 use App\Image;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class ImageUploadService
 {
     public function __construct(
         private AlbumRepositoryInterface $albumRepository,
         private ImageStorageInterface $storage,
-        private ThumbnailGenerator $thumbnailGenerator
+        private ThumbnailGenerator $thumbnailGenerator,
+        private ProfileService $profileService
     ) {}
 
     public function handlePostImageUpload(ImageUploadDTO $dto): array
@@ -30,34 +37,78 @@ class ImageUploadService
         return $image->toArray();
     }
 
+    public function handleBodyImageUpload(int $userId, string $type, UploadedFile $file): string
+    {
+        $album = Album::firstOrCreate(
+            ['user_id' => $userId, 'name' => 'posts'],
+            ['path' => Str::random(10)]
+        );
+        $path = $this->storage->store($file, "albums/{$album->path}/{$type}");
+
+        try {
+            $url = $this->storage->getUrl($path);
+            $album->images()->create(['url' => $url, 'path' => $path, 'name' => $file->getClientOriginalName()]);
+
+            return $url;
+        } catch (Throwable $exception) {
+            $this->storage->delete($path);
+
+            throw $exception;
+        }
+    }
+
     public function handleAvatarUpload(ImageUploadDTO $dto): string
     {
         $thumbnail = $this->thumbnailGenerator->generate($dto->file, $dto->cropData);
         $path = $this->storage->storeAvatar($thumbnail, $dto->userId);
         
-        return $this->storage->getUrl($path);
+        $url = $this->storage->getUrl($path);
+        $this->profileService->addUserAvatar($dto->userId, $url);
+
+        return $url;
     }
 
-    public function handleAlbumImageUpload(ImageUploadDTO $dto): array
+    public function handleAlbumImageUpload(int $userId, string $albumName, array $files): void
     {
-        $album = $this->albumRepository->getUserAlbumByName($dto->albumName, $dto->userId);
-        
-        $path = $this->storage->store($dto->file, "albums/{$album->path}");
-        $thumbnailPath = $this->thumbnailGenerator->generateForAlbum($dto->file);
-        
-        $image = Image::create([
-            'url' => $this->storage->getUrl($path),
-            'path' => $path,
-            'thumbnail_path' => $thumbnailPath,
-            'album_id' => $album->id,
-            'user_id' => $dto->userId
-        ]);
-        
-        return $image->toArray();
+        $album = $this->albumRepository->getUserAlbumByName($albumName, $userId)
+            ?? throw new AlbumNotFoundException('Album not found');
+        $storedPaths = [];
+
+        try {
+            DB::transaction(function () use ($album, $files, &$storedPaths) {
+                foreach ($files as $file) {
+                    $path = $this->storage->store($file, "albums/{$album->path}");
+                    $storedPaths[] = $path;
+                    $album->images()->create([
+                        'url' => $this->storage->getUrl($path),
+                        'path' => $path,
+                        'name' => $file->getClientOriginalName(),
+                    ]);
+                }
+            });
+        } catch (Throwable $exception) {
+            foreach ($storedPaths as $path) {
+                $this->storage->delete($path);
+            }
+
+            throw $exception;
+        }
     }
 
-    public function deleteImage(array $data): void
+    public function deleteImage(int $userId, int $albumId, int $imageId): void
     {
-        // Логика удаления изображения
+        DB::transaction(function () use ($userId, $albumId, $imageId) {
+            $image = Album::where('user_id', $userId)->findOrFail($albumId)
+                ->images()->lockForUpdate()->findOrFail($imageId);
+            $image->favorites()->delete();
+            $image->delete();
+
+            DB::afterCommit(function () use ($image) {
+                $this->storage->delete($image->path);
+                if ($image->path_thumbnail) {
+                    $this->storage->delete($image->path_thumbnail);
+                }
+            });
+        }, 3);
     }
 }

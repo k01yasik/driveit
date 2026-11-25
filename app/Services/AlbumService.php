@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Interfaces\AlbumRepositoryInterface;
+use App\Album;
 use App\Dto\AlbumDTO;
 use App\Exceptions\AlbumNotFoundException;
 

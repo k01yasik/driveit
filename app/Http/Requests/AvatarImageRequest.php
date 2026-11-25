@@ -15,10 +15,10 @@ class AvatarImageRequest extends FormRequest
     {
         return [
             'avatar_upload' => 'required|image|max:5000',
-            'x' => 'required|numeric',
-            'y' => 'required|numeric',
-            'width' => 'required|numeric',
-            'height' => 'required|numeric',
+            'x' => 'required|integer|min:0',
+            'y' => 'required|integer|min:0',
+            'width' => 'required|integer|min:1',
+            'height' => 'required|integer|min:1',
         ];
     }
 }

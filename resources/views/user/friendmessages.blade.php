@@ -8,13 +8,13 @@
         <div class="col s12 m12 l9">
             <div class="profile-block">
                 <div class="album-breadcrumbs">
-                    <a href="{{ route('user.profile', ['username' => $user->username]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
+                    <a href="{{ route('user.profile', ['username' => $user['username']]) }}" class="album-breadcrumbs-item"><div>{{ __('Profile') }}</div></a>
                     <span class="album-breadcrumbs-item">/</span>
-                    <a href="{{ route('user.messages', ['username' => $user->username]) }}" class="album-breadcrumbs-item">{{ __('Messages') }}</a>
+                    <a href="{{ route('user.messages', ['username' => $user['username']]) }}" class="album-breadcrumbs-item">{{ __('Messages') }}</a>
                     <span class="album-breadcrumbs-item">/</span>
                     <div class="album-breadcrumbs-item breadcrumbs-bold-item">{{ __('Dialogue') }}</div>
                 </div>
-                <div class="profile-block-content margin-bottom-2" data-username="{{ $user->username }}" data-friend="{{ $friend->id }}">
+                <div class="profile-block-content margin-bottom-2" data-message-url="{{ route('message.store', ['username' => $user['username']]) }}" data-friend="{{ $friend['id'] }}">
                     @if ($messagesCount > 0)
                         @foreach ($messages as $message)
                             <div class="message-wrapper">
@@ -38,7 +38,9 @@
                         <h3 class="welcome-chat">{{ __('Have a nice chat!') }}</h3>
                     @endif
                 </div>
-                @include('components.texteditor-mini')
+                @if ($canSendMessages)
+                    @include('components.texteditor-mini')
+                @endif
             </div>
         </div>
     </div>

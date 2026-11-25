@@ -16,11 +16,18 @@ class SeoService
         $this->seoRepository = $seoRepository;
     }
 
-    public function getSeoData(Request $request)
+    public function getSeoData(Request $request, ?string $suffix = null): array
     {
         $name = $this->getRouteName($request);
 
-        return $this->seoRepository->getSeoData($name);
+        $seo = $this->seoRepository->getSeoData($name);
+
+        if ($suffix !== null) {
+            $seo['title'] .= ' ' . $suffix;
+            $seo['description'] .= ' ' . $suffix;
+        }
+
+        return $seo;
     }
 
     public function getAllData(): array

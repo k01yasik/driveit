@@ -10,7 +10,12 @@ class LocalImageStorage implements ImageStorageInterface
 {
     public function store(UploadedFile $file, string $directory): string
     {
-        return Storage::disk('public')->putFile($directory, $file);
+        $path = Storage::disk('public')->putFile($directory, $file);
+        if ($path === false) {
+            throw new \RuntimeException('Could not store the image.');
+        }
+
+        return $path;
     }
 
     public function storeAvatar($imageData, int $userId): string

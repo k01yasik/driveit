@@ -22,15 +22,18 @@ class ProfileComposer
 
     public function compose(View $view)
     {
-        $user = $this->userService
-            ->getMessageUser(request()->route()->parameter('username'));
+        $request = request();
+        $user = $view->getData()['user']
+            ?? $request->attributes->get('profileUser')?->loadMissing('profile')->toArray()
+            ?? $this->userService->getMessageUser($request->route('username'));
 
         $currentUserId = Auth::id();
 
         $currentUserProfile = $user['id'] === $currentUserId;
 
-        $friendRequestCount = $this->friendService
-            ->getFriendsCount($currentUserId);
+        $friendRequestCount = $currentUserProfile
+            ? $this->friendService->getFriendsCount($currentUserId)
+            : 0;
         $view->with('user', $user)
             ->with('currentUserProfile', $currentUserProfile)
             ->with('friendRequestCount', $friendRequestCount);

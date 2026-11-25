@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Rip;
 use App\User;
 use App\Profile;
 
@@ -49,17 +48,21 @@ class UserRepository implements UserRepositoryInterface
 
     public function getAllPublicUsers(int $id): array
     {
-        return Profile::with(['user', 'user.friends'])->where([['public', true], ['user_id', '<>', $id]] )->get()->toArray();
+        return Profile::with('user:id,username')
+            ->where('public', true)
+            ->where('user_id', '<>', $id)
+            ->get()
+            ->toArray();
     }
 
     public function getUsersWithFriends(int $id): array
     {
-        return User::with('friends')->find($id)->toArray();
+        return User::with('friends')->findOrFail($id)->toArray();
     }
 
     public function getUserForAlbums(string $username): array
     {
-        return User::with('profile', 'albums', 'albums.images')->where('username', $username)->first()->toArray();
+        return User::with('profile', 'albums')->where('username', $username)->firstOrFail()->toArray();
     }
 
     public function getAllUnbannedUsers(array $ripIds): array

@@ -1,65 +1,34 @@
-// Типы для TypeScript
-interface ImageDeleteButton extends HTMLElement {
-    dataset: {
-        id: string;
-        username: string;
-        album: string;
-        path: string;
-        thumbnail: string;
-    };
-}
-
-// Функция для удаления изображения
-async function deleteImage(element: ImageDeleteButton): Promise<void> {
-    const { id, username, album, path, thumbnail } = element.dataset;
+async function deleteImage(button: HTMLElement): Promise<void> {
+    const { id, album } = button.dataset;
     const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content;
+    if (!id || !album || !csrfToken || button.dataset.pending) return;
 
-    if (!id || !username || !album || !path || !thumbnail || !csrfToken) {
-        console.error('Missing required data attributes or CSRF token');
-        return;
-    }
-
+    button.dataset.pending = 'true';
     try {
-        const params = new URLSearchParams();
-        params.append('id', id);
-        params.append('username', username);
-        params.append('album', album);
-        params.append('path', path);
-        params.append('thumbnail', thumbnail);
-
-        const response = await fetch(`/user/image/delete?${params.toString()}`, {
+        const params = new URLSearchParams({ id, album });
+        const response = await fetch(`/user/image/delete?${params}`, {
             method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
+            headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' }
         });
 
-        if (response.ok) {
-            const result = await response.text();
-            if (result === 'ok') {
-                const parentElement = element.parentElement?.parentElement;
-                if (parentElement) {
-                    parentElement.remove();
-                }
-            }
-        } else {
-            console.error('Delete request failed:', response.status);
+        if (!response.ok) {
+            throw new Error(`Delete request failed: ${response.status}`);
+        }
+
+        const wrapper = button.closest('.image-wrapper');
+        button.closest('.image-block')?.remove();
+        if (wrapper && !wrapper.querySelector('.image-block')) {
+            window.location.reload();
         }
     } catch (error) {
         console.error('Error deleting image:', error);
+        delete button.dataset.pending;
     }
 }
 
-// Инициализация обработчиков событий
-function initImageDeleteButtons(): void {
-    document.addEventListener('DOMContentLoaded', () => {
-        const buttons = document.querySelectorAll<ImageDeleteButton>('.image-block-top-button');
-        
-        buttons.forEach(button => {
-            button.addEventListener('click', () => deleteImage(button));
-        });
-    });
-}
-
-// Запуск инициализации
-initImageDeleteButtons();
+document.querySelector('.image-wrapper')?.addEventListener('click', (event) => {
+    const button = (event.target as Element).closest<HTMLElement>('.image-block-top-button');
+    if (button) {
+        void deleteImage(button);
+    }
+});

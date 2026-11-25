@@ -11,7 +11,7 @@ class TextEditor {
   private imageSelectItemInput: HTMLInputElement;
   private imageItem: HTMLElement;
   private uploadImage: HTMLInputElement;
-  private bodyInput: HTMLInputElement | HTMLTextAreaElement;
+  private bodyInput: HTMLInputElement | HTMLTextAreaElement | null;
   private savedRange: Range | null = null;
 
   constructor() {
@@ -22,7 +22,7 @@ class TextEditor {
     this.imageSelectItemInput = this.getElement('.image-select-item-input') as HTMLInputElement;
     this.imageItem = this.getElement('.image-item');
     this.uploadImage = this.getElement('#upload_image_form_input') as HTMLInputElement;
-    this.bodyInput = this.getElement('#body') as HTMLInputElement | HTMLTextAreaElement;
+    this.bodyInput = document.querySelector<HTMLInputElement | HTMLTextAreaElement>('#body');
 
     this.init();
   }
@@ -37,11 +37,13 @@ class TextEditor {
 
   private init(): void {
     this.loadContent();
-    this.setupAutoSave();
+    if (this.bodyInput) this.setupAutoSave();
     this.setupEventListeners();
   }
 
   private loadContent(): void {
+    if (!this.bodyInput) return;
+
     const textPostBody = localStorage.getItem('post-body');
     if (textPostBody && textPostBody !== "undefined") {
       this.editor.innerHTML = textPostBody;
@@ -75,11 +77,9 @@ class TextEditor {
     this.setupImageHandling();
 
     // Form submission
-    const submitPostForm = this.getElement('.submit-post-form');
-    submitPostForm.addEventListener('click', this.handleFormSubmit.bind(this));
+    document.querySelector('.submit-post-form')?.addEventListener('click', this.handleFormSubmit.bind(this));
 
-    const submitEditPostForm = this.getElement('.submit-edit-post-form');
-    submitEditPostForm.addEventListener('click', this.handleEditFormSubmit.bind(this));
+    document.querySelector('.submit-edit-post-form')?.addEventListener('click', this.handleEditFormSubmit.bind(this));
 
     // Selection handling
     this.editor.addEventListener('focusout', this.saveSelection.bind(this));
@@ -107,8 +107,7 @@ class TextEditor {
     };
 
     Object.entries(commands).forEach(([selector, { command, value }]) => {
-      const element = this.getElement(selector);
-      element.addEventListener('click', () => this.executeCommand(command, value));
+      document.querySelector(selector)?.addEventListener('click', () => this.executeCommand(command, value));
     });
 
     // Special cases
@@ -163,11 +162,6 @@ class TextEditor {
         formData.append('type', type);
       }
       
-      const username = this.getElement('.add-comment-wrapper').dataset.username;
-      if (username) {
-        formData.append('username', username);
-      }
-      
       this.uploadImageToServer(formData);
     });
   }
@@ -191,8 +185,8 @@ class TextEditor {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const result = await response.text();
-      this.executeCommand('insertImage', result);
+      const { url }: { url: string } = await response.json();
+      this.executeCommand('insertImage', url);
     } catch (error) {
       console.error('Error uploading image:', error);
       // Здесь можно добавить уведомление пользователю об ошибке
@@ -228,6 +222,7 @@ class TextEditor {
 
   private handleFormSubmit(e: Event): void {
     e.preventDefault();
+    if (!this.bodyInput) return;
     this.bodyInput.value = this.editor.innerHTML;
     this.cleanupStorage();
     const form = this.getElement('#create-post-form') as HTMLFormElement;
@@ -236,6 +231,7 @@ class TextEditor {
 
   private handleEditFormSubmit(e: Event): void {
     e.preventDefault();
+    if (!this.bodyInput) return;
     this.bodyInput.value = this.editor.innerHTML;
     const caption = this.getElement('#caption') as HTMLInputElement;
     const firstChild = this.editor.children[0];
@@ -253,5 +249,7 @@ class TextEditor {
 
 // Initialize the editor when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  new TextEditor();
+  if (document.querySelector('.text-editor-body')) {
+    new TextEditor();
+  }
 });

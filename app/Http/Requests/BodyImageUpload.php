@@ -24,8 +24,8 @@ class BodyImageUpload extends FormRequest
     public function rules()
     {
         return [
-            'upload_image_form_input' => 'required|image',
-            'type' => 'required'
+            'upload_image_form_input' => 'required|image|mimes:jpeg,png|max:5000',
+            'type' => 'required|in:post,comment'
         ];
     }
 }

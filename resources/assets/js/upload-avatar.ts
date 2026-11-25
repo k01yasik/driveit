@@ -13,17 +13,16 @@ class AvatarUploader {
     document.getElementById('change-avatar-input')?.addEventListener('change', (event) => {
       const input = event.target as HTMLInputElement;
       if (input.files?.length) {
-        this.handleFileUpload(input.files[0], input.dataset.username || '');
+        this.handleFileUpload(input.files[0]);
       }
     });
   }
 
-  private static async handleFileUpload(file: File, username: string): Promise<void> {
+  private static async handleFileUpload(file: File): Promise<void> {
     try {
       // Create FormData and add basic fields
       const formData = new FormData();
       formData.append('avatar_upload', file);
-      formData.append('username', username);
 
       // Get image dimensions and perform smart cropping
       const cropData = await this.getCropData(file);
@@ -77,13 +76,16 @@ class AvatarUploader {
       throw new Error(`Upload failed with status ${response.status}`);
     }
 
-    return await response.text();
+    const { url }: { url: string } = await response.json();
+    return url;
   }
 
   private static updateAvatarImage(newSrc: string): void {
     const avatarImg = document.querySelector('.avatar-inner img') as HTMLImageElement;
     if (avatarImg) {
-      avatarImg.src = newSrc;
+      const url = new URL(newSrc, window.location.href);
+      url.searchParams.set('v', Date.now().toString());
+      avatarImg.src = url.toString();
     }
   }
 
