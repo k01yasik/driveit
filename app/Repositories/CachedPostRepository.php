@@ -100,7 +100,7 @@ final class CachedPostRepository implements PostRepositoryInterface
 
     public function getPostsByMonth(): array
     {
-        return Cache::rememberForever('best-comments-by-month', function () {
+        return Cache::remember('posts-published-this-month', now()->startOfMonth()->addMonth(), function () {
             return $this->postRepository->getPostsByMonth();
         });
     }
@@ -155,6 +155,11 @@ final class CachedPostRepository implements PostRepositoryInterface
         return $this->postRepository->getPostsCount();
     }
 
+    public function getPublishedPostsCount(): int
+    {
+        return $this->postRepository->getPublishedPostsCount();
+    }
+
     public function getPostsSortedByViews(int $pageId, int $numberPosts): array
     {
         return $this->postRepository->getPostsSortedByViews($pageId, $numberPosts);
@@ -168,6 +173,11 @@ final class CachedPostRepository implements PostRepositoryInterface
     public function getPostStatus(PostEntity $postEntity): bool
     {
         return $this->postRepository->getPostStatus($postEntity);
+    }
+
+    public function togglePublication(int $postId): void
+    {
+        $this->postRepository->togglePublication($postId);
     }
 
     public function publishPost(PostEntity $postEntity): void
