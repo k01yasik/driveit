@@ -160,6 +160,10 @@
     @if ($suggestPosts)
         @include('components.suggests')
     @endif
+    @if (session('comment_status'))
+        <p role="status">{{ session('comment_status') }}</p>
+    @endif
+
     @if ($sortedComments)
         <div class="caption-block">
             <div class="caption-block-text">{{ __('Comments') }}</div>

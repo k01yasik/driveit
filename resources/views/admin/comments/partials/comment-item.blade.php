@@ -27,6 +27,7 @@
                 <span class="comment-status-published">{{ __('Published') }}</span>
                 <span class="comment-status-pending">{{ __('Awaiting moderation') }}</span>
             </span>
+            <a href="{{ route('admin.comment.edit', $id) }}">{{ __('Edit comment') }}</a>
             <button class="comment-toggle-publish comment-publish-button" type="button" data-id="{{ $id }}"
                     aria-label="{{ __('Change publication status') }}">
                 @if (data_get($comment, 'is_verified'))

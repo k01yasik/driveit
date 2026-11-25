@@ -34,6 +34,18 @@ class CommentRepository implements CommentRepositoryInterface
             ]);
     }
 
+    public function updateMessage(int $id, string $message): void
+    {
+        Comment::whereKey($id)->update(['message' => $message, 'is_verified' => false]);
+    }
+
+    public function toggleVerification(int $id): void
+    {
+        if (! Comment::whereKey($id)->update(['is_verified' => DB::raw('NOT is_verified')])) {
+            throw (new \Illuminate\Database\Eloquent\ModelNotFoundException())->setModel(Comment::class, [$id]);
+        }
+    }
+
     public function create(CommentDTO $commentData): array
     {
         $comment = new Comment();

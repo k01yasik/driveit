@@ -35,10 +35,27 @@ final class CachedCommentRepository implements CommentRepositoryInterface, Cache
         $this->commentRepository->update($commentData);
     }
 
+    public function updateMessage(int $id, string $message): void
+    {
+        $postId = $this->getById($id)['post_id'];
+        $this->commentRepository->updateMessage($id, $message);
+        $this->clearCache($id);
+        Cache::forget("comments_for_post_{$postId}");
+    }
+
+    public function toggleVerification(int $id): void
+    {
+        $postId = $this->getById($id)['post_id'];
+        $this->commentRepository->toggleVerification($id);
+        $this->clearCache($id);
+        Cache::forget("comments_for_post_{$postId}");
+    }
+
     public function create(CommentDTO $commentData): array
     {
         $result = $this->commentRepository->create($commentData);
         $this->clearCache($result['id']);
+        Cache::forget("comments_for_post_{$commentData->postId}");
         return $result;
     }
 

@@ -3,5 +3,5 @@
 @section('admin-title', __('Edit comment'))
 
 @section('content')
-    <p>Edit comment from admin page!</p>
+    <x-comment-edit-form :comment="$comment" :action="$action" :back="$back" />
 @endsection
