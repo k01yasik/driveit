@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Repositories\CachedSeoRepository;
+use App\Repositories\Interfaces\SeoRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class SeoService
 {
-    protected CachedSeoRepository $seoRepository;
+    protected SeoRepositoryInterface $seoRepository;
 
-    public function __construct(CachedSeoRepository $seoRepository)
+    public function __construct(SeoRepositoryInterface $seoRepository)
     {
         $this->seoRepository = $seoRepository;
     }

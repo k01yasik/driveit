@@ -38,33 +38,49 @@ class CachedCommentRepositoryTest extends TestCase
         $this->assertEquals($expectedComment, $result);
     }
 
-    public function testUpdateClearsCache()
+    public function test_update_invalidates_both_threads_after_writing(): void
     {
-        $comment = new CommentUpdateDTO(1, 1, 1, 'Test', 0);
-        
-        Cache::shouldReceive('forget')
-            ->once()
-            ->with("comment_1");
-            
-        Cache::shouldReceive('forget')
-            ->once()
-            ->with('comments_verified_count');
-            
-        Cache::shouldReceive('forget')
-            ->once()
-            ->with('comments_unverified_count');
-            
-        Cache::shouldReceive('forget')
-            ->once()
-            ->with('unverified_comments');
-
-        Cache::shouldReceive('forget')->once()->with('comment_exists_1');
-        Cache::shouldReceive('forget')->once()->with('parent_valid_1_*');
+        $comment = new CommentUpdateDTO(1, 1, 2, 'Test', 0);
+        $keys = [
+            'comment_1', 'comments_verified_count', 'comments_unverified_count',
+            'unverified_comments', 'comment_exists_1', 'comments_for_post_1', 'comments_for_post_2',
+        ];
+        foreach ($keys as $key) {
+            Cache::put($key, 'stale', 60);
+        }
 
         $this->commentRepository->expects($this->once())
-            ->method('update')
-            ->with($comment);
+            ->method('getPostIdsForComments')->with([1])->willReturn([1]);
+        $this->commentRepository->expects($this->once())
+            ->method('update')->with($comment)
+            ->willReturnCallback(function (): void {
+                $this->assertSame('stale', Cache::get('comment_1'));
+            });
 
         $this->cachedRepository->update($comment);
+
+        foreach ($keys as $key) {
+            $this->assertNull(Cache::get($key), $key);
+        }
+    }
+
+    public function test_bulk_verification_invalidates_affected_threads_and_counters(): void
+    {
+        Cache::put('comments_for_post_1', [], 60);
+        Cache::put('comments_for_post_2', [], 60);
+        Cache::put('comments_for_post_3', [], 60);
+        Cache::put('comments_verified_count', 0, 60);
+
+        $this->commentRepository->expects($this->once())
+            ->method('getPostIdsForComments')->with([10, 20, 99])->willReturn([1, 2]);
+        $this->commentRepository->expects($this->once())
+            ->method('bulkVerify')->with([10, 20, 99])->willReturn(2);
+
+        $this->assertSame(2, $this->cachedRepository->bulkVerify([10, 20, 99]));
+
+        $this->assertNull(Cache::get('comments_for_post_1'));
+        $this->assertNull(Cache::get('comments_for_post_2'));
+        $this->assertSame([], Cache::get('comments_for_post_3'));
+        $this->assertNull(Cache::get('comments_verified_count'));
     }
 }

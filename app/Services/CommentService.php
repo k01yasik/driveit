@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Comment;
-use App\Repositories\CachedCommentRepository;
+use App\Repositories\Interfaces\CommentRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -14,9 +14,9 @@ use App\DTO\CommentStoreResultDTO;
 
 class CommentService
 {
-    private CachedCommentRepository $commentRepository;
+    private CommentRepositoryInterface $commentRepository;
 
-    public function __construct(CachedCommentRepository $commentRepository)
+    public function __construct(CommentRepositoryInterface $commentRepository)
     {
         $this->commentRepository = $commentRepository;
     }

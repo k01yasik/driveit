@@ -31,8 +31,11 @@ final class CachedCommentRepository implements CommentRepositoryInterface, Cache
 
     public function update(CommentUpdateDTO $commentData): void
     {
-        $this->clearCache($commentData->id);
+        $oldPostIds = $this->getPostIdsForComments([$commentData->id]);
         $this->commentRepository->update($commentData);
+
+        $this->clearCache($commentData->id);
+        $this->clearPostCaches(array_unique([...$oldPostIds, $commentData->postId]));
     }
 
     public function updateMessage(int $id, string $message): void
@@ -111,30 +114,19 @@ final class CachedCommentRepository implements CommentRepositoryInterface, Cache
 
     public function isParentValid(int $parentId, int $postId): bool
     {
-        $cacheKey = "parent_valid_{$parentId}_{$postId}";
-        
-        return Cache::remember(
-            $cacheKey,
-            self::CACHE_TTL,
-            fn() => $this->commentRepository->isParentValid($parentId, $postId)
-        );
+        return $this->commentRepository->isParentValid($parentId, $postId);
     }
 
     public function clearCache(int $commentId): void
     {
-        $keys = [
-            self::CACHE_PREFIX . $commentId,
-            'comments_verified_count',
-            'comments_unverified_count',
-            'unverified_comments',
-            "comment_exists_{$commentId}"
-        ];
-        
-        foreach ($keys as $key) {
-            Cache::forget($key);
-        }
-        
-        Cache::forget("parent_valid_{$commentId}_*");
+        $this->clearCommentCache($commentId);
+        $this->clearAllCache();
+    }
+
+    private function clearCommentCache(int $commentId): void
+    {
+        Cache::forget(self::CACHE_PREFIX . $commentId);
+        Cache::forget("comment_exists_{$commentId}");
     }
 
     public function clearAllCache(): void
@@ -144,12 +136,29 @@ final class CachedCommentRepository implements CommentRepositoryInterface, Cache
         Cache::forget('unverified_comments');
     }
 
+    public function getPostIdsForComments(array $ids): array
+    {
+        return $this->commentRepository->getPostIdsForComments($ids);
+    }
+
     public function bulkVerify(array $ids): int
     {
+        $postIds = $this->getPostIdsForComments($ids);
+        $updated = $this->commentRepository->bulkVerify($ids);
+
         foreach ($ids as $id) {
-            $this->clearCache($id);
+            $this->clearCommentCache($id);
         }
         $this->clearAllCache();
-        return $this->commentRepository->bulkVerify($ids);
+        $this->clearPostCaches($postIds);
+
+        return $updated;
+    }
+
+    private function clearPostCaches(array $postIds): void
+    {
+        foreach ($postIds as $postId) {
+            Cache::forget("comments_for_post_{$postId}");
+        }
     }
 }

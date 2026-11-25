@@ -14,52 +14,54 @@ class PostRepository implements PostRepositoryInterface
 {
     public function store(PostEntity $postEntity, int $userId, array $postCategoriesId): void
     {
-        $post = new Post;
-        $post->slug = $postEntity->getSlug();
-        $post->title = $postEntity->getTitle();
-        $post->description = $postEntity->getDescription();
-        $post->name = $postEntity->getName();
-        $post->caption = $postEntity->getCaption();
-        $post->body = $postEntity->getBody();
-        $post->image_path = $postEntity->getImagePath();
-        $post->is_published = $postEntity->isPublished();
-        $post->user_id = $userId;
-        $post->views = $postEntity->getViews();
-        $post->save();
+        DB::transaction(function () use ($postEntity, $userId, $postCategoriesId): void {
+            $post = new Post;
+            $post->slug = $postEntity->getSlug();
+            $post->title = $postEntity->getTitle();
+            $post->description = $postEntity->getDescription();
+            $post->name = $postEntity->getName();
+            $post->caption = $postEntity->getCaption();
+            $post->body = $postEntity->getBody();
+            $post->image_path = $postEntity->getImagePath();
+            $post->is_published = $postEntity->isPublished();
+            $post->user_id = $userId;
+            $post->views = $postEntity->getViews();
+            $post->save();
 
-        $post->categories()->attach($postCategoriesId);
+            $post->categories()->attach($postCategoriesId);
+        });
     }
 
     public function update(PostEntity $postEntity, int $userId, int $postId, array $postCategoriesId): void
     {
-        $post = Post::find($postId);
-        $post->title = $postEntity->getTitle();
-        $post->description = $postEntity->getDescription();
-        $post->name = $postEntity->getName();
-        $post->caption = $postEntity->getCaption();
-        $post->body = $postEntity->getBody();
-        $post->image_path = $postEntity->getImagePath();
-        $post->user_id = $userId;
-        $post->save();
+        DB::transaction(function () use ($postEntity, $userId, $postId, $postCategoriesId): void {
+            $post = Post::lockForUpdate()->findOrFail($postId);
+            $post->title = $postEntity->getTitle();
+            $post->description = $postEntity->getDescription();
+            $post->name = $postEntity->getName();
+            $post->caption = $postEntity->getCaption();
+            $post->body = $postEntity->getBody();
+            $post->image_path = $postEntity->getImagePath();
+            $post->user_id = $userId;
+            $post->save();
 
-        $post->categories()->detach();
-
-        $post->categories()->attach($postCategoriesId);
+            $post->categories()->sync($postCategoriesId);
+        });
     }
 
     public function getPostStatus(PostEntity $postEntity): bool
     {
-        return Post::select('is_published')->find($postEntity->getId());
+        return (bool) Post::select('is_published')->findOrFail($postEntity->getId())->is_published;
     }
 
     public function publishPost(PostEntity $postEntity): void
     {
-        Post::find($postEntity->getId())->update(['is_published' => true, 'date_published' => Carbon::now()]);
+        Post::findOrFail($postEntity->getId())->forceFill(['is_published' => true, 'date_published' => Carbon::now()])->save();
     }
 
     public function unpublishPost(PostEntity $postEntity): void
     {
-        Post::find($postEntity->getId())->update(['is_published' => false, 'date_published' => null]);
+        Post::findOrFail($postEntity->getId())->forceFill(['is_published' => false, 'date_published' => null])->save();
     }
 
     public function updateHtml(PostEntity $postEntity, int $postId): void

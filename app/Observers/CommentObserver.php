@@ -3,15 +3,11 @@
 namespace App\Observers;
 
 use App\Comment;
-use App\Services\PostService;
+use App\Repositories\CachedPostRepository;
 use Illuminate\Support\Facades\Cache;
 
 class CommentObserver
 {
-    public function __construct(private PostService $postService)
-    {
-    }
-
     /**
      * Handle the comment "created" event.
      *
@@ -23,36 +19,13 @@ class CommentObserver
         //
     }
 
-    /**
-     * Handle the comment "updated" event.
-     *
-     * @param  \App\Comment  $comment
-     * @return void
-     */
-    public function updated(Comment $comment)
-    {
-        Cache::forget('latest-posts');
-        Cache::forget('paginated-posts');
-        Cache::forget('comments_verified');
-        Cache::forget('comments_not_verified');
-        Cache::forget('comment_'.$comment->id);
-        Cache::forget('top-posts');
-    }
-
     public function saved(Comment $comment)
     {
         Cache::forget('latest-posts');
-        Cache::forget('paginated-posts');
         Cache::forget('comments_verified');
         Cache::forget('comments_not_verified');
         Cache::forget('comment_'.$comment->id);
-        Cache::forget('top-posts');
-
-        $pages = $this->postService->getPagesCount();
-
-        for ($i = 1; $i <= $pages; $i++) {
-            Cache::forget('paginated-posts-'.$i);
-        }
+        CachedPostRepository::invalidateListings();
     }
 
     /**
