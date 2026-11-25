@@ -84,9 +84,24 @@ class PostService
         return $this->postRepository->getById($postId);
     }
 
-    public function changePublishStatus(PostEntity|int $post): void
+    public function publish(int $postId): void
     {
-        $this->postRepository->togglePublication($post instanceof PostEntity ? $post->getId() : $post);
+        $this->postRepository->setPublication($postId, true);
+    }
+
+    public function unpublish(int $postId): void
+    {
+        $this->postRepository->setPublication($postId, false);
+    }
+
+    public function archive(int $postId): void
+    {
+        $this->postRepository->setArchived($postId, true);
+    }
+
+    public function restore(int $postId): void
+    {
+        $this->postRepository->setArchived($postId, false);
     }
 
     public function getPostByIdWithCategories(int $postId): array

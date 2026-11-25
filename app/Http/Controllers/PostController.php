@@ -79,11 +79,32 @@ class PostController extends Controller
         return view('admin.posts.show', compact('seo', 'post', 'user'));
     }
 
-    public function publish(Request $request)
+    public function publish(Request $request, int $id)
     {
-        $data = $request->validate(['id' => ['required', 'integer', 'min:1']]);
+        $this->postService->publish($id);
 
-        $this->postService->changePublishStatus((int) $data['id']);
+        return $request->expectsJson() ? response()->noContent() : back();
+    }
+
+    public function unpublish(Request $request, int $id)
+    {
+        $this->postService->unpublish($id);
+
+        return $request->expectsJson() ? response()->noContent() : back();
+    }
+
+    public function archive(Request $request, int $id)
+    {
+        $this->postService->archive($id);
+
+        return $request->expectsJson() ? response()->noContent() : back();
+    }
+
+    public function restore(Request $request, int $id)
+    {
+        $this->postService->restore($id);
+
+        return $request->expectsJson() ? response()->noContent() : back();
     }
 
     public function edit($id, Request $request)

@@ -6,7 +6,6 @@ use App\Category;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Post;
 use App\Entities\Post as PostEntity;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -54,24 +53,34 @@ class PostRepository implements PostRepositoryInterface
         return (bool) Post::select('is_published')->findOrFail($postEntity->getId())->is_published;
     }
 
-    public function togglePublication(int $postId): void
+    public function setPublication(int $postId, bool $published): void
     {
-        DB::transaction(function () use ($postId): void {
+        DB::transaction(function () use ($postId, $published): void {
             $post = Post::lockForUpdate()->findOrFail($postId);
-            $post->is_published = ! $post->is_published;
-            $post->date_published = $post->is_published ? Carbon::now() : null;
-            $post->save();
+            abort_if($published && $post->archived_at !== null, 409, 'Восстановите пост из архива перед публикацией.');
+
+            if ($post->isPublished() !== $published) {
+                $post->is_published = $published;
+                $post->date_published = $published ? now() : null;
+                $post->save();
+            }
         });
     }
 
-    public function publishPost(PostEntity $postEntity): void
+    public function setArchived(int $postId, bool $archived): void
     {
-        Post::findOrFail($postEntity->getId())->forceFill(['is_published' => true, 'date_published' => Carbon::now()])->save();
-    }
+        DB::transaction(function () use ($postId, $archived): void {
+            $post = Post::lockForUpdate()->findOrFail($postId);
 
-    public function unpublishPost(PostEntity $postEntity): void
-    {
-        Post::findOrFail($postEntity->getId())->forceFill(['is_published' => false, 'date_published' => null])->save();
+            if (($post->archived_at !== null) === $archived) {
+                return;
+            }
+
+            $post->archived_at = $archived ? now() : null;
+            $post->is_published = false;
+            $post->date_published = null;
+            $post->save();
+        });
     }
 
     public function updateHtml(PostEntity $postEntity, int $postId): void
@@ -165,12 +174,12 @@ class PostRepository implements PostRepositoryInterface
 
     public function getSuggests(array $ids): array
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->find($ids)->toArray();
+        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])->where('is_published', true)->find($ids)->toArray();
     }
 
     public function search(string $query): array
     {
-        return Post::search($query)->get()->load(['user', 'categories', 'user.profile', 'rating', 'comments'])->toArray();
+        return Post::search($query)->get()->filter(fn (Post $post): bool => $post->isPublished())->values()->load(['user', 'categories', 'user.profile', 'rating', 'comments'])->toArray();
     }
 
     public function getPostsForSitemap(): array

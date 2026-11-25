@@ -1,7 +1,6 @@
 require('./bootstrap');
 require('./post-upload-image');
 require('./editor');
-require('./publish-post');
 require('./small-menu');
 require('./rating');
 require('./add-comment');

@@ -108,7 +108,7 @@ class Post extends Model
 
     public function isPublished()
     {
-        return $this->is_published == 1;
+        return (bool) $this->is_published && $this->archived_at === null;
     }
 
     public function shouldBeSearchable()

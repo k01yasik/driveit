@@ -55,9 +55,7 @@ interface PostRepositoryInterface
 
     public function getPostStatus(PostEntity $postEntity): bool;
 
-    public function togglePublication(int $postId): void;
+    public function setPublication(int $postId, bool $published): void;
 
-    public function publishPost(PostEntity $postEntity): void;
-
-    public function unpublishPost(PostEntity $postEntity): void;
+    public function setArchived(int $postId, bool $archived): void;
 }

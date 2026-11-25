@@ -16,7 +16,7 @@ class PostRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_publication_toggle_refreshes_a_warmed_post_listing(): void
+    public function test_publication_commands_refresh_a_warmed_post_listing(): void
     {
         $repository = app(PostRepositoryInterface::class);
         $repository->store($this->postEntity(null, 'Original'), $this->userId(), []);
@@ -26,11 +26,11 @@ class PostRepositoryTest extends TestCase
         $this->assertFalse($repository->getPostStatus($post));
         $this->assertSame([], $repository->getTopPosts(3));
 
-        $service->changePublishStatus($post);
+        $service->publish($post->getId());
         $this->assertTrue($repository->getPostStatus($post));
         $this->assertCount(1, $repository->getTopPosts(3));
 
-        $service->changePublishStatus($post);
+        $service->unpublish($post->getId());
         $this->assertFalse($repository->getPostStatus($post));
         $this->assertSame([], $repository->getTopPosts(3));
     }
@@ -59,18 +59,61 @@ class PostRepositoryTest extends TestCase
         }
     }
 
-    public function test_admin_can_publish_and_unpublish_a_post_by_id(): void
+    public function test_admin_lifecycle_commands_are_idempotent_and_preserve_post_data(): void
     {
         $admin = User::findOrFail($this->userId());
         $admin->forceFill(['email_verified_at' => now()])->save();
         $admin->assignRole(Role::findOrCreate('admin', 'web'));
-        app(PostRepositoryInterface::class)->store($this->postEntity(null, 'Original'), $admin->id, []);
+        $repository = app(PostRepositoryInterface::class);
+        $repository->store($this->postEntity(null, 'Original'), $admin->id, []);
+        $id = (int) DB::table('posts')->value('id');
+        $repository->getPostsForSitemap();
+
+        $this->actingAs($admin);
+        $this->putJson(route('admin.posts.publish', $id))->assertNoContent();
+        $publishedAt = DB::table('posts')->where('id', $id)->value('date_published');
+
+        $this->travel(1)->minute();
+        $this->putJson(route('admin.posts.publish', $id))->assertNoContent();
+        $this->assertDatabaseHas('posts', ['id' => $id, 'is_published' => true, 'date_published' => $publishedAt]);
+        $this->assertCount(1, $repository->getPostsForSitemap());
+
+        $this->putJson(route('admin.posts.archive', $id))->assertNoContent();
+        $archivedAt = DB::table('posts')->where('id', $id)->value('archived_at');
+        $this->assertNotNull($archivedAt);
+        $this->travel(1)->minute();
+        $this->putJson(route('admin.posts.archive', $id))->assertNoContent();
+        $this->assertDatabaseHas('posts', [
+            'id' => $id, 'title' => 'Original', 'archived_at' => $archivedAt, 'is_published' => false,
+        ]);
+        $this->assertSame([], $repository->getPostsForSitemap());
+        $this->assertSame([], $repository->getSuggests([$id]));
+        $this->get(route('posts.show', 'repository-test'))->assertNotFound();
+        $this->putJson(route('admin.posts.publish', $id))->assertConflict();
+
+        $this->putJson(route('admin.posts.restore', $id))->assertNoContent();
+        $this->putJson(route('admin.posts.restore', $id))->assertNoContent();
+        $this->assertDatabaseHas('posts', ['id' => $id, 'archived_at' => null, 'is_published' => false]);
+        $this->putJson(route('admin.posts.publish', $id))->assertNoContent();
+        $this->putJson(route('admin.posts.restore', $id))->assertNoContent();
+        $this->assertDatabaseHas('posts', ['id' => $id, 'archived_at' => null, 'is_published' => true]);
+
+        $this->putJson(route('admin.posts.unpublish', $id))->assertNoContent();
+        $this->putJson(route('admin.posts.unpublish', $id))->assertNoContent();
+        $this->assertDatabaseHas('posts', ['id' => $id, 'is_published' => false, 'date_published' => null]);
+    }
+
+    public function test_post_lifecycle_commands_require_an_admin(): void
+    {
+        $user = User::findOrFail($this->userId());
+        app(PostRepositoryInterface::class)->store($this->postEntity(null, 'Original'), $user->id, []);
         $id = (int) DB::table('posts')->value('id');
 
-        $this->actingAs($admin)->putJson(route('admin.posts.publish'), ['id' => $id])->assertOk();
-        $this->assertDatabaseHas('posts', ['id' => $id, 'is_published' => true]);
-        $this->putJson(route('admin.posts.publish'), ['id' => $id])->assertOk();
-        $this->assertDatabaseHas('posts', ['id' => $id, 'is_published' => false, 'date_published' => null]);
+        $this->putJson(route('admin.posts.publish', $id))->assertUnauthorized();
+        $this->actingAs($user);
+        foreach (['publish', 'unpublish', 'archive', 'restore'] as $action) {
+            $this->putJson(route('admin.posts.' . $action, $id))->assertForbidden();
+        }
     }
 
     public function test_public_and_category_pagination_exclude_unpublished_posts(): void
@@ -88,7 +131,7 @@ class PostRepositoryTest extends TestCase
             $repository->store(Post::create(null, $slug, $slug, '', $slug, '', '', ''), $userId, [$categoryId]);
 
             if ($slug !== 'draft') {
-                $service->changePublishStatus((int) DB::table('posts')->where('slug', $slug)->value('id'));
+                $service->publish((int) DB::table('posts')->where('slug', $slug)->value('id'));
             }
         }
 
