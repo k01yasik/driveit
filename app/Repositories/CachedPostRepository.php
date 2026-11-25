@@ -175,18 +175,13 @@ final class CachedPostRepository implements PostRepositoryInterface
         return $this->postRepository->getPostStatus($postEntity);
     }
 
-    public function togglePublication(int $postId): void
+    public function setPublication(int $postId, bool $published): void
     {
-        $this->postRepository->togglePublication($postId);
+        $this->postRepository->setPublication($postId, $published);
     }
 
-    public function publishPost(PostEntity $postEntity): void
+    public function setArchived(int $postId, bool $archived): void
     {
-        $this->postRepository->publishPost($postEntity);
-    }
-
-    public function unpublishPost(PostEntity $postEntity): void
-    {
-        $this->postRepository->unpublishPost($postEntity);
+        $this->postRepository->setArchived($postId, $archived);
     }
 }

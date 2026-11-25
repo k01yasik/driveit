@@ -152,7 +152,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         Route::post('/', [PostController::class, 'store'])->name('admin.posts.store');
         Route::get('/{id}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
         Route::get('/{id}/edit/html', [PostController::class, 'editHtml'])->name('admin.posts.html');
-        Route::put('/publish', [PostController::class, 'publish'])->name('admin.posts.publish');
+        Route::put('/{id}/publish', [PostController::class, 'publish'])->whereNumber('id')->name('admin.posts.publish');
+        Route::put('/{id}/unpublish', [PostController::class, 'unpublish'])->whereNumber('id')->name('admin.posts.unpublish');
+        Route::put('/{id}/archive', [PostController::class, 'archive'])->whereNumber('id')->name('admin.posts.archive');
+        Route::put('/{id}/restore', [PostController::class, 'restore'])->whereNumber('id')->name('admin.posts.restore');
         Route::put('/html/{id}', [PostController::class, 'updateHtml'])->name('admin.posts.html.update');
         Route::put('/{id}', [PostController::class, 'update'])->name('admin.posts.update');
         Route::get('/{id}', [PostController::class, 'show'])->name('admin.posts.show');
