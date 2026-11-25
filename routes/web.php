@@ -72,6 +72,14 @@ Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
     Route::get('/{username}/settings', [UserPageController::class, 'settings'])->middleware('current')->name('user.settings');
     Route::patch('/{username}/settings', [UserPageController::class, 'updateSettings'])
         ->middleware('current')->name('user.settings.update');
+    Route::patch('/{username}/profile', [UserPageController::class, 'updateProfile'])
+        ->middleware('current')->name('user.profile.update');
+    Route::post('/{username}/garage', [UserPageController::class, 'addCar'])
+        ->middleware('current')->name('user.garage.store');
+    Route::patch('/{username}/garage/{car}', [UserPageController::class, 'updateCar'])
+        ->middleware('current')->whereNumber('car')->name('user.garage.update');
+    Route::delete('/{username}/garage/{car}', [UserPageController::class, 'removeCar'])
+        ->middleware('current')->whereNumber('car')->name('user.garage.destroy');
 
     // Альбомы
     Route::middleware('public')->prefix('{username}/albums')->group(function () {
@@ -99,6 +107,10 @@ Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
 
         Route::middleware('current')->group(function () {
             Route::get('/{username}/requests', [UserPageController::class, 'requests'])->name('user.requests');
+            Route::delete('/{username}/requests/{id}', [UserPageController::class, 'dismissRequest'])
+                ->whereNumber('id')->name('user.requests.destroy');
+            Route::delete('/{username}/friends/{id}', [UserPageController::class, 'removeFriend'])
+                ->whereNumber('id')->name('user.friends.destroy');
             Route::get('/{username}/add', [PublicUsersController::class, 'index'])->name('users');
         });
     });
@@ -108,6 +120,7 @@ Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
         Route::get('/', [UserPageController::class, 'messages'])->name('user.messages');
         Route::get('/{friend}', [UserPageController::class, 'friendMessages'])->name('user.friend.messages');
         Route::post('/store', [MessageController::class, 'store'])->name('message.store');
+        Route::patch('/{friend}/read', [UserPageController::class, 'readMessage'])->name('message.read');
     });
 
     // Черновики

@@ -72,6 +72,41 @@ class FriendRepository implements FriendRepositoryInterface
         }, 3);
     }
 
+    public function getOutgoingRequests(int $userId): Collection
+    {
+        return Friend::with('recipient.profile')->where('user_id', $userId)
+            ->where('owner', true)->where('confirmed', false)
+            ->get()->unique('friend_id')->values();
+    }
+
+    public function dismissRequest(int $userId, int $otherId, bool $outgoing): void
+    {
+        [$senderId, $recipientId] = $outgoing ? [$userId, $otherId] : [$otherId, $userId];
+
+        DB::transaction(function () use ($senderId, $recipientId) {
+            $this->lockUsers($senderId, $recipientId);
+            $pending = Friend::pendingRequestsToUser($recipientId)->where('user_id', $senderId);
+
+            if ($pending->delete()) {
+                Friend::where('user_id', $recipientId)->where('friend_id', $senderId)
+                    ->where('owner', false)->where('confirmed', false)->delete();
+            }
+        }, 3);
+    }
+
+    public function removeFriend(int $userId, int $friendId): void
+    {
+        DB::transaction(function () use ($userId, $friendId) {
+            $this->lockUsers($userId, $friendId);
+
+            if ($this->areFriends($userId, $friendId) || $this->areFriends($friendId, $userId)) {
+                Friend::where(fn ($pair) => $pair->where('user_id', $userId)->where('friend_id', $friendId))
+                    ->orWhere(fn ($pair) => $pair->where('user_id', $friendId)->where('friend_id', $userId))
+                    ->delete();
+            }
+        }, 3);
+    }
+
     public function areFriends(int $userId, int $friendId): bool
     {
         return Friend::confirmedFriendsOfUser($userId)->where('user_id', $friendId)->exists();

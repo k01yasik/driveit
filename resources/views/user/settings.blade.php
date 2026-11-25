@@ -42,6 +42,55 @@
                             {{ $user['profile']['public'] ? __('Make profile private') : __('Make profile public') }}
                         </button>
                     </form>
+                    @if ($errors->any())
+                        <ul role="alert">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    @if (session('profileSaved'))
+                        <p role="status">{{ __('Profile saved') }}</p>
+                    @endif
+                    <h2 class="profile-title">{{ __('Edit profile') }}</h2>
+                    <form method="POST" action="{{ route('user.profile.update', $user['username']) }}">
+                        @csrf
+                        @method('PATCH')
+                        @foreach (['first_name' => 'First name', 'last_name' => 'Last name', 'city' => 'City'] as $field => $label)
+                            <label for="{{ $field }}">{{ __($label) }}</label>
+                            <input id="{{ $field }}" name="{{ $field }}" maxlength="100" value="{{ old($field, $user['profile'][$field] ?? '') }}">
+                        @endforeach
+                        <label for="about">{{ __('About me') }}</label>
+                        <textarea id="about" name="about" maxlength="2000" class="materialize-textarea">{{ old('about', $user['profile']['about'] ?? '') }}</textarea>
+                        <button class="btn" type="submit">{{ __('Save profile') }}</button>
+                    </form>
+                    <h2 class="profile-title">{{ __('Garage') }}</h2>
+                    <ul class="request-list">
+                        @foreach ($cars as $car)
+                            <li class="users-element">
+                                <span>{{ $car->make }} {{ $car->model }} @if ($car->year) ({{ $car->year }}) @endif</span>
+                                <details>
+                                    <summary>{{ __('Edit car') }}</summary>
+                                    <form method="POST" action="{{ route('user.garage.update', [$user['username'], $car->id]) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        @include('user.car-fields', ['car' => $car])
+                                        <button class="btn" type="submit">{{ __('Save car') }}</button>
+                                    </form>
+                                </details>
+                                <form method="POST" action="{{ route('user.garage.destroy', [$user['username'], $car->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn-flat" type="submit">{{ __('Remove car') }}</button>
+                                </form>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <form method="POST" action="{{ route('user.garage.store', $user['username']) }}">
+                        @csrf
+                        @include('user.car-fields', ['car' => null])
+                        <button class="btn" type="submit">{{ __('Add car') }}</button>
+                    </form>
                 </div>
             </div>
         </div>

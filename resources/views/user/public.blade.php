@@ -60,7 +60,8 @@
                                                 <div class="button-title">{{ __('Confirmed') }}</div>
                                             </div>
                                         @elseif(in_array($profile['user']['id'], $requestedFriends, true))
-                                            <div class="waiting" title="{{ __('Waiting for confirmation.') }}">
+                                            @php($incoming = in_array($profile['user']['id'], $incomingFriends, true))
+                                            <a href="{{ route('user.requests', $user['username']) }}" class="waiting">
                                                 <div class="svg-wrapper">
                                                     <svg version="1.1" class="hourglass-friend-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
                                                         <g>
@@ -73,8 +74,8 @@
                                                         </g>
                                                     </svg>
                                                 </div>
-                                                <div class="button-title">{{ __('Waiting') }}</div>
-                                            </div>
+                                                <div class="button-title">{{ $incoming ? __('Request received') : __('Waiting') }}</div>
+                                            </a>
                                         @else
                                             <div class="request-friend" title="{{__('Send request to add to friends')}}" data-friend="{{ $profile['user']['id'] }}" data-username="{{ $user['username'] }}">
                                                 <div class="svg-wrapper">

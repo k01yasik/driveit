@@ -19,9 +19,11 @@ class MessageSaved implements ShouldBroadcast
     public string $senderProfileUrl;
     public string $formattedCreatedAt;
     public string $messageText;
+    public int $messageId = 0;
 
-    public function __construct(Message $message)
+    public function __construct(Message $message, int $messageId)
     {
+        $this->messageId = $messageId;
         $this->initializeRecipient($message);
         $this->initializeSender($message);
         $this->initializeMessageDetails($message);
@@ -60,6 +62,7 @@ class MessageSaved implements ShouldBroadcast
                 'avatar' => $this->sender->profile->avatar ?? null,
             ],
             'message' => [
+                'id' => $this->messageId,
                 'text' => $this->messageText,
                 'created_at' => $this->formattedCreatedAt,
             ],

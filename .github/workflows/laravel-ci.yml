@@ -71,8 +71,8 @@ jobs:
       - name: Install locked npm dependencies
         run: npm ci
 
-      - name: Test comment frontend
-        run: node --test tests/Frontend/comments.test.cjs
+      - name: Test frontend
+        run: node --test tests/Frontend/*.test.cjs
 
       - name: Build production assets
         run: npm run prod
