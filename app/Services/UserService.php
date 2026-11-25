@@ -3,15 +3,15 @@
 namespace App\Services;
 
 
-use App\Repositories\CachedUserRepository;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\RipRepositoryInterface;
 
 class UserService
 {
-    private CachedUserRepository $userRepository;
+    private UserRepositoryInterface $userRepository;
     private RipRepositoryInterface $ripRepository;
 
-    public function __construct(CachedUserRepository $userRepository, RipRepositoryInterface $ripRepository)
+    public function __construct(UserRepositoryInterface $userRepository, RipRepositoryInterface $ripRepository)
     {
         $this->userRepository = $userRepository;
         $this->ripRepository = $ripRepository;

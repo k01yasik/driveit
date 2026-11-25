@@ -52,7 +52,11 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
+        $this->app->bind(CommentRepositoryInterface::class, CachedCommentRepository::class);
+        $this->app->bind(PostRepositoryInterface::class, CachedPostRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, CachedUserRepository::class);
+        $this->app->bind(SeoRepositoryInterface::class, CachedSeoRepository::class);
+        $this->app->bind(PostDashboardRepositoryInterface::class, CachedPostDashboardRepository::class);
         $this->app->bind(
             NewsRepositoryInterface::class,
             NewsRepository::class

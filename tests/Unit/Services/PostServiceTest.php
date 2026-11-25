@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Services;
 
-use App\Repositories\CachedPostRepository;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\PostService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,7 +17,7 @@ class PostServiceTest extends TestCase
         parent::setUp();
         
         $this->postRepository = $this->createMock(PostRepositoryInterface::class);
-        $this->postService = new PostService(new CachedPostRepository($this->postRepository));
+        $this->postService = new PostService($this->postRepository);
     }
 
     public function testGetTopPosts()

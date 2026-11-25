@@ -112,6 +112,12 @@ class CommentRepository implements CommentRepositoryInterface
             ->exists();
     }
 
+    public function getPostIdsForComments(array $ids): array
+    {
+        return Comment::whereIn('id', $ids)->distinct()->pluck('post_id')
+            ->map(fn ($postId): int => (int) $postId)->all();
+    }
+
     public function bulkVerify(array $ids): int
     {
         return Comment::whereIn('id', $ids)

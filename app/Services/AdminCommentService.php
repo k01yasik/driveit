@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Repositories\CachedCommentRepository;
+use App\Repositories\Interfaces\CommentRepositoryInterface;
 
 class AdminCommentService
 {
     public function __construct(
-        private CachedCommentRepository $commentRepository
+        private CommentRepositoryInterface $commentRepository
     ) {}
 
     public function publish(int $id): void

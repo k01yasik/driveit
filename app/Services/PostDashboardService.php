@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Repositories\CachedPostDashboardRepository;
+use App\Repositories\Interfaces\PostDashboardRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class PostDashboardService
 {
     public function __construct(
-        private CachedPostDashboardRepository $cachedPostDashboardRepository
+        private PostDashboardRepositoryInterface $cachedPostDashboardRepository
     ) {
     }
 

@@ -83,4 +83,15 @@ interface CommentRepositoryInterface
      * }>
      */
     public function getUnverified(): array;
+
+    /** @param list<int> $ids
+     *  @return list<int>
+     */
+    public function getPostIdsForComments(array $ids): array;
+
+    public function bulkVerify(array $ids): int;
+
+    public function exists(int $id): bool;
+
+    public function isParentValid(int $parentId, int $postId): bool;
 }

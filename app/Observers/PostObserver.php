@@ -2,58 +2,23 @@
 
 namespace App\Observers;
 
-use App\Post;
-use App\Services\PostService;
+use App\Repositories\CachedPostRepository;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Cache;
 
-class PostObserver
+class PostObserver implements ShouldHandleEventsAfterCommit
 {
-    private PostService $postService;
-
-    /**
-     * PostObserver constructor.
-     * @param PostService $postService
-     */
-    public function __construct(PostService $postService)
-    {
-        $this->postService = $postService;
-    }
-
-    public function created()
-    {
-    }
-
-    public function updated()
-    {
-    }
-
-    public function saved(Post $post)
+    public function saved(): void
     {
         Cache::forget('latest-posts');
         Cache::forget('posts_count_cart');
         Cache::forget('posts-for-sitemap');
-        Cache::forget('top-posts');
         Cache::forget('best-comments-by-month');
-
-        $pages = $this->postService->getPagesCount();
-
-        for ($i = 1; $i <= $pages; $i++) {
-            Cache::forget('paginated-posts-'.$i);
-        }
-
-        Cache::forget('post-status-'.$post->id);
-
+        CachedPostRepository::invalidateListings();
     }
 
-    public function deleted()
+    public function deleted(): void
     {
-    }
-
-    public function restored()
-    {
-    }
-
-    public function forceDeleted()
-    {
+        $this->saved();
     }
 }

@@ -5,7 +5,6 @@ namespace Tests\Unit\Services;
 use App\DTO\CommentDTO;
 use App\DTO\CommentStoreResultDTO;
 use App\User;
-use App\Repositories\CachedCommentRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Services\CommentService;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +20,7 @@ class CommentServiceTest extends TestCase
         parent::setUp();
         
         $this->commentRepository = $this->createMock(CommentRepositoryInterface::class);
-        $this->commentService = new CommentService(new CachedCommentRepository($this->commentRepository));
+        $this->commentService = new CommentService($this->commentRepository);
     }
 
     public function testStoreComment()

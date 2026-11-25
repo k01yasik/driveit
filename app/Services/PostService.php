@@ -3,14 +3,14 @@
 namespace App\Services;
 
 use App\Entities\Post as PostEntity;
-use App\Repositories\CachedPostRepository;
+use App\Repositories\Interfaces\PostRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class PostService
 {
-    private CachedPostRepository $postRepository;
+    private PostRepositoryInterface $postRepository;
 
-    public function __construct(CachedPostRepository $postRepository)
+    public function __construct(PostRepositoryInterface $postRepository)
     {
         $this->postRepository = $postRepository;
     }

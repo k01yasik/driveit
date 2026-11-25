@@ -19,6 +19,26 @@ use Illuminate\Database\Query\Builder;
 
 final class CachedPostRepository implements PostRepositoryInterface
 {
+    private const LISTING_TTL = 3600;
+    private const LISTING_VERSION_KEY = 'post-listings-version';
+
+    public static function invalidateListings(): void
+    {
+        Cache::forever(self::LISTING_VERSION_KEY, bin2hex(random_bytes(16)));
+    }
+
+    private static function listingCacheKey(string $suffix): string
+    {
+        $version = Cache::get(self::LISTING_VERSION_KEY);
+        if ($version === null) {
+            $candidate = bin2hex(random_bytes(16));
+            Cache::add(self::LISTING_VERSION_KEY, $candidate, self::LISTING_TTL);
+            $version = Cache::get(self::LISTING_VERSION_KEY, $candidate);
+        }
+
+        return "post-listings:{$version}:{$suffix}";
+    }
+
     protected PostRepositoryInterface $postRepository;
 
     public function __construct(PostRepositoryInterface $postRepository)
@@ -114,16 +134,20 @@ final class CachedPostRepository implements PostRepositoryInterface
 
     public function getTopPosts(int $count): array
     {
-        return Cache::rememberForever('top-posts', function () use ($count){
-            return $this->postRepository->getTopPosts($count);
-        });
+        return Cache::remember(
+            self::listingCacheKey("top:{$count}"),
+            self::LISTING_TTL,
+            fn () => $this->postRepository->getTopPosts($count)
+        );
     }
 
     public function getPostsForPage(int $pageId, int $numberPosts): array
     {
-        return Cache::rememberForever('paginated-posts-'.$pageId, function () use ($pageId, $numberPosts) {
-            return $this->postRepository->getPostsForPage($pageId, $numberPosts);
-        });
+        return Cache::remember(
+            self::listingCacheKey("page:{$pageId}:{$numberPosts}"),
+            self::LISTING_TTL,
+            fn () => $this->postRepository->getPostsForPage($pageId, $numberPosts)
+        );
     }
 
     public function getPostsCount(): int
@@ -143,9 +167,7 @@ final class CachedPostRepository implements PostRepositoryInterface
 
     public function getPostStatus(PostEntity $postEntity): bool
     {
-        return Cache::rememberForever('post-status-'.$postEntity->getId(), function () use ($postEntity) {
-            return $this->postRepository->getPostStatus($postEntity);
-        });
+        return $this->postRepository->getPostStatus($postEntity);
     }
 
     public function publishPost(PostEntity $postEntity): void
