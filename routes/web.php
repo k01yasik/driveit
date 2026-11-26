@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     UserAlbumsController,
     PublicUsersController,
     MessageController,
+    MaintenanceReminderController,
     ImageUploadController,
     CommentController,
     DraftController,
@@ -80,6 +81,20 @@ Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
         ->middleware('current')->whereNumber('car')->name('user.garage.update');
     Route::delete('/{username}/garage/{car}', [UserPageController::class, 'removeCar'])
         ->middleware('current')->whereNumber('car')->name('user.garage.destroy');
+
+    Route::middleware('current')->prefix('{username}/maintenance')->name('user.maintenance.')->group(function () {
+        Route::get('/', [MaintenanceReminderController::class, 'index'])->name('index');
+        Route::patch('/{car}/odometer', [MaintenanceReminderController::class, 'updateOdometer'])
+            ->whereNumber('car')->name('odometer');
+        Route::post('/{car}/reminders', [MaintenanceReminderController::class, 'store'])
+            ->whereNumber('car')->name('store');
+        Route::patch('/reminders/{reminder}', [MaintenanceReminderController::class, 'update'])
+            ->whereNumber('reminder')->name('update');
+        Route::patch('/reminders/{reminder}/complete', [MaintenanceReminderController::class, 'complete'])
+            ->whereNumber('reminder')->name('complete');
+        Route::delete('/reminders/{reminder}', [MaintenanceReminderController::class, 'destroy'])
+            ->whereNumber('reminder')->name('destroy');
+    });
 
     // Альбомы
     Route::middleware('public')->prefix('{username}/albums')->group(function () {

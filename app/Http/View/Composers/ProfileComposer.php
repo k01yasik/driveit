@@ -3,6 +3,7 @@
 
 namespace App\Http\View\Composers;
 
+use App\MaintenanceReminder;
 use App\Services\FriendService;
 use App\Services\MessageService;
 use App\Services\UserService;
@@ -39,6 +40,9 @@ class ProfileComposer
         $view->with('user', $user)
             ->with('currentUserProfile', $currentUserProfile)
             ->with('friendRequestCount', $friendRequestCount)
-            ->with('unreadMessageCount', $currentUserProfile ? $this->messageService->getUnreadCount($currentUserId) : 0);
+            ->with('unreadMessageCount', $currentUserProfile ? $this->messageService->getUnreadCount($currentUserId) : 0)
+            ->with('dueMaintenanceCount', $currentUserProfile
+                ? ($view->getData()['dueMaintenanceCount'] ?? MaintenanceReminder::forOwner($currentUserId)->due()->count())
+                : 0);
     }
 }
