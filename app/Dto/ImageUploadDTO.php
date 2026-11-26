@@ -3,7 +3,7 @@
 namespace App\DTO;
 
 use App\Http\Requests\AvatarImageRequest;
-use App\Http\Requests\PostImageUploadRequest;
+use App\Http\Requests\PostImageUpload;
 use Illuminate\Http\UploadedFile;
 
 class ImageUploadDTO
@@ -15,7 +15,7 @@ class ImageUploadDTO
         public readonly ?array $cropData = null
     ) {}
 
-    public static function fromPostRequest(PostImageUploadRequest $request): self
+    public static function fromPostRequest(PostImageUpload $request): self
     {
         return new self(
             file: $request->file('post_upload'),

@@ -71,6 +71,9 @@ jobs:
       - name: Install locked npm dependencies
         run: npm ci
 
+      - name: Check TypeScript
+        run: ./node_modules/.bin/tsc --noEmit
+
       - name: Test frontend
         run: node --test tests/Frontend/*.test.cjs
 

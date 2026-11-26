@@ -1,14 +1,10 @@
-import { Chart, registerables } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js';
 
 declare global {
   interface Window {
     dashboardData: DashboardData;
   }
 }
-
-Chart.register(...registerables);
-Chart.register(ChartDataLabels);
 
 type ChartData = {
   month: number;
@@ -80,7 +76,6 @@ const createChart = (
 ): Chart | null => {
   const ctx = document.getElementById(elementId) as HTMLCanvasElement | null;
   if (!ctx) {
-    console.error(`Element with id ${elementId} not found`);
     return null;
   }
 
@@ -89,27 +84,27 @@ const createChart = (
 
 // Основная функция инициализации дашборда
 const initDashboard = (data: DashboardData): void => {
-  if (!data.posts) return;
-
-  // Posts chart
-  createChart(
-    'postChart',
-    'bar',
-    {
-      labels: createMonthLabels(data.posts),
-      datasets: [{
-        label: 'Количество опубликованных статей',
-        data: data.posts.map(post => post.count),
-        backgroundColor: COLORS.primary,
-        datalabels: { color: '#FFFFFF' }
-      }]
-    },
-    {
-      scales: {
-        yAxes: [{ ticks: { beginAtZero: true } }]
+  if (data.posts) {
+    // Posts chart
+    createChart(
+      'postChart',
+      'bar',
+      {
+        labels: createMonthLabels(data.posts),
+        datasets: [{
+          label: 'Количество опубликованных статей',
+          data: data.posts.map(post => post.count),
+          backgroundColor: COLORS.primary,
+          datalabels: { color: '#FFFFFF' }
+        }]
+      },
+      {
+        scales: {
+          y: { beginAtZero: true }
+        }
       }
-    }
-  );
+    );
+  }
 
   // Comments chart
   if (data.commentsVerified !== undefined && data.commentsNotVerified !== undefined) {
@@ -163,7 +158,7 @@ const initDashboard = (data: DashboardData): void => {
       },
       {
         scales: {
-          yAxes: [{ ticks: { beginAtZero: true } }]
+          y: { beginAtZero: true }
         }
       }
     );

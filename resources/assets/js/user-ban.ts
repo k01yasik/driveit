@@ -19,11 +19,12 @@ class DeleteConfirmation {
         const message = button.dataset.message;
         const buttonText = button.dataset.button;
 
-        if (!id || !message || !buttonText) {
+        if (!id || !message || !buttonText || button.dataset.pending) {
             console.error('Missing required data attributes');
             return;
         }
 
+        button.dataset.pending = 'true';
         try {
             const result = await this.sendDeleteRequest(id);
             if (result.status === 'ok') {
@@ -31,7 +32,8 @@ class DeleteConfirmation {
             }
         } catch (error) {
             console.error('Delete failed:', error);
-            // Add user notification here
+        } finally {
+            delete button.dataset.pending;
         }
     }
 
@@ -63,10 +65,14 @@ class DeleteConfirmation {
         // Create success message
         const successDiv = document.createElement('div');
         successDiv.className = 'flex flex-justify-space';
-        successDiv.innerHTML = `
-            <p class="lockout-message">${message}</p>
-            <a href="${url}" class="button confirm-button">${buttonText}</a>
-        `;
+        const text = document.createElement('p');
+        text.className = 'lockout-message';
+        text.textContent = message;
+        const link = document.createElement('a');
+        link.href = url;
+        link.className = 'button confirm-button';
+        link.textContent = buttonText;
+        successDiv.append(text, link);
 
         mainContent.appendChild(successDiv);
     }

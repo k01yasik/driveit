@@ -79,8 +79,7 @@
                     </header>
                     <div class="post-wrapper">
                         <picture>
-                            <source media="(max-width: 375px)" srcset="{{ $post['image_path'] }}-300w.webp">
-                            <img src="{{ $post['image_path'] }}.webp" alt="{{ $post['name'] }}" class="uploaded-image">
+                            <img src="{{ $post['image_path'] }}" alt="{{ $post['name'] }}" class="uploaded-image">
                         </picture>
                     </div>
                     <div class="post-buttons-wrapper">

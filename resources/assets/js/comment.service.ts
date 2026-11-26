@@ -2,8 +2,6 @@ import { CommentData, CommentResponse } from './types';
 import { DOMService } from './dom.service';
 
 export class CommentService {
-  private targetElement: HTMLElement | null = null;
-
   constructor(private domService: DOMService) {}
 
   public async submitComment(data: CommentData): Promise<CommentResponse> {
@@ -23,13 +21,5 @@ export class CommentService {
     }
 
     return response.json();
-  }
-
-  public setTargetElement(element: HTMLElement | null): void {
-    this.targetElement = element;
-  }
-
-  public getTargetElement(): HTMLElement | null {
-    return this.targetElement;
   }
 }

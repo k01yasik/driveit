@@ -260,6 +260,22 @@ class UserWorkflowTest extends TestCase
         $this->assertModelMissing($storedCar);
     }
 
+    public function test_admin_can_upload_a_post_cover_through_the_editor_endpoint(): void
+    {
+        Storage::fake('public');
+        $user = $this->user('editor');
+        $role = \Spatie\Permission\Models\Role::findOrCreate('admin', 'web');
+        $user->assignRole($role);
+
+        $response = $this->actingAs($user)->postJson(route('admin.posts.image.upload'), [
+            'post_upload' => UploadedFile::fake()->image('cover.png'),
+        ])->assertOk();
+
+        $path = $response->json('path');
+        Storage::disk('public')->assertExists($path);
+        $this->assertSame(Storage::disk('public')->url($path), $response->json('url'));
+    }
+
     private function user(string $username, bool $public = true): User
     {
         $id = DB::table('users')->insertGetId([

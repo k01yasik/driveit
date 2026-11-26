@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\ImageUploadDTO;
-use App\Http\Requests\{AvatarImageRequest, BodyImageUpload, PostImageUploadRequest};
+use App\Http\Requests\{AvatarImageRequest, BodyImageUpload, PostImageUpload};
 use App\Services\ImageUploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class ImageUploadController extends Controller
         private ImageUploadService $imageUploadService
     ) {}
 
-    public function uploadPostImage(PostImageUploadRequest $request): JsonResponse
+    public function uploadPostImage(PostImageUpload $request): JsonResponse
     {
         $dto = ImageUploadDTO::fromPostRequest($request);
         $result = $this->imageUploadService->handlePostImageUpload($dto);

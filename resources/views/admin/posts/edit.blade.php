@@ -22,8 +22,7 @@
                     </div>
                 </div>
                 <picture>
-                    <source media="(max-width: 375px)" srcset="{{ $post['image_path'] }}-300w.webp">
-                    <img src="{{ $post['image_path'] }}.webp" alt="{{ $post['name'] }}" class="uploaded-image">
+                    <img src="{{ $post['image_path'] }}" alt="{{ $post['name'] }}" class="uploaded-image">
                 </picture>
                 <form enctype="multipart/form-data" id="post_upload_image">
                     <input type="file" id="post_upload_image_input" accept="image/jpeg,image/png" name="post_upload_image">

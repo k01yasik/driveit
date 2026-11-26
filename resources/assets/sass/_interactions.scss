@@ -1,0 +1,36 @@
+button.back-to-top {
+  border: 0;
+  padding: 0;
+  visibility: hidden;
+
+  &.back-to-top--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.photo-preview {
+  max-width: 95vw;
+  max-height: 95vh;
+  padding: 1rem;
+  border: 0;
+  border-radius: 0.375rem;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 75%);
+  }
+
+  img {
+    display: block;
+    max-width: min(90vw, 1200px);
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  button {
+    display: block;
+    margin: 0 0 0.5rem auto;
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+}
