@@ -42,16 +42,16 @@
        {!! $post['caption'] !!}
     </div>
     <footer class="post-read-more-wrapper">
+        @isset($post['period_rating_count'])
+            <p>{{ __('Votes in this period: :count', ['count' => $post['period_rating_count']]) }}</p>
+        @endisset
         <div class="post-buttons-wrapper">
             <div class="post-buttons">
                 <div class="eye-block">
                     <x-svg.eye />
                     <p>{{ $post['views'] }}</p>
                 </div>
-                <div class="rating-block {{ Auth::check() ? 'rating-auth' : 'rating-guest' }}" title="{{ Auth::check() ? 'Проголосуй за статью' : 'Гости не могут голосовать' }}" data-id="{{ $post['id'] }}">
-                    <x-svg.star />
-                    <p>{{ $post['rating_count'] }}</p>
-                </div>
+                @include('posts.partials.vote', ['post' => $post])
                 <div class="comments-block">
                     <x-svg.comments />
                     <p>{{ $post['comments_count'] }}</p>

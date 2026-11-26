@@ -1,60 +1,48 @@
 class PostRating {
-    public static init(): void { 
+    private static pending = new Set<string>();
+
+    public static init(): void {
         document.addEventListener('click', async (event) => {
-            const target = event.target as HTMLElement;
-            const ratingBlock = target.closest('.rating-block');
-            
-            if (ratingBlock) {
-                event.preventDefault();
-                await this.handleRatingClick(ratingBlock);
-            }
+            const button = (event.target as Element).closest<HTMLButtonElement>('button[data-rating-url]');
+            if (button) await this.toggle(button);
         });
     }
 
-    private static async handleRatingClick(ratingBlock: Element): Promise<void> {
-        const postId = ratingBlock.getAttribute('data-id');
-        const paragraph = ratingBlock.querySelector('p');
+    private static async toggle(button: HTMLButtonElement): Promise<void> {
+        const { id, ratingUrl } = button.dataset;
+        const token = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content;
+        if (!id || !ratingUrl || !token || this.pending.has(id)) return;
 
-        if (!postId || !paragraph) return;
-
+        this.pending.add(id);
+        button.disabled = true;
         try {
-            const newRating = await this.submitRating(postId);
-            paragraph.textContent = newRating;
+            const body = new FormData();
+            body.append('id', id);
+            const response = await fetch(ratingUrl, {
+                method: 'POST',
+                body,
+                headers: { 'X-CSRF-TOKEN': token }
+            });
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
+            const count = await response.text();
+            const voted = response.headers.get('X-Rating-Voted') === '1';
+            document.querySelectorAll<HTMLButtonElement>('button[data-rating-url]').forEach((voteButton) => {
+                if (voteButton.dataset.id !== id) return;
+                voteButton.setAttribute('aria-pressed', String(voted));
+                const countLabel = voteButton.querySelector('[data-rating-count]');
+                if (countLabel) countLabel.textContent = count;
+                voteButton.querySelector('[data-rating-status]')?.toggleAttribute('hidden', !voted);
+            });
+
+            if (document.querySelector('[data-rating-leaderboard]')) window.location.reload();
         } catch (error) {
             console.error('Rating submission failed:', error);
-            // Можно добавить уведомление пользователю
+        } finally {
+            this.pending.delete(id);
+            button.disabled = false;
         }
-    }
-
-    private static async submitRating(postId: string): Promise<string> {
-        const formData = new FormData();
-        formData.append('id', postId);
-
-        const response = await fetch('/rating/post', {
-            method: 'POST',
-            body: formData,
-            headers: this.getHeaders()
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return await response.text();
-    }
-
-    private static getHeaders(): Headers {
-        const headers = new Headers();
-        const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        
-        if (token) {
-            headers.append('X-CSRF-TOKEN', token);
-        }
-        
-        return headers;
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    PostRating.init();
-});
+document.addEventListener('DOMContentLoaded', () => PostRating.init());

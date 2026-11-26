@@ -22,9 +22,29 @@
         </ul>
     </div>
 
+    @if (isset($ratingPeriod) || request()->routeIs('posts.rated', 'best.rated.paginate'))
+        @include('posts.partials.rating-periods')
+    @endif
+
+    @if ($posts->isEmpty() && isset($ratingPeriod))
+        <p>{{ __('No votes in this period') }}</p>
+    @endif
+
     @each('components.post', $posts, 'post')
 
-    @if ($posts->hasPages())
+    @if (isset($ratingPeriod))
+        @if ($posts->hasPages())
+            <div class="pagination-wrapper">
+                @if (!$posts->onFirstPage())
+                    <a href="{{ $posts->previousPageUrl() }}" rel="prev">{{ __('pagination.previous') }}</a>
+                @endif
+                <span>{{ $posts->currentPage() }} / {{ $posts->lastPage() }}</span>
+                @if ($posts->hasMorePages())
+                    <a href="{{ $posts->nextPageUrl() }}" rel="next">{{ __('pagination.next') }}</a>
+                @endif
+            </div>
+        @endif
+    @elseif ($posts->hasPages())
         <div class="pagination-wrapper">
             <ul class="pagination">
                 @if ($posts->onFirstPage())

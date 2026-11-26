@@ -36,6 +36,8 @@ Route::get('/rules', [PageController::class, 'rules'])->name('page.rules');
 // Лучший контент
 Route::prefix('best')->group(function () {
     Route::get('/rated', [PageController::class, 'bestRated'])->name('posts.rated');
+    Route::get('/rated/{period}', [PageController::class, 'bestRatedByPeriod'])
+        ->whereIn('period', ['week', 'month'])->name('posts.rated.period');
     Route::get('/rated/page/{id}', [PageController::class, 'ratedPaginate'])->where('id', '[1-9][0-9]*')->name('best.rated.paginate');
     Route::get('/views', [PageController::class, 'bestViews'])->name('posts.views');
     Route::get('/views/page/{id}', [PageController::class, 'viewsPaginate'])->where('id', '[1-9][0-9]*')->name('best.views.paginate');
