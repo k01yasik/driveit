@@ -15,11 +15,12 @@ class UserUnbanHandler {
         const userId = button.dataset.id;
         const message = button.dataset.message;
 
-        if (!userId || !message) {
+        if (!userId || !message || button.dataset.pending) {
             console.error('Missing required data attributes');
             return;
         }
 
+        button.dataset.pending = 'true';
         try {
             const result = await this.sendUnbanRequest(userId);
             if (result === 'ok') {
@@ -27,7 +28,8 @@ class UserUnbanHandler {
             }
         } catch (error) {
             console.error('Unban request failed:', error);
-            // Add user notification here
+        } finally {
+            delete button.dataset.pending;
         }
     }
 

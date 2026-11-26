@@ -3,82 +3,67 @@ import { CommentService } from './comment.service';
 import { CommentUI } from './comment.ui';
 
 export class CommentController {
-  private domService: DOMService;
-  private commentService: CommentService;
-  private commentUI: CommentUI;
+  private domService = new DOMService();
+  private commentService = new CommentService(this.domService);
+  private commentUI = new CommentUI(this.domService);
+  private replyTarget: Element | null = null;
+  private submitting = false;
 
   constructor() {
-    this.domService = new DOMService();
-    this.commentService = new CommentService(this.domService);
-    this.commentUI = new CommentUI(this.domService);
-    this.initializeEvents();
-  }
-
-  private initializeEvents(): void {
-    const commentButton = this.domService.getElement('commentButton');
-    const replyButton = this.domService.getElement('replyButton');
-
-    commentButton?.addEventListener('click', this.handleCommentSubmit.bind(this));
-    replyButton?.addEventListener('click', this.handleReplyClick.bind(this));
-  }
-
-  private async handleCommentSubmit(event: Event): Promise<void> {
-    event.preventDefault();
-    
     const wrapper = this.domService.getElement('wrapper');
-    const textEditor = this.domService.getElement('textEditor');
+    if (!wrapper) return;
 
-    if (!wrapper || !textEditor) return;
+    this.domService.getElement('commentButton')?.addEventListener('click', (event) => this.submit(event));
+    document.addEventListener('click', (event) => {
+      const reply = (event.target as Element).closest<HTMLElement>('.reply-button');
+      if (reply && !this.submitting) this.selectReply(reply, wrapper);
+    });
+  }
 
-    const commentData = {
-      post: this.domService.getDatasetValue(wrapper, 'post'),
-      level: this.domService.getDatasetValue(wrapper, 'level'),
-      parent: this.domService.getDatasetValue(wrapper, 'parent'),
-      message: textEditor.innerHTML
-    };
+  private async submit(event: Event): Promise<void> {
+    event.preventDefault();
+    const wrapper = this.domService.getElement('wrapper');
+    const editor = this.domService.getElement('textEditor');
+    if (!wrapper || !editor || this.submitting) return;
 
+    const message = editor.innerHTML;
+    this.submitting = true;
     try {
-      const result = await this.commentService.submitComment(commentData);
-      this.commentUI.clearEditor();
-      
-      const commentHtml = this.commentUI.createCommentHtml(result);
-      this.commentUI.insertComment(commentHtml, this.commentService.getTargetElement());
-      
-      this.commentService.setTargetElement(null);
+      const comment = await this.commentService.submitComment({
+        post: wrapper.dataset.post ?? '',
+        level: wrapper.dataset.level ?? '0',
+        parent: wrapper.dataset.parent ?? '0',
+        message
+      });
+
+      this.commentUI.insertComment(this.commentUI.createCommentHtml(comment), this.replyTarget);
+      if (editor.innerHTML === message) this.commentUI.clearEditor();
+      wrapper.dataset.level = '0';
+      wrapper.dataset.parent = '0';
+      this.replyTarget = null;
     } catch (error) {
       console.error('Error submitting comment:', error);
-      // Можно добавить UI уведомление об ошибке
+    } finally {
+      this.submitting = false;
     }
   }
-  
-  private handleReplyClick(event: Event): void {
-    const element = event.currentTarget as HTMLElement;
-    const level = parseInt(this.domService.getDatasetValue(element, 'level', '0')) + 1;
-    const parent = this.domService.getDatasetValue(element, 'parent');
-    const wrapper = this.domService.getElement('wrapper');
 
-    if (wrapper) {
-        wrapper.dataset.level = level.toString();
-        wrapper.dataset.parent = parent;
+  private selectReply(button: HTMLElement, wrapper: HTMLElement): void {
+    const parent = button.closest<HTMLElement>('.comment-item');
+    const level = Number(button.dataset.level) + 1;
+    if (!parent || !button.dataset.parent || !Number.isInteger(level) || level < 1 || level > 5) return;
+
+    wrapper.dataset.level = String(level);
+    wrapper.dataset.parent = button.dataset.parent;
+
+    let target: Element = parent;
+    while (target.nextElementSibling?.matches('.comment-item')) {
+      const next = target.nextElementSibling as HTMLElement;
+      if (Number(next.dataset.level) < level) break;
+      target = next;
     }
 
+    this.replyTarget = target;
     this.commentUI.scrollToCommentElement();
-
-    const clickedParent = element.closest('.comment-item');
-    if (!clickedParent) return;
-
-    const clickedParentLevel = parseInt(this.domService.getDatasetValue(clickedParent as HTMLElement, 'level', '0')) + 1;
-    let currentElement: Element | null = clickedParent;
-
-    while (currentElement) {
-        const nextSibling = currentElement.nextElementSibling;
-        if (!nextSibling) break;
-        const nextSiblingLevel = parseInt(this.domService.getDatasetValue(nextSibling as HTMLElement, 'level', '0'));
-    
-        if (nextSiblingLevel < clickedParentLevel) break;
-        currentElement = nextSibling;
-    }
-
-    this.commentService.setTargetElement((currentElement || clickedParent) as HTMLElement);
   }
 }

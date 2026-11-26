@@ -17,9 +17,7 @@ export interface CommentData {
 export type DOMElementMap = {
   wrapper: HTMLElement;
   commentButton: HTMLButtonElement;
-  replyButton: HTMLButtonElement;
   textEditor: HTMLElement;
   commentsWrapper: HTMLElement;
-  animateElement: HTMLElement;
   addCommentElement: HTMLElement;
 };

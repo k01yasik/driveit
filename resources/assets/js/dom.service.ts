@@ -13,10 +13,8 @@ export class DOMService {
     this.elements = {
       wrapper: document.querySelector('.add-comment-wrapper'),
       commentButton: document.querySelector('.add-comment-button'),
-      replyButton: document.querySelector('.reply-button'),
       textEditor: document.querySelector('.text-editor-body'),
       commentsWrapper: document.querySelector('.comments-wrapper'),
-      animateElement: document.querySelector('html, body'),
       addCommentElement: document.getElementById('add-comment')
     } as Partial<DOMElementMap>;
   }
@@ -32,9 +30,5 @@ export class DOMService {
 
   public getCsrfToken(): string {
     return this.csrfToken;
-  }
-
-  public getDatasetValue(element: HTMLElement | null, key: string, defaultValue = ''): string {
-    return element?.dataset[key] ?? defaultValue;
   }
 }

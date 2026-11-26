@@ -24,7 +24,7 @@ class PostImageUpload extends FormRequest
     public function rules()
     {
         return [
-            'post_upload' => 'required|image',
+            'post_upload' => 'required|image|mimes:jpeg,png|max:5000',
         ];
     }
 }

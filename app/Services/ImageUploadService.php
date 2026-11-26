@@ -7,7 +7,6 @@ use App\Repositories\Interfaces\AlbumRepositoryInterface;
 use App\Contracts\ImageStorageInterface;
 use App\Album;
 use App\Exceptions\AlbumNotFoundException;
-use App\Image;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -25,16 +24,7 @@ class ImageUploadService
     public function handlePostImageUpload(ImageUploadDTO $dto): array
     {
         $path = $this->storage->store($dto->file, 'posts');
-        $url = $this->storage->getUrl($path);
-        
-        $image = Image::create([
-            'url' => $url,
-            'path' => $path,
-            'user_id' => $dto->userId,
-            'type' => 'post'
-        ]);
-        
-        return $image->toArray();
+        return ['url' => $this->storage->getUrl($path), 'path' => $path];
     }
 
     public function handleBodyImageUpload(int $userId, string $type, UploadedFile $file): string

@@ -4,10 +4,10 @@ class MessageEditor {
     private static sending = false;
     public static init(): void {
         if (!document.querySelector('[data-message-url]')) return;
-        const editor = document.querySelector('.text-editor-body');
+        const editor = document.querySelector<HTMLElement>('.text-editor-body');
         if (!editor) return;
 
-        editor.addEventListener('keydown', async (e: KeyboardEvent) => {
+        editor.addEventListener('keydown', async (e) => {
             if (e.ctrlKey && e.key === 'Enter') {
                 e.preventDefault();
                 await this.handleMessageSubmit();
@@ -21,7 +21,7 @@ class MessageEditor {
 
         const url = dataElement.getAttribute('data-message-url');
         const friendId = dataElement.getAttribute('data-friend');
-        const editor = document.querySelector('.text-editor-body');
+        const editor = document.querySelector<HTMLElement>('.text-editor-body');
 
         if (!url || !friendId || !editor || this.sending) return;
         if (!editor.textContent?.trim() && !editor.querySelector('img')) return;

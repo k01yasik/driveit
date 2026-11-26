@@ -10,10 +10,17 @@ class AvatarUploader {
     });
 
     // Handle file selection
-    document.getElementById('change-avatar-input')?.addEventListener('change', (event) => {
-      const input = event.target as HTMLInputElement;
-      if (input.files?.length) {
-        this.handleFileUpload(input.files[0]);
+    const input = document.querySelector<HTMLInputElement>('#change-avatar-input');
+    input?.addEventListener('change', async () => {
+      const file = input.files?.[0];
+      if (!file || input.disabled) return;
+
+      input.disabled = true;
+      try {
+        await this.handleFileUpload(file);
+      } finally {
+        input.disabled = false;
+        input.value = '';
       }
     });
   }
@@ -40,29 +47,16 @@ class AvatarUploader {
   }
 
   private static async getCropData(file: File): Promise<{ x: number; y: number; width: number; height: number }> {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = URL.createObjectURL(file);
-
-      img.onload = () => {
-        URL.revokeObjectURL(img.src);
-        console.log('Original dimensions:', img.width, img.height);
-
-        smartcrop.crop(img, this.AVATAR_SIZE)
-          .then(result => {
-            console.log('Crop dimensions:', result.topCrop);
-            resolve({
-              x: result.topCrop.x,
-              y: result.topCrop.y,
-              width: result.topCrop.width,
-              height: result.topCrop.height
-            });
-          })
-          .catch(reject);
-      };
-
-      img.onerror = () => reject(new Error('Failed to load image'));
-    });
+    const img = new Image();
+    const source = URL.createObjectURL(file);
+    try {
+      img.src = source;
+      await img.decode();
+      const { topCrop } = await smartcrop.crop(img, this.AVATAR_SIZE);
+      return { x: topCrop.x, y: topCrop.y, width: topCrop.width, height: topCrop.height };
+    } finally {
+      URL.revokeObjectURL(source);
+    }
   }
 
   private static async uploadAvatar(formData: FormData): Promise<string> {

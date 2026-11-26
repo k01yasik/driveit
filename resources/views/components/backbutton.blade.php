@@ -1,4 +1,4 @@
-<div class="back-to-top">
+<button type="button" class="back-to-top" aria-label="{{ __('Back to top') }}">
     <svg version="1.1" class="back-to-top-arrow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 444.815 444.815" style="enable-background:new 0 0 444.815 444.815;"
     xml:space="preserve">
         <g>
@@ -10,4 +10,4 @@
             c7.043-7.043,10.567-15.701,10.567-25.981C432.54,211.939,429.016,203.37,421.976,196.712z"></path>
         </g>
     </svg>
-</div>
+</button>

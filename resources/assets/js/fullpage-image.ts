@@ -1,46 +1,26 @@
-// Типы для TypeScript
-type ImageBlockElement = HTMLElement & {
-    querySelector(selectors: 'img'): HTMLImageElement | null;
-};
+document.addEventListener('click', (event) => {
+    const image = (event.target as Element).closest<HTMLImageElement>('.image-wrapper .image-block > img');
+    if (!image || document.querySelector('.photo-preview')) return;
 
-// Основная функция для отображения полноразмерного изображения
-function showFullImage(url: string): void {
-    const mainElement = document.querySelector('main');
-    if (!mainElement) return;
+    const preview = document.createElement('dialog');
+    preview.className = 'photo-preview';
+    preview.setAttribute('aria-label', image.alt || 'Фото');
 
-    const fullpageBlock = document.createElement('div');
-    fullpageBlock.className = 'fullpage-block';
+    const fullImage = document.createElement('img');
+    fullImage.src = image.dataset.url || image.currentSrc || image.src;
+    fullImage.alt = image.alt;
 
-    const img = document.createElement('img');
-    img.className = 'fullpage-image';
-    img.src = url;
-    img.alt = 'Full size image';
-
-    const messagesDiv = document.createElement('div');
-    messagesDiv.className = 'fullpage-messages';
-
-    fullpageBlock.append(img, messagesDiv);
-    mainElement.appendChild(fullpageBlock);
-}
-
-// Инициализация обработчиков событий
-function initImageBlocks(): void {
-    document.addEventListener('DOMContentLoaded', () => {
-        const imageBlocks = document.querySelectorAll('.image-block');
-        
-        imageBlocks.forEach(block => {
-            block.addEventListener('click', (event) => {
-                const imgElement = (block as ImageBlockElement).querySelector('img');
-                if (!imgElement) return;
-                
-                const imageUrl = imgElement.dataset.url;
-                if (imageUrl) {
-                    showFullImage(imageUrl);
-                }
-            });
-        });
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.textContent = '×';
+    close.setAttribute('aria-label', 'Закрыть фото');
+    close.addEventListener('click', () => preview.close());
+    preview.addEventListener('click', (click) => {
+        if (click.target === preview) preview.close();
     });
-}
+    preview.addEventListener('close', () => preview.remove(), { once: true });
 
-// Запуск инициализации
-initImageBlocks();
+    preview.append(close, fullImage);
+    document.body.append(preview);
+    preview.showModal();
+});

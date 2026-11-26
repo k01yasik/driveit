@@ -1,52 +1,31 @@
-interface ImageElement extends HTMLElement {
-    dataset: {
-        id: string;
-        username: string;
-    };
-}
+async function addToFavorites(button: HTMLElement): Promise<void> {
+    const { id } = button.dataset;
+    const token = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content;
+    const counter = button.closest('.image-block-footer')?.querySelector('.image-block-footer-counter');
+    if (!id || !token || !counter || button.dataset.pending) return;
 
-async function addToFavorites(event: Event): Promise<void> {
-    const button = event.target as ImageElement;
-    if (!button?.dataset) return;
-
-    const { id, username } = button.dataset;
-    if (!id || !username) return;
-
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('username', username);
-
+    button.dataset.pending = 'true';
     try {
-        const csrfToken = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content;
-        if (!csrfToken) throw new Error('CSRF token not found');
+        const body = new FormData();
+        body.append('id', id);
 
         const response = await fetch('/user/favorite/add', {
             method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
+            body,
+            headers: { 'X-CSRF-TOKEN': token, 'Accept': 'application/json' }
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const result = await response.text();
-        const imageBlock = button.closest('.image-block-footer-button')?.previousElementSibling;
-        if (imageBlock) {
-            imageBlock.innerHTML = result;
-        }
+        if (!response.ok) throw new Error(`Favorite request failed: ${response.status}`);
+        const { count }: { count: number } = await response.json();
+        counter.textContent = String(count);
     } catch (error) {
         console.error('Error adding to favorites:', error);
-        // Здесь можно добавить обработку ошибок, например, показать уведомление пользователю
+    } finally {
+        delete button.dataset.pending;
     }
 }
 
-// Инициализация обработчиков событий
-document.querySelectorAll('.image-wrapper').forEach(wrapper => {
-    wrapper.addEventListener('click', (event) => {
-        const target = event.target as HTMLElement;
-        if (target.matches('.image-block-footer-button')) {
-            addToFavorites(event);
-        }
-    });
+document.addEventListener('click', (event) => {
+    const button = (event.target as Element).closest<HTMLElement>('.image-wrapper .image-block-footer-button');
+    if (button) void addToFavorites(button);
 });
