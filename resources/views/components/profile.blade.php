@@ -48,6 +48,12 @@
             @endif
             <li><a href="{{ route('user.albums.index', ['username' => $user['username']]) }}">{{ __('Albums') }}</a></li>
             @if($currentUserProfile)
+                <li>
+                    <a href="{{ route('user.maintenance.index', $user['username']) }}">{{ __('Maintenance') }}</a>
+                    @if ($dueMaintenanceCount > 0)
+                        <span class="right" aria-label="{{ __('Maintenance due: :count', ['count' => $dueMaintenanceCount]) }}">{{ $dueMaintenanceCount }}</span>
+                    @endif
+                </li>
                 <li><a href="{{ route('user.settings', ['username' => $user['username']]) }}">{{ __('Settings') }}</a></li>
             @endif
         </ul>

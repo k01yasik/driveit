@@ -65,6 +65,7 @@
                         <button class="btn" type="submit">{{ __('Save profile') }}</button>
                     </form>
                     <h2 class="profile-title">{{ __('Garage') }}</h2>
+                    <p><a href="{{ route('user.maintenance.index', $user['username']) }}">{{ __('Maintenance reminders') }}</a></p>
                     <ul class="request-list">
                         @foreach ($cars as $car)
                             <li class="users-element">
