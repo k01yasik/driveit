@@ -2,45 +2,31 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Interfaces\RatingRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use App\Rating;
 use App\Post;
+use App\Rating;
+use App\Repositories\Interfaces\RatingRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class RatingRepository implements RatingRepositoryInterface
 {
-
-    public function getPostRatingByUser(int $postId, int $userId): array
+    public function toggle(int $postId, int $userId): int
     {
-        return Rating::where([['post_id', $postId], ['user_id', $userId]])->first()->toArray();
+        return DB::transaction(function () use ($postId, $userId): int {
+            $post = Post::lockForUpdate()->findOrFail($postId);
+            abort_unless($post->isPublished(), 404);
+
+            $vote = Rating::where('post_id', $postId)->where('user_id', $userId)->first() ?? new Rating();
+            $vote->post_id = $postId;
+            $vote->user_id = $userId;
+            $vote->rating = (int) $vote->rating === 1 ? 0 : 1;
+            $vote->save();
+
+            return $this->countActiveVotes($postId);
+        }, 3);
     }
 
-    public function store(int $postId, int $userId): void
+    public function countActiveVotes(int $postId): int
     {
-        $rating = new Rating;
-        $rating->user_id = $userId;
-        $rating->post_id = $postId;
-        $rating->rating = 1;
-        $rating->save();
-    }
-
-    public function getAllRatingsForPost(int $postId): array
-    {
-        return Post::find($postId)->rating()->get()->toArray();
-    }
-
-    public function increaseRating(int $postId): void
-    {
-        $rating = Rating::wherePostId($postId)->first();
-        $rating->rating += $rating->rating;
-        $rating->save();
-    }
-
-    public function decreaseRating(int $postId): void
-    {
-        $rating = Rating::wherePostId($postId)->first();
-        $rating->rating -= $rating->rating;
-        $rating->save();
+        return Rating::where('post_id', $postId)->where('rating', 1)->count();
     }
 }

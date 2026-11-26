@@ -25,7 +25,7 @@ class RatingRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer'
+            'id' => 'required|integer|min:1'
         ];
     }
 }

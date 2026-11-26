@@ -2,64 +2,21 @@
 
 namespace App\Observers;
 
-use App\Rating;
 use App\Repositories\CachedPostRepository;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Cache;
 
-class RatingObserver
+class RatingObserver implements ShouldHandleEventsAfterCommit
 {
-    /**
-     * Handle the rating "updated" event.
-     *
-     * @param  \App\Rating  $rating
-     * @return void
-     */
-    public function updated(Rating $rating)
-    {
-
-    }
-
-    public function saved(Rating $rating)
+    public function saved(): void
     {
         Cache::forget('latest-posts');
+        Cache::forget('posts-published-this-month');
         CachedPostRepository::invalidateListings();
     }
 
-    public function created(Rating $rating)
+    public function deleted(): void
     {
-        Cache::forget('latest-posts');
-    }
-
-    /**
-     * Handle the rating "deleted" event.
-     *
-     * @param  \App\Rating  $rating
-     * @return void
-     */
-    public function deleted(Rating $rating)
-    {
-        //
-    }
-
-    /**
-     * Handle the rating "restored" event.
-     *
-     * @param  \App\Rating  $rating
-     * @return void
-     */
-    public function restored(Rating $rating)
-    {
-        //
-    }
-
-    /**
-     * Handle the rating "force deleted" event.
-     *
-     * @param  \App\Rating  $rating
-     * @return void
-     */
-    public function forceDeleted(Rating $rating)
-    {
-        //
+        $this->saved();
     }
 }
