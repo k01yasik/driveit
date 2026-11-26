@@ -20,13 +20,22 @@ class CategoryService
 
     public function getPostAllCategoriesId(CategoryDTO $category): array
     {
-        $postCategoriesId = [$category->id];
+        $parent = $this->findParent($category);
 
-        if ($category->parentId !== null) {
-            $postCategoriesId[] = $category->parentId;
-        }
+        return $parent ? [$category->id, $parent->id] : [$category->id];
+    }
 
-        return $postCategoriesId;
+    public function getCategoriesForPostForm(): Collection
+    {
+        return $this->categoryRepository->getCategoriesForPostForm();
+    }
+
+    public function getSelectedCategoryId(Collection $postCategories): ?int
+    {
+        $category = $postCategories->first(fn ($item) => data_get($item, 'parent_id') !== null)
+            ?? $postCategories->first();
+
+        return data_get($category, 'id');
     }
 
     public function getCategoryByName(string $name): CategoryDTO
@@ -41,16 +50,20 @@ class CategoryService
 
     public function getCategoryNameWithParentName(CategoryDTO $category): array
     {
-        $categories = [];
+        $parent = $this->findParent($category);
 
-        if ($category->parentId !== null) {
-            $mainCategory = $this->categoryRepository->getPostCategory($category->parentId);
-            $categories[] = $this->makeCategoryResponse($mainCategory);
+        return $parent
+            ? [$this->makeCategoryResponse($parent), $this->makeCategoryResponse($category)]
+            : [$this->makeCategoryResponse($category)];
+    }
+
+    private function findParent(CategoryDTO $category): ?CategoryDTO
+    {
+        if ($category->parentId === null || $category->parentId === $category->id) {
+            return null;
         }
 
-        $categories[] = $this->makeCategoryResponse($category);
-
-        return $categories;
+        return $this->categoryRepository->findPostCategory($category->parentId);
     }
 
     public function getAllParentCategories(): Collection

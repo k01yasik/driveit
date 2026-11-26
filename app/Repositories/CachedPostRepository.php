@@ -86,7 +86,7 @@ final class CachedPostRepository implements PostRepositoryInterface
         return $this->postRepository->getPaginatedPostsOrderedById($pageId, $numberPosts);
     }
 
-    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array
+    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): Paginator
     {
         return $this->postRepository->getPaginatedPostsByCategoryId($categoryId, $pageId, $numberPosts);
     }
@@ -163,11 +163,6 @@ final class CachedPostRepository implements PostRepositoryInterface
     public function getPostsSortedByViews(int $pageId, int $numberPosts): array
     {
         return $this->postRepository->getPostsSortedByViews($pageId, $numberPosts);
-    }
-
-    public function getPostsCountByCategory(int $id): int
-    {
-        return $this->postRepository->getPostsCountByCategory($id);
     }
 
     public function getPostStatus(PostEntity $postEntity): bool
