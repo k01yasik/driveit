@@ -27,7 +27,7 @@ interface PostRepositoryInterface
 
     public function getPaginatedPostsOrderedById(int $pageId, int $numberPosts): array;
 
-    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array;
+    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): Paginator;
 
     public function getAllPublishedPosts(): array;
 

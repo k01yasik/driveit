@@ -9,6 +9,10 @@ interface CategoryRepositoryInterface
 {
     public function getPostCategory(int $id): CategoryDTO;
 
+    public function findPostCategory(int $id): ?CategoryDTO;
+
+    public function getCategoriesForPostForm(): Collection;
+
     public function getAllParentCategories(): Collection;
 
     public function getCategoryByName(string $name): CategoryDTO;

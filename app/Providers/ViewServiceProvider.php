@@ -34,13 +34,5 @@ class ViewServiceProvider extends ServiceProvider
             ],
             'App\Http\View\Composers\ProfileComposer'
         );
-
-        View::composer(
-            [
-                'category.show',
-                'category.paginate',
-            ],
-            'App\Http\View\Composers\CategoryComposer'
-        );
     }
 }

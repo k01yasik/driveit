@@ -6,6 +6,7 @@ use App\Category;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Post;
 use App\Entities\Post as PostEntity;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -135,18 +136,16 @@ class PostRepository implements PostRepositoryInterface
         return $post->toArray();
     }
 
-    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): array
+    public function getPaginatedPostsByCategoryId(int $categoryId, int $pageId, int $numberPosts): LengthAwarePaginator
     {
         return Category::findOrFail($categoryId)
             ->posts()
-            ->with(['user', 'categories', 'user.profile', 'rating', 'comments'])
-            ->where('is_published', 1)
-            ->orderByDesc('date_published')
+            ->with(['user.profile', 'categories', 'rating', 'comments'])
+            ->where('posts.is_published', true)
+            ->whereNull('posts.archived_at')
+            ->orderByDesc('posts.date_published')
             ->orderByDesc('posts.id')
-            ->skip(($pageId - 1) * $numberPosts)
-            ->take($numberPosts)
-            ->get()
-            ->toArray();
+            ->paginate($numberPosts, page: $pageId);
     }
 
     public function getAllPublishedPosts(): array
@@ -239,11 +238,5 @@ class PostRepository implements PostRepositoryInterface
     public function getPublishedPostsCount(): int
     {
         return Post::where('is_published', true)->count();
-    }
-
-    public function getPostsCountByCategory(int $id): int
-    {
-        return Category::findOrFail($id)
-            ->posts()->where('is_published', true)->count();
     }
 }

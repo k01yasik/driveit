@@ -32,7 +32,7 @@ class PostController extends Controller
     {
         $seo = $this->seoService->getSeoData($request);
 
-        $categories = $this->categoryService->getAllParentCategories();
+        $categories = $this->categoryService->getCategoriesForPostForm();
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
@@ -113,13 +113,13 @@ class PostController extends Controller
 
         $post = $this->postService->getPostByIdWithCategories($id);
 
-        $categories = $this->categoryService->getAllParentCategories();
+        $categories = $this->categoryService->getCategoriesForPostForm();
 
-        $categoryArray = $this->categoryService->getPostCategoriesIdByPost(collect($post['categories']));
+        $selectedCategoryId = $this->categoryService->getSelectedCategoryId(collect($post['categories']));
 
         $user = $this->userService->getCurrentUserWithProfile(Auth::id());
 
-        return view('admin.posts.edit', compact('seo', 'post', 'categories', 'categoryArray', 'user'));
+        return view('admin.posts.edit', compact('seo', 'post', 'categories', 'selectedCategoryId', 'user'));
     }
 
     public function editHtml($id, Request $request)
@@ -142,7 +142,7 @@ class PostController extends Controller
         $data = $request->validated();
 
         $postEntity = $this->postService->createPost(
-            $data['slug'],
+            $data['slug'] ?? '',
             $data['title'],
             $data['description'],
             $data['name'],

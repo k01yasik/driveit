@@ -38,7 +38,7 @@
                     </li>
                 @else
                     <li class="page-item">
-                        <a class="page-link" href="{{ config('app.url').'/category/'.$categoryName.'/page/'. $previousNumberPage }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                        <a class="page-link" href="{{ route('category.paginate', [$categoryName, $previousNumberPage]) }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
                     </li>
                 @endif
 
@@ -47,16 +47,16 @@
                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $i }}</span></li>
                     @else
                         @if ($i == 1)
-                            <li class="page-item"><a class="page-link" href="{{ config('app.url').'/category/'.$categoryName }}">{{ $i }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ route('category.show', $categoryName) }}">{{ $i }}</a></li>
                         @else
-                            <li class="page-item"><a class="page-link" href="{{ config('app.url').'/category/'.$categoryName.'/page/'.$i }}">{{ $i }}</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ route('category.paginate', [$categoryName, $i]) }}">{{ $i }}</a></li>
                         @endif
                     @endif
                 @endfor
 
                 @if ($posts->hasMorePages())
                     <li class="page-item">
-                        <a class="page-link" href="{{ config('app.url').'/category/'.$categoryName.'/page/'. $nextNumberPage }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                        <a class="page-link" href="{{ route('category.paginate', [$categoryName, $nextNumberPage]) }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
                     </li>
                 @else
                     <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">

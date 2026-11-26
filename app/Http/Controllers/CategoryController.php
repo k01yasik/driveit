@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\CategoryService;
-use App\Services\PostService;
 use App\Services\PaginatorService;
+use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
@@ -18,83 +18,28 @@ class CategoryController extends Controller
     ) {
     }
 
-    /**
-     * Display category page with posts
-     */
-    public function show(): View
+    public function show(Request $request, string $category, int $id = 1): View|JsonResponse
     {
-        return view('category.show');
-    }
+        $category = $this->categoryService->getCategoryByName($category);
+        $posts = $this->postService->getPaginatedPostsByCategoryId($category->id, $id);
+        $pages = $this->paginatorService->calculatePages($posts);
 
-    public function paginate(Request $request, string $category, int $id): View|JsonResponse
-    {
-        if (! $request->expectsJson()) {
-            return $this->show();
+        if ($request->routeIs('category.paginate') && $request->expectsJson()) {
+            return response()->json(['posts' => $posts->items(), 'pagination' => $pages]);
         }
 
-        $category = $this->categoryService->getCategoryByName($category);
-        $paginator = $this->postService->getPaginatedPostsByCategoryId($category->id, $id);
+        $title = 'Статьи в категории ' . $category->displayName;
+        $description = $id > 1 ? $title : 'Все ' . $title;
+        $suffix = $id > 1 ? '. Страница - ' . $id . '.' : '';
 
-        return response()->json([
-            'posts' => $paginator->items(),
-            'pagination' => $this->paginatorService->calculatePages($paginator),
-        ]);
-    }
-
-    /**
-     * Get all parent categories (for navigation/menu)
-     */
-    public function getParentCategories(): JsonResponse
-    {
-        $categories = $this->categoryService->getAllParentCategories();
-        
-        return response()->json([
-            'categories' => $categories
-        ]);
-    }
-
-    /**
-     * Get category hierarchy (parent + children)
-     */
-    public function getCategoryWithChildren(string $name): JsonResponse
-    {
-        $category = $this->categoryService->getCategoryByName($name);
-        $children = $this->categoryService->getChildCategories($category->id);
-        
-        return response()->json([
-            'category' => $category,
-            'children' => $children
-        ]);
-    }
-
-    /**
-     * Search categories by name (autocomplete)
-     */
-    public function search(Request $request): JsonResponse
-    {
-        $request->validate([
-            'query' => 'required|string|min:2'
-        ]);
-        
-        $results = $this->categoryService->searchCategories(
-            $request->input('query'),
-            $request->input('limit', 5)
-        );
-        
-        return response()->json($results);
-    }
-
-    /**
-     * Get popular categories
-     */
-    public function getPopularCategories(): JsonResponse
-    {
-        $categories = $this->categoryService->getPopularCategories(
-            config('app.popular_categories_limit', 10)
-        );
-        
-        return response()->json([
-            'popular_categories' => $categories
+        return view('category.show', [
+            'categoryName' => $category->name,
+            'lastNumberPage' => $pages['last'],
+            'nextNumberPage' => $pages['next'],
+            'previousNumberPage' => $pages['previous'],
+            'posts' => $posts,
+            'categories' => $this->categoryService->getCategoryNameWithParentName($category),
+            'seo' => ['title' => $title . $suffix, 'description' => $description . $suffix],
         ]);
     }
 }

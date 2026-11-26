@@ -35,13 +35,7 @@
                     <input name="description" id="description" type="text" required>
                     <label for="name" class="required">{{ __('Post name')}}</label>
                     <input name="name" id="name" type="text" required>
-                    <label for="category" class="required">{{ __('Choose a category') }}</label>
-                    <select id="category" name="category" class="select-category" required>
-                        <option value="">--{{ __('Choose a category') }}--</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{mb_strtoupper(mb_substr($category->displayName, 0, 1)) . mb_substr($category->displayName, 1)}}</option>
-                        @endforeach
-                    </select>
+                    @include('admin.posts.partials.category-select')
                     <label for="caption" class="required">{{ __('Post caption')}}</label>
                     <textarea name="caption" id="caption" type="text" required></textarea>
                     <label for="body" class="required">{{ __('Post body')}}</label>

@@ -42,15 +42,9 @@ class PostService
 
     public function getPaginatedPostsByCategoryId(int $categoryId, int $id): LengthAwarePaginator
     {
-        $perPage = config('pagination.postsPerPage');
-        $posts = $this->postRepository->getPaginatedPostsByCategoryId($categoryId, $id, $perPage);
+        $posts = $this->postRepository->getPaginatedPostsByCategoryId($categoryId, $id, config('pagination.postsPerPage'));
 
-        return $this->paginate(
-            $this->calculatePostStats($posts),
-            $this->postRepository->getPostsCountByCategory($categoryId),
-            $perPage,
-            $id
-        );
+        return $posts->through(fn ($post) => $this->addPostStats($post->toArray()));
     }
 
     public function store(PostEntity $postEntity, int $userId, array $postCategoriesId): void

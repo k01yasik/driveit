@@ -24,11 +24,12 @@ class PostStore extends FormRequest
     public function rules()
     {
         return [
+            'slug' => [$this->routeIs('admin.posts.store') ? 'required' : 'sometimes', 'string', 'max:191'],
             'image' => 'required|url',
             'title' => 'required',
             'description' => 'required',
             'name' => 'required',
-            'category' => 'required|integer',
+            'category' => 'required|integer|exists:categories,id',
             'caption' => 'required',
             'body' => 'required',
         ];

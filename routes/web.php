@@ -55,7 +55,7 @@ Route::prefix('posts')->group(function () {
 
 Route::prefix('category/{category}')->group(function () {
     Route::get('/', [CategoryController::class, 'show'])->name('category.show');
-    Route::get('/page/{id}', [CategoryController::class, 'paginate'])->where('id', '[1-9][0-9]*')->name('category.paginate');
+    Route::get('/page/{id}', [CategoryController::class, 'show'])->where('id', '[1-9][0-9]*')->name('category.paginate');
 });
 
 // Аутентификация пользователей
