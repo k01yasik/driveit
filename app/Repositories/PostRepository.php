@@ -28,7 +28,7 @@ class PostRepository implements PostRepositoryInterface
             $post->views = $postEntity->getViews();
             $post->save();
 
-            $post->categories()->attach($postCategoriesId);
+            $post->categories()->attach(array_unique($postCategoriesId));
         });
     }
 

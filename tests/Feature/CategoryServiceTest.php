@@ -6,6 +6,7 @@ use App\Category;
 use App\Post;
 use App\Services\CategoryService;
 use App\User;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -119,6 +120,44 @@ class CategoryServiceTest extends TestCase
         $this->assertEqualsCanonicalizing(
             [$this->parent->id, $this->child->id],
             $post->categories()->pluck('categories.id')->all()
+        );
+    }
+
+    public function test_migration_removes_duplicate_category_links_and_preserves_pagination(): void
+    {
+        config(['pagination.postsPerPage' => 1]);
+        $post = Post::factory()->for($this->userWithProfile())->create();
+        $migration = require database_path('migrations/2026_11_26_000003_enforce_unique_category_posts.php');
+        $migration->down();
+
+        $link = ['category_id' => $this->child->id, 'post_id' => $post->id];
+        $originalId = DB::table('category_post')->insertGetId($link);
+        DB::table('category_post')->insert($link);
+        $post->categories()->attach($this->parent->id);
+
+        $migration->up();
+
+        $this->assertDatabaseCount('category_post', 2);
+        $this->assertDatabaseHas('category_post', $link + ['id' => $originalId]);
+        $this->getJson(route('category.paginate', ['repair', 1]))->assertOk()
+            ->assertJsonCount(1, 'posts')
+            ->assertJsonPath('posts.0.id', $post->id)
+            ->assertJsonPath('pagination.last', 1);
+
+        $this->expectException(UniqueConstraintViolationException::class);
+        DB::table('category_post')->insert($link);
+    }
+
+    public function test_post_repository_accepts_duplicate_ids_as_one_category_assignment(): void
+    {
+        $author = $this->userWithProfile();
+        $post = \App\Entities\Post::create(null, 'unique-categories', 'Title', '', 'Name', '', '', '');
+        $repository = app(\App\Repositories\Interfaces\PostRepositoryInterface::class);
+        $repository->store($post, $author->id, [$this->child->id, $this->child->id, $this->parent->id]);
+
+        $this->assertEqualsCanonicalizing(
+            [$this->parent->id, $this->child->id],
+            Post::where('slug', 'unique-categories')->sole()->categories()->pluck('categories.id')->all()
         );
     }
 
