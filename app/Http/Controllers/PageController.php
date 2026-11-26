@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Services\{
     PostService,
+    RatingService,
     SeoService,
     CommentService,
     SuggestsService,
@@ -62,6 +63,21 @@ class PageController extends Controller
     public function bestRated(Request $request): View
     {
         return $this->paginateSortedPosts(1, $request, 'createPostSortByRating', __('Best posts by rating'));
+    }
+
+    public function bestRatedByPeriod(string $period, RatingService $ratingService): View
+    {
+        $week = $period === 'week';
+        $title = $week ? __('Top posts of the week') : __('Top posts of the month');
+        $posts = $ratingService->topPosts($week ? 7 : 30, config('pagination.postsPerPage'));
+        $posts->through(fn ($post) => $this->postService->calculatePostStats($post->toArray()));
+
+        return view('posts.list', [
+            'seo' => ['title' => $title, 'description' => $title],
+            'breadcrumb' => $title,
+            'posts' => $posts,
+            'ratingPeriod' => $period,
+        ]);
     }
 
     public function bestComments(Request $request): View

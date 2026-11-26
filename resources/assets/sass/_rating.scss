@@ -1,0 +1,41 @@
+.post-vote {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+button.post-vote {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+  }
+}
+
+.post-vote[aria-pressed='true'] .star-svg {
+  fill: #9e6400;
+}
+
+.post-vote [data-rating-status] {
+  font-size: 0.825em;
+}
+
+.rating-periods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block: 1rem;
+
+  [aria-current='page'] {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}

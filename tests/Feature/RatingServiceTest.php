@@ -112,6 +112,79 @@ class RatingServiceTest extends TestCase
         $this->vote($post, $alice, 1);
     }
 
+    public function test_vote_indicator_uses_the_current_users_vote_on_cards_and_the_post_page(): void
+    {
+        (new \SeoTableSeeder())->run();
+        $alice = $this->user('alice');
+        $bob = $this->user('bob');
+        DB::table('profiles')->insert(['user_id' => $alice->id, 'avatar' => '/avatar.png', 'public' => true]);
+        $post = $this->createPost($alice);
+        $page = route('posts.show', 'rated-post');
+        $listing = route('posts.index');
+
+        $this->get($page)->assertOk()->assertDontSee('aria-pressed=', false);
+        $this->actingAs($alice)->get($listing)->assertOk()->assertSee('aria-pressed="false"', false);
+        $this->postJson(route('rating.post'), ['id' => $post])->assertOk()->assertContent('1')
+            ->assertHeader('X-Rating-Voted', '1');
+        $this->get($page)->assertOk()->assertSee('aria-pressed="true"', false);
+        $this->get($listing)->assertSee('aria-pressed="true"', false);
+        $this->get(route('posts.rated'))->assertOk()
+            ->assertSee(route('posts.rated.period', 'week'))->assertSee(route('posts.rated.period', 'month'));
+        $this->actingAs($bob)->get($page)->assertOk()->assertSee('aria-pressed="false"', false);
+        $this->get($listing)->assertSee('aria-pressed="false"', false);
+
+        $this->actingAs($alice)->postJson(route('rating.post'), ['id' => $post])
+            ->assertOk()->assertContent('0')->assertHeader('X-Rating-Voted', '0');
+        $this->get($page)->assertSee('aria-pressed="false"', false);
+    }
+
+    public function test_rankings_count_only_active_votes_in_the_requested_window(): void
+    {
+        $this->travelTo(now()->setDate(2026, 11, 26)->setTime(15, 0));
+        $alice = $this->user('alice');
+        $bob = $this->user('bob');
+        DB::table('profiles')->insert(['user_id' => $alice->id, 'avatar' => '/avatar.png', 'public' => true]);
+        $weekPost = $this->createPost($alice, 'week-post');
+        $monthPost = $this->createPost($alice, 'month-post');
+        $oldPost = $this->createPost($alice, 'old-post');
+        $draft = $this->createPost($alice, 'draft', false);
+        $archived = $this->createPost($alice, 'archived');
+        DB::table('posts')->where('id', $archived)->update(['archived_at' => now()]);
+
+        DB::table('ratings')->insert([
+            ['post_id' => $weekPost, 'user_id' => $alice->id, 'rating' => 1, 'updated_at' => now()->subDays(7)],
+            ['post_id' => $weekPost, 'user_id' => $bob->id, 'rating' => 0, 'updated_at' => now()],
+            ['post_id' => $monthPost, 'user_id' => $alice->id, 'rating' => 1, 'updated_at' => now()->subDays(7)->subSecond()],
+            ['post_id' => $monthPost, 'user_id' => $bob->id, 'rating' => 1, 'updated_at' => now()->subDays(30)],
+            ['post_id' => $oldPost, 'user_id' => $alice->id, 'rating' => 1, 'updated_at' => now()->subDays(30)->subSecond()],
+            ['post_id' => $draft, 'user_id' => $alice->id, 'rating' => 1, 'updated_at' => now()],
+            ['post_id' => $archived, 'user_id' => $alice->id, 'rating' => 1, 'updated_at' => now()],
+        ]);
+
+        $week = route('posts.rated.period', 'week');
+        $month = route('posts.rated.period', 'month');
+        $this->get($week)->assertOk()->assertSee($month);
+        $this->assertSame([$weekPost => 1], $this->rankings($week));
+        $this->assertSame([$monthPost => 2, $weekPost => 1], $this->rankings($month));
+        config(['pagination.postsPerPage' => 1]);
+        $this->get($month)->assertOk()->assertSee($month.'?page=2');
+        $this->assertSame([$weekPost => 1], $this->rankings($month.'?page=2'));
+
+
+        $this->actingAs($alice)->postJson(route('rating.post'), ['id' => $weekPost])->assertHeader('X-Rating-Voted', '0');
+        $this->assertSame([], $this->rankings($week));
+        $this->postJson(route('rating.post'), ['id' => $oldPost])->assertHeader('X-Rating-Voted', '0');
+        $this->postJson(route('rating.post'), ['id' => $oldPost])->assertHeader('X-Rating-Voted', '1');
+        $this->assertSame([$oldPost => 1], $this->rankings($week));
+    }
+
+    private function rankings(string $url): array
+    {
+        $posts = $this->get($url)->assertOk()->viewData('posts')->items();
+
+        return array_column($posts, 'period_rating_count', 'id');
+    }
+
     private function user(string $username): User
     {
         $id = DB::table('users')->insertGetId(['username' => $username, 'email' => $username.'@example.test']);
