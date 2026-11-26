@@ -25,11 +25,11 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preload" href="{{asset('css/app.css')}}" as="style">
+    <link rel="preload" href="{{mix('css/app.css')}}" as="style">
     <link rel="preload" href="{{ mix('js/manifest.js') }}" as="script">
     <link rel="preload" href="{{ mix('js/vendor.js') }}" as="script">
     <link rel="preload" href="{{ mix('js/app.js') }}" as="script">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=

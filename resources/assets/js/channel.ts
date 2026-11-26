@@ -1,13 +1,10 @@
-import { escape } from 'lodash';
+import { appendChatMessage } from './chat-message';
 
 interface User {
   id: number;
   username: string;
   url: string;
   avatar: string;
-  profile?: {
-    avatar: string;
-  };
 }
 
 interface MessageEvent {
@@ -66,9 +63,6 @@ class RealTimeEventHandler {
   private setupPostChannel(): void {
     if (!this.postId) return;
 
-    console.log('Post_id is present');
-    console.log(`post.${this.postId}`);
-
     const echoChannel = window.Echo.join(`post.${this.postId}`);
 
     echoChannel
@@ -87,7 +81,14 @@ class RealTimeEventHandler {
     const messageId = event.message.id;
     if (messageId && conversation.querySelector(`[data-message-id="${messageId}"]`)) return;
 
-    this.appendMessage(conversation, event);
+    appendChatMessage(conversation, {
+      id: messageId,
+      profileUrl: event.sender.profile_url,
+      avatar: event.sender.avatar,
+      username: event.sender.username,
+      time: event.message.created_at,
+      sanitizedText: event.message.text,
+    });
     conversation.querySelector('.welcome-chat')?.remove();
     if (messageId && document.visibilityState === 'visible' && await this.markRead(messageId)) return;
 
@@ -123,27 +124,6 @@ class RealTimeEventHandler {
       console.error('Could not mark message as read', error);
       return false;
     }
-  }
-
-  private appendMessage(container: Element, event: MessageEvent): void {
-    const messageHtml = `
-      <div class="message-wrapper" data-message-id="${event.message.id}">
-        <div class="message-header">
-          <a href="${escape(event.sender.profile_url)}" class="message-header-link">
-            <img src="${escape(event.sender.avatar ?? '')}" class="message-header-avatar">
-          </a>
-        </div>
-        <div class="message-body">
-          <div class="message-body-header">
-            <a href="${escape(event.sender.profile_url)}" class="message-header-name">${escape(event.sender.username)}</a>
-            <div class="message-body-header-time">${escape(event.message.created_at)}</div>
-          </div>
-          <div class="message-body-content">${event.message.text}</div>
-        </div>
-      </div>
-    `;
-
-    container.insertAdjacentHTML('beforeend', messageHtml);
   }
 
   private updateMessageCounter(change = 1): void {

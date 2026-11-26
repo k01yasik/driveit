@@ -34,3 +34,8 @@ button.back-to-top {
     min-height: 2rem;
   }
 }
+
+.welcome-chat.fade-out {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}

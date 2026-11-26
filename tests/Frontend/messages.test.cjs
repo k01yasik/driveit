@@ -6,6 +6,22 @@ const { setImmediate } = require('node:timers/promises');
 const vm = require('node:vm');
 const ts = require('typescript');
 
+function loadChatScript(name, globals = {}) {
+    const filename = path.resolve(__dirname, '../../resources/assets/js', name);
+    const { outputText } = ts.transpileModule(readFileSync(filename, 'utf8'), {
+        compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+        fileName: filename,
+    });
+    const exports = {};
+    vm.runInNewContext(outputText, {
+        exports, FormData, Headers,
+        require: module => module === './chat-message' ? loadChatScript('chat-message.ts') : require(module),
+        ...globals,
+    }, { filename });
+
+    return exports;
+}
+
 function conversationHarness(visibilityState = 'visible') {
     const listeners = new Map();
     const handlers = new Map();
@@ -49,20 +65,14 @@ function conversationHarness(visibilityState = 'visible') {
             return this;
         },
     };
-    const filename = path.resolve(__dirname, '../../resources/assets/js/channel.ts');
-    const { outputText } = ts.transpileModule(readFileSync(filename, 'utf8'), {
-        compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
-        fileName: filename,
-    });
-
-    vm.runInNewContext(outputText, {
-        exports: {}, require, document,
+    loadChatScript('channel.ts', {
+        document,
         window: { Echo: { private(name) { assert.equal(name, 'user.3'); return channel; } } },
         async fetch(url, options) {
             reads.push({ url, method: options.method, token: options.headers['X-CSRF-TOKEN'], body: JSON.parse(options.body) });
             return { ok: true };
         },
-    }, { filename });
+    });
     listeners.get('DOMContentLoaded')();
 
     return {
@@ -102,4 +112,52 @@ test('messages remain unread while the tab is hidden or another conversation is 
     await chat.focus();
     assert.equal(chat.reads.length, 1);
     assert.equal(chat.counter.textContent, '1');
+});
+
+test('sending a chat message renders the response and preserves newer editor text', async () => {
+    const listeners = new Map();
+    const rendered = [];
+    const editor = {
+        textContent: 'First message',
+        innerHTML: '<p>First message</p>',
+        addEventListener(event, handler) { listeners.set(event, handler); },
+    };
+    const conversation = {
+        dataset: { friend: '7', messageUrl: '/user/alice/messages/store' },
+        querySelector: () => null,
+        insertAdjacentHTML(_, html) { rendered.push(html); },
+    };
+    let respond;
+
+    loadChatScript('send-message.ts', {
+        document: {
+            querySelector: selector => ({
+                '[data-message-url]': conversation,
+                '.text-editor-body': editor,
+                'meta[name="csrf-token"]': { content: 'test-token' },
+            })[selector],
+            addEventListener(event, handler) { listeners.set(event, handler); },
+        },
+        fetch(url, options) {
+            assert.equal(url, '/user/alice/messages/store');
+            assert.equal(options.headers.get('X-CSRF-TOKEN'), 'test-token');
+            assert.equal(options.body.get('friend_id'), '7');
+            assert.equal(options.body.get('message'), '<p>First message</p>');
+            return new Promise(resolve => { respond = resolve; });
+        },
+    });
+    listeners.get('DOMContentLoaded')();
+    const sending = listeners.get('keydown')({ ctrlKey: true, key: 'Enter', preventDefault() {} });
+    editor.innerHTML = '<p>New draft</p>';
+    respond({
+        ok: true,
+        json: async () => ({ url: '/user/alice', username: 'Alice & Co', avatar: null, time: '12:00', text: '<p>First message</p>' }),
+    });
+    await sending;
+
+    assert.equal(rendered.length, 1);
+    assert.match(rendered[0], /Alice &amp; Co/);
+    assert.match(rendered[0], /<p>First message<\/p>/);
+    assert.doesNotMatch(rendered[0], /data-message-id/);
+    assert.equal(editor.innerHTML, '<p>New draft</p>');
 });
