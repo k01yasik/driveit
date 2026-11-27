@@ -10,7 +10,8 @@ use Socialite;
 use App\Services\SeoService;
 use Illuminate\Http\Request;
 use App\User;
-use App\Profile;
+use App\Services\ProfileService;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -41,7 +42,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct(SeoService $seoService)
+    public function __construct(SeoService $seoService, private ProfileService $profileService)
     {
         $this->middleware('guest')->except('logout');
         $this->seoService = $seoService;
@@ -95,23 +96,22 @@ class LoginController extends Controller
         $authUser = User::where('provider_id', $user->id)->first();
 
         if ($authUser) {
+            $this->profileService->initialize($authUser, $user->avatar ?? null);
+
             return $authUser;
         }
 
-        $userCreate = User::create([
-           'username' => $user->id,
-           'email' => $user->email,
-           'provider' => $provider,
-           'provider_id' => $user->id
-        ]);
+        return DB::transaction(function () use ($user, $provider): User {
+            $authUser = User::create([
+                'username' => $user->id,
+                'email' => $user->email,
+                'provider' => $provider,
+                'provider_id' => $user->id,
+            ]);
+            $this->profileService->initialize($authUser, $user->avatar ?? null);
 
-        $profile = new Profile;
-        $profile->avatar = $user->avatar;
-        $profile->public = false;
-        $profile->user()->associate($userCreate);
-        $profile->save();
-
-        return $userCreate;
+            return $authUser;
+        });
     }
 
     public function logout(Request $request)

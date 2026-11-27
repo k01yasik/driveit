@@ -8,11 +8,18 @@ use App\User;
 
 class ProfileRepository implements ProfileRepositoryInterface
 {
-
-    public function add(int $userId, string $avatarUrl): void
+    public function initialize(User $user, string $avatarUrl): Profile
     {
-        $profile = User::find($userId)->profile()->firstOrFail();
-        $profile->avatar = $avatarUrl;
-        $profile->save();
+        return $user->profile()->firstOrCreate([], ['avatar' => $avatarUrl, 'public' => false]);
+    }
+
+    public function update(int $userId, array $attributes): void
+    {
+        $profile = Profile::where('user_id', $userId)->firstOrFail();
+        $profile->fill($attributes);
+
+        if ($profile->isDirty()) {
+            $profile->save();
+        }
     }
 }

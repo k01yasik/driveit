@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 
 /**
@@ -11,7 +12,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $user_id
  * @property string $avatar
- * @property int $public
+ * @property bool $public
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\User $user
@@ -28,6 +29,10 @@ use Illuminate\Support\Carbon;
  */
 class Profile extends Model
 {
+    protected $fillable = ['avatar', 'public', 'first_name', 'last_name', 'city', 'about'];
+
+    protected $casts = ['public' => 'boolean'];
+
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -35,16 +40,9 @@ class Profile extends Model
 
     public function getBirthDateAttribute($value): ?string
     {
-        Carbon::setLocale('ru');
-
-        if (isset($value)) {
-            $age = Carbon::parse($value)->diffForHumans(null,  false, false, 2);
-            $age_arr = explode(" ", $age);
-            array_pop($age_arr);
-
-            return implode(" ", $age_arr);
-        }
-
-        return false;
+        return $value === null ? null : Carbon::parse($value)->locale('ru')->diffForHumans([
+            'syntax' => CarbonInterface::DIFF_ABSOLUTE,
+            'parts' => 2,
+        ]);
     }
 }
