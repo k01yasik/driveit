@@ -11,7 +11,6 @@ class RatingObserver implements ShouldHandleEventsAfterCommit
     public function saved(): void
     {
         Cache::forget('latest-posts');
-        Cache::forget('posts-published-this-month');
         CachedPostRepository::invalidateListings();
     }
 

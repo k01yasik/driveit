@@ -10,6 +10,7 @@ use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\CachedRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 final class CachedCommentRepository implements CommentRepositoryInterface, CachedRepositoryInterface
 {
@@ -36,12 +37,14 @@ final class CachedCommentRepository implements CommentRepositoryInterface, Cache
 
         $this->clearCache($commentData->id);
         $this->clearPostCaches(array_unique([...$oldPostIds, $commentData->postId]));
+        DB::afterCommit(CachedPostRepository::invalidateListings(...));
     }
 
     public function updateMessage(int $id, string $message): void
     {
         $postId = $this->getById($id)['post_id'];
         $this->commentRepository->updateMessage($id, $message);
+        DB::afterCommit(CachedPostRepository::invalidateListings(...));
         $this->clearCache($id);
         Cache::forget("comments_for_post_{$postId}");
     }
@@ -50,6 +53,7 @@ final class CachedCommentRepository implements CommentRepositoryInterface, Cache
     {
         $postId = $this->getById($id)['post_id'];
         $this->commentRepository->toggleVerification($id);
+        DB::afterCommit(CachedPostRepository::invalidateListings(...));
         $this->clearCache($id);
         Cache::forget("comments_for_post_{$postId}");
     }
@@ -151,6 +155,9 @@ final class CachedCommentRepository implements CommentRepositoryInterface, Cache
         }
         $this->clearAllCache();
         $this->clearPostCaches($postIds);
+        if ($updated) {
+            DB::afterCommit(CachedPostRepository::invalidateListings(...));
+        }
 
         return $updated;
     }

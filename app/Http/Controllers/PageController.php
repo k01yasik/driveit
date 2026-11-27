@@ -12,8 +12,9 @@ use App\Services\{
     SuggestsService,
     PaginatorService
 };
-use App\Services\SortService\Interfaces\SortFactory;
+use App\Services\SortService\PostOrder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\View\View;
@@ -26,8 +27,7 @@ class PageController extends Controller
         private CommentService $commentService,
         private PostService $postService,
         private PaginatorService $paginatorService,
-        private SuggestsService $suggestsService,
-        private SortFactory $sortFactory
+        private SuggestsService $suggestsService
     ) {}
 
     public function home(Request $request): View
@@ -62,7 +62,7 @@ class PageController extends Controller
 
     public function bestRated(Request $request): View
     {
-        return $this->paginateSortedPosts(1, $request, 'createPostSortByRating', __('Best posts by rating'));
+        return $this->ranked($request, PostOrder::Rating);
     }
 
     public function bestRatedByPeriod(string $period, RatingService $ratingService): View
@@ -82,63 +82,43 @@ class PageController extends Controller
 
     public function bestComments(Request $request): View
     {
-        return $this->paginateSortedPosts(1, $request, 'createPostSortByComments', __('Best posts by comments'));
+        return $this->ranked($request, PostOrder::Comments);
     }
 
     public function bestCommentsByMonth(Request $request): View
     {
-        $posts = $this->postService->calculatePostStats($this->postService->getPostsByMonth());
-        $posts = $this->sortFactory->createPostSortByComments()->sort($posts);
+        $title = __('Best of the month by comments');
+        try {
+            $seo = $this->seoService->getSeoData($request);
+        } catch (ModelNotFoundException) {
+            $seo = ['title' => $title, 'description' => $title];
+        }
 
         return view('posts.best-comments', [
-            'seo' => $this->seoService->getSeoData($request),
-            'posts' => $posts,
-            'breadcrumb' => __('Best of the month by comments')
+            'seo' => $seo,
+            'posts' => $this->postService->calculatePostStats($this->postService->getPostsByMonth()),
+            'breadcrumb' => $title,
         ]);
     }
 
     public function bestViews(Request $request): View
     {
-        $posts = $this->postService->getPostsSortedByViews(1, config('pagination.postsPerPage'));
-        $posts = $this->postService->calculateAndPaginate($posts, 1);
-
-        return $this->renderSortedPostsView(
-            $request,
-            $posts,
-            __('Best posts by views')
-        );
+        return $this->ranked($request, PostOrder::Views);
     }
 
     public function commentsPaginate(int $id, Request $request): View
     {
-        return $this->paginateSortedPosts(
-            $id,
-            $request,
-            'createPostSortByComments',
-            __('Best posts by comments')
-        );
+        return $this->ranked($request, PostOrder::Comments, $id);
     }
 
     public function ratedPaginate(int $id, Request $request): View
     {
-        return $this->paginateSortedPosts(
-            $id,
-            $request,
-            'createPostSortByRating',
-            __('Best posts by rating')
-        );
+        return $this->ranked($request, PostOrder::Rating, $id);
     }
 
     public function viewsPaginate(int $id, Request $request): View
     {
-        $posts = $this->postService->getPostsSortedByViews($id, config('pagination.postsPerPage'));
-        $posts = $this->postService->calculateAndPaginate($posts, $id);
-
-        return $this->renderSortedPostsView(
-            $request,
-            $posts,
-            __('Best posts by views')
-        );
+        return $this->ranked($request, PostOrder::Views, $id);
     }
 
     public function about(Request $request): View
@@ -190,42 +170,22 @@ class PageController extends Controller
         ];
     }
 
-    private function paginateSortedPosts(
-        int $id,
-        Request $request,
-        string $sortMethod,
-        string $breadcrumb
-    ): View {
-        $postsPerPage = config('pagination.postsPerPage');
-        $offset = ($id - 1) * $postsPerPage;
+    private function ranked(Request $request, PostOrder $order, int $page = 1): View
+    {
+        [$breadcrumb, $route, $pageRoute] = match ($order) {
+            PostOrder::Rating => [__('Best posts by rating'), 'posts.rated', 'best.rated.paginate'],
+            PostOrder::Comments => [__('Best posts by comments'), 'posts.comments', 'best.comments.paginate'],
+            PostOrder::Views => [__('Best posts by views'), 'posts.views', 'best.views.paginate'],
+        };
 
-        $posts = $this->postService->getAllPostsWithStats();
-        $posts = $this->sortFactory->$sortMethod()->sort($posts);
-        $posts = $this->postService->getPostsPaginator(
-            array_slice($posts, $offset, $postsPerPage),
-            $id,
-            $postsPerPage
-        );
-
-        return $this->renderSortedPostsView(
-            $request,
-            $posts,
-            $breadcrumb
-        );
-    }
-
-    private function renderSortedPostsView(
-        Request $request,
-        LengthAwarePaginator $posts,
-        string $breadcrumb
-    ): View {
         return view('posts.list', array_merge(
             [
                 'seo' => $this->seoService->getSeoData($request),
-                'url' => url()->current(),
-                'breadcrumb' => $breadcrumb
+                'breadcrumb' => $breadcrumb,
+                'rankingRoute' => $route,
+                'rankingPageRoute' => $pageRoute,
             ],
-            $this->getPaginationData($posts)
+            $this->getPaginationData($this->postService->paginateRankedPosts($order, $page))
         ));
     }
 

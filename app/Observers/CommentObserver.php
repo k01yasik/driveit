@@ -4,9 +4,10 @@ namespace App\Observers;
 
 use App\Comment;
 use App\Repositories\CachedPostRepository;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Cache;
 
-class CommentObserver
+class CommentObserver implements ShouldHandleEventsAfterCommit
 {
     /**
      * Handle the comment "created" event.
@@ -36,7 +37,7 @@ class CommentObserver
      */
     public function deleted(Comment $comment)
     {
-        Cache::forget('comment_'.$comment->id);
+        $this->saved($comment);
     }
 
     /**

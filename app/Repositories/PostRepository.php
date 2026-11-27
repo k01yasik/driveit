@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Services\SortService\PostOrder;
 use App\Category;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Post;
 use App\Entities\Post as PostEntity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -157,11 +159,9 @@ class PostRepository implements PostRepositoryInterface
     {
         $start = now()->startOfMonth();
 
-        return Post::with(['user.profile', 'categories', 'rating', 'comments'])
-            ->where('is_published', true)
+        return $this->rankedPosts(PostOrder::Comments)
             ->where('date_published', '>=', $start)
             ->where('date_published', '<', $start->copy()->addMonth())
-            ->orderByDesc('date_published')
             ->get()
             ->toArray();
     }
@@ -218,16 +218,33 @@ class PostRepository implements PostRepositoryInterface
             ->toArray();
     }
 
-    public function getPostsSortedByViews(int $pageId, int $numberPosts): array
+    public function paginateRankedPosts(PostOrder $order, int $page, int $perPage): LengthAwarePaginator
     {
-        return Post::with(['user', 'categories', 'user.profile', 'rating', 'comments'])
-            ->where('is_published', true)
-            ->orderByDesc('views')
-            ->orderByDesc('posts.id')
-            ->skip(($pageId - 1) * $numberPosts)
-            ->take($numberPosts)
-            ->get()
-            ->toArray();
+        return $this->rankedPosts($order)->paginate($perPage, page: $page);
+    }
+
+    private function rankedPosts(PostOrder $order): Builder
+    {
+        $posts = Post::with(['user.profile', 'categories', 'rating', 'comments'])
+            ->where('posts.is_published', true)
+            ->whereNull('posts.archived_at');
+
+        match ($order) {
+            PostOrder::Rating => $posts
+                ->withCount(['rating as rating_count' => fn (Builder $votes) => $votes->where('rating', 1)])
+                ->orderByDesc('rating_count'),
+            PostOrder::Comments => $posts
+                ->withCount(['comments as comments_count' => fn (Builder $comments) => $comments->verified()])
+                ->orderByDesc('comments_count'),
+            PostOrder::Views => $posts->orderByDesc('views'),
+        };
+
+        if ($order !== PostOrder::Views) {
+            $posts->orderByRaw('CASE WHEN posts.updated_at IS NULL THEN 1 ELSE 0 END')
+                ->orderByDesc('posts.updated_at');
+        }
+
+        return $posts->orderByDesc('posts.id');
     }
 
     public function getPostsCount(): int
