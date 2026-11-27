@@ -52,7 +52,7 @@ class ImageUploadService
         $thumbnail = $this->thumbnailGenerator->generate($dto->file, $dto->cropData);
         $path = $this->storage->storeAvatar($thumbnail, $dto->userId);
         
-        $url = $this->storage->getUrl($path);
+        $url = $this->storage->getUrl($path).'?v='.hash('sha256', $thumbnail);
         $this->profileService->addUserAvatar($dto->userId, $url);
 
         return $url;

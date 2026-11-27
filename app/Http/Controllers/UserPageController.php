@@ -7,6 +7,7 @@ use App\Services\UserService;
 use App\Services\FriendService;
 use App\Services\MessageService;
 use App\Services\SeoService;
+use App\Services\ProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -18,7 +19,8 @@ class UserPageController extends Controller
         private SeoService $seoService,
         private UserService $userService,
         private FriendService $friendService,
-        private MessageService $messageService
+        private MessageService $messageService,
+        private ProfileService $profileService
     ) {}
 
     public function index(Request $request, string $username)
@@ -58,6 +60,9 @@ class UserPageController extends Controller
     {
         $seo = $this->seoService->getSeoData($request, $username);
         $user = $request->user();
+        if (!$user->profile) {
+            $user->setRelation('profile', $this->profileService->initialize($user));
+        }
         $albums = $user->albums()->orderBy('name')->get(['id', 'name']);
         $cars = $user->cars()->orderBy('id')->get();
 
@@ -67,9 +72,7 @@ class UserPageController extends Controller
     public function updateSettings(Request $request, string $username)
     {
         $validated = $request->validate(['public' => 'required|boolean']);
-        $profile = $request->user()->profile()->firstOrFail();
-        $profile->public = (bool) $validated['public'];
-        $profile->save();
+        $this->profileService->updateVisibility($request->user()->id, (bool) $validated['public']);
 
         return redirect()->route('user.settings', $username);
     }
@@ -83,7 +86,7 @@ class UserPageController extends Controller
             'about' => 'present|nullable|string|max:2000',
         ]);
 
-        $request->user()->profile()->firstOrFail()->forceFill($data)->save();
+        $this->profileService->updateDetails($request->user()->id, $data);
 
         return redirect()->route('user.settings', $username)->with('profileSaved', true);
     }

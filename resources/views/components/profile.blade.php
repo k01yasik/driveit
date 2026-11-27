@@ -2,7 +2,7 @@
     <div class="user-profile-left-panel">
         <div class="avatar">
             <div class="avatar-inner circle">
-                <img src="{{ $user['profile']['avatar'] }}">
+                <img src="{{ $user['profile']['avatar'] ?? asset('storage/avatars/user.svg') }}">
                 @if ($currentUserProfile)
                     <div class="change-avatar">
                         <div class="upload-button">

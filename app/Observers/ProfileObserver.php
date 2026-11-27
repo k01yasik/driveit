@@ -3,73 +3,31 @@
 namespace App\Observers;
 
 use App\Profile;
+use App\Repositories\CachedPostRepository;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Cache;
 
-class ProfileObserver
+class ProfileObserver implements ShouldHandleEventsAfterCommit
 {
-    /**
-     * Handle the profile "created" event.
-     *
-     * @param  \App\Profile  $profile
-     * @return void
-     */
-    public function created(Profile $profile)
+    public function saved(Profile $profile): void
     {
-        //
+        foreach ([
+            'user_with_profile_'.$profile->user_id,
+            'all-users',
+            'unbanned-users',
+            'verified-users',
+            'unverified-users',
+            'banned-users',
+            'latest-posts',
+        ] as $key) {
+            Cache::forget($key);
+        }
+
+        CachedPostRepository::invalidateListings();
     }
 
-    /**
-     * Handle the profile "updated" event.
-     *
-     * @param  \App\Profile  $profile
-     * @return void
-     */
-    public function updated(Profile $profile)
+    public function deleted(Profile $profile): void
     {
-        //
-    }
-
-    /**
-     * @param \App\Profile $profile
-     * @return void
-     */
-    public function saved(Profile $profile)
-    {
-        Cache::forget('latest-posts');
-        Cache::forget('all-users');
-        Cache::forget('user_with_profile_'.$profile->user_id);
-    }
-
-    /**
-     * Handle the profile "deleted" event.
-     *
-     * @param  \App\Profile  $profile
-     * @return void
-     */
-    public function deleted(Profile $profile)
-    {
-        //
-    }
-
-    /**
-     * Handle the profile "restored" event.
-     *
-     * @param  \App\Profile  $profile
-     * @return void
-     */
-    public function restored(Profile $profile)
-    {
-        //
-    }
-
-    /**
-     * Handle the profile "force deleted" event.
-     *
-     * @param  \App\Profile  $profile
-     * @return void
-     */
-    public function forceDeleted(Profile $profile)
-    {
-        //
+        $this->saved($profile);
     }
 }

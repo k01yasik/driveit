@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Services\SeoService;
 use App\User;
-use App\Profile;
+use App\Services\ProfileService;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
@@ -46,7 +47,7 @@ class RegisterController extends Controller
      * RegisterController constructor.
      * @param SeoService $seoService
      */
-    public function __construct(SeoService $seoService)
+    public function __construct(SeoService $seoService, private ProfileService $profileService)
     {
         $this->middleware('guest');
         $this->middleware('captcha')->only('register');
@@ -76,19 +77,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        return DB::transaction(function () use ($data): User {
+            $user = User::create([
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+            $this->profileService->initialize($user);
 
-        $profile = new Profile;
-        $profile->avatar = config('app.url').'/storage/avatars/user.svg';
-        $profile->public = false;
-        $profile->user()->associate($user);
-        $profile->save();
-
-        return $user;
+            return $user;
+        });
     }
 
     public function showRegistrationForm(Request $request)
