@@ -8,14 +8,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->index(['post_id', 'is_verified'], 'comments_post_verified_index');
+            $table->index(['is_verified', 'post_id'], 'comments_verified_post_index');
         });
     }
 
     public function down(): void
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->dropIndex('comments_post_verified_index');
+            $table->dropIndex('comments_verified_post_index');
         });
     }
 };
