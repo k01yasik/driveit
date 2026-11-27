@@ -2,7 +2,7 @@
     <header>
         <div class="header-top flex flex-v-center">
             <x-avatar.link :href="route('user.profile', ['username' => $post['user']['username']])" class="user-avatar-link">
-                <x-avatar.image :src="$post['user']['profile']['avatar']" width="200" height="200" class="user-avatar" :alt="$post['user']['username']"></x-avatar.image>
+                <x-avatar.image :src="$post['user']['profile']['avatar'] ?? asset('storage/avatars/user.svg')" width="200" height="200" class="user-avatar" :alt="$post['user']['username']"></x-avatar.image>
             </x-avatar.link>
             <x-avatar.link :href="route('user.profile', ['username' => $post['user']['username']])" class="margin-h-1 post-author flex flex-v-center">{{ $post['user']['username'] }}</x-avatar.link>
             <x-post.publish class="date-published margin-left-auto flex flex-v-center">{{ $post['date_published'] }}</x-post.publish>

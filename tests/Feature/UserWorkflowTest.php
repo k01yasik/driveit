@@ -260,6 +260,31 @@ class UserWorkflowTest extends TestCase
         $this->assertModelMissing($storedCar);
     }
 
+    public function test_profile_journal_displays_only_the_members_published_posts(): void
+    {
+        (new \SeoTableSeeder())->run();
+        $author = $this->user('author');
+        $viewer = $this->user('viewer');
+        \App\Post::factory()->for($author)->create(['name' => 'First journal entry']);
+        \App\Post::factory()->for($author)->create(['name' => 'Archived entry', 'archived_at' => now()]);
+        \App\Post::factory()->for($author)->create(['name' => 'Unpublished entry', 'is_published' => false]);
+        \App\Post::factory()->for($viewer)->create(['name' => 'Another author entry']);
+
+        $profile = route('user.profile', $author->username);
+        $this->actingAs($viewer)->get($profile)->assertOk()
+            ->assertSee('First journal entry')
+            ->assertDontSee('Archived entry')
+            ->assertDontSee('Unpublished entry')
+            ->assertDontSee('Another author entry');
+        $this->get($profile.'?section=garage')->assertOk()
+            ->assertViewHas('section', 'garage')
+            ->assertDontSee('First journal entry');
+        $this->get($profile.'?section=about')->assertOk()
+            ->assertViewHas('section', 'about');
+        $this->get($profile.'?section[]=garage')->assertOk()
+            ->assertViewHas('section', 'journal');
+    }
+
     public function test_admin_can_upload_a_post_cover_through_the_editor_endpoint(): void
     {
         Storage::fake('public');

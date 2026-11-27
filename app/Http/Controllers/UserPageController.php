@@ -26,9 +26,29 @@ class UserPageController extends Controller
     public function index(Request $request, string $username)
     {
         $seo = $this->seoService->getSeoData($request, $username);
-        $cars = $request->attributes->get('profileUser')->cars()->with('album:id,name')->orderBy('id')->get();
+        $profileUser = $request->attributes->get('profileUser');
+        $cars = $profileUser->cars()->with('album:id,name')->orderBy('id')->get();
+        $section = $request->query('section');
+        if (!in_array($section, ['garage', 'about'], true)) {
+            $section = 'journal';
+        }
 
-        return view('user.profile', compact('seo', 'cars'));
+        $posts = $section === 'journal'
+            ? $profileUser->posts()
+                ->where('is_published', true)
+                ->whereNull('archived_at')
+                ->with(['user.profile', 'categories', 'rating' => fn ($votes) => $votes->where('user_id', $request->user()->id)])
+                ->withCount([
+                    'rating as rating_count' => fn ($votes) => $votes->where('rating', 1),
+                    'comments as comments_count' => fn ($comments) => $comments->verified(),
+                ])
+                ->orderByDesc('date_published')
+                ->orderByDesc('posts.id')
+                ->paginate(config('pagination.postsPerPage'))
+                ->fragment('profile-content')
+            : null;
+
+        return view('user.profile', compact('seo', 'cars', 'section', 'posts'));
     }
 
     public function requests(Request $request, string $username)
