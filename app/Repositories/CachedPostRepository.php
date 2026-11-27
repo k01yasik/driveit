@@ -8,6 +8,7 @@
 
 namespace App\Repositories;
 
+use App\Services\SortService\PostOrder;
 use App\Post;
 use App\Entities\Post as PostEntity;
 use Illuminate\Database\Eloquent\Collection;
@@ -100,7 +101,7 @@ final class CachedPostRepository implements PostRepositoryInterface
 
     public function getPostsByMonth(): array
     {
-        return Cache::remember('posts-published-this-month', now()->startOfMonth()->addMonth(), function () {
+        return Cache::remember(self::listingCacheKey('monthly-comments:'.now()->format('Y-m')), self::LISTING_TTL, function () {
             return $this->postRepository->getPostsByMonth();
         });
     }
@@ -160,9 +161,9 @@ final class CachedPostRepository implements PostRepositoryInterface
         return $this->postRepository->getPublishedPostsCount();
     }
 
-    public function getPostsSortedByViews(int $pageId, int $numberPosts): array
+    public function paginateRankedPosts(PostOrder $order, int $page, int $perPage): Paginator
     {
-        return $this->postRepository->getPostsSortedByViews($pageId, $numberPosts);
+        return $this->postRepository->paginateRankedPosts($order, $page, $perPage);
     }
 
     public function getPostStatus(PostEntity $postEntity): bool

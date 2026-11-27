@@ -7,7 +7,6 @@ use App\Services\PostService;
 use App\Services\SeoService;
 use App\Http\Controllers\PageController;
 use App\Services\PaginatorService;
-use App\Services\SortService\Interfaces\SortFactory;
 use App\Services\SuggestsService;
 use Tests\TestCase;
 
@@ -39,7 +38,6 @@ class PageControllerTest extends TestCase
             $postService,
             $this->createStub(PaginatorService::class),
             new SuggestsService(),
-            $this->createStub(SortFactory::class),
         );
 
         $response = $controller->show($postSlug);

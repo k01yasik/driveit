@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Services\SortService\PostOrder;
 use App\Entities\Post as PostEntity;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -220,15 +221,11 @@ class PostService
         return (int) ceil($numberPosts / config('pagination.postsPerPage'));
     }
 
-    public function getPostsSortedByViews(int $pageId, int $numberPosts): array
+    public function paginateRankedPosts(PostOrder $order, int $page): LengthAwarePaginator
     {
-        return $this->postRepository->getPostsSortedByViews($pageId, $numberPosts);
-    }
+        $posts = $this->postRepository->paginateRankedPosts($order, $page, config('pagination.postsPerPage'));
 
-    public function getAllPostsWithStats(): array
-    {
-        $posts = $this->getAllPosts();
-        return $this->calculatePostStats($posts);
+        return $posts->through(fn ($post) => $this->addPostStats($post->toArray()));
     }
 
     public function calculateAndPaginate(array $posts, int $page): LengthAwarePaginator

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Services\SortService\PostOrder;
 use App\Post;
 use App\Entities\Post as PostEntity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as Paginator;
@@ -51,7 +52,7 @@ interface PostRepositoryInterface
 
     public function getPublishedPostsCount(): int;
 
-    public function getPostsSortedByViews(int $pageId, int $numberPosts): array;
+    public function paginateRankedPosts(PostOrder $order, int $page, int $perPage): Paginator;
 
     public function getPostStatus(PostEntity $postEntity): bool;
 

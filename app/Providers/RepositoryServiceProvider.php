@@ -39,8 +39,6 @@ use App\Repositories\UserRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\AlbumRepository;
 use App\Repositories\DraftRepository;
-use App\Services\SortService\Creator;
-use App\Services\SortService\Interfaces\SortFactory;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -135,11 +133,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             FavoriteRepositoryInterface::class,
             FavoriteRepository::class
-        );
-
-        $this->app->bind(
-            SortFactory::class,
-            Creator::class
         );
     }
 
